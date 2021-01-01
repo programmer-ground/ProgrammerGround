@@ -15,6 +15,8 @@ import java.security.Principal;
 public class AuthController {
     @GetMapping("/auth")
     public OAuth2AccessToken auth(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
+        System.out.println(authorizedClient.getAccessToken().toString());
+        System.out.println(authorizedClient.getClientRegistration().getClientSecret());
         return authorizedClient.getAccessToken();
     }
 
