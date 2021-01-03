@@ -7,6 +7,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 
 import com.pg.programmerground.service.UserService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.oauth2.client.OAuth2AuthorizationSuccessHandler;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
@@ -16,7 +17,9 @@ public class Oauth2AuthConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests().antMatchers("/oauth2/**").authenticated()
-            .anyRequest().permitAll();
+                .anyRequest().authenticated();
         http.oauth2Login().userInfoEndpoint().userService(userService);
+                //.and().loginPage("/awd");
+
     }
 }
