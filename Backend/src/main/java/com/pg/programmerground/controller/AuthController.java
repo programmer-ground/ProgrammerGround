@@ -3,6 +3,7 @@ package com.pg.programmerground.controller;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
@@ -30,8 +31,14 @@ public class AuthController {
         return "admin";
     }
 
+    //프론트에서 api 요청할 때 인증이 되있지 않으면 이 URL로 리다이렉트
+    @GetMapping("/loginRequest")
+    public String loginRequest() {
+        return "awd";
+    }
+
     @GetMapping("/userInfo")
-    public Principal getUser(Principal principal) {
+    public Principal getUser(Principal principal, Authentication authentication) {
         return principal;
     }
 }
