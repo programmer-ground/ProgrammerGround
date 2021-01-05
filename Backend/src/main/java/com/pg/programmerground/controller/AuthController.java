@@ -1,5 +1,8 @@
 package com.pg.programmerground.controller;
 
+import com.pg.programmerground.service.GithubApiService;
+import com.pg.programmerground.util.RestApiManager;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -13,7 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 import java.security.Principal;
 
 @RestController
+@RequiredArgsConstructor
 public class AuthController {
+    private final GithubApiService githubApiService;
+
     @GetMapping("/auth")
     public OAuth2AccessToken auth(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
         System.out.println(authorizedClient.getAccessToken().toString());
@@ -38,7 +44,8 @@ public class AuthController {
     }
 
     @GetMapping("/userInfo")
-    public Principal getUser(Principal principal, Authentication authentication) {
+    public Principal getUser(Principal principal, Authentication authentication) throws Exception {
+        githubApiService.getGithubTotalData();
         return principal;
     }
 }
