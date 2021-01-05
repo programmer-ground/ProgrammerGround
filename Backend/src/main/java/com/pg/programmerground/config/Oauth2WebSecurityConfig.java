@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
 
 @RequiredArgsConstructor
 @EnableWebSecurity
-public class Oauth2AuthConfig extends WebSecurityConfigurerAdapter {
+public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final UserService userService;
 
     @Override
