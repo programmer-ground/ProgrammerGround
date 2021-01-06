@@ -28,6 +28,10 @@ module.exports = {
       {
         test:/\.tsx?$/i,
         use:['ts-loader']
+      },
+      {
+        test:/\.(png|jpg|svg)$/,
+        use:['file-loader'],
       }
     ]
   },
