@@ -7,7 +7,6 @@ const LoginPage = () =>{
     <>
     <StyledComponent.GlobalStyle/>
     <StyledComponent.LoginContainer>
-        hello
     </StyledComponent.LoginContainer>
     </>
 

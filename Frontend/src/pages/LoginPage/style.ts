@@ -8,10 +8,11 @@ export const GlobalStyle = createGlobalStyle`
   }
 `;
 export const LoginContainer=styled.div`
-  display:flex;
-  justify-content:center;
-  align-items:center;
+  display:relative;
   width:50%;
-  height:500px;
+  height:400px;
   border:1px solid black;
+  background-color:#fff;
+  margin:200px auto;
+
 `;
