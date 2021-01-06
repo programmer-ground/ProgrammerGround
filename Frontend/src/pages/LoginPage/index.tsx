@@ -1,10 +1,11 @@
-import styled from 'styled-components';
 import React from 'react';
-import * as StyledComponents from './style';
+import * as StyledComponent from './style';
 
 const LoginPage = () =>{
   return(
-    
+    <StyledComponent.LoginContainer>
+        hello
+    </StyledComponent.LoginContainer>
   )
 }
 
