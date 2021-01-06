@@ -7,6 +7,9 @@ const LoginPage = () =>{
     <>
     <StyledComponent.GlobalStyle/>
     <StyledComponent.LoginContainer>
+      <StyledComponent.LoginForm>
+          <StyledComponent.LoginLogo/>
+      </StyledComponent.LoginForm>
     </StyledComponent.LoginContainer>
     </>
 
