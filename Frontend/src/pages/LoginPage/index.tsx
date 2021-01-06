@@ -7,9 +7,14 @@ const LoginPage = () =>{
     <>
     <StyledComponent.GlobalStyle/>
     <StyledComponent.LoginContainer>
-      <StyledComponent.LoginForm>
           <StyledComponent.LoginLogo/>
-      </StyledComponent.LoginForm>
+          <StyledComponent.LoginButtonContainer>
+            <StyledComponent.LoginButton>
+              Sign In With GitHub
+              <StyledComponent.GithubLogo/>
+            </StyledComponent.LoginButton>
+         
+          </StyledComponent.LoginButtonContainer>
     </StyledComponent.LoginContainer>
     </>
 
