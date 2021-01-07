@@ -1,12 +1,12 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.service.GithubApiService;
-import com.pg.programmerground.util.RestApiManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
 import org.springframework.security.oauth2.core.OAuth2AccessToken;
@@ -29,6 +29,7 @@ public class AuthController {
 
     @GetMapping("/")
     public String index() {
+        SecurityContextHolder.getContext().setAuthentication(null);
         return "awdawd";
     }
 
