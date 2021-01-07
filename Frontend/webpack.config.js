@@ -3,14 +3,14 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 
 module.exports = {
-  entry:'./src/index',
+  entry:'./src/index.tsx',
   output:{
     filename:'bundle.js',
     path:path.resolve(__dirname, 'dist')
   },
   mode:'none',
   resolve:{
-    extensions:['.js','.jsx'],
+    extensions:['.js','.jsx','.ts', '.tsx'],
     alias:{
       '@src':path.resolve(__dirname, 'src')
     }
@@ -24,6 +24,14 @@ module.exports = {
       {
         test:/\.jsx?$/i,
         use:['babel-loader']
+      },
+      {
+        test:/\.tsx?$/i,
+        use:['ts-loader']
+      },
+      {
+        test:/\.(png|jpg|svg)$/,
+        use:['file-loader'],
       }
     ]
   },

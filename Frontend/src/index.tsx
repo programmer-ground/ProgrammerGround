@@ -1,7 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import MainPage from './MainPage';
+import LoginPage from '../src/pages/LoginPage';
 ReactDOM.render(
-   <MainPage/>,
+   <LoginPage/>,
    document.getElementById('root')
 );
