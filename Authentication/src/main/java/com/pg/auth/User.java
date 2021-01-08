@@ -1,7 +1,6 @@
 package com.pg.auth;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,23 +10,26 @@ import javax.persistence.Id;
 @Entity
 @Getter
 @Setter
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class User {
     @Id
     @GeneratedValue
     @Column(name = "USER_ID")
-    private String id;
+    private Long id;
 
-    @Column(name = "ACCESS_TOKEN")
-    private String accessToken;
-
+    //OAuth 고유 ID
     @Column(name = "OAUTH_ID")
-    private String oauthId;
+    private Long OAuthId;
 
-    //oauth제공 : github
-    @Column(name = "OAUTH_REGI")
-    private String oauthRegistration;
-
+    //사용자 이름
     @Column(name = "USER_NAME")
     private String userName;
 
+    //Github 닉네임
+    @Column(name = "OAUTH_NAME")
+    private String OAuthName;
+
+    ///repo수나 commit수는 저장할 필요가 있나 실시간 업데이트면
 }
