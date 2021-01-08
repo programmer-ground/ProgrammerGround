@@ -1,7 +1,7 @@
 import React from 'react';
 import styled, {createGlobalStyle} from 'styled-components';
-import logo from '../../assets/logo.svg';
-import githublogo from '../../assets/github.svg';
+import logo from '@src/assets/logo.svg';
+import githublogo from '@src/assets/github.svg';
 export const GlobalStyle = createGlobalStyle`
   body{
     background-color:#e9e9e9;
