@@ -46,7 +46,7 @@ public class AuthController {
 
     @GetMapping("/userInfo")
     public Principal getUser(Principal principal, Authentication authentication) throws Exception {
-        githubApiService.getGithubTotalData();
+        //githubApiService.getGithubTotalData();
         return principal;
     }
 }
