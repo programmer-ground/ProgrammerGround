@@ -6,7 +6,8 @@ module.exports = {
   entry:'./src/index.tsx',
   output:{
     filename:'bundle.js',
-    path:path.resolve(__dirname, 'dist')
+    path:path.resolve(__dirname, 'dist'),
+    publicPath:'/'
   },
   mode:'none',
   resolve:{
@@ -20,28 +21,38 @@ module.exports = {
       {
         test:/\.css$/i,
         use:['style-loader', 'css-loader'],
+        exclude:/node_modules/,
       },
       {
         test:/\.jsx?$/i,
-        use:['babel-loader']
+        use:['babel-loader'],
+        exclude:/node_modules/
       },
       {
         test:/\.tsx?$/i,
-        use:['ts-loader']
+        use:['ts-loader'],
+        exclude:/node_modules/
       },
       {
         test:/\.(png|jpg|svg)$/,
         use:['file-loader'],
+        exclude:/node_modules/
       }
     ]
   },
   devServer:{
     contentBase:path.join(__dirname, "dist"),
-    port:3000
+    host:'localhost',
+    publicPath:'/',
+    overlay:true,
+    stats:'errors-only',
+    port:3000,
+    historyApiFallback:true
   },
   plugins:[
     new HtmlWebPackPlugin({
       template:'./public/index.html'
-    })
+    }),
+    new CleanWebpackPlugin(),
   ]
 }
