@@ -1,5 +1,7 @@
-package com.pg.auth;
+package com.pg.auth.service;
 
+import com.pg.auth.entity.User;
+import com.pg.auth.repository.UserRepository;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.oauth2.client.JdbcOAuth2AuthorizedClientService;
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
@@ -7,8 +9,6 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.Objects;
 
 @Service
 public class UserService {
@@ -23,11 +23,7 @@ public class UserService {
     @Transactional
     public void createUser(OAuth2AuthenticationToken authentication) {
         OAuth2AuthorizedClient client = oAuth2AuthorizedClientService.loadAuthorizedClient("github", authentication.getName());
-        //신규 로그인 유저라면
-        Integer test = authentication.getPrincipal().getAttribute("id");
-
-        //System.out.println(client.getPrincipalName());
-        //User a = userRepository.findByOAuthId(Long.valueOf(client.getPrincipalName()));
+        //신규 유저인지 체크
         if(userRepository.findByOAuthId(Long.valueOf(client.getPrincipalName())) == null) {
             User user = User.builder()
                     .userName(authentication.getPrincipal().getAttribute("name"))
@@ -36,9 +32,5 @@ public class UserService {
                     .build();
             userRepository.save(user);
         }
-
-
-        //System.out.println(client.getAccessToken().getTokenValue());
-        /*String accessToken = authentication.*/
     }
 }

@@ -1,6 +1,7 @@
-package com.pg.auth;
+package com.pg.auth.config;
 
 
+import com.pg.auth.service.UserService;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -24,14 +25,13 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
         http.oauth2Login()
                 .authorizedClientService(new JdbcOAuth2AuthorizedClientService(operations, registrationRepository))
-                .successHandler(this.successHandler());
+                .successHandler(this.successHandler()).defaultSuccessUrl("/accessToken");
     }
 
     private AuthenticationSuccessHandler successHandler() {
+        //인증 성공시
         return (request, response, authentication) -> {
             userService.createUser((OAuth2AuthenticationToken) authentication);
-            response.setHeader("token", "example");
-            response.sendRedirect("/accessToken");
         };
     }
 

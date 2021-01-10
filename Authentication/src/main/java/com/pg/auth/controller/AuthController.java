@@ -1,4 +1,4 @@
-package com.pg.auth;
+package com.pg.auth.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,7 +13,8 @@ public class AuthController {
     //http://localhost:8080/oauth2/authorization/github
     @GetMapping("/accessToken")
     public ResponseEntity<Authentication> index(Authentication authentication) {
-        return new ResponseEntity<Authentication>(authentication, HttpStatus.OK);
+        //JWT로 만들어서 헤더에 담아 전송해야함.
+        return ResponseEntity.ok().header("example", "token").body(authentication);
     }
 
 }

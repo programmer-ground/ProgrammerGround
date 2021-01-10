@@ -1,4 +1,4 @@
-package com.pg.auth;
+package com.pg.auth.entity;
 
 import lombok.*;
 
