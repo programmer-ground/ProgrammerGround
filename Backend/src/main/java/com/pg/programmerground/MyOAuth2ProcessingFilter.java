@@ -1,5 +1,6 @@
 package com.pg.programmerground;
 
+import com.pg.programmerground.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.jwt.JwtTokenProvider;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -15,6 +16,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
+/**
+ * JWT를 인증하는 필터
+ * 인증의 가장 첫단이라 생각하면 된다.
+ * 필터의 attemptAuthentication()을 통해 인증시 시도 되고 attemptAuthentication() -> AuthenticationManager.authenticate() -> AuthenticationProvider.authenticate() 이 순서대로 인증이 시도 된다.
+ */
 public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
     private JwtTokenProvider jwtTokenProvider;
@@ -25,8 +31,8 @@ public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFi
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
-
-        return null;
+        //토큰을 인증되지 않은 Authentication 객체로 만들고 AuthenticationManager.authenticate()실행.
+        return getAuthenticationManager().authenticate(new JwtAuthenticationToken(jwtTokenProvider.resolveToken(request)));
     }
 
     @Override

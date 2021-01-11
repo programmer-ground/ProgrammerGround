@@ -25,7 +25,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
         http.oauth2Login()
                 .authorizedClientService(new JdbcOAuth2AuthorizedClientService(operations, registrationRepository))
-                .successHandler(this.successHandler()).defaultSuccessUrl("/accessToken");
+                .successHandler(this.successHandler()).defaultSuccessUrl("/getToken");
     }
 
     private AuthenticationSuccessHandler successHandler() {

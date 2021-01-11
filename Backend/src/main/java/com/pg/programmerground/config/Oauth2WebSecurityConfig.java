@@ -12,12 +12,17 @@ import com.pg.programmerground.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AndRequestMatcher;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 
 @EnableWebSecurity
 public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     JwtTokenProvider jwtTokenProvider;
     JwtAuthenticationProvider jwtAuthenticationProvider;
+
+    private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(new AntPathRequestMatcher("/login"));
 
     public Oauth2WebSecurityConfig(JwtTokenProvider jwtTokenProvider, JwtAuthenticationProvider jwtAuthenticationProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -32,7 +37,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private MyOAuth2ProcessingFilter buildProcessingFilter() throws Exception {
-        return new MyOAuth2ProcessingFilter(null, jwtTokenProvider);
+        return new MyOAuth2ProcessingFilter(PUBLIC_URLS, jwtTokenProvider);
     }
 
     //AuthenticationManager는 인증을 담당하는데 인증 로직을 담은 AuthenticationProvider를 가지고 있다.
