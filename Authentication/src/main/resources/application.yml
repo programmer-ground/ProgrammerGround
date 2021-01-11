@@ -15,6 +15,9 @@ spring:
       hibernate:
         format_sql: true
   security:
+    jwt-token:
+      secret-key: awdsd
+
     oauth2:
       client:
         registration:
