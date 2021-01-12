@@ -20,9 +20,11 @@ export const LoginContainer=styled.div`
   margin:200px auto;
   @media screen  and (max-width: 840px) and (min-width:480px){
     height:330px;
+    width:300px;
   }
-  @media screen  and (max-width: 479px) and (min-width:230px){
-    height:300px;
+  @media screen  and (max-width: 479px) and (min-width:0px){
+    height:230px;
+    width:200px;
   }
 `;
 
@@ -33,19 +35,15 @@ export const LoginLogo = styled.img.attrs({
   width:300px;
   height:250px;
   margin:0 auto;
-  
-  @media screen and (max-width: 840px){
-    height:200px;
-    width:200px;
-  }
   @media screen  and (max-width: 840px) and (min-width:480px){
     height:200px;
     width:200px;
   }
-  @media screen  and (max-width: 479px) and (min-width:230px){
+  @media screen  and (max-width: 479px) and (min-width:0px){
     height:130px;
     width:130px;
   }
+
 `;
 export const LoginButtonContainer = styled.div`
    width:100%;
@@ -71,10 +69,10 @@ export const LoginButton = styled.button`
   width:340px;
   font-size:20px;
 }
-@media screen  and (max-width: 479px) and (min-width:230px){
+@media screen  and (max-width: 479px) and (min-width:0px){
   height:40px;
   width:260px;
-  font-size:10px;
+  font-size:15px;
 }
 
 `;
@@ -85,8 +83,10 @@ export const GithubLogo = styled.img.attrs({
   width:25px;
   height:25px;
   margin-left:10px; 
-  @media screen  and (max-width: 479px) and (min-width:230px){
-    height:15px;
+
+
+  @media screen  and (max-width: 479px) and (min-width:0px){
     width:15px;
+    height:15px;
   }
 `;
