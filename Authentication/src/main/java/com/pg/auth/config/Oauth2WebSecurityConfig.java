@@ -25,13 +25,14 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
         http.oauth2Login()
                 .authorizedClientService(new JdbcOAuth2AuthorizedClientService(operations, registrationRepository))
-                .successHandler(this.successHandler()).defaultSuccessUrl("/getToken");
+                .successHandler(this.successHandler());
     }
 
     private AuthenticationSuccessHandler successHandler() {
         //인증 성공시
         return (request, response, authentication) -> {
             userService.createUser((OAuth2AuthenticationToken) authentication);
+            response.sendRedirect("/getToken");
         };
     }
 

@@ -16,10 +16,11 @@ import java.util.List;
 class ProgrammergroundApplicationTests {
     @Autowired JwtTokenProvider provider;
     @Test
-    void contextLoads() {
+    void contextLoads() throws InterruptedException {
         List<String> role = new ArrayList<>();
         role.add("ROLE_USER");
         String token = provider.createToken("test", 1L, role);
+        Thread.sleep(1000);
         assertEquals(1, provider.getOAuthId(token));
         assertEquals("test", provider.getOAuthAccessToken(token));
     }

@@ -1,7 +1,8 @@
 package com.pg.auth.service;
 
-import com.pg.auth.entity.User;
+import com.pg.auth.entity.Oauth2AuthorizedClient;
 import com.pg.auth.jwtConfig.JwtTokenProvider;
+import com.pg.auth.repository.Oauth2AuthorizedClientRepository;
 import com.pg.auth.repository.UserRepository;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.core.GrantedAuthority;
@@ -20,10 +21,12 @@ import java.util.stream.Collectors;
 public class UserService {
     private final JdbcOAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final UserRepository userRepository;
+    private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public UserService(JdbcOperations operations, ClientRegistrationRepository registrationRepository, UserRepository userRepository, JwtTokenProvider jwtTokenProvider) {
+    public UserService(JdbcOperations operations, ClientRegistrationRepository registrationRepository, UserRepository userRepository, Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
+        this.oauth2AuthorizedClientRepository = oauth2AuthorizedClientRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.oAuth2AuthorizedClientService = new JdbcOAuth2AuthorizedClientService(operations, registrationRepository);
     }
@@ -35,16 +38,17 @@ public class UserService {
                 oAuth2AuthorizedClientService.loadAuthorizedClient(
                         authentication.getAuthorizedClientRegistrationId(),
                         authentication.getName());
-
+        //null인 경우 처리
+        Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository.findById(Long.valueOf(client.getPrincipalName())).get();
         //신규 유저인지 체크
-        if(userRepository.findByOAuthId(Long.valueOf(client.getPrincipalName())) == null) {
+        /*if(userRepository.findByOAuthId(Long.valueOf(client.getPrincipalName())) == null) {
             User user = User.builder()
                     .userName(authentication.getPrincipal().getAttribute("name"))
-                    .OAuthId(Long.valueOf(client.getPrincipalName()))
+                    //.OAuthId(Long.valueOf(client.getPrincipalName()))
                     .OAuthName(authentication.getPrincipal().getAttribute("login"))
                     .build();
             userRepository.save(user);
-        }
+        }*/
     }
 
     public String createJwtToken() {

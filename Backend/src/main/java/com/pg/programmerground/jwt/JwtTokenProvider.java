@@ -31,7 +31,7 @@ public class JwtTokenProvider {
         return Jwts.builder()
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + 3600000))   //한 시간
+                .setExpiration(new Date(now.getTime() + 36))   //한 시간
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
@@ -54,7 +54,7 @@ public class JwtTokenProvider {
     }
 
     //토큰 해석, 해석을 하면서 만료시 Exception
-    private Jws<Claims> validateToken(String jwtToken) throws ExpiredJwtException, JwtException {
+    private Jws<Claims> validateToken(String jwtToken) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
     }
 }
