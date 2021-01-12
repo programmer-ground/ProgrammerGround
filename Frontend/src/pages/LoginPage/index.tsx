@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-filename-extension */
 /* eslint-disable no-use-before-define */
 /* eslint-disable import/extensions */
 import React from 'react';

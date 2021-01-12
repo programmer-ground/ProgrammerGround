@@ -2,7 +2,7 @@ module.exports = {
   parser: '@typescript-eslint/parser',
   plugins: ['@typescript-eslint', 'react-hooks'],
   extends: [
-    'airbnb-base', // or airbnb-base
+    'airbnb', // or airbnb-base
     'plugin:react/recommended',
     'plugin:jsx-a11y/recommended', // 설치 한경우
     'plugin:import/errors', // 설치한 경우
