@@ -12,6 +12,7 @@ module.exports = {
   ],
   rules: {
     'prettier/prettier': 1,
+    semi: 'error',
   },
   settings: {
     'import/resolver': {
