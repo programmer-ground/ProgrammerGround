@@ -13,10 +13,12 @@ import org.springframework.security.oauth2.client.JdbcOAuth2AuthorizedClientServ
 import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 @Service
@@ -38,10 +40,14 @@ public class UserService {
 
         //신규 유저인지 체크
         if(userRepository.findByOauth2AuthorizedClient(authorizedClient) == null) {
+            OAuth2User oAuth2User = authentication.getPrincipal();
             User user = User.builder()
-                    .userName(authentication.getPrincipal().getAttribute("name"))
+                    .userName(oAuth2User.getAttribute("name"))
                     .oauth2AuthorizedClient(authorizedClient)
-                    .OAuthName(authentication.getPrincipal().getAttribute("login"))
+                    .OAuthName(oAuth2User.getAttribute("login"))
+                    .Role(oAuth2User.getAuthorities().stream().
+                            map(GrantedAuthority::getAuthority).
+                            collect(Collectors.joining(",")))
                     .build();
             userRepository.save(user);
         }

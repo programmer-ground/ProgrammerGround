@@ -42,7 +42,7 @@ public class JwtTokenProvider {
     }
 
     public Long getOAuthId(String jwtToken) {
-        return (Long) getBody(jwtToken).get("oauthId");
+        return Long.valueOf((Integer) getBody(jwtToken).get("oauthId"));
     }
 
     public String getOAuthAccessToken(String jwtToken) {

@@ -1,16 +1,16 @@
 server:
-  port: 8080
+  port: 9000
 
 spring:
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/boot_short_url?serverTimezone=UTC&characterEncoding=UTF-8
+    url: jdbc:mysql://localhost:3306/auth?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
     password: awdsd123
   jpa:
     hibernate:
       #옵션 create, update, none, create-drop, validate 있음
-      ddl-auto: create
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true

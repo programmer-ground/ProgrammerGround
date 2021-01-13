@@ -1,12 +1,16 @@
 package com.pg.programmerground.config;
 
+import com.pg.programmerground.entity.User;
 import lombok.Getter;
 import org.springframework.security.config.core.GrantedAuthorityDefaults;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
     private Long id;
@@ -15,6 +19,14 @@ public class MyUserDetails implements UserDetails {
     private String userName;
     private List<? extends GrantedAuthority> authorities;
 
+    public MyUserDetails(User user) {
+        this.id = user.getId();
+        this.oAuthId = user.getOauth2AuthorizedClient().getId();
+        this.oAuthName = user.getOAuthName();
+        this.userName = user.getUserName();
+        this.authorities = makeAuthority(user.getRole());
+        //User 테이블에 권한을 넣어줘야함.
+    }
     public long getId() {
         return this.id;
     }
@@ -31,6 +43,10 @@ public class MyUserDetails implements UserDetails {
         return this.userName;
     }
 
+    private List<? extends GrantedAuthority> makeAuthority(String role) {
+        // ","로 Role 구분해서 List에 넣음
+        return Arrays.stream(role.split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
+    }
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

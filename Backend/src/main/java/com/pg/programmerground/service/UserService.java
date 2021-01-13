@@ -1,22 +1,29 @@
 package com.pg.programmerground.service;
 
-import org.springframework.security.core.Authentication;
+import com.pg.programmerground.config.MyUserDetails;
+import com.pg.programmerground.entity.Oauth2AuthorizedClient;
+import com.pg.programmerground.entity.User;
+import com.pg.programmerground.repository.Oauth2AuthorizedClientRepository;
+import com.pg.programmerground.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
+@RequiredArgsConstructor
 public class UserService {
+    private final UserRepository userRepository;
+    private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
 
     public UserDetails loadUserByOAuthId(Long OAuthId) {
-        return null;
+        Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
+                .findById(OAuthId)
+                .orElseThrow(() -> new EntityNotFoundException("OAuth 존재하지 않음"));
+        User user = userRepository.findByOauth2AuthorizedClient(authorizedClient);
+        return new MyUserDetails(user);
     }
+
 }
+

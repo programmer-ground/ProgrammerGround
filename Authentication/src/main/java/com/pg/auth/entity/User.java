@@ -24,6 +24,9 @@ public class User {
     @Column(name = "OAUTH_NAME")
     private String OAuthName;
 
+    @Column(name = "ROLE")
+    private String Role;
+
     @OneToOne
     @JoinColumn(name = "OAUTH_ID")
     private Oauth2AuthorizedClient oauth2AuthorizedClient;

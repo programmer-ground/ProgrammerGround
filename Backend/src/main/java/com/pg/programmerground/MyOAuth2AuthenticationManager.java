@@ -9,7 +9,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2LoginAuth
  * 토큰 인증 처리
  *
  */
-public class MyOAuth2AuthenticationManager implements AuthenticationManager {
+/*public class MyOAuth2AuthenticationManager implements AuthenticationManager {
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         //authorizationExchange -> request, response 들어감
@@ -19,7 +19,7 @@ public class MyOAuth2AuthenticationManager implements AuthenticationManager {
         return null;
 
 
-        /* 예시
+        *//* 예시
         UserDetails userDetails = userDetailsService.loadUserByUsername(authentication.getPrincipal());
         // 각종 처리를 구현
         // 비번이 일치하는지
@@ -29,6 +29,6 @@ public class MyOAuth2AuthenticationManager implements AuthenticationManager {
                 , userDetails.getPassword()
                 , userDetails.getAuthorities()))
     }
-         */
+         *//*
     }
-}
+}*/

@@ -22,7 +22,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     JwtTokenProvider jwtTokenProvider;
     JwtAuthenticationProvider jwtAuthenticationProvider;
 
-    private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(new AntPathRequestMatcher("/login"));
+    private static final RequestMatcher PUBLIC_URLS = new OrRequestMatcher(new AntPathRequestMatcher("/admin"));
 
     public Oauth2WebSecurityConfig(JwtTokenProvider jwtTokenProvider, JwtAuthenticationProvider jwtAuthenticationProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -37,7 +37,9 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     private MyOAuth2ProcessingFilter buildProcessingFilter() throws Exception {
-        return new MyOAuth2ProcessingFilter(PUBLIC_URLS, jwtTokenProvider);
+        MyOAuth2ProcessingFilter filter = new MyOAuth2ProcessingFilter(PUBLIC_URLS, jwtTokenProvider);
+        filter.setAuthenticationManager(this.authenticationManager());
+        return filter;
     }
 
     //AuthenticationManager는 인증을 담당하는데 인증 로직을 담은 AuthenticationProvider를 가지고 있다.

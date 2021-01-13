@@ -13,11 +13,10 @@ import java.util.Map;
 /**
  * Error Handler
  * code error 내용
- * 10 : Jwt 토큰 만료
  */
 @RestControllerAdvice
 public class ControllerExceptionHandler {
-    @ExceptionHandler(ExpiredJwtException.class)
+    /*@ExceptionHandler(ExpiredJwtException.class)
     public ResponseEntity<Map<String, Object>> expiredJwtExceptionHandler(ExpiredJwtException e) {
         Map<String, Object> map = new HashMap<>();
         map.put("msg", "토큰 만료");
@@ -25,10 +24,10 @@ public class ControllerExceptionHandler {
         return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
     @ExceptionHandler(JwtException.class)
-    public ResponseEntity<Map<String, Object>> jwtExceptionHandler(JwtException) {
+    public ResponseEntity<Map<String, Object>> jwtExceptionHandler(JwtException e) {
         Map<String, Object> map = new HashMap<>();
         map.put("msg", "토큰 불량");
         map.put("code", 11);
         return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
+    }*/
 }

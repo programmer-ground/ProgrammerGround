@@ -1,23 +1,28 @@
 package com.pg.programmerground.entity;
 
+import lombok.Getter;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.IdClass;
+import javax.persistence.OneToOne;
 import java.util.Date;
 
-@Entity
-@IdClass(Oauth2AuthorizedClientId.class)
+@Entity(name = "oauth2_authorized_client")
+@Getter
 public class Oauth2AuthorizedClient {
     @Id
-    @Column(name = "client_registration_id")
-    private String id1;
-    @Id
     @Column(name = "principal_name")
-    private Long id2;
+    private Long id;
+
+    @Column(name = "client_registration_id")
+    private String clientRegistrationId;
 
     @Column(name = "access_token_type")
     private String accessTokenType;
+
+    @Column(name = "access_token_value")
+    private String accessTokenValue;
 
     @Column(name = "access_token_issued_at")
     private Date accessTokenIssuedAt;
@@ -36,4 +41,7 @@ public class Oauth2AuthorizedClient {
 
     @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private Date createdAt;
+
+    @OneToOne(mappedBy = "oauth2AuthorizedClient")
+    private User user;
 }
