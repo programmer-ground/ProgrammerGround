@@ -1,6 +1,8 @@
 package com.pg.auth.service;
 
 import com.pg.auth.entity.Oauth2AuthorizedClient;
+import com.pg.auth.entity.User;
+import com.pg.auth.exception.OAuthLoginException;
 import com.pg.auth.jwtConfig.JwtTokenProvider;
 import com.pg.auth.repository.Oauth2AuthorizedClientRepository;
 import com.pg.auth.repository.UserRepository;
@@ -19,48 +21,45 @@ import java.util.stream.Collectors;
 
 @Service
 public class UserService {
-    private final JdbcOAuth2AuthorizedClientService oAuth2AuthorizedClientService;
     private final UserRepository userRepository;
     private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
-    public UserService(JdbcOperations operations, ClientRegistrationRepository registrationRepository, UserRepository userRepository, Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider) {
+    public UserService(UserRepository userRepository, Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.oauth2AuthorizedClientRepository = oauth2AuthorizedClientRepository;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.oAuth2AuthorizedClientService = new JdbcOAuth2AuthorizedClientService(operations, registrationRepository);
     }
 
     @Transactional
-    public void createUser(OAuth2AuthenticationToken authentication) {
-        //OAuth 유저 정보를 가져옴
-        OAuth2AuthorizedClient client =
-                oAuth2AuthorizedClientService.loadAuthorizedClient(
-                        authentication.getAuthorizedClientRegistrationId(),
-                        authentication.getName());
-        //null인 경우 처리
-        Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository.findById(Long.valueOf(client.getPrincipalName())).get();
+    public void createUser(OAuth2AuthenticationToken authentication) throws OAuthLoginException {
+        Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
+                .findById(Long.valueOf(authentication.getName())).orElseThrow(() -> new OAuthLoginException("OAuth 로그인 에러"));
+
         //신규 유저인지 체크
-        /*if(userRepository.findByOAuthId(Long.valueOf(client.getPrincipalName())) == null) {
+        if(userRepository.findByOauth2AuthorizedClient(authorizedClient) == null) {
             User user = User.builder()
                     .userName(authentication.getPrincipal().getAttribute("name"))
-                    //.OAuthId(Long.valueOf(client.getPrincipalName()))
+                    .oauth2AuthorizedClient(authorizedClient)
                     .OAuthName(authentication.getPrincipal().getAttribute("login"))
                     .build();
             userRepository.save(user);
-        }*/
+        }
     }
 
-    public String createJwtToken() {
+    public String createJwtToken() throws OAuthLoginException {
+        //인증 객체 가져옴
         OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        OAuth2AuthorizedClient client =
-                oAuth2AuthorizedClientService.loadAuthorizedClient(
-                        authentication.getAuthorizedClientRegistrationId(),
-                        authentication.getName());
+
+        //인증 객체의 OAuthId로 DB에서 OAUTH 데이터 가져옴
+        Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
+                .findById(Long.valueOf(authentication.getName())).orElseThrow(() -> new OAuthLoginException("OAuth 로그인 에러"));
+
         List<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
+
         return jwtTokenProvider.createToken(
-                client.getAccessToken().getTokenValue(),
-                Long.valueOf(client.getPrincipalName()),
+                authorizedClient.getAccessTokenValue(),
+                authorizedClient.getId(),
                 roles);
     }
 }

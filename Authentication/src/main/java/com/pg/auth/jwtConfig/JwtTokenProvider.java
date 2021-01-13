@@ -18,7 +18,7 @@ public class JwtTokenProvider {
     @Value("${spring.security.jwt-token.secret-key:secret-key}")
     private String secretKey;
 
-    //@Value는 인스턴스가 생성된 후에 주입된다. 즉, 생성자 실행후 주입 그러므로 생성자에서는 secerKey는 nullㄱ밧
+    //@Value는 인스턴스가 생성된 후에 주입된다. 즉, 생성자 실행후 주입 그러므로 생성자에서는 secretKey는 null값
     @PostConstruct
     public void init(){ // method name doesn't matter
         this.secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());

@@ -1,9 +1,12 @@
 package com.pg.auth.entity;
 
+import lombok.Getter;
+
 import javax.persistence.*;
 import java.util.Date;
 
 @Entity(name = "oauth2_authorized_client")
+@Getter
 public class Oauth2AuthorizedClient {
     @Id
     @Column(name = "principal_name")
