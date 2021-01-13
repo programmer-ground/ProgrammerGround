@@ -34,6 +34,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
         //UsernamePasswordAuthenticationFilter를 거치기 전에 Custom필터를 거친다.
         http.addFilterBefore(buildProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
+
     }
 
     private MyOAuth2ProcessingFilter buildProcessingFilter() throws Exception {
@@ -48,4 +49,6 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.authenticationProvider(jwtAuthenticationProvider);
     }
+
+
 }
