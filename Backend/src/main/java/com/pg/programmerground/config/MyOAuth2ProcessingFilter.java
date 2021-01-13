@@ -1,6 +1,8 @@
-package com.pg.programmerground;
+package com.pg.programmerground.config;
 
 import com.pg.programmerground.exception.JwtExpiredException;
+import com.pg.programmerground.exception.JwtNotFoundException;
+import com.pg.programmerground.exception.UserNotFoundException;
 import com.pg.programmerground.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.jwt.JwtTokenProvider;
 import io.jsonwebtoken.ExpiredJwtException;
@@ -31,6 +33,7 @@ import java.io.IOException;
 public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFilter {
 
     private final JwtTokenProvider jwtTokenProvider;
+
     public MyOAuth2ProcessingFilter(RequestMatcher requiresAuthenticationRequestMatcher, JwtTokenProvider jwtTokenProvider) {
         super(requiresAuthenticationRequestMatcher);
         this.jwtTokenProvider = jwtTokenProvider;
@@ -61,11 +64,14 @@ public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFi
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
         //UNAUTHORIZED면 로그인 화면 으로 이동하도록 프론트 설계
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
-        if(failed instanceof JwtExpiredException) { response.setStatus(HttpStatus.UNAUTHORIZED.value());
-            response.getWriter().println("Jwt Expired");
-        } else if(failed instanceof BadCredentialsException) {
+        if (failed instanceof JwtExpiredException) {
+            response.getWriter().println("Expired Jwt Token");
+        } else if (failed instanceof BadCredentialsException) {
             response.getWriter().println("Invalid JWT Token");
+        } else if (failed instanceof JwtNotFoundException) {
+            response.getWriter().println("Not Found JWT Token");
+        } else if(failed instanceof UserNotFoundException) {
+            response.getWriter().println("Not Found User");
         }
-
     }
 }

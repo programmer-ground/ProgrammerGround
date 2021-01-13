@@ -17,7 +17,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
 
+    /**
+     * 유저 정보를 가져온다
+     */
     public UserDetails loadUserByOAuthId(Long OAuthId) {
+        //OAuthID를 통해 User정보를 가져온다.
         Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
                 .findById(OAuthId)
                 .orElseThrow(() -> new EntityNotFoundException("OAuth 존재하지 않음"));

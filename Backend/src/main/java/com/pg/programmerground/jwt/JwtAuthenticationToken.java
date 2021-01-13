@@ -14,14 +14,19 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     private Object credential;
     private Object principal;
 
-    //인증되지 않은 생성자
+    /**
+     * 인증되지 않은 Authentication 만드는 생성자
+     */
     public JwtAuthenticationToken(String token) {
         super(null);
         this.credential = token;
         this.setAuthenticated(false);
     }
 
-    //인증후에 생성자
+    /**
+     * 인증된 Authentication객체를 만드는 생성자
+     * 인증 완료후 생성
+     */
     public JwtAuthenticationToken(Object principal, String token, Collection<? extends GrantedAuthority> authorities) {
         super(authorities);
         this.principal = principal;

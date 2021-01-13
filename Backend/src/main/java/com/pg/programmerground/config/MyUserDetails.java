@@ -25,7 +25,6 @@ public class MyUserDetails implements UserDetails {
         this.oAuthName = user.getOAuthName();
         this.userName = user.getUserName();
         this.authorities = makeAuthority(user.getRole());
-        //User 테이블에 권한을 넣어줘야함.
     }
     public long getId() {
         return this.id;
@@ -44,7 +43,7 @@ public class MyUserDetails implements UserDetails {
     }
 
     private List<? extends GrantedAuthority> makeAuthority(String role) {
-        // ","로 Role 구분해서 List에 넣음
+        // "," 구분해서 리스트에 넣음
         return Arrays.stream(role.split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
     @Override

@@ -27,26 +27,8 @@ public class AuthController {
         return authorizedClient.getAccessToken();
     }
 
-    @GetMapping("/")
-    public String index() {
-        SecurityContextHolder.getContext().setAuthentication(null);
-        return "awdawd";
-    }
-
     @GetMapping("/admin")
     public String admin() {
         return "admin";
-    }
-
-    //프론트에서 api 요청할 때 인증이 되있지 않으면 이 URL로 리다이렉트
-    @GetMapping("/loginRequest")
-    public String loginRequest() {
-        return "awd";
-    }
-
-    @GetMapping("/userInfo")
-    public Principal getUser(Principal principal, Authentication authentication) throws Exception {
-        //githubApiService.getGithubTotalData();
-        return principal;
     }
 }

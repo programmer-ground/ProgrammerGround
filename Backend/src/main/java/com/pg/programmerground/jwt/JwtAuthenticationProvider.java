@@ -2,6 +2,7 @@ package com.pg.programmerground.jwt;
 
 import com.pg.programmerground.config.MyUserDetails;
 import com.pg.programmerground.exception.JwtExpiredException;
+import com.pg.programmerground.exception.UserNotFoundException;
 import com.pg.programmerground.repository.UserRepository;
 import com.pg.programmerground.service.UserService;
 import io.jsonwebtoken.Claims;
@@ -24,12 +25,11 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final JwtTokenProvider jwtTokenProvider;
     private final UserService userService;
 
+    /**
+     * 실질적인 인증 로직 처리
+     */
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
-        //굳이 체크할 이유가 있나 getOAuthId를 통해 expire를 exception 해줄텐데
-        //가져오는 과정에서 만료시간, 조작 Exception 체크
-        //Authentication을 만드는 이유는 이 Authentication을 가지고 Controller에서 유저 정보를 가져와 DB데이터를 가져오기 위해 -> DB에서 쓸만한 데이터를 넣어라 UserDetails에
-        //DB에서 데이터를 가져와서 비교해야함 -> 굳이? JWT가 애초에 stateless
         try {
             String jwtToken = (String) authentication.getCredentials();
             Long OAuthId = jwtTokenProvider.getOAuthId(jwtToken);
@@ -37,11 +37,20 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             return new JwtAuthenticationToken(userDetails, jwtToken, userDetails.getAuthorities());
         } catch (ExpiredJwtException e) {
             throw new JwtExpiredException("토큰 만료");
+        } catch (UserNotFoundException userNotFoundException) {
+            throw userNotFoundException;
         } catch (Exception e) {
             throw new BadCredentialsException("토큰 불량");
         }
     }
 
+    /**
+     Spring Security에서 AuthenticationFilter는 인증을 담당하는데
+     이 Filter는 AuthenticationManager를 가지고 있고
+     AuthenticationManager는 여러개의 AuthenticationProvider를 통해 인증 로직을 실행한다.
+     여러 인증에서 어떤 Provider를 사용할지는 Authentication객체에 따라 달라진다.
+     밑에 어떤 Authentication객체가 사용될 때 이 Provider를 사용할지 결정하는 함수이다.
+     */
     @Override
     public boolean supports(Class<?> authentication) {
         return (JwtAuthenticationToken.class.isAssignableFrom(authentication));

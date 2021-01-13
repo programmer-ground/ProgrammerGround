@@ -1,5 +1,6 @@
 package com.pg.programmerground.jwt;
 
+import com.pg.programmerground.exception.JwtNotFoundException;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -21,7 +22,9 @@ public class JwtTokenProvider {
         this.secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    //JWT 토큰 생성
+    /**
+     * 토큰 생성
+     */
     public String createToken(String accessToken, Long OAuthId, List<String> roles) {
         Claims claims = Jwts.claims();
         claims.put("oauthId", OAuthId);
@@ -36,25 +39,40 @@ public class JwtTokenProvider {
                 .compact();
     }
 
-    //헤더에서 토큰 추출
+    /**
+     * 헤더에서 토큰 추출
+     */
     public String resolveToken(HttpServletRequest request) {
+        String header = request.getHeader("token");
+        if(header == null) {
+            throw new JwtNotFoundException("토큰이 존재하지 않음");
+        }
         return request.getHeader("token");
     }
 
+    /**
+     * OAuthId 추출
+     */
     public Long getOAuthId(String jwtToken) {
         return Long.valueOf((Integer) getBody(jwtToken).get("oauthId"));
     }
 
+    /**
+     * OAuth AccessToken 추출
+     */
     public String getOAuthAccessToken(String jwtToken) {
         return (String) getBody(jwtToken).get("accessToken");
     }
 
-    private Claims getBody(String jwtToken) {
-        return validateToken(jwtToken).getBody();
-    }
-
-    //토큰 해석, 해석을 하면서 만료시 Exception
+    /**
+     * 토큰 복호화
+     * 이 과정을 통해 Expire, Invalid 체크 후 Exception 던짐
+     */
     private Jws<Claims> validateToken(String jwtToken) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+    }
+
+    private Claims getBody(String jwtToken) {
+        return validateToken(jwtToken).getBody();
     }
 }
