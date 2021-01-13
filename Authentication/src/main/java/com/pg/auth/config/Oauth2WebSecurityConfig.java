@@ -4,6 +4,7 @@ package com.pg.auth.config;
 import com.pg.auth.exception.OAuthLoginException;
 import com.pg.auth.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,9 +29,11 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.authorizeRequests()
                 .antMatchers("/oauth2/**", "/errors").permitAll()
                 .anyRequest().authenticated();
+        //OAuthLogin 설정
         http.oauth2Login()
                 .authorizedClientService(new JdbcOAuth2AuthorizedClientService(operations, registrationRepository))
-                .successHandler(this.successHandler());
+                .successHandler(this.successHandler())
+                .failureHandler(failureHandler());
     }
 
     /**
@@ -46,14 +49,21 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 userService.createUser((OAuth2AuthenticationToken) authentication);
                 response.sendRedirect("/getToken");
             } catch (OAuthLoginException loginException) {
-                log.info(loginException.getMessage());
+                //프론트 오류로 넘길 예정
                 response.sendRedirect("/err");
             }
         };
     }
 
+    /**
+     *
+     * @return
+     */
     private AuthenticationFailureHandler failureHandler() {
-        return null;
+        return (request, response, exception) -> {
+            //프론트 에러 페이지로 넘김
+            response.sendRedirect("localhost:3000");
+        };
     }
 
 }

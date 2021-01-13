@@ -33,12 +33,15 @@ public class UserService {
         this.jwtTokenProvider = jwtTokenProvider;
     }
 
+    /**
+     * OAuth 인증 성공후 유저 생성
+     */
     @Transactional
     public void createUser(OAuth2AuthenticationToken authentication) throws OAuthLoginException {
         Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
                 .findById(Long.valueOf(authentication.getName())).orElseThrow(() -> new OAuthLoginException("OAuth 로그인 에러"));
 
-        //신규 유저인지 체크
+        //신규 유저 체크
         if(userRepository.findByOauth2AuthorizedClient(authorizedClient) == null) {
             OAuth2User oAuth2User = authentication.getPrincipal();
             User user = User.builder()
@@ -53,6 +56,9 @@ public class UserService {
         }
     }
 
+    /**
+     * 인증 된 AuthenticationToken을 통해 JWT 토큰 생성
+     */
     public String createJwtToken() throws OAuthLoginException {
         //인증 객체 가져옴
         OAuth2AuthenticationToken authentication = (OAuth2AuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -61,11 +67,16 @@ public class UserService {
         Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
                 .findById(Long.valueOf(authentication.getName())).orElseThrow(() -> new OAuthLoginException("OAuth 로그인 에러"));
 
+        //유저 정보 가져옴
+        User user = userRepository.findByOauth2AuthorizedClient(authorizedClient);
+
+        //권한 추출
         List<String> roles = authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.toList());
 
         return jwtTokenProvider.createToken(
                 authorizedClient.getAccessTokenValue(),
                 authorizedClient.getId(),
+                user.getId(),
                 roles);
     }
 }

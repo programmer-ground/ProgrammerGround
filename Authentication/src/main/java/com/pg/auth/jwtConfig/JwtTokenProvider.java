@@ -24,9 +24,12 @@ public class JwtTokenProvider {
         this.secretKey = Base64.getEncoder().encodeToString(secretKey.getBytes());
     }
 
-    //JWT 토큰 생성
-    public String createToken(String accessToken, Long OAuthId, List<String> roles) {
+    /**
+     * JWT 토큰 생성
+     */
+    public String createToken(String accessToken, Long OAuthId, Long userId, List<String> roles) {
         Claims claims = Jwts.claims();
+        claims.put("userId", userId);
         claims.put("oauthId", OAuthId);
         claims.put("accessToken", accessToken);
         claims.put("roles", roles);
