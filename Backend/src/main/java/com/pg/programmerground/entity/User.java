@@ -27,8 +27,11 @@ public class User {
     @Column(name = "ROLE")
     private String Role;
 
+    //JWT 로그인 인증 코드
+    @Column(name = "CODE")
+    private String code;
+
     @OneToOne
     @JoinColumn(name = "OAUTH_ID")
     private Oauth2AuthorizedClient oauth2AuthorizedClient;
-    ///repo수나 commit수는 저장할 필요가 있나 실시간 업데이트면
 }

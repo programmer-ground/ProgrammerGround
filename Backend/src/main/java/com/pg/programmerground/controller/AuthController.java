@@ -21,14 +21,12 @@ public class AuthController {
     private final GithubApiService githubApiService;
 
     @GetMapping("/auth")
-    public OAuth2AccessToken auth(@RegisteredOAuth2AuthorizedClient OAuth2AuthorizedClient authorizedClient) {
-        System.out.println(authorizedClient.getAccessToken().toString());
-        System.out.println(authorizedClient.getClientRegistration().getClientSecret());
-        return authorizedClient.getAccessToken();
+    public Authentication auth(Authentication authentication) {
+        return authentication;
     }
 
-    @GetMapping("/admin")
-    public String admin() {
-        return "admin";
+    @GetMapping("/adminss")
+    public String adminss() {
+        return "adminss";
     }
 }

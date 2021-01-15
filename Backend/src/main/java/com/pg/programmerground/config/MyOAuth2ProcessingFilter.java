@@ -43,7 +43,7 @@ public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFi
      * 인증 시도
      */
     @Override
-    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException, IOException, ServletException {
+    public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         //토큰을 인증되지 않은 Authentication 객체로 만들고 AuthenticationManager.authenticate()실행.
         return getAuthenticationManager().authenticate(new JwtAuthenticationToken(jwtTokenProvider.resolveToken(request)));
     }
@@ -54,6 +54,8 @@ public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFi
     @Override
     protected void successfulAuthentication(HttpServletRequest request, HttpServletResponse response, FilterChain chain, Authentication authResult) throws IOException, ServletException {
         super.successfulAuthentication(request, response, chain, authResult);
+        SecurityContextHolder.getContext().setAuthentication(authResult);
+        chain.doFilter(request, response);
     }
 
     /**
@@ -61,7 +63,7 @@ public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFi
      * AuthenticationException(JwtExpiredException, BadCredentialsException등)의 Exception을 처리
      */
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
         //UNAUTHORIZED면 로그인 화면 으로 이동하도록 프론트 설계
         response.setStatus(HttpStatus.UNAUTHORIZED.value());
         if (failed instanceof JwtExpiredException) {
@@ -70,7 +72,7 @@ public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFi
             response.getWriter().println("Invalid JWT Token");
         } else if (failed instanceof JwtNotFoundException) {
             response.getWriter().println("Not Found JWT Token");
-        } else if(failed instanceof UserNotFoundException) {
+        } else if (failed instanceof UserNotFoundException) {
             response.getWriter().println("Not Found User");
         }
     }

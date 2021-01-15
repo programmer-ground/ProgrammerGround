@@ -27,7 +27,7 @@ public class User {
     @Column(name = "ROLE")
     private String Role;
 
-    //JWT 로그인 코드
+    //JWT 로그인 인증 코드
     @Column(name = "CODE")
     private String code;
 
