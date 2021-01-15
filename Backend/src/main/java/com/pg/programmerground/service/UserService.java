@@ -18,7 +18,7 @@ public class UserService {
     private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
 
     /**
-     * 유저 정보를 가져온다
+     * OAuthID를 통해 UserDetails 가져옴
      */
     public UserDetails loadUserByOAuthId(Long OAuthId) {
         //OAuthID를 통해 User정보를 가져온다.
@@ -29,5 +29,11 @@ public class UserService {
         return new MyUserDetails(user);
     }
 
+    /**
+     * UserId를 통해 유저 Entity 가져옴
+     */
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow();
+    }
 }
 

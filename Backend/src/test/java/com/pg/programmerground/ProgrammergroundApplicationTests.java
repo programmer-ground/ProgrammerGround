@@ -24,5 +24,4 @@ class ProgrammergroundApplicationTests {
         assertEquals(1, provider.getOAuthId(token));
         assertEquals("test", provider.getOAuthAccessToken(token));
     }
-
 }

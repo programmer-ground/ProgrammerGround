@@ -1,5 +1,6 @@
 package com.pg.programmerground.controller;
 
+import com.pg.programmerground.dto.GithubUserInfoDto;
 import com.pg.programmerground.service.GithubApiService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,7 +27,7 @@ public class AuthController {
     }
 
     @GetMapping("/adminss")
-    public String adminss() {
-        return "adminss";
+    public GithubUserInfoDto adminss() {
+        return githubApiService.getGithubUserInfo();
     }
 }
