@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
     User findByOauth2AuthorizedClient(Oauth2AuthorizedClient oauth2AuthorizedClient);
+    User findByCodeAndOauth2AuthorizedClient(String code, Oauth2AuthorizedClient oauth2AuthorizedClient);
 }

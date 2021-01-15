@@ -1,9 +1,11 @@
 package com.pg.auth.config;
 
 
+import com.pg.auth.entity.User;
 import com.pg.auth.exception.OAuthLoginException;
 import com.pg.auth.service.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -26,14 +28,16 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-                .antMatchers("/oauth2/**", "/errors").permitAll()
+        http.authorizeRequests().mvcMatchers(HttpMethod.POST, "/jwtLogin").permitAll()
+                .mvcMatchers("/oauth2/**", "/err", "/loginCode", "/test", "/jwtLogin").permitAll()
                 .anyRequest().authenticated();
+
         //OAuthLogin 설정
         http.oauth2Login()
                 .authorizedClientService(new JdbcOAuth2AuthorizedClientService(operations, registrationRepository))
                 .successHandler(this.successHandler())
                 .failureHandler(failureHandler());
+        http.csrf().disable();
     }
 
     /**
@@ -46,8 +50,10 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler successHandler() {
         return (request, response, authentication) -> {
             try {
-                userService.createUser((OAuth2AuthenticationToken) authentication);
-                response.sendRedirect("/getToken");
+                User user = userService.createUser((OAuth2AuthenticationToken) authentication);
+                log.info(request.getRemoteAddr());
+                //추후 프론트 URL 써야함
+                response.sendRedirect("/loginCode?code=" + user.getCode() + "&oauthId=" + user.getOauth2AuthorizedClient().getId()); //code와 id를 같이 보내준다.
             } catch (OAuthLoginException loginException) {
                 //프론트 오류로 넘길 예정
                 response.sendRedirect("/err");
