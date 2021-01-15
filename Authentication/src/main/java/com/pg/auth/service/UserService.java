@@ -32,14 +32,13 @@ public class UserService {
     private final UserRepository userRepository;
     private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private JdbcOAuth2AuthorizedClientService jdbcService;
+
 
     //jdbc service에서 load하여 가져온다.
-    public UserService(UserRepository userRepository, Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider, JdbcOperations operations, ClientRegistrationRepository registrationRepository) {
+    public UserService(UserRepository userRepository, Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider) {
         this.userRepository = userRepository;
         this.oauth2AuthorizedClientRepository = oauth2AuthorizedClientRepository;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.jdbcService = new JdbcOAuth2AuthorizedClientService(operations, registrationRepository);
     }
 
     /**
@@ -77,7 +76,7 @@ public class UserService {
     @Transactional
     public String jwtLogin(String code, Long id) throws InvalidCodeException {
         User user = userRepository.findByCodeAndOauth2AuthorizedClient(code, oauth2AuthorizedClientRepository.findById(id).orElseThrow());
-        if(user == null || !validateLoginCode(code, user)) {
+        if (user == null || !validateLoginCode(code, user)) {
             throw new InvalidCodeException("Login Code 에러");
         }
         user.setCode("");   //인증 완료후 code는 지워준다.
@@ -85,7 +84,7 @@ public class UserService {
     }
 
     /**
-     * 인증 된 AuthenticationToken을 통해 JWT 토큰 생성
+     * JWT 토큰 생성
      */
     public String createJwtToken(User user) {
         return jwtTokenProvider.createToken(

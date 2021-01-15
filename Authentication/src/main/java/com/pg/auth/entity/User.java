@@ -34,6 +34,4 @@ public class User {
     @OneToOne
     @JoinColumn(name = "OAUTH_ID")
     private Oauth2AuthorizedClient oauth2AuthorizedClient;
-    ///repo수나 commit수는 저장할 필요가 있나 실시간 업데이트면
-
 }
