@@ -10,7 +10,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class GithubRepoDTO {
+public class GithubRepoDto {
     private Long id;
     private String name;
 

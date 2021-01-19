@@ -1,52 +1,58 @@
 package com.pg.programmerground.config;
 
-import com.pg.programmerground.MyOAuth2AuthenticationManager;
-import com.pg.programmerground.MyOAuth2AuthorizedClientService;
-import com.pg.programmerground.MyOAuth2ProcessingFilter;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.security.authentication.AuthenticationManager;
+import com.pg.programmerground.jwt.JwtAuthenticationProvider;
+import com.pg.programmerground.jwt.JwtTokenProvider;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 
-import com.pg.programmerground.service.UserService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.oauth2.client.OAuth2AuthorizationSuccessHandler;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.web.OAuth2AuthorizationRequestRedirectFilter;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.context.SecurityContextPersistenceFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.OrRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
-@RequiredArgsConstructor
+
 @EnableWebSecurity
 public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    private final UserService userService;
+    JwtTokenProvider jwtTokenProvider;
+    JwtAuthenticationProvider jwtAuthenticationProvider;
 
+    private static final RequestMatcher PUBLIC_URLS =
+            new OrRequestMatcher(
+                    new AntPathRequestMatcher("/authsss"));
+
+    public Oauth2WebSecurityConfig(JwtTokenProvider jwtTokenProvider, JwtAuthenticationProvider jwtAuthenticationProvider) {
+        this.jwtTokenProvider = jwtTokenProvider;
+        this.jwtAuthenticationProvider = jwtAuthenticationProvider;
+    }
+
+    /**
+     * Security 설정
+     */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/oauth2/**").permitAll()
-                .anyRequest().authenticated();
-        http.oauth2Login().userInfoEndpoint()
-                .userService(userService);
-        //http.oauth2Login().authorizedClientService(authorizedClientService());
-                //.and().loginPage("/awd");
-
+        http.cors();
+        http.csrf().disable();
+        http.authorizeRequests().anyRequest().authenticated();
+        //UsernamePasswordAuthenticationFilter를 거치기 전에 Custom필터를 거친다.
+        http.addFilterBefore(buildProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
-    /*@Override
-    protected AuthenticationManager authenticationManager() throws Exception {
-        return new MyOAuth2AuthenticationManager();
-    }*/
-
-    //@Bean
-    protected OAuth2AuthorizedClientService authorizedClientService() {
-        return new MyOAuth2AuthorizedClientService();
+    /**
+     * 인증을 진행할 Filter 객체를 생성
+     */
+    private MyOAuth2ProcessingFilter buildProcessingFilter() throws Exception {
+        MyOAuth2ProcessingFilter filter = new MyOAuth2ProcessingFilter(PUBLIC_URLS, jwtTokenProvider);
+        filter.setAuthenticationManager(this.authenticationManager());
+        return filter;
     }
 
-    public MyOAuth2ProcessingFilter myOAuth2ProcessingFilter(AuthenticationManager authenticationManager) throws Exception {
-        return new MyOAuth2ProcessingFilter(authenticationManager);
+    /**
+     * AuthenticationManager에 Provider를 등록한다.
+     */
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.authenticationProvider(jwtAuthenticationProvider);
     }
 }
