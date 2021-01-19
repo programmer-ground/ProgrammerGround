@@ -55,6 +55,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 log.info(request.getRemoteAddr());
                 //추후 프론트 URL 써야함
                 response.sendRedirect("/loginCode?code=" + user.getCode() + "&oauthId=" + user.getOauth2AuthorizedClient().getId()); //code와 id를 같이 보내준다.
+                //response.sendRedirect("http://localhost:3000/loginCode?code=" + user.getCode() + "&oauthId=" + user.getOauth2AuthorizedClient().getId()); //code와 id를 같이 보내준다.
             } catch (OAuthLoginException loginException) {
                 //프론트 오류로 넘길 예정
                 response.sendRedirect("/err");

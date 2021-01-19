@@ -20,8 +20,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final RequestMatcher PUBLIC_URLS =
             new OrRequestMatcher(
-                    new AntPathRequestMatcher("/adminss"),
-                    new AntPathRequestMatcher("/auth"));
+                    new AntPathRequestMatcher("/authsss"));
 
     public Oauth2WebSecurityConfig(JwtTokenProvider jwtTokenProvider, JwtAuthenticationProvider jwtAuthenticationProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
@@ -33,12 +32,11 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/oauth2/**").permitAll()
-                .anyRequest().authenticated().and();
-
+        http.cors();
+        http.csrf().disable();
+        http.authorizeRequests().anyRequest().authenticated();
         //UsernamePasswordAuthenticationFilter를 거치기 전에 Custom필터를 거친다.
         http.addFilterBefore(buildProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
-
     }
 
     /**

@@ -27,7 +27,7 @@ public class AuthController {
     }
 
     @GetMapping("/adminss")
-    public GithubUserInfoDto adminss() {
+    public GithubUserInfoDto admin() {
         return githubApiService.getGithubUserInfo();
     }
 }
