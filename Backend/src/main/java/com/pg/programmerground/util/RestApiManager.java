@@ -37,23 +37,7 @@ public class RestApiManager {
         HttpHeaders headers = new HttpHeaders();
         header.add("Authorization", "token " + oAuthAccessToken);
         return restTemplate.exchange("https://api.github.com/users", HttpMethod.GET, new HttpEntity<>(headers), GithubUserInfoDto.class).getBody();
-    };
-
-    public Long getCommitCount(String owner) throws Exception{
-        int pageNum = 1;
-        Map<String, Object> bodyResult = new HashMap<>();
-        List<GithubRepoDto> repoList = new ArrayList<>();
-        UriComponents uri = UriComponentsBuilder
-                .fromHttpUrl("https://api.github.com/users/" + owner + "/repos" + "?per_page=100&page=" + pageNum)
-                .build();
-
-
-        ResponseEntity<GithubRepoDto[]> userRepositoryResult = restTemplate.getForEntity(uri.toString(), GithubRepoDto[].class);
-        //repoList.
-        return Arrays.stream(Objects.requireNonNull(userRepositoryResult.getBody()))
-                .map(githubRepoDto -> "https://api.github.com/repos/CJW23/" + githubRepoDto.getName() + "/commits")
-                .mapToLong(commitUrl -> Objects.requireNonNull(restTemplate.getForObject(commitUrl, Object[].class)).length)
-                .sum();
     }
+
 
 }

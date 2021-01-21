@@ -56,7 +56,10 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class GithubUserInfoDto {
+public class  GithubUserInfoDto {
+
+    private String login;
+
     @JsonProperty("avatar_url")
     private String avatarUrl;
 
@@ -66,7 +69,7 @@ public class GithubUserInfoDto {
     private String htmlUrl;
 
     @JsonProperty("public_repos")
-    private int publicRepos;
+    private Long publicRepos;
 
     private int followers;
 
