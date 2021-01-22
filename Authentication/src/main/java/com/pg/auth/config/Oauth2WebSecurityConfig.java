@@ -38,6 +38,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(this.successHandler())
                 .failureHandler(failureHandler());
         http.csrf().disable();
+        http.cors().disable();
     }
 
     /**
