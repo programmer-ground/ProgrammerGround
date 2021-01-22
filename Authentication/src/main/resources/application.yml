@@ -9,12 +9,15 @@ spring:
     password: awdsd123
   jpa:
     hibernate:
-  ##    #옵션 create, update, none, create-drop, validate 있음
-      ddl-auto: create
+      #옵션 create, update, none, create-drop, validate 있음
+      ddl-auto: none
     properties:
       hibernate:
         format_sql: true
   security:
+    jwt-token:
+      secret-key: awdsd
+
     oauth2:
       client:
         registration:

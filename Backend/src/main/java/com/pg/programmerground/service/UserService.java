@@ -1,21 +1,39 @@
 package com.pg.programmerground.service;
 
-import org.springframework.security.core.Authentication;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
-import org.springframework.security.oauth2.client.userinfo.DefaultOAuth2UserService;
-import org.springframework.security.oauth2.client.userinfo.OAuth2UserRequest;
-import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
-import org.springframework.security.oauth2.core.user.OAuth2User;
+import com.pg.programmerground.config.MyUserDetails;
+import com.pg.programmerground.entity.Oauth2AuthorizedClient;
+import com.pg.programmerground.entity.User;
+import com.pg.programmerground.repository.Oauth2AuthorizedClientRepository;
+import com.pg.programmerground.repository.UserRepository;
+import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+
 @Service
-public class UserService extends DefaultOAuth2UserService {
-    @Override
-    public OAuth2User loadUser(OAuth2UserRequest userRequest) throws OAuth2AuthenticationException {
-        OAuth2User user = super.loadUser(userRequest);
-        System.out.println(((DefaultOAuth2User)user).getName());
-        return user;
+@RequiredArgsConstructor
+public class UserService {
+    private final UserRepository userRepository;
+    private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
+
+    /**
+     * OAuthID를 통해 UserDetails 가져옴
+     */
+    public UserDetails loadUserByOAuthId(Long OAuthId) {
+        //OAuthID를 통해 User정보를 가져온다.
+        Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
+                .findById(OAuthId)
+                .orElseThrow(() -> new EntityNotFoundException("OAuth 존재하지 않음"));
+        User user = userRepository.findByOauth2AuthorizedClient(authorizedClient);
+        return new MyUserDetails(user);
+    }
+
+    /**
+     * UserId를 통해 유저 Entity 가져옴
+     */
+    public User findUserById(Long userId) {
+        return userRepository.findById(userId).orElseThrow();
     }
 }
+
