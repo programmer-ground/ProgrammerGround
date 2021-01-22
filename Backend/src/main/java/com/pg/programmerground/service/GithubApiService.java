@@ -6,7 +6,6 @@ import com.pg.programmerground.dto.GithubTotalDto;
 import com.pg.programmerground.dto.GithubUserInfoDto;
 import com.pg.programmerground.entity.Oauth2AuthorizedClient;
 import com.pg.programmerground.jwt.JwtAuthenticationToken;
-import com.pg.programmerground.util.RestApiManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -15,8 +14,9 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.core.user.DefaultOAuth2User;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -26,13 +26,10 @@ import java.util.*;
 @Service
 @RequiredArgsConstructor
 public class GithubApiService {
-    private final RestApiManager restApiManager;
     private final UserService userService;
 
-    private HttpComponentsClientHttpRequestFactory factory;
-    private RestTemplate restTemplate;
-    private HttpHeaders header;
-    private HttpEntity<?> entity;
+    private final HttpComponentsClientHttpRequestFactory factory;
+    private final RestTemplate restTemplate;
 
     @Autowired
     public GithubApiService(UserService userService) {
@@ -40,46 +37,60 @@ public class GithubApiService {
         this.factory.setReadTimeout(5000);
         this.factory.setConnectionRequestTimeout(5000);
         this.restTemplate = new RestTemplate(this.factory);
-        this.header = new HttpHeaders();
-        this.entity = new HttpEntity<>(this.header);
         this.userService = userService;
-        this.restApiManager = new RestApiManager();
     }
 
     public GithubTotalDto getGithubTotalData() throws Exception {
-        GithubUserInfoDto userInfo = getGithubUserInfo();
+        HttpHeaders header = new HttpHeaders();
+        JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
+        MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
+        Oauth2AuthorizedClient oauthUser = userService.findUserById(userDetails.getId()).getOauth2AuthorizedClient();
+        header.set("Authorization", "token " + oauthUser.getAccessTokenValue());
+        GithubUserInfoDto userInfo = getGithubUserInfo(header);
+
         return GithubTotalDto.builder()
                 .totalRepo(userInfo.getPublicRepos())
-                .totalCommit(getCommitCount(userInfo.getLogin()))
+                .totalCommit(getCommitCount(userInfo.getLogin(), header))
                 .build();
 
     }
 
-    public GithubUserInfoDto getGithubUserInfo() {
-        JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
-        MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
-        Oauth2AuthorizedClient oauthUser = userService.findUserById(userDetails.getId()).getOauth2AuthorizedClient();
-        HttpHeaders headers = new HttpHeaders();
-        header.add("Authorization", "token " + oauthUser.getAccessTokenValue());
-        return restTemplate.exchange("https://api.github.com/users", HttpMethod.GET, new HttpEntity<>(headers), GithubUserInfoDto.class).getBody();
+    public GithubUserInfoDto getGithubUserInfo(HttpHeaders header) {
+        return restTemplate.exchange("https://api.github.com/user", HttpMethod.GET, new HttpEntity<>(header), GithubUserInfoDto.class).getBody();
     }
 
     /**
      * 유저의 총 Commit 수
      */
-    private Long getCommitCount(String owner) throws Exception {
-        int pageNum = 1;
+    private Long getCommitCount(String owner, HttpHeaders header) throws Exception {
         Map<String, Object> bodyResult = new HashMap<>();
         List<GithubRepoDto> repoList = new ArrayList<>();
+
+        //repoList.
+        GithubRepoDto[] repositories = getUserRepository(owner, header);
+        return Arrays.stream(Objects.requireNonNull(repositories))
+                .map(githubRepoDto -> "https://api.github.com/repos/" + owner + "/" + githubRepoDto.getName() + "/stats/contributors")
+                .mapToLong(commitUrl -> {
+                    try {
+
+                        Object[] mp = restTemplate.exchange(commitUrl, HttpMethod.GET, new HttpEntity<>(header), Object[].class).getBody();
+                        Integer total = (Integer) ((Map)mp[0]).get("total");
+                        return total;
+                    } catch (RestClientException | NullPointerException ignored) {
+                        return 0;
+                    }
+                })
+                .sum();
+    }
+
+    /**
+     * 사용자 Repo 리스트
+     */
+    private GithubRepoDto[] getUserRepository(String owner, HttpHeaders header) {
+        int pageNum = 1;
         UriComponents uri = UriComponentsBuilder
                 .fromHttpUrl("https://api.github.com/users/" + owner + "/repos" + "?per_page=100&page=" + pageNum)
                 .build();
-
-        ResponseEntity<GithubRepoDto[]> userRepositoryResult = restTemplate.getForEntity(uri.toString(), GithubRepoDto[].class);
-        //repoList.
-        return Arrays.stream(Objects.requireNonNull(userRepositoryResult.getBody()))
-                .map(githubRepoDto -> "https://api.github.com/repos/CJW23/" + githubRepoDto.getName() + "/commits")
-                .mapToLong(commitUrl -> Objects.requireNonNull(restTemplate.getForObject(commitUrl, Object[].class)).length)
-                .sum();
+        return restTemplate.exchange(uri.toString(), HttpMethod.GET, new HttpEntity<>(header), GithubRepoDto[].class).getBody();
     }
 }

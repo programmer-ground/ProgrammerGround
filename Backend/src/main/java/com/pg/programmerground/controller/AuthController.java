@@ -17,7 +17,7 @@ import java.security.Principal;
 public class AuthController {
     private final GithubApiService githubApiService;
 
-    @GetMapping("/auth")
+    /*@GetMapping("/auth")
     public Authentication auth(Authentication authentication) {
         return authentication;
     }
@@ -25,7 +25,7 @@ public class AuthController {
     @GetMapping("/adminss")
     public GithubUserInfoDto admin() {
         return githubApiService.getGithubUserInfo();
-    }
+    }*/
 
     @GetMapping("/userInfo")
     public ResponseEntity<GithubTotalDto> userInfo() throws Exception {
