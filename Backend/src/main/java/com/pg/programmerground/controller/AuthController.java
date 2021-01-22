@@ -1,16 +1,12 @@
 package com.pg.programmerground.controller;
 
+import com.pg.programmerground.dto.GithubTotalDto;
 import com.pg.programmerground.dto.GithubUserInfoDto;
 import com.pg.programmerground.service.GithubApiService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.OAuth2AuthorizedClient;
-import org.springframework.security.oauth2.client.annotation.RegisteredOAuth2AuthorizedClient;
-import org.springframework.security.oauth2.core.OAuth2AccessToken;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -21,7 +17,7 @@ import java.security.Principal;
 public class AuthController {
     private final GithubApiService githubApiService;
 
-    @GetMapping("/auth")
+    /*@GetMapping("/auth")
     public Authentication auth(Authentication authentication) {
         return authentication;
     }
@@ -29,5 +25,12 @@ public class AuthController {
     @GetMapping("/adminss")
     public GithubUserInfoDto admin() {
         return githubApiService.getGithubUserInfo();
+    }*/
+
+    @GetMapping("/userInfo")
+    public ResponseEntity<GithubTotalDto> userInfo() throws Exception {
+        return new ResponseEntity<>(githubApiService.getGithubTotalData(), HttpStatus.OK);
     }
+
+
 }
