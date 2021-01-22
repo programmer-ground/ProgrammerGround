@@ -1,19 +1,47 @@
-/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable no-use-before-define */
 /* eslint-disable import/extensions */
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import queryString from 'query-string';
+import axios from 'axios';
 import * as StyledComponent from './style';
 
 const LoginPage = () => {
+  const [token, setToken] = useState([]);
+  useEffect(() => {
+    // eslint-disable-next-line no-restricted-globals
+    const local = location.search;
+    const params = queryString.parse(local);
+    const options = {
+        mode: 'cors',
+        credentials: 'include',
+        headers: { 'Content-Type': 'application/json;charset=UTF-8',
+                    'Access-Control-Allow-Origin': '*'}}
+    if (Object.keys(params).length > 0) {
+      const getToken = async () => {
+        const v: any = await axios.post('http://localhost:8080/jwtLogin',
+         params,
+         {headers: options}
+         ).then((res)=>console.log(res));
+        console.log(v);
+        setToken(v);
+      };
+      getToken();
+      console.log(token);
+    }
+  }, []);
   return (
-    <>
-      <StyledComponent.GlobalStyle />
-      <StyledComponent.LoginContainer>
-        <StyledComponent.LoginLogo />
-        <StyledComponent.LoginButtonContainer>
-          <StyledComponent.LoginButton>
-            Sign In With GitHub
-            <StyledComponent.GithubLogo />
+  <>
+  <StyledComponent.GlobalStyle />
+  <StyledComponent.LoginContainer>
+  <StyledComponent.LoginLogo />
+  <StyledComponent.LoginButtonContainer>
+  <StyledComponent.LoginButton>
+  <a href='http://localhost:8080/oauth2/authorization/github'>
+      Sign In With GitHub
+
+  <StyledComponent.GithubLogo />
+            </a>
           </StyledComponent.LoginButton>
         </StyledComponent.LoginButtonContainer>
       </StyledComponent.LoginContainer>
