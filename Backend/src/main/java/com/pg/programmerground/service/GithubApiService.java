@@ -49,6 +49,7 @@ public class GithubApiService {
         GithubUserInfoDto userInfo = getGithubUserInfo(header);
 
         return GithubTotalDto.builder()
+                .owner(userInfo.getLogin())
                 .totalRepo(userInfo.getPublicRepos())
                 .totalCommit(getCommitCount(userInfo.getLogin(), header))
                 .build();
@@ -62,25 +63,10 @@ public class GithubApiService {
     /**
      * 유저의 총 Commit 수
      */
-    private Long getCommitCount(String owner, HttpHeaders header) throws Exception {
-        Map<String, Object> bodyResult = new HashMap<>();
-        List<GithubRepoDto> repoList = new ArrayList<>();
-
-        //repoList.
-        GithubRepoDto[] repositories = getUserRepository(owner, header);
-        return Arrays.stream(Objects.requireNonNull(repositories))
-                .map(githubRepoDto -> "https://api.github.com/repos/" + owner + "/" + githubRepoDto.getName() + "/stats/contributors")
-                .mapToLong(commitUrl -> {
-                    try {
-
-                        Object[] mp = restTemplate.exchange(commitUrl, HttpMethod.GET, new HttpEntity<>(header), Object[].class).getBody();
-                        Integer total = (Integer) ((Map)mp[0]).get("total");
-                        return total;
-                    } catch (RestClientException | NullPointerException ignored) {
-                        return 0;
-                    }
-                })
-                .sum();
+    private Integer getCommitCount(String owner, HttpHeaders header) throws Exception {
+        header.set("Accept", "application/vnd.github.cloak-preview");
+        Map mp = restTemplate.exchange("https://api.github.com/search/commits?q=author:" + owner, HttpMethod.GET, new HttpEntity<>(header), Map.class).getBody();
+        return (Integer) Objects.requireNonNull(mp).get("total_count");
     }
 
     /**
