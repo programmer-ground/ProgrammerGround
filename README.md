@@ -23,3 +23,22 @@
       └── 📁tests
       └── 📁utils
   ```
+
+## How to Install?
+
+### Requirement
+- docker
+- docker-compose
+
+
+```
+   git clone https://github.com/programmer-ground/ProgrammerGround
+   cd ProgrammerGround
+   docker-compose build && docker-compose up -d
+```
+
+
+### Logs
+```
+  docker logs <container_ip>
+```
