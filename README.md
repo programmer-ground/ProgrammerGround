@@ -26,19 +26,34 @@
 
 ## How to Install?
 
-### Requirement
+### Pre Requirement
 - docker
 - docker-compose
 
-
+### 1. Build
 ```
    git clone https://github.com/programmer-ground/ProgrammerGround
    cd ProgrammerGround
-   docker-compose build && docker-compose up -d
+   docker-compose build
+```
+
+### 2. Run
+```
+  docker-compose up -d
+```
+
+### 3. Check Container process
+```
+  docker-compose ps
 ```
 
 
-### Logs
+### 4. Logs
 ```
   docker logs <container_ip>
+```
+
+### 5. Shutdown all container
+```
+  docker-compose down
 ```
