@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: programmer-ground-chat-server
+
+server:
+  port: 8081
