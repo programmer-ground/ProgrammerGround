@@ -1,6 +1,5 @@
 ## Programmer Ground Chatting Server
 
----
 ### 1. Requirement
 > OpenJDK 11 and MongoDB must be installed.
 
