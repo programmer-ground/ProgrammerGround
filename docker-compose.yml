@@ -1,0 +1,23 @@
+version: "3.6"
+
+
+services:
+  pg-auth-server:
+    network_mode: host
+    build:
+      context: ./Authentication/
+      dockerfile: Dockerfile
+    container_name: pg-auth-server
+    image: programmer-ground/auth-server
+    ports:
+      - 8080:8080
+
+  pg-backend-server:
+    network_mode: host
+    build:
+      context: ./Backend/
+      dockerfile: Dockerfile
+    container_name: pg-backend-server
+    image: programmer-ground/backend-server
+    ports:
+      - 9000:9000
