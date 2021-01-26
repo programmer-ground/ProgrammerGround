@@ -1,21 +1,19 @@
 package com.pg.programmerground.service;
 
-import com.pg.programmerground.config.MyUserDetails;
+import com.pg.programmerground.auth.MyUserDetails;
 import com.pg.programmerground.dto.GithubRepoDto;
 import com.pg.programmerground.dto.GithubTotalDto;
 import com.pg.programmerground.dto.GithubUserInfoDto;
-import com.pg.programmerground.entity.Oauth2AuthorizedClient;
-import com.pg.programmerground.jwt.JwtAuthenticationToken;
+import com.pg.programmerground.domain.Oauth2AuthorizedClient;
+import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponents;
@@ -44,7 +42,7 @@ public class GithubApiService {
         HttpHeaders header = new HttpHeaders();
         JwtAuthenticationToken authentication = (JwtAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
         MyUserDetails userDetails = (MyUserDetails) authentication.getPrincipal();
-        Oauth2AuthorizedClient oauthUser = userService.findUserById(userDetails.getId()).getOauth2AuthorizedClient();
+        Oauth2AuthorizedClient oauthUser = userService.findOAuthMemberById(userDetails.getId()).getOauth2AuthorizedClient();
         header.set("Authorization", "token " + oauthUser.getAccessTokenValue());
         GithubUserInfoDto userInfo = getGithubUserInfo(header);
 

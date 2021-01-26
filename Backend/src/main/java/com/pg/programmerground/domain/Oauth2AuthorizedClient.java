@@ -1,6 +1,8 @@
-package com.pg.programmerground.entity;
+package com.pg.programmerground.domain;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -8,9 +10,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import java.util.Date;
 
-@Entity(name = "oauth2_authorized_client")
 @Getter
-public class Oauth2AuthorizedClient {
+@Entity(name = "oauth2_authorized_client")
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class Oauth2AuthorizedClient extends BaseTimeEntity {
+
     @Id
     @Column(name = "principal_name")
     private Long id;
@@ -39,9 +43,6 @@ public class Oauth2AuthorizedClient {
     @Column(name = "refresh_token_issued_at", columnDefinition = "TIMESTAMP DEFAULT NULL")
     private Date refreshTokenIssuedAt;
 
-    @Column(name = "created_at", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    private Date createdAt;
-
     @OneToOne(mappedBy = "oauth2AuthorizedClient")
-    private User user;
+    private OAuthMember member;
 }

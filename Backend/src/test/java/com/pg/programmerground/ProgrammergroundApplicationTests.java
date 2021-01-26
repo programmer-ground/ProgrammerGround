@@ -1,13 +1,10 @@
 package com.pg.programmerground;
 
-import com.pg.programmerground.jwt.JwtTokenProvider;
-import com.pg.programmerground.util.RestApiManager;
+import com.pg.programmerground.auth.jwt.JwtTokenProvider;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.security.servlet.SecurityAutoConfiguration;
 import org.springframework.boot.test.context.SpringBootTest;
-import static org.junit.jupiter.api.Assertions.*;
+
 import java.util.ArrayList;
 import java.util.List;
 

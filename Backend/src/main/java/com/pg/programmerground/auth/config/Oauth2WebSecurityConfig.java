@@ -1,17 +1,16 @@
-package com.pg.programmerground.config;
+package com.pg.programmerground.auth.config;
 
-import com.pg.programmerground.jwt.JwtAuthenticationProvider;
-import com.pg.programmerground.jwt.JwtTokenProvider;
+import com.pg.programmerground.auth.MyOAuth2ProcessingFilter;
+import com.pg.programmerground.auth.jwt.JwtAuthenticationProvider;
+import com.pg.programmerground.auth.jwt.JwtTokenProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
-
 
 @EnableWebSecurity
 public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {

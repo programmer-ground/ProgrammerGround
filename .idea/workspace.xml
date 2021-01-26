@@ -2,21 +2,32 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="02fb248c-9a09-4031-8873-7e9cc3776598" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/BaseTimeEntity.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/MemberExtraInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/OAuthMember.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/Postition.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/Skill.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/github/GithubRepositoryInfo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/github/MemberGithubInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/domain/BaseTimeEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/domain/GithubRepositoryInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/domain/MemberExtraInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/domain/MemberGithubInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/domain/OAuthMember.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/domain/Postition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/domain/Skill.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/model/MemberExtraInfoRepository.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/model/MemberGithubInfoRepository.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/config/Oauth2WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/config/Oauth2WebSecurityConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/entity/Oauth2AuthorizedClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/github/Oauth2AuthorizedClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/entity/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/repository/Oauth2AuthorizedClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/repository/Oauth2AuthorizedClientRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/repository/OAuthMemberRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/service/OAuthMemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/AuthApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/AuthApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/config/MyOAuth2ProcessingFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/MyOAuth2ProcessingFilter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/config/MyUserDetails.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/MyUserDetails.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/config/Oauth2WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/auth/config/Oauth2WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/entity/Oauth2AuthorizedClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/entity/Oauth2AuthorizedClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/domain/Oauth2AuthorizedClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/jwt/JwtAuthenticationProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/auth/jwt/JwtAuthenticationProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/jwt/JwtAuthenticationToken.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/auth/jwt/JwtAuthenticationToken.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/jwt/JwtTokenProvider.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/auth/jwt/JwtTokenProvider.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/repository/Oauth2AuthorizedClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/model/Oauth2AuthorizedClientRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/model/OAuthMemberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/service/GithubApiService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/service/GithubApiService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/main/java/com/pg/programmerground/service/UserService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Backend/src/test/java/com/pg/programmerground/ProgrammergroundApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/Backend/src/test/java/com/pg/programmerground/ProgrammergroundApplicationTests.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />

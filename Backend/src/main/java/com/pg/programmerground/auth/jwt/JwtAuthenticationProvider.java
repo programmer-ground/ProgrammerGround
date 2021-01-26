@@ -1,13 +1,9 @@
-package com.pg.programmerground.jwt;
+package com.pg.programmerground.auth.jwt;
 
-import com.pg.programmerground.config.MyUserDetails;
 import com.pg.programmerground.exception.JwtExpiredException;
 import com.pg.programmerground.exception.UserNotFoundException;
-import com.pg.programmerground.repository.UserRepository;
 import com.pg.programmerground.service.UserService;
-import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
-import io.jsonwebtoken.JwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
