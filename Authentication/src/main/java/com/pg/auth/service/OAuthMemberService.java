@@ -1,12 +1,12 @@
 package com.pg.auth.service;
 
-import com.pg.auth.entity.Oauth2AuthorizedClient;
-import com.pg.auth.entity.User;
+import com.pg.auth.domain.OAuthMember;
+import com.pg.auth.domain.github.Oauth2AuthorizedClient;
 import com.pg.auth.exception.InvalidCodeException;
 import com.pg.auth.exception.OAuthLoginException;
 import com.pg.auth.jwtConfig.JwtTokenProvider;
 import com.pg.auth.repository.Oauth2AuthorizedClientRepository;
-import com.pg.auth.repository.UserRepository;
+import com.pg.auth.repository.OAuthMemberRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
@@ -20,16 +20,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class UserService {
+public class OAuthMemberService {
     private static final int VALID_CODE = 0;
-    private final UserRepository userRepository;
+    private final OAuthMemberRepository oAuthMemberRepository;
     private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
     private final JwtTokenProvider jwtTokenProvider;
 
 
     //jdbc service에서 load하여 가져온다.
-    public UserService(UserRepository userRepository, Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider) {
-        this.userRepository = userRepository;
+    public OAuthMemberService(OAuthMemberRepository oAuthMemberRepository, Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider) {
+        this.oAuthMemberRepository = oAuthMemberRepository;
         this.oauth2AuthorizedClientRepository = oauth2AuthorizedClientRepository;
         this.jwtTokenProvider = jwtTokenProvider;
     }
@@ -38,17 +38,17 @@ public class UserService {
      * OAuth 인증 성공후 유저 생성
      */
     @Transactional
-    public User createUser(OAuth2AuthenticationToken authentication) throws OAuthLoginException {
+    public OAuthMember createUser(OAuth2AuthenticationToken authentication) throws OAuthLoginException {
         Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
                 .findById(Long.valueOf(authentication.getName())).orElseThrow(() -> new OAuthLoginException("OAuth 로그인 에러"));
 
         UUID loginCode = UUID.randomUUID();
-        User user = userRepository.findByOauth2AuthorizedClient(authorizedClient);
+        OAuthMember oAuthMember = oAuthMemberRepository.findByOauth2AuthorizedClient(authorizedClient);
 
         //신규 유저 체크
-        if (user == null) {
+        if (oAuthMember == null) {
             OAuth2User oAuth2User = authentication.getPrincipal();
-            User createUser = User.builder()
+            OAuthMember createOAuthMember = OAuthMember.builder()
                     .userName(oAuth2User.getAttribute("name"))
                     .oauth2AuthorizedClient(authorizedClient)
                     .OAuthName(oAuth2User.getAttribute("login"))
@@ -57,10 +57,10 @@ public class UserService {
                             map(GrantedAuthority::getAuthority).
                             collect(Collectors.joining(",")))
                     .build();
-            return userRepository.save(createUser);
+            return oAuthMemberRepository.save(createOAuthMember);
         }
-        user.setCode(loginCode.toString());
-        return user;
+        oAuthMember.setCode(loginCode.toString());
+        return oAuthMember;
     }
 
     /**
@@ -68,30 +68,30 @@ public class UserService {
      */
     @Transactional
     public String jwtLogin(String code, Long id) throws InvalidCodeException {
-        User user = userRepository.findByCodeAndOauth2AuthorizedClient(code, oauth2AuthorizedClientRepository.findById(id).orElseThrow());
-        if (user == null || !validateLoginCode(code, user)) {
+        OAuthMember oAuthMember = oAuthMemberRepository.findByCodeAndOauth2AuthorizedClient(code, oauth2AuthorizedClientRepository.findById(id).orElseThrow());
+        if (oAuthMember == null || !validateLoginCode(code, oAuthMember)) {
             throw new InvalidCodeException("Login Code 에러");
         }
-        user.setCode("");   //인증 완료후 code는 지워준다.
-        return createJwtToken(user);
+        oAuthMember.setCode("");   //인증 완료후 code는 지워준다.
+        return createJwtToken(oAuthMember);
     }
 
     /**
      * JWT 토큰 생성
      */
-    public String createJwtToken(User user) {
+    public String createJwtToken(OAuthMember oAuthMember) {
         return jwtTokenProvider.createToken(
-                user.getOauth2AuthorizedClient().getAccessTokenValue(),
-                user.getOauth2AuthorizedClient().getId(),
-                user.getId(),
-                Arrays.stream(user.getRole().split(",")).map(String::new).collect(Collectors.toList()));
+                oAuthMember.getOauth2AuthorizedClient().getAccessTokenValue(),
+                oAuthMember.getOauth2AuthorizedClient().getId(),
+                oAuthMember.getId(),
+                Arrays.stream(oAuthMember.getRole().split(",")).map(String::new).collect(Collectors.toList()));
     }
 
     /**
      * 코드 검증
      */
-    private boolean validateLoginCode(String code, User user) {
+    private boolean validateLoginCode(String code, OAuthMember oAuthMember) {
         //유저 id와 code를 비교하여 판별
-        return UUID.fromString(code).compareTo(UUID.fromString(user.getCode())) == VALID_CODE;
+        return UUID.fromString(code).compareTo(UUID.fromString(oAuthMember.getCode())) == VALID_CODE;
     }
 }

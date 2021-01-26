@@ -1,7 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="02fb248c-9a09-4031-8873-7e9cc3776598" name="Default Changelist" comment="" />
+    <list default="true" id="02fb248c-9a09-4031-8873-7e9cc3776598" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/BaseTimeEntity.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/MemberExtraInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/OAuthMember.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/Postition.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/Skill.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/github/GithubRepositoryInfo.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/github/MemberGithubInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/config/Oauth2WebSecurityConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/config/Oauth2WebSecurityConfig.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/controller/AuthController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/entity/Oauth2AuthorizedClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/domain/github/Oauth2AuthorizedClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/entity/User.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/repository/Oauth2AuthorizedClientRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/repository/Oauth2AuthorizedClientRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/repository/OAuthMemberRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/service/UserService.java" beforeDir="false" afterPath="$PROJECT_DIR$/Authentication/src/main/java/com/pg/auth/service/OAuthMemberService.java" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />

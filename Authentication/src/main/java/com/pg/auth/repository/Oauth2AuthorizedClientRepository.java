@@ -1,6 +1,6 @@
 package com.pg.auth.repository;
 
-import com.pg.auth.entity.Oauth2AuthorizedClient;
+import com.pg.auth.domain.github.Oauth2AuthorizedClient;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
