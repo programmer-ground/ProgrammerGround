@@ -19,7 +19,7 @@ export const LoginContainer = styled.div`
 	height: 400px;
 	border: 1px solid black;
 	background-color: #fff;
-	margin: 200px auto;
+	margin: 100px auto;
 	@media screen and (max-width: 840px) and (min-width: 480px) {
 		height: 330px;
 		width: 300px;
@@ -64,7 +64,10 @@ export const LoginButton = styled.button`
 	&:hover {
 		cursor: pointer;
 	}
-
+	& a {
+		color: #fff;
+		text-decoration: none;
+	}
 	@media screen and (max-width: 840px) and (min-width: 480px) {
 		height: 60px;
 		width: 340px;
