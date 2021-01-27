@@ -19,14 +19,15 @@ const LoginPage = () => {
 
 		if (Object.keys(params).length > 0) {
 			const getToken = async () => {
-				const v: any = await axios.post(
-					'http://localhost:8080/jwtLogin',
-					params,
-					options,
-				);
+				const v: any = await axios
+					.post('http://localhost:8080/jwtLogin', params, options)
+					.then((response) => {
+						console.log(response.headers.token);
+					});
 				setToken(v);
 			};
 			getToken();
+			console.log(token);
 		}
 	}, []);
 	return (

@@ -39,7 +39,9 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody JwtLoginDTO jwtLoginDTO,
                                         HttpServletRequest request) throws InvalidCodeException {
         HttpHeaders headers = new HttpHeaders();
+
         headers.set("token", userService.jwtLogin(jwtLoginDTO.getCode(), jwtLoginDTO.getOauthId()));
+        headers.set("Access-Control-Expose-Headers", "token");
         //headers.set("Access-Control-Allow-Origin", "*");
 
         return ResponseEntity.ok().headers(headers).body("login");
