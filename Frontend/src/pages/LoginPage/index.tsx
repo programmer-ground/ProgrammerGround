@@ -4,7 +4,6 @@ import axios from 'axios';
 import * as StyledComponent from './style';
 
 const LoginPage = () => {
-	const [token, setToken] = useState([]);
 	useEffect(() => {
 		const local = location.search;
 		const params = queryString.parse(local);
@@ -22,12 +21,10 @@ const LoginPage = () => {
 				const v: any = await axios
 					.post('http://localhost:8080/jwtLogin', params, options)
 					.then((response) => {
-						console.log(response.headers.token);
+						localStorage.setItem('token', response.headers.token);
 					});
-				setToken(v);
 			};
 			getToken();
-			console.log(token);
 		}
 	}, []);
 	return (
