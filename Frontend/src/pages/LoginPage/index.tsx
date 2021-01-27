@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from 'react';
+import React, { useLayoutEffect } from 'react';
 import queryString from 'query-string';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 import * as StyledComponent from './style';
 
 const LoginPage = () => {
-	useEffect(() => {
+	const history = useHistory();
+	useLayoutEffect(() => {
 		const local = location.search;
 		const params = queryString.parse(local);
 		const options = {
@@ -25,6 +27,7 @@ const LoginPage = () => {
 					});
 			};
 			getToken();
+			history.push('/playground');
 		}
 	}, []);
 	return (
