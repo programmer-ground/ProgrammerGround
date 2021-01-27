@@ -1,7 +1,7 @@
 package com.pg.programmerground.auth.jwt;
 
 import com.pg.programmerground.exception.JwtExpiredException;
-import com.pg.programmerground.exception.UserNotFoundException;
+import com.pg.programmerground.exception.OAuthMemberNotFoundException;
 import com.pg.programmerground.service.UserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
@@ -33,8 +33,8 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
             return new JwtAuthenticationToken(userDetails, jwtToken, userDetails.getAuthorities());
         } catch (ExpiredJwtException e) {
             throw new JwtExpiredException("토큰 만료");
-        } catch (UserNotFoundException userNotFoundException) {
-            throw userNotFoundException;
+        } catch (OAuthMemberNotFoundException OAuthMemberNotFoundException) {
+            throw OAuthMemberNotFoundException;
         } catch (Exception e) {
             throw new BadCredentialsException("토큰 불량");
         }

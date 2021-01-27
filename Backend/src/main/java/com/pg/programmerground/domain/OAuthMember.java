@@ -60,7 +60,7 @@ public class OAuthMember extends BaseTimeEntity {
     this.oauth2AuthorizedClient = oauth2AuthorizedClient;
   }
 
-  public void updateMemberGithubInfo(MemberGithubInfo memberGithubInfo) {
+  /*public void updateMemberGithubInfo(MemberGithubInfo memberGithubInfo) {
     Assert.notNull(memberGithubInfo, "memberGithubInfo must not be null");
     this.memberGithubInfo = memberGithubInfo;
   }
@@ -71,6 +71,6 @@ public class OAuthMember extends BaseTimeEntity {
 
   public void updateLoginCode(String loginCode) {
     this.code = loginCode;
-  }
+  }*/
 
 }
