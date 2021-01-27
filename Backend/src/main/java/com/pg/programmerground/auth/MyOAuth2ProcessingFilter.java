@@ -1,21 +1,17 @@
-package com.pg.programmerground.config;
+package com.pg.programmerground.auth;
 
 import com.pg.programmerground.exception.JwtExpiredException;
 import com.pg.programmerground.exception.JwtNotFoundException;
-import com.pg.programmerground.exception.UserNotFoundException;
-import com.pg.programmerground.jwt.JwtAuthenticationToken;
-import com.pg.programmerground.jwt.JwtTokenProvider;
-import io.jsonwebtoken.ExpiredJwtException;
+import com.pg.programmerground.exception.OAuthMemberNotFoundException;
+import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
+import com.pg.programmerground.auth.jwt.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.oauth2.client.web.OAuth2LoginAuthenticationFilter;
 import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
-import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.servlet.FilterChain;
@@ -71,8 +67,8 @@ public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFi
             response.getWriter().println("Invalid JWT Token");
         } else if (failed instanceof JwtNotFoundException) {
             response.getWriter().println("Not Found JWT Token");
-        } else if (failed instanceof UserNotFoundException) {
-            response.getWriter().println("Not Found User");
+        } else if (failed instanceof OAuthMemberNotFoundException) {
+            response.getWriter().println("Not Found OAuth Member");
         }
     }
 }

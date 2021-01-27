@@ -1,5 +1,6 @@
 package com.pg.auth;
 
+import com.pg.auth.domain.github.GithubRepositoryInfo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -8,7 +9,6 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class AuthApplication {
-
     public static void main(String[] args) {
         SpringApplication.run(AuthApplication.class, args);
     }

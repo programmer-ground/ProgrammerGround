@@ -1,8 +1,6 @@
-package com.pg.programmerground.config;
+package com.pg.programmerground.auth;
 
-import com.pg.programmerground.entity.User;
-import lombok.Getter;
-import org.springframework.security.config.core.GrantedAuthorityDefaults;
+import com.pg.programmerground.domain.OAuthMember;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,18 +11,18 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
-    private Long id;
-    private Long oAuthId;
-    private String oAuthName;
-    private String userName;
-    private List<? extends GrantedAuthority> authorities;
+    private final Long id;
+    private final Long oAuthId;
+    private final String oAuthName;
+    private final String userName;
+    private final List<? extends GrantedAuthority> authorities;
 
-    public MyUserDetails(User user) {
-        this.id = user.getId();
-        this.oAuthId = user.getOauth2AuthorizedClient().getId();
-        this.oAuthName = user.getOAuthName();
-        this.userName = user.getUserName();
-        this.authorities = makeAuthority(user.getRole());
+    public MyUserDetails(OAuthMember oAuthMember) {
+        this.id = oAuthMember.getId();
+        this.oAuthId = oAuthMember.getOauth2AuthorizedClient().getId();
+        this.oAuthName = oAuthMember.getOAuthName();
+        this.userName = oAuthMember.getUserName();
+        this.authorities = makeAuthority(oAuthMember.getRole());
     }
     public long getId() {
         return this.id;
