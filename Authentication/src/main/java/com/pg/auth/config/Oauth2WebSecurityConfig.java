@@ -1,13 +1,12 @@
 package com.pg.auth.config;
 
 
-import com.pg.auth.entity.User;
+import com.pg.auth.domain.OAuthMember;
 import com.pg.auth.exception.OAuthLoginException;
-import com.pg.auth.service.UserService;
+import com.pg.auth.service.OAuthMemberService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -28,7 +27,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JdbcOperations operations;
     private final ClientRegistrationRepository registrationRepository;
-    private final UserService userService;
+    private final OAuthMemberService OAuthMemberService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -70,7 +69,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler successHandler() {
         return (request, response, authentication) -> {
             try {
-                User user = userService.createUser((OAuth2AuthenticationToken) authentication);
+                OAuthMember user = OAuthMemberService.createUser((OAuth2AuthenticationToken) authentication);
                 log.info(request.getRemoteAddr());
                 //추후 프론트 URL 써야함
                 //response.sendRedirect("/loginCode?code=" + user.getCode() + "&oauthId=" + user.getOauth2AuthorizedClient().getId()); //code와 id를 같이 보내준다.

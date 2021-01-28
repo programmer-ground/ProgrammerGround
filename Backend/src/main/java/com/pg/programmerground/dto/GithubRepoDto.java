@@ -11,22 +11,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GithubRepoDto {
-    private Long id;
-    private String name;
-
-    @JsonProperty("full_name")
-    private String fullName;
-
-    @JsonProperty("html_url")
-    private String htmlUrl;
-
-    private String description;
-
-    @JsonProperty("languages_url")
-    private String languagesUrl;
-
-    @JsonProperty("commits_url")
-    private String commitsUrl;
-
+    @JsonProperty(value = "stargazers_count")
+    private String stargazersCount;
     private String language;
 }

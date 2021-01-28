@@ -23,9 +23,16 @@
       └── 📁tests
       └── 📁utils
   ```
-
+## Page
+- LoginPage 
+  <img width="1464" alt="스크린샷 2021-01-28 오후 10 03 23" src="https://user-images.githubusercontent.com/22065725/106142810-4b959080-61b5-11eb-8765-caa947cfdd77.png">
+  
 ## How to Install?
-
+- Frontend 
+```
+   cd Frontend
+   npm install
+```
 ### Pre Requirement
 - docker
 - docker-compose

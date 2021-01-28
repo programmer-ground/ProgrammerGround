@@ -19,6 +19,9 @@ public class GithubTotalDto {
     @JsonProperty("total_commit")
     private Integer totalCommit;
 
+    @JsonProperty("total_pull_request")
+    private Integer totalPullRequest;
+
     @JsonProperty("total_star")
     private Long totalStar;
 

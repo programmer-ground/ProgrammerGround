@@ -2,24 +2,21 @@ package com.pg.auth.controller;
 
 import com.pg.auth.JwtLoginDTO;
 import com.pg.auth.exception.InvalidCodeException;
-import com.pg.auth.exception.OAuthLoginException;
-import com.pg.auth.service.UserService;
+import com.pg.auth.service.OAuthMemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.Arrays;
 
 @RestController
 @RequiredArgsConstructor
 @Slf4j
 public class AuthController {
-    private final UserService userService;
+    private final OAuthMemberService oAuthMemberService;
 
     //http://localhost:8080/oauth2/authorization/github
     /**
@@ -39,9 +36,8 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody JwtLoginDTO jwtLoginDTO,
                                         HttpServletRequest request) throws InvalidCodeException {
         HttpHeaders headers = new HttpHeaders();
-        headers.set("token", userService.jwtLogin(jwtLoginDTO.getCode(), jwtLoginDTO.getOauthId()));
-        //headers.set("Access-Control-Allow-Origin", "*");
-
+        headers.set("token", oAuthMemberService.jwtLogin(jwtLoginDTO.getCode(), jwtLoginDTO.getOauthId()));
+        headers.set("Access-Control-Expose-Headers", "token");
         return ResponseEntity.ok().headers(headers).body("login");
     }
 

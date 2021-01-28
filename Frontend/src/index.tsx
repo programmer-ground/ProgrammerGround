@@ -3,6 +3,6 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
 import ReactDOM from 'react-dom';
-import LoginPage from '@src/pages/LoginPage';
+import App from './App';
 
-ReactDOM.render(<LoginPage />, document.getElementById('root'));
+ReactDOM.render(<App />, document.getElementById('root'));
