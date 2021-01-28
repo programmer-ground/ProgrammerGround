@@ -15,7 +15,7 @@ build: check
 
 build-linux: check
 	@mkdir -p build
-	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build ${LDFLAGS} -o build/${TARGET}-linux-amd64 ${SRCS}
+	CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o build/${TARGET}-linux-amd64 ${SRCS}
 
 test:
 	go test ./...

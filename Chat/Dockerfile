@@ -11,7 +11,8 @@ FROM scratch
 
 WORKDIR /
 COPY --from=build /src/build/PGChatServer-linux-amd64 /PGChatServer
+COPY --from=build /src/static .
 
 EXPOSE 8080
 
-CMD ["/PGChatServer", "--stdout"]
+CMD ["/PGChatServer"]
