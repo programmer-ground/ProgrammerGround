@@ -56,7 +56,7 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-public class  GithubUserInfoDto {
+public class GithubOAuthInfoDto {
 
     private String login;
 

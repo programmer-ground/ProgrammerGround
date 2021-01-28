@@ -25,6 +25,8 @@ public class MemberGithubInfo {
 
   private int pullRequestCnt;
 
+  private int repositoryCnt;
+
   private int startCnt;
 
   @OneToMany(mappedBy = "memberGithubInfo", cascade = CascadeType.ALL, orphanRemoval = true)

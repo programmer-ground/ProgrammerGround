@@ -1,9 +1,9 @@
-package com.pg.programmerground.auth.controller;
+package com.pg.programmerground.controller;
 
+import com.pg.programmerground.controller.response.ApiResponse;
 import com.pg.programmerground.dto.GithubTotalDto;
-import com.pg.programmerground.service.GithubApiService;
+import com.pg.programmerground.service.GithubRestService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 public class AuthController {
-    private final GithubApiService githubApiService;
+    private final GithubRestService githubRestService;
 
     /*@GetMapping("/auth")
     public Authentication auth(Authentication authentication) {
@@ -24,8 +24,8 @@ public class AuthController {
     }*/
 
     @GetMapping("/userInfo")
-    public ResponseEntity<GithubTotalDto> userInfo() throws Exception {
-        return new ResponseEntity<>(githubApiService.getGithubTotalData(), HttpStatus.OK);
+    public ResponseEntity<ApiResponse<GithubTotalDto>> userInfo() throws Exception {
+        return ResponseEntity.ok().body(new ApiResponse<>(githubRestService.getGithubTotalData()));
     }
 
 
