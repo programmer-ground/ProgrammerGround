@@ -2,7 +2,7 @@ package com.pg.programmerground.auth.jwt;
 
 import com.pg.programmerground.exception.JwtExpiredException;
 import com.pg.programmerground.exception.OAuthMemberNotFoundException;
-import com.pg.programmerground.service.UserService;
+import com.pg.programmerground.service.OAuthMemberService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -19,7 +19,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final JwtTokenProvider jwtTokenProvider;
-    private final UserService userService;
+    private final OAuthMemberService OAuthMemberService;
 
     /**
      * 실질적인 인증 로직 처리
@@ -29,7 +29,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         try {
             String jwtToken = (String) authentication.getCredentials();
             Long OAuthId = jwtTokenProvider.getOAuthId(jwtToken);
-            UserDetails userDetails = userService.loadUserByOAuthId(OAuthId);
+            UserDetails userDetails = OAuthMemberService.loadUserByOAuthId(OAuthId);
             return new JwtAuthenticationToken(userDetails, jwtToken, userDetails.getAuthorities());
         } catch (ExpiredJwtException e) {
             throw new JwtExpiredException("토큰 만료");

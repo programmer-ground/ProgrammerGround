@@ -1,17 +1,11 @@
 package com.pg.programmerground.util;
 
-import com.pg.programmerground.dto.GithubRepoDto;
-import com.pg.programmerground.dto.GithubUserInfoDto;
+import com.pg.programmerground.dto.GithubOAuthInfoDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
-import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
-
-import java.util.*;
 
 public class RestApiManager {
     private HttpComponentsClientHttpRequestFactory factory;
@@ -33,10 +27,10 @@ public class RestApiManager {
      * Github Api에서 받아온 유저 정보
      * Dto 참고
      */
-    public GithubUserInfoDto getGithubUserInfo(String oAuthAccessToken) {
+    public GithubOAuthInfoDto getGithubUserInfo(String oAuthAccessToken) {
         HttpHeaders headers = new HttpHeaders();
         header.add("Authorization", "token " + oAuthAccessToken);
-        return restTemplate.exchange("https://api.github.com/users", HttpMethod.GET, new HttpEntity<>(headers), GithubUserInfoDto.class).getBody();
+        return restTemplate.exchange("https://api.github.com/users", HttpMethod.GET, new HttpEntity<>(headers), GithubOAuthInfoDto.class).getBody();
     }
 
 
