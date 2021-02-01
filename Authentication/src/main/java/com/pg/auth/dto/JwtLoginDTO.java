@@ -1,4 +1,4 @@
-package com.pg.auth;
+package com.pg.auth.dto;
 
 import lombok.Data;
 import lombok.Getter;

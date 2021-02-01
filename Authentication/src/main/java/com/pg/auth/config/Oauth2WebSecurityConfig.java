@@ -21,6 +21,8 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+import java.util.concurrent.ExecutionException;
+
 @RequiredArgsConstructor
 @EnableWebSecurity
 @Slf4j
@@ -71,10 +73,9 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
             try {
                 OAuthMember user = OAuthMemberService.createUser((OAuth2AuthenticationToken) authentication);
                 log.info(request.getRemoteAddr());
-                //추후 프론트 URL 써야함
                 //response.sendRedirect("/loginCode?code=" + user.getCode() + "&oauthId=" + user.getOauth2AuthorizedClient().getId()); //code와 id를 같이 보내준다.
                 response.sendRedirect("http://localhost:3000?code=" + user.getCode() + "&oauthId=" + user.getOauth2AuthorizedClient().getId()); //code와 id를 같이 보내준다.
-            } catch (OAuthLoginException loginException) {
+            } catch (OAuthLoginException | InterruptedException | ExecutionException loginException) {
                 //프론트 오류로 넘길 예정
                 response.sendRedirect("/err");
             }

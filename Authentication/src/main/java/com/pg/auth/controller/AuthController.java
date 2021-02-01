@@ -1,6 +1,6 @@
 package com.pg.auth.controller;
 
-import com.pg.auth.JwtLoginDTO;
+import com.pg.auth.dto.JwtLoginDTO;
 import com.pg.auth.exception.InvalidCodeException;
 import com.pg.auth.service.OAuthMemberService;
 import lombok.RequiredArgsConstructor;

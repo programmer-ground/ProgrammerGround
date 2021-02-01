@@ -1,9 +1,7 @@
 package com.pg.auth.domain.github;
 
 import com.pg.auth.domain.OAuthMember;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -12,6 +10,8 @@ import java.util.List;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Builder
+@AllArgsConstructor
 public class MemberGithubInfo {
 
   @Id

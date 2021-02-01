@@ -1,24 +1,5 @@
 package com.pg.programmerground.service;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-
-import javax.persistence.EntityNotFoundException;
-
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
-import org.springframework.web.util.UriComponents;
-import org.springframework.web.util.UriComponentsBuilder;
-
 import com.pg.programmerground.auth.MyUserDetails;
 import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.domain.OAuthMember;
@@ -28,7 +9,6 @@ import com.pg.programmerground.dto.GithubRepoDto;
 import com.pg.programmerground.dto.GithubTotalDto;
 import com.pg.programmerground.model.OAuthMemberRepository;
 import com.pg.programmerground.model.Oauth2AuthorizedClientRepository;
-
 import lombok.RequiredArgsConstructor;
 
 @Service
