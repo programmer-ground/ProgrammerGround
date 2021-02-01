@@ -10,6 +10,18 @@ import com.pg.programmerground.dto.GithubTotalDto;
 import com.pg.programmerground.model.OAuthMemberRepository;
 import com.pg.programmerground.model.Oauth2AuthorizedClientRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.*;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -73,7 +85,7 @@ public class OAuthMemberService {
 	/**
 	 * Github Commit 개수 가져오기
 	 */
-	private Integer getOAuthCommitCount(String owner, HttpHeaders header) {
+	public Integer getOAuthCommitCount(String owner, HttpHeaders header) {
 		header.set("Accept", "application/vnd.github.cloak-preview");
 		return (Integer)githubRestService.rest(
 			"https://api.github.com/search/commits?q=author:" + owner, HttpMethod.GET, header, Map.class)
