@@ -21,3 +21,16 @@ services:
     image: programmer-ground/backend-server
     ports:
       - 9000:9000
+  
+  pg-front:
+   network_mode: host
+   build:
+    context: ./Frontend/
+    dockerfile: Dockerfile
+   container_name: pg-front
+   image: programmer-ground/front
+   ports:
+     - 3000:80
+   depends_on: 
+     - pg-auth-server
+     - pg-backend-server
