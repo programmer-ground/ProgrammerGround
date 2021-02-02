@@ -1,6 +1,6 @@
 package com.pg.programmerground.domain.github;
 
-import com.pg.auth.domain.OAuthMember;
+import com.pg.programmerground.domain.OAuthMember;
 import lombok.*;
 
 import javax.persistence.*;
@@ -32,7 +32,7 @@ public class MemberGithubInfo {
 
 
   @OneToMany(mappedBy = "memberGithubInfo", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<GithubRepositoryInfo> githubRepositories = new ArrayList<>();
+  private final List<GithubRepositoryInfo> githubRepositories = new ArrayList<>();
 
   public void addGithubRepository(GithubRepositoryInfo githubRepositoryInfo) {
       githubRepositories.add(githubRepositoryInfo);

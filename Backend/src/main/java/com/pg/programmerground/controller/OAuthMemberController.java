@@ -1,7 +1,6 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.controller.response.ApiResponse;
-import com.pg.programmerground.dto.GithubTotalDto;
 import com.pg.programmerground.service.OAuthMemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -16,8 +15,8 @@ public class OAuthMemberController {
     private final OAuthMemberService oAuthMemberService;
 
     @GetMapping("/member")
-    public ResponseEntity<ApiResponse<GithubTotalDto>> memberInfo() throws Exception {
-        return ResponseEntity.ok().body(new ApiResponse<>(oAuthMemberService.getGithubTotal()));
+    public ResponseEntity<ApiResponse<String>> memberInfo() {
+        return ResponseEntity.ok().body(new ApiResponse<>("awd"));
     }
 
 }
