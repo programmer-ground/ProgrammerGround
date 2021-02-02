@@ -36,7 +36,7 @@ public class OAuthMember extends BaseTimeEntity {
   @JoinColumn(name = "OAUTH_ID")
   private Oauth2AuthorizedClient oauth2AuthorizedClient;
 
-  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "MEMBER_GITHUB_INFO_ID")
   private MemberGithubInfo memberGithubInfo;
 

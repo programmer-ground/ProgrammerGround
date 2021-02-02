@@ -16,6 +16,12 @@ public class MyUserDetails implements UserDetails {
     private final String oAuthName;
     private final String userName;
     private final List<? extends GrantedAuthority> authorities;
+    private final int commitCnt;
+    private final int pullRequestCnt;
+    private final String mostLanguage;
+    private final int repositoryCnt;
+    private final String githubPage;
+    private final String profileImg;
 
     public MyUserDetails(OAuthMember oAuthMember) {
         this.id = oAuthMember.getId();
@@ -23,6 +29,12 @@ public class MyUserDetails implements UserDetails {
         this.oAuthName = oAuthMember.getOAuthName();
         this.userName = oAuthMember.getUserName();
         this.authorities = makeAuthority(oAuthMember.getRole());
+        this.commitCnt = oAuthMember.getMemberGithubInfo().getCommitCnt();
+        this.pullRequestCnt = oAuthMember.getMemberGithubInfo().getPullRequestCnt();
+        this.mostLanguage = oAuthMember.getMemberGithubInfo().getMostLanguage();
+        this.repositoryCnt = oAuthMember.getMemberGithubInfo().getRepositoryCnt();
+        this.githubPage = oAuthMember.getMemberGithubInfo().getGithubPage();
+        this.profileImg = oAuthMember.getMemberGithubInfo().getProfileImg();
     }
     public long getId() {
         return this.id;
@@ -39,6 +51,18 @@ public class MyUserDetails implements UserDetails {
     public String getUserName() {
         return this.userName;
     }
+
+    public int getCommitCnt() { return commitCnt; }
+
+    public int getPullRequestCnt() { return pullRequestCnt; }
+
+    public String getMostLanguage() { return mostLanguage; }
+
+    public int getRepositoryCnt() { return repositoryCnt; }
+
+    public String getGithubPage() { return githubPage; }
+
+    public String getProfileImg() { return profileImg; }
 
     private List<? extends GrantedAuthority> makeAuthority(String role) {
         // "," 구분해서 리스트에 넣음
