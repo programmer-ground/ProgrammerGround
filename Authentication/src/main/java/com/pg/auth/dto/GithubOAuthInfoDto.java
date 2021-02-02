@@ -58,21 +58,16 @@ import lombok.Setter;
 @Setter
 public class GithubOAuthInfoDto {
 
+    //github 이름
     private String login;
 
+    //프로필 이미지
     @JsonProperty("avatar_url")
     private String avatarUrl;
 
-    private String url;
-
+    //github 유저 페이지
     @JsonProperty("html_url")
     private String htmlUrl;
 
-    @JsonProperty("public_repos")
-    private Long publicRepos;
-
-    private int followers;
-
-    private int following;
 }
 

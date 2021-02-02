@@ -21,22 +21,19 @@ public class MemberGithubInfo {
 
   @OneToOne(mappedBy = "memberGithubInfo", cascade = CascadeType.ALL, orphanRemoval = true)
   private OAuthMember member;
-
   private int commitCnt;
-
   private int pullRequestCnt;
-
   private String mostLanguage;
-
+  private String githubPage;
   private int repositoryCnt;
+  private String profileImg;
 
-
-  @OneToMany(mappedBy = "memberGithubInfo", cascade = CascadeType.ALL, orphanRemoval = true)
+  /*@OneToMany(mappedBy = "memberGithubInfo", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<GithubRepositoryInfo> githubRepositories = new ArrayList<>();
 
   public void addGithubRepository(GithubRepositoryInfo githubRepositoryInfo) {
       githubRepositories.add(githubRepositoryInfo);
-  }
+  }*/
 
   public void updateInfo(MemberGithubInfo memberGithubInfo) {
     this.commitCnt = memberGithubInfo.commitCnt;

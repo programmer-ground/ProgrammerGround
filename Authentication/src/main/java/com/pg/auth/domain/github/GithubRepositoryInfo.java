@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor
 @Builder
@@ -19,9 +19,9 @@ public class GithubRepositoryInfo {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+/*  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "MEMBER_GITHUB_INFO_ID")
-  private MemberGithubInfo memberGithubInfo;
+  private MemberGithubInfo memberGithubInfo;*/
 
   private Long repositoryId;
 

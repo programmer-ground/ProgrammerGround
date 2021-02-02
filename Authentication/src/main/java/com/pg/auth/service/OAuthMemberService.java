@@ -131,6 +131,10 @@ public class OAuthMemberService {
         voidCompletableFuture.get();
 
         return MemberGithubInfo.builder()
+                //프로필 이미지
+                .profileImg(oauthInfo.getAvatarUrl())
+                //github 유저 페이지
+                .githubPage(oauthInfo.getHtmlUrl())
                 //Commit 개수
                 .commitCnt(commitFuture.join())
                 //Repo 개수
