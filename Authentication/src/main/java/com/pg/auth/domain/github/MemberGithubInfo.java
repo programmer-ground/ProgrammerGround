@@ -26,14 +26,22 @@ public class MemberGithubInfo {
 
   private int pullRequestCnt;
 
+  private String mostLanguage;
+
   private int repositoryCnt;
 
-  private int startCnt;
 
   @OneToMany(mappedBy = "memberGithubInfo", cascade = CascadeType.ALL, orphanRemoval = true)
-  private final List<GithubRepositoryInfo> githubRepositories = new ArrayList<>();
+  private List<GithubRepositoryInfo> githubRepositories = new ArrayList<>();
 
   public void addGithubRepository(GithubRepositoryInfo githubRepositoryInfo) {
       githubRepositories.add(githubRepositoryInfo);
+  }
+
+  public void updateInfo(MemberGithubInfo memberGithubInfo) {
+    this.commitCnt = memberGithubInfo.commitCnt;
+    this.pullRequestCnt = memberGithubInfo.pullRequestCnt;
+    this.mostLanguage = memberGithubInfo.mostLanguage;
+    this.repositoryCnt = memberGithubInfo.repositoryCnt;
   }
 }

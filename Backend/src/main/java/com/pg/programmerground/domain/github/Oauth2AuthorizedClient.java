@@ -1,5 +1,7 @@
-package com.pg.programmerground.domain;
+package com.pg.programmerground.domain.github;
 
+import com.pg.auth.domain.BaseTimeEntity;
+import com.pg.auth.domain.OAuthMember;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

@@ -1,15 +1,15 @@
 package com.pg.programmerground.domain;
 
+import com.pg.programmerground.domain.github.MemberGithubInfo;
+import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
 import io.jsonwebtoken.lang.Assert;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OAuthMember extends BaseTimeEntity {
   @Id
@@ -59,17 +59,17 @@ public class OAuthMember extends BaseTimeEntity {
     this.oauth2AuthorizedClient = oauth2AuthorizedClient;
   }
 
-  /*public void updateMemberGithubInfo(MemberGithubInfo memberGithubInfo) {
+  public void updateMemberGithubInfo(MemberGithubInfo memberGithubInfo) {
     Assert.notNull(memberGithubInfo, "memberGithubInfo must not be null");
-    this.memberGithubInfo = memberGithubInfo;
-  }
-
-  public void updateLoginCode(UUID loginCode) {
-    this.code = loginCode.toString();
+    if(this.memberGithubInfo == null) {
+      this.memberGithubInfo = memberGithubInfo;
+    } else {
+      this.memberGithubInfo.updateInfo(memberGithubInfo);
+    }
   }
 
   public void updateLoginCode(String loginCode) {
     this.code = loginCode;
-  }*/
+  }
 
 }

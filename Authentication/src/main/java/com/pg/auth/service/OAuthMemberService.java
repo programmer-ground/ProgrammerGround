@@ -1,12 +1,12 @@
 package com.pg.auth.service;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import com.pg.auth.domain.OAuthMember;
-import com.pg.auth.domain.github.GithubRepositoryInfo;
 import com.pg.auth.domain.github.MemberGithubInfo;
 import com.pg.auth.domain.github.Oauth2AuthorizedClient;
 import com.pg.auth.dto.GithubOAuthInfoDto;
 import com.pg.auth.dto.GithubRepoDto;
-import com.pg.auth.dto.GithubTotalDto;
+import com.pg.auth.dto.RepositoryItem;
 import com.pg.auth.exception.InvalidCodeException;
 import com.pg.auth.exception.OAuthLoginException;
 import com.pg.auth.jwtConfig.JwtTokenProvider;
@@ -52,9 +52,10 @@ public class OAuthMemberService {
     public OAuthMember createUser(OAuth2AuthenticationToken authentication) throws OAuthLoginException, ExecutionException, InterruptedException {
         Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
                 .findById(Long.valueOf(authentication.getName())).orElseThrow(() -> new OAuthLoginException("OAuth 로그인 에러"));
-
-        UUID loginCode = UUID.randomUUID();
+        MemberGithubInfo memberGithubInfo;
         OAuthMember oAuthMember = oAuthMemberRepository.findByOauth2AuthorizedClient(authorizedClient);
+        //로그인 코드 생성
+        UUID loginCode = UUID.randomUUID();
 
         //신규 유저 체크
         if (oAuthMember == null) {
@@ -70,9 +71,8 @@ public class OAuthMemberService {
                     .build();
             oAuthMemberRepository.save(oAuthMember);
         }
-        MemberGithubInfo memberGithubInfo = getGithubInfo(oAuthMember);
-        oAuthMember.setMemberGithubInfo(memberGithubInfo);
-        oAuthMember.setCode(loginCode.toString());
+        oAuthMember.updateMemberGithubInfo(getGithubInfo(oAuthMember));
+        oAuthMember.updateLoginCode(loginCode.toString());
         return oAuthMember;
     }
 
@@ -124,31 +124,23 @@ public class OAuthMemberService {
         GithubOAuthInfoDto oauthInfo = githubRestService.rest(
                 "https://api.github.com/user", HttpMethod.GET, header, GithubOAuthInfoDto.class);
 
-        CompletableFuture<List<GithubRepoDto
-                >> repoFuture = CompletableFuture.supplyAsync(
-                () -> getOAuthMemberRepository(oauthInfo.getLogin(), header));
-        CompletableFuture<Integer> pullRequstFuture = CompletableFuture.supplyAsync(
-                () -> getOAuthPullRequestCount(oauthInfo.getLogin(), header));
-        CompletableFuture<Integer> commitFuture = CompletableFuture.supplyAsync(
-                () -> getOAuthCommitCount(oauthInfo.getLogin(), header));
-
-        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.allOf(
-                repoFuture, pullRequstFuture, commitFuture);
-
+        CompletableFuture<GithubRepoDto> repoFuture = CompletableFuture.supplyAsync(() -> getOAuthMemberRepository(oauthInfo.getLogin(), header));
+        CompletableFuture<Integer> pullRequestFuture = CompletableFuture.supplyAsync(() -> getOAuthPullRequestCount(oauthInfo.getLogin(), header));
+        CompletableFuture<Integer> commitFuture = CompletableFuture.supplyAsync(() -> getOAuthCommitCount(oauthInfo.getLogin(), header));
+        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.allOf(repoFuture, pullRequestFuture, commitFuture);
         voidCompletableFuture.get();
 
         return MemberGithubInfo.builder()
+                //Commit 개수
                 .commitCnt(commitFuture.join())
-                .pullRequestCnt(pullRequstFuture.join())
+                //Repo 개수
+                .repositoryCnt(repoFuture.join().getTotalCount())
+                //Issue, PR 수
+                .pullRequestCnt(pullRequestFuture.join())
+                //가장 많이 사용한 언어 수
+                .mostLanguage(getMostLanguage(repoFuture.join().getRepositoryItems()))
                 .member(oAuthMember)
                 .build();
-        /*return GithubTotalDto.builder()
-                .owner(oauthInfo.getLogin())
-                .totalRepo(oauthInfo.getPublicRepos())
-                .totalPullRequest(pullRequstFuture.join())
-                .totalCommit(commitFuture.join())
-                .totalLanguage(getMostLanguage(repoFuture.join()))
-                .build();*/
     }
 
     /**
@@ -167,30 +159,28 @@ public class OAuthMemberService {
     private Integer getOAuthPullRequestCount(String owner, HttpHeaders header) {
         header.set("Accept", "application/vnd.github.v3+json");
         return (Integer)githubRestService.rest(
-                "https://api.github.com/search/issues?q=" + owner, HttpMethod.GET, header, Map.class).get("total_count");
+                "https://api.github.com/search/issues?q=" + owner, HttpMethod.GET, header, Map.class)
+                .get("total_count");
     }
 
     /**
      * 사용자 Repo 리스트
      * 어디에 사용할지 까먹음
      */
-    private List<GithubRepoDto> getOAuthMemberRepository(String owner, HttpHeaders header) {
-        int pageNum = 1;
+    private GithubRepoDto getOAuthMemberRepository(String owner, HttpHeaders header) {
         UriComponents uri = UriComponentsBuilder
-                .fromHttpUrl("https://api.github.com/users/" + owner + "/repos" + "?per_page=100&page=" + pageNum)
-                .build();
-        return Arrays.asList(githubRestService.rest(uri.toString(), HttpMethod.GET, header, GithubRepoDto[].class));
+                .fromHttpUrl("https://api.github.com/search/repositories?q=user:" + owner + " fork:true").build();
+        return githubRestService.rest(uri.toString(), HttpMethod.GET, header, GithubRepoDto.class);
     }
 
     /**
      * Repository에서 가장 많이 사용된 상위 3개 언어 추출
      */
-    private List<String> getMostLanguage(List<GithubRepoDto> githubRepoDto) {
+    private String getMostLanguage(List<RepositoryItem> repositoryItems) {
         Map<String, Integer> languageMap = new HashMap<>();
         //데이터중에서 프로그래밍 언어만 추출
-        githubRepoDto.stream().filter(Objects::nonNull)
-                .filter(dto -> !dto.equals("null"))
-                .map(GithubRepoDto::getLanguage)
+        repositoryItems.stream().filter(repositoryItem -> repositoryItem.getLanguage() != null)
+                .map(RepositoryItem::getLanguage)
                 .forEach(s -> {
                     if (languageMap.containsKey(s)) {
                         languageMap.put(s, languageMap.get(s) + 1);
@@ -212,6 +202,6 @@ public class OAuthMemberService {
                 break;
             }
         }
-        return languageList;
+        return String.join(",", languageList);
     }
 }

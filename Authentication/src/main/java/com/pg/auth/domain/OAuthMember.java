@@ -62,11 +62,11 @@ public class OAuthMember extends BaseTimeEntity {
 
   public void updateMemberGithubInfo(MemberGithubInfo memberGithubInfo) {
     Assert.notNull(memberGithubInfo, "memberGithubInfo must not be null");
-    this.memberGithubInfo = memberGithubInfo;
-  }
-
-  public void updateLoginCode(UUID loginCode) {
-    this.code = loginCode.toString();
+    if(this.memberGithubInfo == null) {
+      this.memberGithubInfo = memberGithubInfo;
+    } else {
+      this.memberGithubInfo.updateInfo(memberGithubInfo);
+    }
   }
 
   public void updateLoginCode(String loginCode) {
