@@ -1,8 +1,10 @@
-package com.pg.programmerground.dto;
+package com.pg.auth.dto;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+
+import java.util.List;
 
 /**
  * Github 유저의 각 Repository 정보를 담을 dto
@@ -11,9 +13,9 @@ import lombok.Setter;
 @Getter
 @Setter
 public class GithubRepoDto {
-    @JsonProperty(value = "stargazers_count")
-    private String stargazersCount;
-    private String language;
     @JsonProperty(value = "total_count")
     private Integer totalCount;
+
+    @JsonProperty(value = "items")
+    List<RepositoryItem> repositoryItems;
 }

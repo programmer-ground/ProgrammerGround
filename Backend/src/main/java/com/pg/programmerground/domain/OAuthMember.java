@@ -1,16 +1,15 @@
 package com.pg.programmerground.domain;
 
+import com.pg.programmerground.domain.github.MemberGithubInfo;
+import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
 import io.jsonwebtoken.lang.Assert;
-import lombok.AccessLevel;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OAuthMember extends BaseTimeEntity {
   @Id
@@ -33,15 +32,15 @@ public class OAuthMember extends BaseTimeEntity {
   @Column(name = "CODE")
   private String code;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "OAUTH_ID")
   private Oauth2AuthorizedClient oauth2AuthorizedClient;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(cascade = CascadeType.ALL)
   @JoinColumn(name = "MEMBER_GITHUB_INFO_ID")
   private MemberGithubInfo memberGithubInfo;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "MEMBER_EXTRA_INFO_ID")
   private MemberExtraInfo memberExtraInfo;
 
@@ -60,17 +59,17 @@ public class OAuthMember extends BaseTimeEntity {
     this.oauth2AuthorizedClient = oauth2AuthorizedClient;
   }
 
-  /*public void updateMemberGithubInfo(MemberGithubInfo memberGithubInfo) {
+  public void updateMemberGithubInfo(MemberGithubInfo memberGithubInfo) {
     Assert.notNull(memberGithubInfo, "memberGithubInfo must not be null");
-    this.memberGithubInfo = memberGithubInfo;
-  }
-
-  public void updateLoginCode(UUID loginCode) {
-    this.code = loginCode.toString();
+    if(this.memberGithubInfo == null) {
+      this.memberGithubInfo = memberGithubInfo;
+    } else {
+      this.memberGithubInfo.updateInfo(memberGithubInfo);
+    }
   }
 
   public void updateLoginCode(String loginCode) {
     this.code = loginCode;
-  }*/
+  }
 
 }

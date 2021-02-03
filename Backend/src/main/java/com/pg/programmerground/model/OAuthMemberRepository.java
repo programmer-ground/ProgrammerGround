@@ -1,7 +1,7 @@
 package com.pg.programmerground.model;
 
 import com.pg.programmerground.domain.OAuthMember;
-import com.pg.programmerground.domain.Oauth2AuthorizedClient;
+import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

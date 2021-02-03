@@ -33,15 +33,15 @@ public class OAuthMember extends BaseTimeEntity {
   @Column(name = "CODE")
   private String code;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "OAUTH_ID")
   private Oauth2AuthorizedClient oauth2AuthorizedClient;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "MEMBER_GITHUB_INFO_ID")
   private MemberGithubInfo memberGithubInfo;
 
-  @OneToOne(fetch = FetchType.LAZY)
+  @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "MEMBER_EXTRA_INFO_ID")
   private MemberExtraInfo memberExtraInfo;
 
@@ -62,11 +62,11 @@ public class OAuthMember extends BaseTimeEntity {
 
   public void updateMemberGithubInfo(MemberGithubInfo memberGithubInfo) {
     Assert.notNull(memberGithubInfo, "memberGithubInfo must not be null");
-    this.memberGithubInfo = memberGithubInfo;
-  }
-
-  public void updateLoginCode(UUID loginCode) {
-    this.code = loginCode.toString();
+    if(this.memberGithubInfo == null) {
+      this.memberGithubInfo = memberGithubInfo;
+    } else {
+      this.memberGithubInfo.updateInfo(memberGithubInfo);
+    }
   }
 
   public void updateLoginCode(String loginCode) {

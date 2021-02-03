@@ -2,12 +2,16 @@ package com.pg.auth.domain.github;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AccessLevel;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+//@Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class GithubRepositoryInfo {
 
   @Id
@@ -15,9 +19,9 @@ public class GithubRepositoryInfo {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
+/*  @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "MEMBER_GITHUB_INFO_ID")
-  private MemberGithubInfo memberGithubInfo;
+  private MemberGithubInfo memberGithubInfo;*/
 
   private Long repositoryId;
 
