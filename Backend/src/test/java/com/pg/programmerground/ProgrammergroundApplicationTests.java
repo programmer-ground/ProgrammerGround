@@ -1,7 +1,7 @@
 package com.pg.programmerground;
 
 import com.pg.programmerground.dto.GithubRepoDto;
-import com.pg.programmerground.service.OAuthMemberService;
+import com.pg.programmerground.service.OAuthUserService;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +18,7 @@ import java.util.concurrent.ExecutionException;
 class ProgrammergroundApplicationTests {
 
     @Autowired
-    OAuthMemberService service;
+    OAuthUserService service;
 
     @Test
     void contextLoads() throws InterruptedException, JSONException, ExecutionException {

@@ -1,9 +1,9 @@
 package com.pg.auth.config;
 
 
-import com.pg.auth.domain.OAuthMember;
+import com.pg.auth.domain.OAuthUser;
 import com.pg.auth.exception.OAuthLoginException;
-import com.pg.auth.service.OAuthMemberService;
+import com.pg.auth.service.OAuthUserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
@@ -29,7 +29,7 @@ import java.util.concurrent.ExecutionException;
 public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private final JdbcOperations operations;
     private final ClientRegistrationRepository registrationRepository;
-    private final OAuthMemberService OAuthMemberService;
+    private final OAuthUserService OAuthUserService;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -71,7 +71,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     private AuthenticationSuccessHandler successHandler() {
         return (request, response, authentication) -> {
             try {
-                OAuthMember user = OAuthMemberService.createUser((OAuth2AuthenticationToken) authentication);
+                OAuthUser user = OAuthUserService.createUser((OAuth2AuthenticationToken) authentication);
                 log.info(request.getRemoteAddr());
                 //response.sendRedirect("/loginCode?code=" + user.getCode() + "&oauthId=" + user.getOauth2AuthorizedClient().getId()); //code와 id를 같이 보내준다.
                 response.sendRedirect("http://localhost:3000?code=" + user.getCode() + "&oauthId=" + user.getOauth2AuthorizedClient().getId()); //code와 id를 같이 보내준다.

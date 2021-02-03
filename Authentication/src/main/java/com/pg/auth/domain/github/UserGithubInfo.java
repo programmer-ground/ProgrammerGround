@@ -1,6 +1,6 @@
-package com.pg.programmerground.domain.github;
+package com.pg.auth.domain.github;
 
-import com.pg.programmerground.domain.OAuthMember;
+import com.pg.auth.domain.OAuthUser;
 import lombok.*;
 
 import javax.persistence.*;
@@ -10,15 +10,15 @@ import javax.persistence.*;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Builder
 @AllArgsConstructor
-public class MemberGithubInfo {
+public class UserGithubInfo {
 
   @Id
-  @Column(name = "MEMBER_GITHUB_INFO_ID")
+  @Column(name = "USER_GITHUB_INFO_ID")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne(mappedBy = "memberGithubInfo", cascade = CascadeType.ALL, orphanRemoval = true)
-  private OAuthMember member;
+  @OneToOne(mappedBy = "userGithubInfo", cascade = CascadeType.ALL, orphanRemoval = true)
+  private OAuthUser user;
 
   private int commitCnt;
   private int pullRequestCnt;
@@ -34,10 +34,10 @@ public class MemberGithubInfo {
       githubRepositories.add(githubRepositoryInfo);
   }*/
 
-  public void updateInfo(MemberGithubInfo memberGithubInfo) {
-    this.commitCnt = memberGithubInfo.commitCnt;
-    this.pullRequestCnt = memberGithubInfo.pullRequestCnt;
-    this.mostLanguage = memberGithubInfo.mostLanguage;
-    this.repositoryCnt = memberGithubInfo.repositoryCnt;
+  public void updateInfo(UserGithubInfo userGithubInfo) {
+    this.commitCnt = userGithubInfo.commitCnt;
+    this.pullRequestCnt = userGithubInfo.pullRequestCnt;
+    this.mostLanguage = userGithubInfo.mostLanguage;
+    this.repositoryCnt = userGithubInfo.repositoryCnt;
   }
 }

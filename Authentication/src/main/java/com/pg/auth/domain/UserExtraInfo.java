@@ -1,4 +1,4 @@
-package com.pg.programmerground.domain;
+package com.pg.auth.domain;
 
 import lombok.AccessLevel;
 import lombok.Getter;
@@ -9,14 +9,14 @@ import javax.persistence.*;
 @Entity
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class MemberExtraInfo {
+public class UserExtraInfo {
 
   @Id
-  @Column(name = "MEMBER_EXTRA_INFO_ID")
+  @Column(name = "USER_EXTRA_INFO_ID")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @OneToOne(mappedBy = "memberExtraInfo", cascade = CascadeType.ALL, orphanRemoval = true)
-  private OAuthMember member;
+  @OneToOne(mappedBy = "userExtraInfo", cascade = CascadeType.ALL, orphanRemoval = true)
+  private OAuthUser user;
 
 }

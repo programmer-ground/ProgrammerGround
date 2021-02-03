@@ -1,8 +1,7 @@
 package com.pg.auth.service;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.pg.auth.domain.OAuthMember;
-import com.pg.auth.domain.github.MemberGithubInfo;
+import com.pg.auth.domain.OAuthUser;
+import com.pg.auth.domain.github.UserGithubInfo;
 import com.pg.auth.domain.github.Oauth2AuthorizedClient;
 import com.pg.auth.dto.GithubOAuthInfoDto;
 import com.pg.auth.dto.GithubRepoDto;
@@ -11,7 +10,7 @@ import com.pg.auth.exception.InvalidCodeException;
 import com.pg.auth.exception.OAuthLoginException;
 import com.pg.auth.jwtConfig.JwtTokenProvider;
 import com.pg.auth.repository.Oauth2AuthorizedClientRepository;
-import com.pg.auth.repository.OAuthMemberRepository;
+import com.pg.auth.repository.OAuthUserRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -30,16 +29,16 @@ import java.util.stream.Collectors;
 
 @Service
 @Slf4j
-public class OAuthMemberService {
+public class OAuthUserService {
     private static final int VALID_CODE = 0;
-    private final OAuthMemberRepository oAuthMemberRepository;
+    private final OAuthUserRepository oAuthUserRepository;
     private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
     private final JwtTokenProvider jwtTokenProvider;
     private final GithubRestService githubRestService;
 
     //jdbc service에서 load하여 가져온다.
-    public OAuthMemberService(OAuthMemberRepository oAuthMemberRepository, Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider, GithubRestService githubRestService) {
-        this.oAuthMemberRepository = oAuthMemberRepository;
+    public OAuthUserService(OAuthUserRepository oAuthUserRepository, Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider, GithubRestService githubRestService) {
+        this.oAuthUserRepository = oAuthUserRepository;
         this.oauth2AuthorizedClientRepository = oauth2AuthorizedClientRepository;
         this.jwtTokenProvider = jwtTokenProvider;
         this.githubRestService = githubRestService;
@@ -49,18 +48,18 @@ public class OAuthMemberService {
      * OAuth 인증 성공후 유저 생성
      */
     @Transactional
-    public OAuthMember createUser(OAuth2AuthenticationToken authentication) throws OAuthLoginException, ExecutionException, InterruptedException {
+    public OAuthUser createUser(OAuth2AuthenticationToken authentication) throws OAuthLoginException, ExecutionException, InterruptedException {
         Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
                 .findById(Long.valueOf(authentication.getName())).orElseThrow(() -> new OAuthLoginException("OAuth 로그인 에러"));
-        MemberGithubInfo memberGithubInfo;
-        OAuthMember oAuthMember = oAuthMemberRepository.findByOauth2AuthorizedClient(authorizedClient);
+        UserGithubInfo userGithubInfo;
+        OAuthUser oAuthUser = oAuthUserRepository.findByOauth2AuthorizedClient(authorizedClient);
         //로그인 코드 생성
         UUID loginCode = UUID.randomUUID();
 
         //신규 유저 체크
-        if (oAuthMember == null) {
+        if (oAuthUser == null) {
             OAuth2User oAuth2User = authentication.getPrincipal();
-            oAuthMember = OAuthMember.builder()
+            oAuthUser = OAuthUser.builder()
                     .userName(oAuth2User.getAttribute("name"))
                     .oauth2AuthorizedClient(authorizedClient)
                     .OAuthName(oAuth2User.getAttribute("login"))
@@ -69,11 +68,11 @@ public class OAuthMemberService {
                             map(GrantedAuthority::getAuthority).
                             collect(Collectors.joining(",")))
                     .build();
-            oAuthMemberRepository.save(oAuthMember);
+            oAuthUserRepository.save(oAuthUser);
         }
-        oAuthMember.updateMemberGithubInfo(getGithubInfo(oAuthMember));
-        oAuthMember.updateLoginCode(loginCode.toString());
-        return oAuthMember;
+        oAuthUser.updateUserGithubInfo(getGithubInfo(oAuthUser));
+        oAuthUser.updateLoginCode(loginCode.toString());
+        return oAuthUser;
     }
 
     /**
@@ -81,31 +80,31 @@ public class OAuthMemberService {
      */
     @Transactional
     public String jwtLogin(String code, Long id) throws InvalidCodeException {
-        OAuthMember oAuthMember = oAuthMemberRepository.findByCodeAndOauth2AuthorizedClient(code, oauth2AuthorizedClientRepository.findById(id).orElseThrow());
-        if (oAuthMember == null || !validateLoginCode(code, oAuthMember)) {
+        OAuthUser oAuthUser = oAuthUserRepository.findByCodeAndOauth2AuthorizedClient(code, oauth2AuthorizedClientRepository.findById(id).orElseThrow());
+        if (oAuthUser == null || !validateLoginCode(code, oAuthUser)) {
             throw new InvalidCodeException("Login Code 에러");
         }
-        oAuthMember.setCode("");   //인증 완료후 code는 지워준다.
-        return createJwtToken(oAuthMember);
+        oAuthUser.setCode("");   //인증 완료후 code는 지워준다.
+        return createJwtToken(oAuthUser);
     }
 
     /**
      * JWT 토큰 생성
      */
-    public String createJwtToken(OAuthMember oAuthMember) {
+    public String createJwtToken(OAuthUser oAuthUser) {
         return jwtTokenProvider.createToken(
-                oAuthMember.getOauth2AuthorizedClient().getAccessTokenValue(),
-                oAuthMember.getOauth2AuthorizedClient().getId(),
-                oAuthMember.getId(),
-                Arrays.stream(oAuthMember.getRole().split(",")).map(String::new).collect(Collectors.toList()));
+                oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
+                oAuthUser.getOauth2AuthorizedClient().getId(),
+                oAuthUser.getId(),
+                Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));
     }
 
     /**
      * 코드 검증
      */
-    private boolean validateLoginCode(String code, OAuthMember oAuthMember) {
+    private boolean validateLoginCode(String code, OAuthUser oAuthUser) {
         //유저 id와 code를 비교하여 판별
-        return UUID.fromString(code).compareTo(UUID.fromString(oAuthMember.getCode())) == VALID_CODE;
+        return UUID.fromString(code).compareTo(UUID.fromString(oAuthUser.getCode())) == VALID_CODE;
     }
 
     /**
@@ -114,23 +113,23 @@ public class OAuthMemberService {
      * commit
      * star
      */
-    public MemberGithubInfo getGithubInfo(OAuthMember oAuthMember) throws ExecutionException, InterruptedException {
+    public UserGithubInfo getGithubInfo(OAuthUser oAuthUser) throws ExecutionException, InterruptedException {
         //Spring Seucrity UserDetails 객체 가져오기
 
-        Oauth2AuthorizedClient oauthUser = oAuthMember.getOauth2AuthorizedClient();
+        Oauth2AuthorizedClient oauthUser = oAuthUser.getOauth2AuthorizedClient();
 
         HttpHeaders header = new HttpHeaders();
         header.set("Authorization", "bearer " + oauthUser.getAccessTokenValue());
         GithubOAuthInfoDto oauthInfo = githubRestService.rest(
                 "https://api.github.com/user", HttpMethod.GET, header, GithubOAuthInfoDto.class);
 
-        CompletableFuture<GithubRepoDto> repoFuture = CompletableFuture.supplyAsync(() -> getOAuthMemberRepository(oauthInfo.getLogin(), header));
+        CompletableFuture<GithubRepoDto> repoFuture = CompletableFuture.supplyAsync(() -> getOAuthUserRepository(oauthInfo.getLogin(), header));
         CompletableFuture<Integer> pullRequestFuture = CompletableFuture.supplyAsync(() -> getOAuthPullRequestCount(oauthInfo.getLogin(), header));
         CompletableFuture<Integer> commitFuture = CompletableFuture.supplyAsync(() -> getOAuthCommitCount(oauthInfo.getLogin(), header));
         CompletableFuture<Void> voidCompletableFuture = CompletableFuture.allOf(repoFuture, pullRequestFuture, commitFuture);
         voidCompletableFuture.get();
 
-        return MemberGithubInfo.builder()
+        return UserGithubInfo.builder()
                 //프로필 이미지
                 .profileImg(oauthInfo.getAvatarUrl())
                 //github 유저 페이지
@@ -143,7 +142,7 @@ public class OAuthMemberService {
                 .pullRequestCnt(pullRequestFuture.join())
                 //가장 많이 사용한 언어 수
                 .mostLanguage(getMostLanguage(repoFuture.join().getRepositoryItems()))
-                .member(oAuthMember)
+                .user(oAuthUser)
                 .build();
     }
 
@@ -171,7 +170,7 @@ public class OAuthMemberService {
      * 사용자 Repo 리스트
      * 어디에 사용할지 까먹음
      */
-    private GithubRepoDto getOAuthMemberRepository(String owner, HttpHeaders header) {
+    private GithubRepoDto getOAuthUserRepository(String owner, HttpHeaders header) {
         UriComponents uri = UriComponentsBuilder
                 .fromHttpUrl("https://api.github.com/search/repositories?q=user:" + owner + " fork:true").build();
         return githubRestService.rest(uri.toString(), HttpMethod.GET, header, GithubRepoDto.class);

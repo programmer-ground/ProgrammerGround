@@ -1,7 +1,7 @@
 package com.pg.programmerground.domain.github;
 
 import com.pg.programmerground.domain.BaseTimeEntity;
-import com.pg.programmerground.domain.OAuthMember;
+import com.pg.programmerground.domain.OAuthUser;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -46,5 +46,5 @@ public class Oauth2AuthorizedClient extends BaseTimeEntity {
     private Date refreshTokenIssuedAt;
 
     @OneToOne(mappedBy = "oauth2AuthorizedClient")
-    private OAuthMember member;
+    private OAuthUser user;
 }

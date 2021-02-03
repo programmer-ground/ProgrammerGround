@@ -1,20 +1,19 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.controller.response.ApiResponse;
-import com.pg.programmerground.dto.MemberInfoDto;
-import com.pg.programmerground.service.OAuthMemberService;
+import com.pg.programmerground.dto.UserInfoDto;
+import com.pg.programmerground.service.OAuthUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/oauth-member")
-public class OAuthMemberController {
-    private final OAuthMemberService oAuthMemberService;
+@RequestMapping("/oauth-user")
+public class OAuthUserController {
+    private final OAuthUserService oAuthUserService;
 
     /**
      * 사용자 정보 가져오기
@@ -27,9 +26,9 @@ public class OAuthMemberController {
      * "role": "ROLE_USER,SCOPE_read:user",
      * "oauthName": "CJW23"
      */
-    @GetMapping("/member")
-    public ResponseEntity<ApiResponse<MemberInfoDto>> memberInfo(Authentication authentication) {
-        return ResponseEntity.ok().body(new ApiResponse<>(oAuthMemberService.getMemberInfo()));
+    @GetMapping("")
+    public ResponseEntity<ApiResponse<UserInfoDto>> userInfo() {
+        return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.getUserInfo()));
     }
 
 }

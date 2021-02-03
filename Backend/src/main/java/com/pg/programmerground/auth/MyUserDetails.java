@@ -1,6 +1,6 @@
 package com.pg.programmerground.auth;
 
-import com.pg.programmerground.domain.OAuthMember;
+import com.pg.programmerground.domain.OAuthUser;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -23,18 +23,18 @@ public class MyUserDetails implements UserDetails {
     private final String githubPage;
     private final String profileImg;
 
-    public MyUserDetails(OAuthMember oAuthMember) {
-        this.id = oAuthMember.getId();
-        this.oAuthId = oAuthMember.getOauth2AuthorizedClient().getId();
-        this.oAuthName = oAuthMember.getOAuthName();
-        this.userName = oAuthMember.getUserName();
-        this.authorities = makeAuthority(oAuthMember.getRole());
-        this.commitCnt = oAuthMember.getMemberGithubInfo().getCommitCnt();
-        this.pullRequestCnt = oAuthMember.getMemberGithubInfo().getPullRequestCnt();
-        this.mostLanguage = oAuthMember.getMemberGithubInfo().getMostLanguage();
-        this.repositoryCnt = oAuthMember.getMemberGithubInfo().getRepositoryCnt();
-        this.githubPage = oAuthMember.getMemberGithubInfo().getGithubPage();
-        this.profileImg = oAuthMember.getMemberGithubInfo().getProfileImg();
+    public MyUserDetails(OAuthUser oAuthUser) {
+        this.id = oAuthUser.getId();
+        this.oAuthId = oAuthUser.getOauth2AuthorizedClient().getId();
+        this.oAuthName = oAuthUser.getOAuthName();
+        this.userName = oAuthUser.getUserName();
+        this.authorities = makeAuthority(oAuthUser.getRole());
+        this.commitCnt = oAuthUser.getUserGithubInfo().getCommitCnt();
+        this.pullRequestCnt = oAuthUser.getUserGithubInfo().getPullRequestCnt();
+        this.mostLanguage = oAuthUser.getUserGithubInfo().getMostLanguage();
+        this.repositoryCnt = oAuthUser.getUserGithubInfo().getRepositoryCnt();
+        this.githubPage = oAuthUser.getUserGithubInfo().getGithubPage();
+        this.profileImg = oAuthUser.getUserGithubInfo().getProfileImg();
     }
     public long getId() {
         return this.id;
