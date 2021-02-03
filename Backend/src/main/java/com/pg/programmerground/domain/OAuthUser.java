@@ -1,11 +1,13 @@
 package com.pg.programmerground.domain;
 
-import com.pg.programmerground.domain.github.UserGithubInfo;
 import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
+import com.pg.programmerground.domain.github.UserGithubInfo;
 import io.jsonwebtoken.lang.Assert;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -43,6 +45,15 @@ public class OAuthUser extends BaseTimeEntity {
   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "USER_EXTRA_INFO_ID")
   private UserExtraInfo userExtraInfo;
+
+  @OneToMany(mappedBy = "leaderUser", cascade = CascadeType.ALL)
+  private List<Playground> leaderPlaygrounds = new ArrayList<>();
+
+  @ManyToMany
+  @JoinTable(name = "PLAYGROUND_MEMBER_USER",
+          joinColumns = @JoinColumn(name = "USER_ID"),
+          inverseJoinColumns = @JoinColumn(name = "PLAYGROUND_ID"))
+  private List<Playground> playgrounds = new ArrayList<>();
 
   @Builder
   public OAuthUser(String userName, String OAuthName, String Role, String code, Oauth2AuthorizedClient oauth2AuthorizedClient) {
