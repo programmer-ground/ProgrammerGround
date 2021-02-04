@@ -17,6 +17,8 @@ spring:
 
   jpa:
     hibernate:
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
       ddl-auto: create
 
     properties:
@@ -55,6 +57,8 @@ spring:
     hibernate:
       #옵션 create, update, none, create-drop, validate 있음
       ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         format_sql: true
