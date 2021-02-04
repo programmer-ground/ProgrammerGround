@@ -1,5 +1,5 @@
 # Build Stage
-FROM gradle:6.8-jdk8 AS builder
+FROM gradle:6.8.0-jdk11 AS builder
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
 
@@ -19,7 +19,7 @@ RUN gradle clean build -x test --console=plain
 RUN java -Djarmode=layertools -jar build/libs/*.jar extract
 
 # Runtime Stage
-FROM openjdk:8-jre-alpine
+FROM openjdk:11-jre-slim
 # Working Directory
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
