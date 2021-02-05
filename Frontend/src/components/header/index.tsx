@@ -3,9 +3,12 @@ import * as StyledComponent from './style';
 
 const Header = () => {
 	return (
-		<StyledComponent.HeaderContainer>
-			<StyledComponent.HeaderImg />
-		</StyledComponent.HeaderContainer>
+		<>
+			<StyledComponent.GlobalStyle />
+			<StyledComponent.HeaderContainer>
+				<StyledComponent.HeaderImg />
+			</StyledComponent.HeaderContainer>
+		</>
 	);
 };
 
