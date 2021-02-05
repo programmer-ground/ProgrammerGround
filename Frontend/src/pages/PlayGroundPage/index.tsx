@@ -1,6 +1,7 @@
 import React from 'react';
+import Header from '@src/components/header';
 
 const PlayGroundPage = () => {
-	return <div>hi</div>;
+	return <Header />;
 };
 export default PlayGroundPage;
