@@ -2,8 +2,8 @@ package com.pg.programmerground.exception;
 
 import org.springframework.security.core.AuthenticationException;
 
-public class OAuthMemberNotFoundException extends AuthenticationException {
-    public OAuthMemberNotFoundException(String msg) {
+public class OAuthUserNotFoundException extends AuthenticationException {
+    public OAuthUserNotFoundException(String msg) {
         super(msg);
     }
 }

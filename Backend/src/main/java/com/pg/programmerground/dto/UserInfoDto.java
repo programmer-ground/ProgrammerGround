@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Getter
 @Builder
 @AllArgsConstructor
-public class MemberInfoDto {
+public class UserInfoDto {
     private final String OAuthName;
     private final int commitCnt;
     private final int pullRequestCnt;
@@ -21,8 +21,8 @@ public class MemberInfoDto {
     private final String profileImg;
     private final String role;
 
-    public static MemberInfoDto of(MyUserDetails userDetails) {
-        return MemberInfoDto.builder()
+    public static UserInfoDto of(MyUserDetails userDetails) {
+        return UserInfoDto.builder()
                 .OAuthName(userDetails.getOAuthName())
                 .role(userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
                 .commitCnt(userDetails.getCommitCnt())

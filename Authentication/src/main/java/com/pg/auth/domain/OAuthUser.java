@@ -1,7 +1,7 @@
-package com.pg.programmerground.domain;
+package com.pg.auth.domain;
 
-import com.pg.programmerground.domain.github.MemberGithubInfo;
-import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
+import com.pg.auth.domain.github.UserGithubInfo;
+import com.pg.auth.domain.github.Oauth2AuthorizedClient;
 import io.jsonwebtoken.lang.Assert;
 import lombok.*;
 
@@ -11,14 +11,14 @@ import javax.persistence.*;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OAuthMember extends BaseTimeEntity {
+public class OAuthUser extends BaseTimeEntity {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "MEMBER_ID")
+  @Column(name = "USER_ID")
   private Long id;
 
   //사용자 이름
-  @Column(name = "MEMBER_NAME")
+  @Column(name = "USER_NAME")
   private String userName;
 
   //Github 닉네임
@@ -37,15 +37,15 @@ public class OAuthMember extends BaseTimeEntity {
   private Oauth2AuthorizedClient oauth2AuthorizedClient;
 
   @OneToOne(cascade = CascadeType.ALL)
-  @JoinColumn(name = "MEMBER_GITHUB_INFO_ID")
-  private MemberGithubInfo memberGithubInfo;
+  @JoinColumn(name = "USER_GITHUB_INFO_ID")
+  private UserGithubInfo userGithubInfo;
 
   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-  @JoinColumn(name = "MEMBER_EXTRA_INFO_ID")
-  private MemberExtraInfo memberExtraInfo;
+  @JoinColumn(name = "USER_EXTRA_INFO_ID")
+  private UserExtraInfo userExtraInfo;
 
   @Builder
-  public OAuthMember(String userName, String OAuthName, String Role, String code, Oauth2AuthorizedClient oauth2AuthorizedClient) {
+  public OAuthUser(String userName, String OAuthName, String Role, String code, Oauth2AuthorizedClient oauth2AuthorizedClient) {
     Assert.notNull(userName, "userName must not be null");
     Assert.notNull(OAuthName, "OAuthName must not be null");
     Assert.notNull(Role, "Role must not be null");
@@ -59,12 +59,12 @@ public class OAuthMember extends BaseTimeEntity {
     this.oauth2AuthorizedClient = oauth2AuthorizedClient;
   }
 
-  public void updateMemberGithubInfo(MemberGithubInfo memberGithubInfo) {
-    Assert.notNull(memberGithubInfo, "memberGithubInfo must not be null");
-    if(this.memberGithubInfo == null) {
-      this.memberGithubInfo = memberGithubInfo;
+  public void updateUserGithubInfo(UserGithubInfo userGithubInfo) {
+    Assert.notNull(userGithubInfo, "userGithubInfo must not be null");
+    if(this.userGithubInfo == null) {
+      this.userGithubInfo = userGithubInfo;
     } else {
-      this.memberGithubInfo.updateInfo(memberGithubInfo);
+      this.userGithubInfo.updateInfo(userGithubInfo);
     }
   }
 

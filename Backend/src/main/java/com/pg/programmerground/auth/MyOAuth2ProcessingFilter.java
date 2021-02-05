@@ -2,7 +2,7 @@ package com.pg.programmerground.auth;
 
 import com.pg.programmerground.exception.JwtExpiredException;
 import com.pg.programmerground.exception.JwtNotFoundException;
-import com.pg.programmerground.exception.OAuthMemberNotFoundException;
+import com.pg.programmerground.exception.OAuthUserNotFoundException;
 import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.auth.jwt.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -67,8 +67,8 @@ public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFi
             response.getWriter().println("Invalid JWT Token");
         } else if (failed instanceof JwtNotFoundException) {
             response.getWriter().println("Not Found JWT Token");
-        } else if (failed instanceof OAuthMemberNotFoundException) {
-            response.getWriter().println("Not Found OAuth Member");
+        } else if (failed instanceof OAuthUserNotFoundException) {
+            response.getWriter().println("Not Found OAuth User");
         }
     }
 }
