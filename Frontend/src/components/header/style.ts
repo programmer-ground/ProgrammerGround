@@ -19,7 +19,14 @@ export const HeaderImg = styled.img.attrs({
 
 export const HeaderContainer = styled.div`
 	display: flex;
-	justify-content: space-between;
-	padding-left: 50px;
+	justify-content: space-around;
 	border-bottom: 1px solid #a2b8e1;
+`;
+
+export const HeaderMenuContainer = styled.div`
+	display: flex;
+	justify-content: center;
+	width: 200px;
+	height: 100px;
+	background-color: red;
 `;
