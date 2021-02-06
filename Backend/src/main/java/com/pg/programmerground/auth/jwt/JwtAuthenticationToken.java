@@ -11,7 +11,7 @@ import java.util.Collection;
  * 이 Authentication을 이용해 인증(JWT유효성, 만료)확인후 인증 된 Authentication객체로 다시 만들어 반환한다.
  */
 public class JwtAuthenticationToken extends AbstractAuthenticationToken {
-    private Object credential;
+    private final Object credential;
     private Object principal;
 
     /**
