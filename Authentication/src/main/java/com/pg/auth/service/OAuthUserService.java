@@ -12,6 +12,7 @@ import com.pg.auth.jwtConfig.JwtTokenProvider;
 import com.pg.auth.repository.Oauth2AuthorizedClientRepository;
 import com.pg.auth.repository.OAuthUserRepository;
 import lombok.extern.slf4j.Slf4j;
+
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +38,9 @@ public class OAuthUserService {
     private final GithubRestService githubRestService;
 
     //jdbc service에서 load하여 가져온다.
-    public OAuthUserService(OAuthUserRepository oAuthUserRepository, Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider, GithubRestService githubRestService) {
+    public OAuthUserService(OAuthUserRepository oAuthUserRepository,
+        Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider,
+        GithubRestService githubRestService) {
         this.oAuthUserRepository = oAuthUserRepository;
         this.oauth2AuthorizedClientRepository = oauth2AuthorizedClientRepository;
         this.jwtTokenProvider = jwtTokenProvider;
@@ -50,28 +53,28 @@ public class OAuthUserService {
     @Transactional
     public OAuthUser createUser(OAuth2AuthenticationToken authentication) throws OAuthLoginException, ExecutionException, InterruptedException {
         Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
-                .findById(Long.valueOf(authentication.getName())).orElseThrow(() -> new OAuthLoginException("OAuth 로그인 에러"));
-        UserGithubInfo userGithubInfo;
+            .findById(Long.valueOf(authentication.getName()))
+            .orElseThrow(() -> new OAuthLoginException("OAuth 로그인 에러"));
         OAuthUser oAuthUser = oAuthUserRepository.findByOauth2AuthorizedClient(authorizedClient);
         //로그인 코드 생성
-        UUID loginCode = UUID.randomUUID();
+        String loginCode = makeUUID();
 
         //신규 유저 체크
         if (oAuthUser == null) {
             OAuth2User oAuth2User = authentication.getPrincipal();
             oAuthUser = OAuthUser.builder()
-                    .userName(oAuth2User.getAttribute("name"))
-                    .oauth2AuthorizedClient(authorizedClient)
-                    .OAuthName(oAuth2User.getAttribute("login"))
-                    .code(loginCode.toString())
-                    .Role(oAuth2User.getAuthorities().stream().
-                            map(GrantedAuthority::getAuthority).
-                            collect(Collectors.joining(",")))
-                    .build();
+                .userName(oAuth2User.getAttribute("name"))
+                .oauth2AuthorizedClient(authorizedClient)
+                .OAuthName(oAuth2User.getAttribute("login"))
+                .code(loginCode)
+                .Role(oAuth2User.getAuthorities().stream().
+                    map(GrantedAuthority::getAuthority).
+                    collect(Collectors.joining(",")))
+                .build();
             oAuthUserRepository.save(oAuthUser);
         }
         oAuthUser.updateUserGithubInfo(getGithubInfo(oAuthUser));
-        oAuthUser.updateLoginCode(loginCode.toString());
+        oAuthUser.updateLoginCode(loginCode);
         return oAuthUser;
     }
 
@@ -80,7 +83,8 @@ public class OAuthUserService {
      */
     @Transactional
     public String jwtLogin(String code, Long id) throws InvalidCodeException {
-        OAuthUser oAuthUser = oAuthUserRepository.findByCodeAndOauth2AuthorizedClient(code, oauth2AuthorizedClientRepository.findById(id).orElseThrow());
+        OAuthUser oAuthUser = oAuthUserRepository.findByCodeAndOauth2AuthorizedClient(code,
+            oauth2AuthorizedClientRepository.findById(id).orElseThrow());
         if (oAuthUser == null || !validateLoginCode(code, oAuthUser)) {
             throw new InvalidCodeException("Login Code 에러");
         }
@@ -93,10 +97,10 @@ public class OAuthUserService {
      */
     public String createJwtToken(OAuthUser oAuthUser) {
         return jwtTokenProvider.createToken(
-                oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
-                oAuthUser.getOauth2AuthorizedClient().getId(),
-                oAuthUser.getId(),
-                Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));
+            oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
+            oAuthUser.getOauth2AuthorizedClient().getId(),
+            oAuthUser.getId(),
+            Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));
     }
 
     /**
@@ -121,29 +125,33 @@ public class OAuthUserService {
         HttpHeaders header = new HttpHeaders();
         header.set("Authorization", "bearer " + oauthUser.getAccessTokenValue());
         GithubOAuthInfoDto oauthInfo = githubRestService.rest(
-                "https://api.github.com/user", HttpMethod.GET, header, GithubOAuthInfoDto.class);
+            "https://api.github.com/user", HttpMethod.GET, header, GithubOAuthInfoDto.class);
 
-        CompletableFuture<GithubRepoDto> repoFuture = CompletableFuture.supplyAsync(() -> getOAuthUserRepository(oauthInfo.getLogin(), header));
-        CompletableFuture<Integer> pullRequestFuture = CompletableFuture.supplyAsync(() -> getOAuthPullRequestCount(oauthInfo.getLogin(), header));
-        CompletableFuture<Integer> commitFuture = CompletableFuture.supplyAsync(() -> getOAuthCommitCount(oauthInfo.getLogin(), header));
-        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.allOf(repoFuture, pullRequestFuture, commitFuture);
+        CompletableFuture<GithubRepoDto> repoFuture = CompletableFuture.supplyAsync(
+            () -> getOAuthUserRepository(oauthInfo.getLogin(), header));
+        CompletableFuture<Integer> pullRequestFuture = CompletableFuture.supplyAsync(
+            () -> getOAuthPullRequestCount(oauthInfo.getLogin(), header));
+        CompletableFuture<Integer> commitFuture = CompletableFuture.supplyAsync(
+            () -> getOAuthCommitCount(oauthInfo.getLogin(), header));
+        CompletableFuture<Void> voidCompletableFuture = CompletableFuture.allOf(repoFuture, pullRequestFuture,
+            commitFuture);
         voidCompletableFuture.get();
 
         return UserGithubInfo.builder()
-                //프로필 이미지
-                .profileImg(oauthInfo.getAvatarUrl())
-                //github 유저 페이지
-                .githubPage(oauthInfo.getHtmlUrl())
-                //Commit 개수
-                .commitCnt(commitFuture.join())
-                //Repo 개수
-                .repositoryCnt(repoFuture.join().getTotalCount())
-                //Issue, PR 수
-                .pullRequestCnt(pullRequestFuture.join())
-                //가장 많이 사용한 언어 수
-                .mostLanguage(getMostLanguage(repoFuture.join().getRepositoryItems()))
-                .user(oAuthUser)
-                .build();
+            //프로필 이미지
+            .profileImg(oauthInfo.getAvatarUrl())
+            //github 유저 페이지
+            .githubPage(oauthInfo.getHtmlUrl())
+            //Commit 개수
+            .commitCnt(commitFuture.join())
+            //Repo 개수
+            .repositoryCnt(repoFuture.join().getTotalCount())
+            //Issue, PR 수
+            .pullRequestCnt(pullRequestFuture.join())
+            //가장 많이 사용한 언어 수
+            .mostLanguage(getMostLanguage(repoFuture.join().getRepositoryItems()))
+            .user(oAuthUser)
+            .build();
     }
 
     /**
@@ -152,8 +160,16 @@ public class OAuthUserService {
     public Integer getOAuthCommitCount(String owner, HttpHeaders header) {
         header.set("Accept", "application/vnd.github.cloak-preview");
         return (Integer)githubRestService.rest(
-                "https://api.github.com/search/commits?q=author:" + owner, HttpMethod.GET, header, Map.class)
-                .get("total_count");
+            "https://api.github.com/search/commits?q=author:" + owner, HttpMethod.GET, header, Map.class)
+            .get("total_count");
+    }
+
+    /**
+     * UUID 생성
+     * 이렇게 함수로 빼야 테스트코드 작성이 쉬워지는 것 같음
+     */
+    private String makeUUID() {
+        return UUID.randomUUID().toString();
     }
 
     /**
@@ -162,8 +178,8 @@ public class OAuthUserService {
     private Integer getOAuthPullRequestCount(String owner, HttpHeaders header) {
         header.set("Accept", "application/vnd.github.v3+json");
         return (Integer)githubRestService.rest(
-                "https://api.github.com/search/issues?q=" + owner, HttpMethod.GET, header, Map.class)
-                .get("total_count");
+            "https://api.github.com/search/issues?q=" + owner, HttpMethod.GET, header, Map.class)
+            .get("total_count");
     }
 
     /**
@@ -172,7 +188,7 @@ public class OAuthUserService {
      */
     private GithubRepoDto getOAuthUserRepository(String owner, HttpHeaders header) {
         UriComponents uri = UriComponentsBuilder
-                .fromHttpUrl("https://api.github.com/search/repositories?q=user:" + owner + " fork:true").build();
+            .fromHttpUrl("https://api.github.com/search/repositories?q=user:" + owner + " fork:true").build();
         return githubRestService.rest(uri.toString(), HttpMethod.GET, header, GithubRepoDto.class);
     }
 
@@ -183,14 +199,14 @@ public class OAuthUserService {
         Map<String, Integer> languageMap = new HashMap<>();
         //데이터중에서 프로그래밍 언어만 추출
         repositoryItems.stream().filter(repositoryItem -> repositoryItem.getLanguage() != null)
-                .map(RepositoryItem::getLanguage)
-                .forEach(s -> {
-                    if (languageMap.containsKey(s)) {
-                        languageMap.put(s, languageMap.get(s) + 1);
-                    } else {
-                        languageMap.put(s, 1);
-                    }
-                });
+            .map(RepositoryItem::getLanguage)
+            .forEach(s -> {
+                if (languageMap.containsKey(s)) {
+                    languageMap.put(s, languageMap.get(s) + 1);
+                } else {
+                    languageMap.put(s, 1);
+                }
+            });
 
         //Map 정렬
         List<Map.Entry<String, Integer>> entries = new ArrayList<Map.Entry<String, Integer>>(languageMap.entrySet());
