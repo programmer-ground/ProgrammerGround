@@ -49,6 +49,7 @@ public class OAuthUserService {
 
     /**
      * OAuth 인증 성공후 유저 생성
+     * 이미 존재하는 유저의 경우 github정보를 업데이트하고 Code를 칼럼에 넣는다 (유저 생성도 똑같음)
      */
     @Transactional
     public OAuthUser createUser(OAuth2AuthenticationToken authentication) throws OAuthLoginException, ExecutionException, InterruptedException {
@@ -71,10 +72,11 @@ public class OAuthUserService {
                     map(GrantedAuthority::getAuthority).
                     collect(Collectors.joining(",")))
                 .build();
-            oAuthUserRepository.save(oAuthUser);
+            updateGithubInfo(oAuthUser);
+            return oAuthUserRepository.save(oAuthUser);
         }
-        oAuthUser.updateUserGithubInfo(getGithubInfo(oAuthUser));
-        oAuthUser.updateLoginCode(loginCode);
+        updateGithubInfo(oAuthUser);
+        updateLoginCode(oAuthUser, loginCode);
         return oAuthUser;
     }
 
@@ -95,7 +97,7 @@ public class OAuthUserService {
     /**
      * JWT 토큰 생성
      */
-    public String createJwtToken(OAuthUser oAuthUser) {
+    private String createJwtToken(OAuthUser oAuthUser) {
         return jwtTokenProvider.createToken(
             oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
             oAuthUser.getOauth2AuthorizedClient().getId(),
@@ -117,7 +119,7 @@ public class OAuthUserService {
      * commit
      * star
      */
-    public UserGithubInfo getGithubInfo(OAuthUser oAuthUser) throws ExecutionException, InterruptedException {
+    private UserGithubInfo getGithubInfo(OAuthUser oAuthUser) throws ExecutionException, InterruptedException {
         //Spring Seucrity UserDetails 객체 가져오기
 
         Oauth2AuthorizedClient oauthUser = oAuthUser.getOauth2AuthorizedClient();
@@ -157,7 +159,7 @@ public class OAuthUserService {
     /**
      * Github Commit 개수 가져오기
      */
-    public Integer getOAuthCommitCount(String owner, HttpHeaders header) {
+    private Integer getOAuthCommitCount(String owner, HttpHeaders header) {
         header.set("Accept", "application/vnd.github.cloak-preview");
         return (Integer)githubRestService.rest(
             "https://api.github.com/search/commits?q=author:" + owner, HttpMethod.GET, header, Map.class)
@@ -222,5 +224,19 @@ public class OAuthUserService {
             }
         }
         return String.join(",", languageList);
+    }
+
+    /**
+     * Github Info 업데이트
+     */
+    private void updateGithubInfo(OAuthUser oAuthUser) throws ExecutionException, InterruptedException {
+        oAuthUser.updateUserGithubInfo(getGithubInfo(oAuthUser));
+    }
+
+    /**
+     * LoginCode 업데이트
+     */
+    private void updateLoginCode(OAuthUser oAuthUser, String loginCode) {
+        oAuthUser.updateLoginCode(loginCode);
     }
 }
