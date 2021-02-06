@@ -7,7 +7,9 @@ const Header = () => {
 			<StyledComponent.GlobalStyle />
 			<StyledComponent.HeaderContainer>
 				<StyledComponent.HeaderImg />
-				<StyledComponent.HeaderMenuContainer />
+				<StyledComponent.HeaderMenuContainer>
+					<StyledComponent.ProjectIcon />
+				</StyledComponent.HeaderMenuContainer>
 			</StyledComponent.HeaderContainer>
 		</>
 	);
