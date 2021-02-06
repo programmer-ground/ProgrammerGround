@@ -19,6 +19,10 @@ export const HeaderImg = styled.img.attrs({
 	height: 50px;
 	padding-top: 20px;
 	cursor: pointer;
+	@media screen and (max-width: 330px) {
+		position: absolute;
+		margin-left: -60px;
+	}
 `;
 
 export const HeaderContainer = styled.div`
@@ -48,6 +52,9 @@ export const HeaderMenuContainer = styled.div`
 	}
 	& img:hover {
 		background-color: #06c471;
+	}
+	@media screen and (max-width: 330px) {
+		display: none;
 	}
 `;
 
