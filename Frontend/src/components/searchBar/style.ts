@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 import searchImage from '@src/assets/searchImage.png';
 // eslint-disable-next-line import/prefer-default-export
-export const SearchBarContainer = styled.div`
+export const SearchBarSection = styled.section`
 	display: flex;
-	position: relative;
 	justify-content: center;
+`;
+export const SearchBarContainer = styled.div`
+	position: relative;
+	max-width: 600px;
+	width: 100%;
 	margin-top: 50px;
 `;
 
@@ -28,9 +32,10 @@ export const SearchBarInput = styled.input`
 export const SearchButton = styled.button`
 	position: absolute;
 	top: 23%;
-	left: 69%;
+	right: 20px;
 	background-color: inherit;
 	border: 0px;
+	outline: none;
 `;
 
 export const SearchImg = styled.img.attrs({
