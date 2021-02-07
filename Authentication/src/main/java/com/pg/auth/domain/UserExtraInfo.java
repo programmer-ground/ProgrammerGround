@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "USER_EXTRA_INFO")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserExtraInfo {
