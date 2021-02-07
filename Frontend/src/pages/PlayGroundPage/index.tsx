@@ -6,6 +6,7 @@ const PlayGroundPage = () => {
 	return (
 		<>
 			<Header />
+			<SearchBar />
 		</>
 	);
 };

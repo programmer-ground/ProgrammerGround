@@ -1,7 +1,14 @@
 import React from 'react';
+import * as StyledComponent from './style';
 
 const SearchBar = () => {
-	return <div>dd</div>;
+	return (
+		<>
+			<StyledComponent.SearchBarContainer>
+				<StyledComponent.SearchBarInput />
+			</StyledComponent.SearchBarContainer>
+		</>
+	);
 };
 
 export default SearchBar;
