@@ -1,8 +1,9 @@
 import styled from 'styled-components';
-
+import searchImage from '@src/assets/searchImage.png';
 // eslint-disable-next-line import/prefer-default-export
 export const SearchBarContainer = styled.div`
 	display: flex;
+	position: relative;
 	justify-content: center;
 	margin-top: 50px;
 `;
@@ -22,4 +23,20 @@ export const SearchBarInput = styled.input`
 		box-shadow: 0px 10px 10px 0 rgb(0 0 0 / 10%);
 		outline: none;
 	}
+`;
+
+export const SearchButton = styled.button`
+	position: absolute;
+	top: 23%;
+	left: 69%;
+	background-color: inherit;
+	border: 0px;
+`;
+
+export const SearchImg = styled.img.attrs({
+	src: searchImage,
+})`
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
 `;

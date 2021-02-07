@@ -8,7 +8,7 @@ const Header = () => {
 			<StyledComponent.HeaderContainer>
 				<a href="http://localhost:3000/playground">
 					<StyledComponent.HeaderImg />
-        </a>
+				</a>
 				<StyledComponent.HeaderMenuContainer>
 					<StyledComponent.ProjectIcon />
 					<StyledComponent.AlarmIcon />
