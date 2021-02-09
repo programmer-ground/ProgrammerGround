@@ -1,9 +1,9 @@
 /* eslint-disable import/prefer-default-export */
 import styled, { createGlobalStyle } from 'styled-components';
-import logo from '@src/assets/programmerground.png';
-import projectIcon from '@src/assets/projectIcon.png';
-import alarm from '@src/assets/alarm.png';
-import user from '@src/assets/user.png';
+import logo from '../../assets/programmerground.png';
+import projectIcon from '../../assets/projectIcon.png';
+import alarm from '../../assets/alarm.png';
+import user from '../../assets/user.png';
 
 export const GlobalStyle = createGlobalStyle`
   body{
