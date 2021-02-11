@@ -11,14 +11,13 @@ import java.util.List;
 
 @Entity
 @Getter
-@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Playground extends BaseTimeEntity{
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "PLAYGROUND_ID")
     private Long id;
-
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "LEADER_USER_ID")
@@ -36,4 +35,5 @@ public class Playground extends BaseTimeEntity{
 
     @Column(name = "DESCRIPTION")
     private String description;
+
 }
