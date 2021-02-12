@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import styled, { createGlobalStyle } from 'styled-components';
+import { lightTheme, darkTheme } from '@src/utils/theme';
 import logo from '../../assets/programmerground.png';
 import projectIcon from '../../assets/projectIcon.png';
 import alarm from '../../assets/alarm.png';
@@ -9,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   body{
     margin:0;
     padding:0;
-  }
+	}
 `;
 
 export const HeaderImg = styled.img.attrs({
@@ -49,10 +50,12 @@ export const HeaderMenuContainer = styled.div`
 		border: 1px solid #e9e9e9;
 		border-radius: 50px;
 		padding-right: 5px;
+		background-color: #fff;
 	}
 	& img:hover {
 		background-color: #06c471;
 	}
+
 	@media screen and (max-width: 330px) {
 		display: none;
 	}

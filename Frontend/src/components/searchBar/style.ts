@@ -1,10 +1,7 @@
 import styled from 'styled-components';
 import searchImage from '@src/assets/searchImage.png';
 // eslint-disable-next-line import/prefer-default-export
-export const SearchBarSection = styled.section`
-	display: flex;
-	justify-content: center;
-`;
+export const SearchBarSection = styled.section``;
 export const SearchBarContainer = styled.div`
 	position: relative;
 	max-width: 600px;
