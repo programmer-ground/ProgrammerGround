@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Header Component - snapshot 1`] = `"<div class=\\"sc-gsTCUz gWDeLb\\"><a href=\\"http://localhost:3000/playground\\"><img class=\\"sc-bdfBwQ eLuqkg\\"></a><div class=\\"sc-dlfnbm cjNpKg\\"><img class=\\"sc-hKgILt\\"><img class=\\"sc-eCssSg\\"><img class=\\"sc-jSgupP\\"></div></div>"`;
