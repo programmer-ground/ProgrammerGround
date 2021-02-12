@@ -19,4 +19,15 @@ export const BoneMoveContainer = styled.div`
 	border-radius: 50px;
 	background-color: #fff;
 	position: absolute;
+	left: 0px;
+	transition: 1s;
+`;
+export const BoneMoveDarkContainer = styled.div`
+	width: 28px;
+	height: 30px;
+	border-radius: 50px;
+	background-color: #fff;
+	position: absolute;
+	left: 20px;
+	transition: 1s;
 `;
