@@ -50,10 +50,12 @@ export const HeaderMenuContainer = styled.div`
 		border: 1px solid #e9e9e9;
 		border-radius: 50px;
 		padding-right: 5px;
+		background-color: #fff;
 	}
 	& img:hover {
 		background-color: #06c471;
 	}
+
 	@media screen and (max-width: 330px) {
 		display: none;
 	}

@@ -18,7 +18,7 @@ export const GlobalStyle = createGlobalStyle`
   
   html {
     background: var(--background);
-    color: var(--color);
+    color:var(--color);
   }
   
 `;

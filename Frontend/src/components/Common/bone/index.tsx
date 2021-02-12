@@ -7,7 +7,7 @@ const Bone = () => {
 	const modeChange = () => {
 		if (darkMode === 'light') {
 			setDarkMode('dark');
-			localStorage.setItem('color-theme', 'light');
+			localStorage.setItem('color-theme', 'dark');
 			document.documentElement.setAttribute('color-theme', 'dark');
 		} else if (darkMode === 'dark') {
 			setDarkMode('light');
