@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as StyledComponent from './style';
 
 const Bone = () => {
@@ -7,10 +7,15 @@ const Bone = () => {
 	const modeChange = () => {
 		if (darkMode === 'light') {
 			setDarkMode('dark');
+			localStorage.setItem('color-theme', 'light');
+			document.documentElement.setAttribute('color-theme', 'dark');
 		} else if (darkMode === 'dark') {
 			setDarkMode('light');
+			localStorage.setItem('color-theme', 'light');
+			document.documentElement.setAttribute('color-theme', 'light');
 		}
 	};
+
 	return (
 		<StyledComponent.BoneContainer onClick={modeChange}>
 			{darkMode === 'light' ? (
