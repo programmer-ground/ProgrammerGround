@@ -28,6 +28,6 @@ export const BoneMoveDarkContainer = styled.div`
 	border-radius: 50px;
 	background-color: #fff;
 	position: absolute;
-	left: 20px;
+	left: 22px;
 	transition: 1s;
 `;

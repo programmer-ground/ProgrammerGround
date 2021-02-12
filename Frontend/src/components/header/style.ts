@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import styled, { createGlobalStyle } from 'styled-components';
+import { lightTheme, darkTheme } from '@src/utils/theme';
 import logo from '../../assets/programmerground.png';
 import projectIcon from '../../assets/projectIcon.png';
 import alarm from '../../assets/alarm.png';
@@ -9,7 +10,15 @@ export const GlobalStyle = createGlobalStyle`
   body{
     margin:0;
     padding:0;
-  }
+	}
+	:root[color-theme='light']{
+		--background:${lightTheme.body};
+		--boxColor:${lightTheme.fontColor};
+	}
+	:root[color-theme='dark']{
+		--background:${darkTheme.body};
+		--boxColor:${darkTheme.fontColor};
+	}
 `;
 
 export const HeaderImg = styled.img.attrs({

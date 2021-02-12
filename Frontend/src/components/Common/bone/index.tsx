@@ -4,7 +4,7 @@ import * as StyledComponent from './style';
 const Bone = () => {
 	const [darkMode, setDarkMode] = useState('light');
 
-	const modeChange = (e: any) => {
+	const modeChange = () => {
 		if (darkMode === 'light') {
 			setDarkMode('dark');
 		} else if (darkMode === 'dark') {
@@ -12,7 +12,7 @@ const Bone = () => {
 		}
 	};
 	return (
-		<StyledComponent.BoneContainer>
+		<StyledComponent.BoneContainer onClick={modeChange}>
 			{darkMode === 'light' ? (
 				<StyledComponent.BoneMoveContainer
 					// eslint-disable-next-line react/jsx-indent-props
