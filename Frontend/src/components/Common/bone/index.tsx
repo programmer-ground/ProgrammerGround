@@ -26,6 +26,10 @@ const Bone = () => {
 			) : (
 				<StyledComponent.BoneMoveDarkContainer onClick={modeChange} />
 			)}
+			<div>
+				<StyledComponent.MoonImg />
+				<StyledComponent.SunImg />
+			</div>
 		</StyledComponent.BoneContainer>
 	);
 };
