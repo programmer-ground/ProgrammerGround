@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "PLAYGROUND")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Playground extends BaseTimeEntity{

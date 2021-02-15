@@ -1,7 +1,9 @@
 ---
+# Suung Profile YAML
 spring:
   profiles:
-    active: backend-h2db-local
+    # 자신의 환경에 맞게 active 하면됌.
+    active: seansin-local
 
   datasource:
     url: jdbc:h2:tcp://localhost/~/workspace/db/programmer-ground
@@ -17,7 +19,7 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: update
+      ddl-auto: create
 
     properties:
       hibernate:
@@ -38,12 +40,13 @@ spring:
   #    org.hibernate.type: trace
 
 server:
-  port: 9000
+  port: 8080
 ---
 
 ---
+# Jeawoo Profile YAML
 spring:
-  profiles: backend-mysql-dev
+  profiles: jeawoo-local
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
@@ -59,8 +62,6 @@ spring:
     properties:
       hibernate:
         format_sql: true
-    # MYSQL 방언 매핑 (MYSQL 5.x 이상)
-    properties.hibernate.dialect: org.hibernate.dialect.MySQL5InnoDBDialect
 
   security:
     jwt-token:

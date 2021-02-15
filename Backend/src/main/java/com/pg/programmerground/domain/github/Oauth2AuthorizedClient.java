@@ -2,9 +2,7 @@ package com.pg.programmerground.domain.github;
 
 import com.pg.programmerground.domain.BaseTimeEntity;
 import com.pg.programmerground.domain.OAuthUser;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -15,6 +13,8 @@ import java.util.Date;
 @Getter
 @Entity(name = "oauth2_authorized_client")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@AllArgsConstructor
+@Builder
 public class Oauth2AuthorizedClient extends BaseTimeEntity {
 
     @Id
