@@ -13,7 +13,7 @@ export const SearchBarInput = styled.input`
 	width: 600px;
 	height: 50px;
 	border-radius: 50px;
-	border-color: rgba(29, 192, 120, 0.12);
+	border: 1px solid rgba(29, 192, 120, 0.12);
 	background-color: rgba(29, 192, 120, 0.12);
 	font-size: 20px;
 	padding-left: 15px;
