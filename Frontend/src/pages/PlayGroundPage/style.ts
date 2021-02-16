@@ -8,7 +8,7 @@ export const SearchContainer = styled.div`
 
 export const mainContainer = styled.div`
 	display: flex;
-	height: 800px;
+	height: 600px;
 	flex-direction: column;
 `;
 
@@ -25,8 +25,8 @@ export const ModeContainer = styled.div`
 
 export const PlayGroundContainer = styled.div`
 	display: flex;
-	justify-content: center;
-	margin: 100px auto;
+	justify-content: space-between;
+	margin: 50px auto;
 	width: 80%;
 	height: 100%;
 	flex-wrap: wrap;
