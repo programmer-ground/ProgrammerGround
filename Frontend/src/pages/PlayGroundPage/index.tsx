@@ -8,12 +8,15 @@ const PlayGroundPage = () => {
 	return (
 		<>
 			<Header />
-			<StyledComponent.SearchContainer>
-				<SearchBar />
-				<StyledComponent.ModeContainer>
-					<Bone />
-				</StyledComponent.ModeContainer>
-			</StyledComponent.SearchContainer>
+			<StyledComponent.mainContainer>
+				<StyledComponent.SearchContainer>
+					<SearchBar />
+					<StyledComponent.ModeContainer>
+						<Bone />
+					</StyledComponent.ModeContainer>
+				</StyledComponent.SearchContainer>
+				<StyledComponent.PlayGroundContainer />
+			</StyledComponent.mainContainer>
 		</>
 	);
 };
