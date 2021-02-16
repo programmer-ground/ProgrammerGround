@@ -19,16 +19,17 @@ public class Playground extends BaseTimeEntity{
     @Column(name = "PLAYGROUND_ID")
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "LEADER_USER_ID")
-    private OAuthUser leaderUser;
+    @OneToMany(mappedBy = "playground", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<OAuthUserPlayground> userPlaygrounds = new ArrayList<>();
 
-    @Column(name = "MEMBER_USER")
-    @ManyToMany(mappedBy = "playgrounds")
-    private List<OAuthUser> oAuthUsers = new ArrayList<>();
+    @OneToMany(mappedBy = "members", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<OAuthUser> members = new ArrayList<>();
 
     @Column(name = "MAX_MEMBER_COUNT")
-    private Integer maxMemberCount;
+    private int maxMemberCount;
+
+    @Column(name = "CURRENT_MEMBER_COUNT")
+    private int currentMemberCount;
 
     @Column(name = "TITLE")
     private String title;
@@ -36,4 +37,26 @@ public class Playground extends BaseTimeEntity{
     @Column(name = "DESCRIPTION")
     private String description;
 
+
+    public void addUserPlayground(OAuthUserPlayground userPlayground) {
+        userPlaygrounds.add(userPlayground);
+        userPlayground.addPlayground(this);
+    }
+
+    public void addMember(OAuthUser member) {
+        this.members.add(member);
+    }
+
+    public Boolean isLeader() {
+        return this.members.size() == 0;
+    }
+
+    public void increaseCurrentMemberCount() {
+        int current = this.maxMemberCount - currentMemberCount;
+
+        if(current < 0 || current > this.maxMemberCount) {
+            //TODO : Exception 처리해야함
+        }
+        this.currentMemberCount = currentMemberCount++;
+    }
 }

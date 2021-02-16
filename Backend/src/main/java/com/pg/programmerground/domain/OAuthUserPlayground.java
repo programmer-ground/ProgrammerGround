@@ -27,17 +27,22 @@ public class OAuthUserPlayground {
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "OAUTH_USER_ID")
-  private OAuthUser leader;
+  private OAuthUser user;
 
   @ManyToOne(fetch = FetchType.LAZY)
   @JoinColumn(name = "PLAYGROUND_ID")
   private Playground playground;
 
-  public static OAuthUserPlayground createOAuthUserPlayground(OAuthUser oAuthUser,
+  private boolean isLeader;
+
+  public static OAuthUserPlayground createOAuthUserPlayground(OAuthUser user,
       Playground playground) {
     OAuthUserPlayground userPlayground = new OAuthUserPlayground();
-    userPlayground.leader = oAuthUser;
+    userPlayground.user = user;
     userPlayground.playground = playground;
+    userPlayground.isLeader = playground.isLeader();
+    playground.increaseCurrentMemberCount();
+    playground.addMember(user);
     return userPlayground;
   }
 
