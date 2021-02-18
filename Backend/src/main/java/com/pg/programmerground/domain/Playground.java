@@ -22,14 +22,11 @@ public class Playground extends BaseTimeEntity{
     @OneToMany(mappedBy = "playground", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OAuthUserPlayground> userPlaygrounds = new ArrayList<>();
 
-    @OneToMany(mappedBy = "members", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<OAuthUser> members = new ArrayList<>();
-
     @Column(name = "MAX_MEMBER_COUNT")
     private int maxMemberCount;
 
     @Column(name = "CURRENT_MEMBER_COUNT")
-    private int currentMemberCount;
+    private int currentMemberCount = 0;
 
     @Column(name = "TITLE")
     private String title;
@@ -37,18 +34,26 @@ public class Playground extends BaseTimeEntity{
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @OneToOne
+    private OAuthUser leader;
+
+    public static Playground createPlayground(OAuthUserPlayground userPlayground) {
+        Playground playground = new Playground();
+        addUserPlayground(playground, userPlayground);
+        return playground;
+    }
+
+    public static void addUserPlayground(Playground playground, OAuthUserPlayground userPlayground) {
+        playground.addUserPlayground(userPlayground);
+    }
 
     public void addUserPlayground(OAuthUserPlayground userPlayground) {
         userPlaygrounds.add(userPlayground);
         userPlayground.addPlayground(this);
     }
 
-    public void addMember(OAuthUser member) {
-        this.members.add(member);
-    }
-
-    public Boolean isLeader() {
-        return this.members.size() == 0;
+    public void updateLeader(OAuthUser user) {
+        leader = user;
     }
 
     public void increaseCurrentMemberCount() {

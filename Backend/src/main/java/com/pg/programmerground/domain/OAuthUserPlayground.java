@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "TBL_USER_PLAYGROUND")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OAuthUserPlayground {
+public class OAuthUserPlayground extends BaseTimeEntity {
 
   @Id
   @Column(name = "USER_PLAYGROUND_ID")
@@ -33,21 +33,22 @@ public class OAuthUserPlayground {
   @JoinColumn(name = "PLAYGROUND_ID")
   private Playground playground;
 
-  private boolean isLeader;
-
-  public static OAuthUserPlayground createOAuthUserPlayground(OAuthUser user,
-      Playground playground) {
+  public static OAuthUserPlayground createOAuthUserPlayground(OAuthUser user) {
     OAuthUserPlayground userPlayground = new OAuthUserPlayground();
     userPlayground.user = user;
-    userPlayground.playground = playground;
-    userPlayground.isLeader = playground.isLeader();
-    playground.increaseCurrentMemberCount();
-    playground.addMember(user);
     return userPlayground;
+  }
+
+  public void updateLeader(OAuthUserPlayground userPlayground) {
+    if(userPlayground.getPlayground().getCurrentMemberCount() <= 1) {
+        playground.updateLeader(userPlayground.getUser());
+    }
   }
 
   public void addPlayground(Playground playground) {
     this.playground = playground;
+    updateLeader(this);
+    playground.increaseCurrentMemberCount();
   }
 
   @Override
