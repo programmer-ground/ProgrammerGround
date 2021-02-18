@@ -46,9 +46,6 @@ public class OAuthUser extends BaseTimeEntity {
   @JoinColumn(name = "USER_EXTRA_INFO_ID")
   private UserExtraInfo userExtraInfo;
 
-  @OneToMany(mappedBy = "leaderUser", cascade = CascadeType.ALL)
-  private List<Playground> leaderPlaygrounds = new ArrayList<>();
-
   @ManyToMany
   @JoinTable(name = "PLAYGROUND_MEMBER_USER",
           joinColumns = @JoinColumn(name = "USER_ID"),

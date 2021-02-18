@@ -13,8 +13,6 @@ import java.util.Date;
 @Getter
 @Entity(name = "oauth2_authorized_client")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@AllArgsConstructor
-@Builder
 public class Oauth2AuthorizedClient extends BaseTimeEntity {
 
     @Id
@@ -47,4 +45,19 @@ public class Oauth2AuthorizedClient extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "oauth2AuthorizedClient")
     private OAuthUser user;
+
+    @Builder
+    public Oauth2AuthorizedClient(Long id, String clientRegistrationId,
+        String accessTokenType, String accessTokenValue, Date accessTokenIssuedAt,
+        Date accessTokenExpiresAt, String accessTokenScopes,
+        OAuthUser user) {
+        this.id = id;
+        this.clientRegistrationId = clientRegistrationId;
+        this.accessTokenType = accessTokenType;
+        this.accessTokenValue = accessTokenValue;
+        this.accessTokenIssuedAt = accessTokenIssuedAt;
+        this.accessTokenExpiresAt = accessTokenExpiresAt;
+        this.accessTokenScopes = accessTokenScopes;
+        this.user = user;
+    }
 }

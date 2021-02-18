@@ -39,6 +39,7 @@ dependencies {
     implementation 'org.hibernate.validator:hibernate-validator:6.1.2.Final'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'io.jsonwebtoken:jjwt:0.7.0'
+    implementation 'org.modelmapper:modelmapper:2.3.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
