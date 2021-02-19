@@ -16,6 +16,12 @@ export const BoneContainer = styled.div`
 	div {
 		display: flex;
 	}
+	@media screen and (max-width: 735px) and (min-width: 0px) {
+		width: 40px;
+		height: 20px;
+		margin-top: -10px;
+		margin-left: -10px;
+	}
 `;
 
 export const SunImg = styled.img.attrs({
@@ -25,6 +31,12 @@ export const SunImg = styled.img.attrs({
 	height: 20px;
 	padding-top: 5px;
 	padding-right: 5px;
+	@media screen and (max-width: 735px) and (min-width: 0px) {
+		width: 15px;
+		height: 15px;
+		padding-top: 3px;
+		padding-right: 1px;
+	}
 `;
 
 export const MoonImg = styled.img.attrs({
@@ -34,6 +46,12 @@ export const MoonImg = styled.img.attrs({
 	height: 23px;
 	padding-top: 4px;
 	padding-left: 5px;
+	@media screen and (max-width: 735px) and (min-width: 0px) {
+		width: 15px;
+		height: 15px;
+		padding-top: 3px;
+		padding-right: 2px;
+	}
 `;
 
 export const BoneMoveContainer = styled.div`
@@ -43,7 +61,10 @@ export const BoneMoveContainer = styled.div`
 	background-color: #fff;
 	position: absolute;
 	left: 0px;
-	transition: all 1s ease-out;
+	@media screen and (max-width: 735px) and (min-width: 0px) {
+		width: 20px;
+		height: 20px;
+	}
 `;
 export const BoneMoveDarkContainer = styled.div`
 	width: 28px;
@@ -52,5 +73,8 @@ export const BoneMoveDarkContainer = styled.div`
 	background-color: #fff;
 	position: absolute;
 	left: 22px;
-	transition: all 0.25s linear;
+	@media screen and (max-width: 735px) and (min-width: 0px) {
+		width: 20px;
+		height: 20px;
+	}
 `;
