@@ -2,6 +2,7 @@ package com.pg.programmerground.domain;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
 import com.pg.programmerground.exception.UserNotFoundException;
@@ -41,6 +42,7 @@ class PlaygroundTest {
 //  }
   
   @Test
+  @DisplayName("사용자와 Playground 정보가 UserPlaygound 테이블에 제대로 매핑되는가")
   public void create_playground() throws Exception {
       //given
       Oauth2AuthorizedClient oauth2AuthorizedClient = Oauth2AuthorizedClient.builder().id(123L).build();
@@ -55,17 +57,21 @@ class PlaygroundTest {
 
       oAuthUserRepository.save(user);
 
-      OAuthUser oAuthUser = oAuthUserRepository.findById(1L).orElseThrow(UserNotFoundException::new);
+      OAuthUser getUser = oAuthUserRepository.findById(1L).orElseThrow(UserNotFoundException::new);
       
       //when
-      OAuthUserPlayground userPlayground = OAuthUserPlayground.createOAuthUserPlayground(oAuthUser);
+      OAuthUserPlayground userPlayground = OAuthUserPlayground.createOAuthUserPlayground(getUser);
       Playground playground = Playground.createPlayground(userPlayground);
 
       Playground getPlayground = playgroundRepository.save(playground);
-      
+
       //then
       assertAll(
-          () -> assertEquals(oAuthUser.getUserName(), getPlayground.getLeader().getUserName())
+          () -> assertTrue(userPlayground.getId() > 0),
+          () -> assertEquals(getPlayground.getUserPlaygrounds().get(0), userPlayground),
+          () -> assertEquals(getUser, userPlayground.getUser()),
+          () -> assertEquals(getPlayground, userPlayground.getPlayground()),
+          () -> assertEquals(getPlayground.getLeader().getId(), getUser.getId())
       );
   }
 }
