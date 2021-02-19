@@ -24,6 +24,7 @@ public class Oauth2AuthorizedClient extends BaseTimeEntity {
     @Column(name = "access_token_type")
     private String accessTokenType;
 
+    @Lob
     @Column(name = "access_token_value")
     private String accessTokenValue;
 
