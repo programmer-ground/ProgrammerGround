@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
+@Entity(name = "OAUTH_USER")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
@@ -45,9 +45,6 @@ public class OAuthUser extends BaseTimeEntity {
   @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
   @JoinColumn(name = "USER_EXTRA_INFO_ID")
   private UserExtraInfo userExtraInfo;
-
-  @OneToMany(mappedBy = "leaderUser", cascade = CascadeType.ALL)
-  private List<Playground> leaderPlaygrounds = new ArrayList<>();
 
   @ManyToMany
   @JoinTable(name = "PLAYGROUND_MEMBER_USER",

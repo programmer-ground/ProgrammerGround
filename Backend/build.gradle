@@ -38,6 +38,7 @@ dependencies {
     runtimeOnly 'mysql:mysql-connector-java'
     annotationProcessor 'org.projectlombok:lombok'
     implementation 'io.jsonwebtoken:jjwt:0.7.0'
+    implementation 'org.modelmapper:modelmapper:2.3.0'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }

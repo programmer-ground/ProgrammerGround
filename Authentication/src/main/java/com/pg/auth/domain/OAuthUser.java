@@ -7,7 +7,7 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
+@Entity(name = "OAUTH_USER")
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)

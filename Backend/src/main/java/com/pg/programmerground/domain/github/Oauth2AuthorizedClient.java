@@ -2,9 +2,7 @@ package com.pg.programmerground.domain.github;
 
 import com.pg.programmerground.domain.BaseTimeEntity;
 import com.pg.programmerground.domain.OAuthUser;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -47,4 +45,19 @@ public class Oauth2AuthorizedClient extends BaseTimeEntity {
 
     @OneToOne(mappedBy = "oauth2AuthorizedClient")
     private OAuthUser user;
+
+    @Builder
+    public Oauth2AuthorizedClient(Long id, String clientRegistrationId,
+        String accessTokenType, String accessTokenValue, Date accessTokenIssuedAt,
+        Date accessTokenExpiresAt, String accessTokenScopes,
+        OAuthUser user) {
+        this.id = id;
+        this.clientRegistrationId = clientRegistrationId;
+        this.accessTokenType = accessTokenType;
+        this.accessTokenValue = accessTokenValue;
+        this.accessTokenIssuedAt = accessTokenIssuedAt;
+        this.accessTokenExpiresAt = accessTokenExpiresAt;
+        this.accessTokenScopes = accessTokenScopes;
+        this.user = user;
+    }
 }
