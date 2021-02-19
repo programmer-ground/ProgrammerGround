@@ -14,5 +14,4 @@ public class MakePlaygroundInfoDto {
     private String title;
     private String description;
     private Integer maxUserNum;
-    private Integer currentUserNum;
 }

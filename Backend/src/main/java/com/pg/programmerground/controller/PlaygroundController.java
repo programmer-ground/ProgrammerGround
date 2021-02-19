@@ -5,6 +5,7 @@ import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
 import com.pg.programmerground.dto.playground.PlaygroundCardInfoDto;
 import com.pg.programmerground.dto.playground.PlaygroundInfoDto;
 import com.pg.programmerground.dto.playground.RevisePlaygroundInfoDto;
+import com.pg.programmerground.service.PlaygroundService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,14 +17,14 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/playground")
 public class PlaygroundController {
-
+    private final PlaygroundService playgroundService;
     /**
-     * playground list 반환
+     * playground 목록 반환
      * 무한 스크롤 적용위한 방법? 찾기
      */
     @GetMapping("")
     public ResponseEntity<ApiResponse<List<PlaygroundCardInfoDto>>> playgroundList() {
-        return ResponseEntity.ok().body(new ApiResponse<>(null));
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.getPlaygroundCardList()));
     }
 
     /**
