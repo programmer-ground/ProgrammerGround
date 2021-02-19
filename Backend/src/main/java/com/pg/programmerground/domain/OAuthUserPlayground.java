@@ -1,18 +1,11 @@
 package com.pg.programmerground.domain;
 
-import java.util.Objects;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
+import java.util.Objects;
 
 @Getter
 @Entity
@@ -33,9 +26,15 @@ public class OAuthUserPlayground extends BaseTimeEntity {
   @JoinColumn(name = "PLAYGROUND_ID")
   private Playground playground;
 
+  /**
+   * oAuthUser와 playground 연관 객체 생성
+   * 연관 객체에 oAuthUser 등록
+   * oAuthUser 객체에도 연관 객체 등록 -> 양방향 관계
+   */
   public static OAuthUserPlayground createOAuthUserPlayground(OAuthUser user) {
     OAuthUserPlayground userPlayground = new OAuthUserPlayground();
     userPlayground.user = user;
+    user.addUserPlayground(userPlayground);
     return userPlayground;
   }
 

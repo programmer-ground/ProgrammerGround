@@ -7,12 +7,14 @@ import com.pg.programmerground.dto.playground.PlaygroundInfoDto;
 import com.pg.programmerground.dto.playground.RevisePlaygroundInfoDto;
 import com.pg.programmerground.service.PlaygroundService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
+@Slf4j
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/playground")
@@ -31,8 +33,8 @@ public class PlaygroundController {
      * playground 생성
      */
     @PostMapping("")
-    public ResponseEntity<ApiResponse<Integer>> makePlayground(@Valid MakePlaygroundInfoDto info) {
-        return ResponseEntity.ok().body(new ApiResponse<>(null));
+    public ResponseEntity<ApiResponse<Long>> makePlayground(@Valid @RequestBody MakePlaygroundInfoDto info) {
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.createPlayground(info)));
     }
 
     /**

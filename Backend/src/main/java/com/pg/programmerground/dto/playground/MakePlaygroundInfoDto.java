@@ -1,5 +1,6 @@
 package com.pg.programmerground.dto.playground;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 /**
@@ -13,5 +14,6 @@ import lombok.Getter;
 public class MakePlaygroundInfoDto {
     private String title;
     private String description;
+    @JsonProperty("max_user_num")
     private Integer maxUserNum;
 }

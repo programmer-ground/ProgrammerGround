@@ -1,6 +1,7 @@
 package com.pg.programmerground.service;
 
 import com.pg.programmerground.domain.OAuthUser;
+import com.pg.programmerground.domain.OAuthUserPlayground;
 import com.pg.programmerground.domain.Playground;
 import com.pg.programmerground.dto.PlayGroundInfoDto;
 import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
@@ -19,13 +20,13 @@ import java.util.List;
 @Transactional
 @RequiredArgsConstructor
 public class PlaygroundService {
-    private final PlaygroundRepository playGroundRepository;
+    private final PlaygroundRepository playgroundRepository;
     private final OAuthUserRepository oAuthUserRepository;
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
     public PlayGroundInfoDto findById(Long id) {
-        Playground playGround = playGroundRepository.findById(id)
+        Playground playGround = playgroundRepository.findById(id)
                 .orElseThrow(PlaygroundNotFoundException::new);
         return modelMapper.map(playGround, PlayGroundInfoDto.class);
     }
@@ -35,14 +36,22 @@ public class PlaygroundService {
      */
     @Transactional(readOnly = true)
     public List<PlaygroundCardInfoDto> getPlaygroundCardList() {
-        return PlaygroundCardInfoDto.makePlaygroundCardList(playGroundRepository.findAll());
+        return PlaygroundCardInfoDto.makePlaygroundCardList(playgroundRepository.findAll());
     }
 
+    /**
+     * Playground 생성
+     */
     @Transactional
-    public Integer createPlayground(MakePlaygroundInfoDto playgroundInfo) {
+    public Long createPlayground(MakePlaygroundInfoDto playgroundInfo) {
         Long userId = UserAuthenticationService.getUserId();
+        //로그인 유저 가져오기
         OAuthUser oAuthUser = oAuthUserRepository.findById(userId).orElseThrow();
-        return null;
+        //OAuthUser 테이블과 Playground 테이블의 연관 테이블 생성
+        OAuthUserPlayground oAuthUserPlayground = OAuthUserPlayground.createOAuthUserPlayground(oAuthUser);
+        //Playground 생성
+        Playground playground = Playground.createPlayground(oAuthUserPlayground, playgroundInfo);
+        return playgroundRepository.save(playground).getId();
     }
 
 

@@ -1,9 +1,7 @@
 package com.pg.programmerground.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
+import lombok.*;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -11,6 +9,7 @@ import java.util.List;
 
 @Entity(name = "PLAYGROUND")
 @Getter
+@Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Playground extends BaseTimeEntity{
 
@@ -37,16 +36,33 @@ public class Playground extends BaseTimeEntity{
     @OneToOne
     private OAuthUser leader;
 
-    public static Playground createPlayground(OAuthUserPlayground userPlayground) {
-        Playground playground = new Playground();
-        addUserPlayground(playground, userPlayground);
+    @Builder
+    public Playground(int maxMemberCount, String title, String description) {
+        this.maxMemberCount = maxMemberCount;
+        this.title = title;
+        this.description = description;
+    }
+
+    /**
+     * playground 객체 생성
+     * playground 정보 builer로 생성
+     * playground 객체에 oAuthUser가 등록된 연관 객체(oAuthUserPlayground) 등록
+     */
+    public static Playground createPlayground(OAuthUserPlayground userPlayground, MakePlaygroundInfoDto playgroundInfo) {
+        Playground playground = Playground.builder()
+                .title(playgroundInfo.getTitle())
+                .description(playgroundInfo.getDescription())
+                .maxMemberCount(playgroundInfo.getMaxUserNum())
+                .build();
+
+        playground.addUserPlayground(userPlayground);
         return playground;
     }
 
-    public static void addUserPlayground(Playground playground, OAuthUserPlayground userPlayground) {
-        playground.addUserPlayground(userPlayground);
-    }
-
+    /**
+     * Playground 객체에 UserPlayground 객체 등록
+     * UserPlayground 객체에도 Playground 객체 등록 -> 양방향 관계를 위해
+     */
     public void addUserPlayground(OAuthUserPlayground userPlayground) {
         userPlaygrounds.add(userPlayground);
         userPlayground.addPlayground(this);
