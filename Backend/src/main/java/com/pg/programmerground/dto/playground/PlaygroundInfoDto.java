@@ -13,15 +13,15 @@ public class PlaygroundInfoDto {
     private final String description;
     private final int maxUserNum;
     private final int currentUserNum;
-    private final List<OAuthUserInfo> oAuthUserInfos;
+    private final List<OAuthUserInfo> userInfoList;
 
     @Builder
-    public PlaygroundInfoDto(String title, String description, int maxUserNum, int currentUserNum, List<OAuthUserInfo> oAuthUserInfos) {
+    public PlaygroundInfoDto(String title, String description, int maxUserNum, int currentUserNum, List<OAuthUserInfo> userInfoList) {
         this.title = title;
         this.description = description;
         this.maxUserNum = maxUserNum;
         this.currentUserNum = currentUserNum;
-        this.oAuthUserInfos = oAuthUserInfos;
+        this.userInfoList = userInfoList;
     }
 
     public static PlaygroundInfoDto of(Playground playground) {
@@ -30,7 +30,7 @@ public class PlaygroundInfoDto {
                 .description(playground.getDescription())
                 .maxUserNum(playground.getMaxMemberCount())
                 .currentUserNum(playground.getCurrentMemberCount())
-                .oAuthUserInfos(OAuthUserInfo.ofList(playground))
+                .userInfoList(OAuthUserInfo.ofList(playground))
                 .build();
     }
 }
