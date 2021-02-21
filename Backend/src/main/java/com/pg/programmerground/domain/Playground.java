@@ -33,7 +33,8 @@ public class Playground extends BaseTimeEntity{
     @Column(name = "DESCRIPTION")
     private String description;
 
-    @OneToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "LEADER_USER_ID")
     private OAuthUser leader;
 
     @Builder
@@ -56,6 +57,7 @@ public class Playground extends BaseTimeEntity{
                 .build();
 
         playground.addUserPlayground(userPlayground);
+
         return playground;
     }
 
@@ -70,6 +72,7 @@ public class Playground extends BaseTimeEntity{
 
     public void updateLeader(OAuthUser user) {
         leader = user;
+        user.addLeaderPlayground(this);
     }
 
     public void increaseCurrentMemberCount() {
@@ -78,6 +81,6 @@ public class Playground extends BaseTimeEntity{
         if(current < 0 || current > this.maxMemberCount) {
             //TODO : Exception 처리해야함
         }
-        this.currentMemberCount = currentMemberCount++;
+        this.currentMemberCount++;
     }
 }

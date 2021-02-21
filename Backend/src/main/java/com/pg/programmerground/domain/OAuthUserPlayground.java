@@ -38,16 +38,20 @@ public class OAuthUserPlayground extends BaseTimeEntity {
     return userPlayground;
   }
 
+  //리더를 설정하는 메소드는 playground에 있는것이 낫지 않을까
   public void updateLeader(OAuthUserPlayground userPlayground) {
     if(userPlayground.getPlayground().getCurrentMemberCount() <= 1) {
         playground.updateLeader(userPlayground.getUser());
     }
   }
 
+  /**
+   * OAuthUser 등록된 엔티티에 playground 등록
+   */
   public void addPlayground(Playground playground) {
+    playground.increaseCurrentMemberCount();
     this.playground = playground;
     updateLeader(this);
-    playground.increaseCurrentMemberCount();
   }
 
   @Override

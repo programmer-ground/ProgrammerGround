@@ -49,6 +49,9 @@ public class OAuthUser extends BaseTimeEntity {
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<OAuthUserPlayground> userPlaygrounds = new ArrayList<>();
 
+    @OneToMany(mappedBy = "leader", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<Playground> leaderPlaygrounds = new ArrayList<>();
+
     @Builder
     public OAuthUser(String userName, String OAuthName, String Role, String code, Oauth2AuthorizedClient oauth2AuthorizedClient) {
         Assert.notNull(userName, "userName must not be null");
@@ -71,17 +74,7 @@ public class OAuthUser extends BaseTimeEntity {
         this.userPlaygrounds.add(oAuthUserPlayground);
     }
 
-    public void updateUserGithubInfo(UserGithubInfo userGithubInfo) {
-        Assert.notNull(userGithubInfo, "userGithubInfo must not be null");
-        if (this.userGithubInfo == null) {
-            this.userGithubInfo = userGithubInfo;
-        } else {
-            this.userGithubInfo.updateInfo(userGithubInfo);
-        }
+    public void addLeaderPlayground(Playground playground) {
+        this.leaderPlaygrounds.add(playground);
     }
-
-    public void updateLoginCode(String loginCode) {
-        this.code = loginCode;
-    }
-
 }

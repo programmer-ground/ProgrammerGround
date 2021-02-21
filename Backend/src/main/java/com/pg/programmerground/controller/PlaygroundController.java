@@ -40,9 +40,9 @@ public class PlaygroundController {
     /**
      * playground 상세 정보
      */
-    @GetMapping("/{id}")
-    public ResponseEntity<ApiResponse<PlaygroundInfoDto>> getPlayground(@PathVariable String id) {
-        return ResponseEntity.ok().body(new ApiResponse<>(null));
+    @GetMapping("/{playgroundId}")
+    public ResponseEntity<ApiResponse<PlaygroundInfoDto>> getPlayground(@PathVariable Long playgroundId) {
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.getPlaygroundDetailInfo(playgroundId)));
     }
 
     /**

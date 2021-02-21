@@ -3,9 +3,9 @@ package com.pg.programmerground.service;
 import com.pg.programmerground.domain.OAuthUser;
 import com.pg.programmerground.domain.OAuthUserPlayground;
 import com.pg.programmerground.domain.Playground;
-import com.pg.programmerground.dto.PlayGroundInfoDto;
 import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
 import com.pg.programmerground.dto.playground.PlaygroundCardInfoDto;
+import com.pg.programmerground.dto.playground.PlaygroundInfoDto;
 import com.pg.programmerground.exception.PlaygroundNotFoundException;
 import com.pg.programmerground.model.OAuthUserRepository;
 import com.pg.programmerground.model.PlaygroundRepository;
@@ -25,10 +25,10 @@ public class PlaygroundService {
     private final ModelMapper modelMapper;
 
     @Transactional(readOnly = true)
-    public PlayGroundInfoDto findById(Long id) {
+    public PlaygroundInfoDto findById(Long id) {
         Playground playGround = playgroundRepository.findById(id)
                 .orElseThrow(PlaygroundNotFoundException::new);
-        return modelMapper.map(playGround, PlayGroundInfoDto.class);
+        return modelMapper.map(playGround, PlaygroundInfoDto.class);
     }
 
     /**
@@ -54,5 +54,10 @@ public class PlaygroundService {
         return playgroundRepository.save(playground).getId();
     }
 
-
+    @Transactional(readOnly = true)
+    public PlaygroundInfoDto getPlaygroundDetailInfo(Long playgroundId) {
+        return PlaygroundInfoDto.of(
+                playgroundRepository.findById(playgroundId).orElseThrow());
+        //return playgroundRepository.findById(playgroundId).orElseThrow(PlaygroundNotFoundException::new);
+    }
 }

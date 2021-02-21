@@ -6,8 +6,9 @@ import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
->>>>>>> feature-playground
+
 import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
+import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
 import com.pg.programmerground.exception.UserNotFoundException;
 import com.pg.programmerground.model.OAuthUserRepository;
 import com.pg.programmerground.model.PlaygroundRepository;
@@ -64,10 +65,10 @@ class PlaygroundTest {
         oAuthUserRepository.save(user);
 
         OAuthUser getUser = oAuthUserRepository.findById(1L).orElseThrow(UserNotFoundException::new);
-
+        MakePlaygroundInfoDto dto = new MakePlaygroundInfoDto();
         //when
         OAuthUserPlayground userPlayground = OAuthUserPlayground.createOAuthUserPlayground(getUser);
-        Playground playground = Playground.createPlayground(userPlayground);
+        Playground playground = Playground.createPlayground(userPlayground, dto);
 
         Playground getPlayground = playgroundRepository.save(playground);
 

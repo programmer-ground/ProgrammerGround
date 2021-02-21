@@ -33,13 +33,6 @@ public class UserGithubInfo {
   @Column(name ="PROFILE_IMG")
   private String profileImg;
 
-  /*@OneToMany(mappedBy = "memberGithubInfo", cascade = CascadeType.ALL, orphanRemoval = true)
-  private final List<GithubRepositoryInfo> githubRepositories = new ArrayList<>();
-
-  public void addGithubRepository(GithubRepositoryInfo githubRepositoryInfo) {
-      githubRepositories.add(githubRepositoryInfo);
-  }*/
-
   public void updateInfo(UserGithubInfo userGithubInfo) {
     this.commitCnt = userGithubInfo.commitCnt;
     this.pullRequestCnt = userGithubInfo.pullRequestCnt;
