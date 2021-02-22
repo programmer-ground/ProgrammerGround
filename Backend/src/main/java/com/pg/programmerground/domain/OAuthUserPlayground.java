@@ -26,6 +26,10 @@ public class OAuthUserPlayground extends BaseTimeEntity {
   @JoinColumn(name = "PLAYGROUND_ID")
   private Playground playground;
 
+  @ManyToOne(fetch = FetchType.LAZY)
+  @JoinColumn(name = "POSITION_ID")
+  private PlaygroundPosition position;
+
   /**
    * oAuthUser와 playground 연관 객체 생성
    * 연관 객체에 oAuthUser 등록

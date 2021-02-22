@@ -48,16 +48,24 @@ public class PlaygroundController {
     /**
      * playground 수정
      */
-    @PutMapping("/{id}")
-    public ResponseEntity<ApiResponse<Integer>> revisePlayground(@Valid RevisePlaygroundInfoDto info, @PathVariable Long id) {
+    @PutMapping("/{playgroundId}")
+    public ResponseEntity<ApiResponse<Integer>> revisePlayground(@Valid RevisePlaygroundInfoDto info, @PathVariable Long playgroundId) {
         return ResponseEntity.accepted().body(new ApiResponse<>(null));
     }
 
     /**
      * playground 삭제
      */
-    @DeleteMapping("/{id}")
-    public ResponseEntity<ApiResponse<Integer>> deletePlayground(@PathVariable String id) {
+    @DeleteMapping("/{playgroundId}")
+    public ResponseEntity<ApiResponse<Integer>> deletePlayground(@PathVariable Long playgroundId) {
+        return ResponseEntity.ok().body(new ApiResponse<>(null));
+    }
+
+    /**
+     * playground 참가 신청
+     */
+    @PostMapping("/apply/{playgroundId}")
+    public ResponseEntity<ApiResponse<Boolean>> applyPlayground(@PathVariable Long playgroundId) {
         return ResponseEntity.ok().body(new ApiResponse<>(null));
     }
 }

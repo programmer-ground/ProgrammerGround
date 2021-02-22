@@ -37,6 +37,9 @@ public class Playground extends BaseTimeEntity{
     @JoinColumn(name = "LEADER_USER_ID")
     private OAuthUser leader;
 
+    @OneToMany(mappedBy = "playground", cascade = CascadeType.ALL, orphanRemoval = true)
+    private final List<PlaygroundPosition> playgroundPositionList = new ArrayList<>();
+
     @Builder
     public Playground(int maxMemberCount, String title, String description) {
         this.maxMemberCount = maxMemberCount;
