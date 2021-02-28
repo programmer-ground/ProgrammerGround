@@ -15,3 +15,18 @@ export const PlaygroundContent = styled.div`
 		box-shadow: 5px 5px 10px 10px rgb(0 0 0 / 10%);
 	}
 `;
+export const PlaygroundHeader = styled.header`
+	display: flex;
+	padding: 10px 0;
+	border-bottom: 1px solid blue;
+	justify-content: space-between;
+`;
+export const PlaygroundTitle = styled.div`
+	font-size: 20px;
+	font-weight: bold;
+`;
+
+export const PlaygroundDate = styled.div`
+	font-size: 20px;
+	font-weight: bold;
+`;
