@@ -1,11 +1,15 @@
+/* eslint-disable react/jsx-pascal-case */
+/* eslint-disable array-callback-return */
 import React from 'react';
 import Header from '@src/components/header';
 import SearchBar from '@src/components/searchBar';
 import Bone from '@src/components/Common/bone';
 import PlaygroundContent from '@src/components/playgroundContent';
+import playgroundData from '@src/data/playground';
 import * as StyledComponent from './style';
 
 const PlayGroundPage = () => {
+	const groundData = playgroundData.content;
 	return (
 		<>
 			<Header />
@@ -17,10 +21,11 @@ const PlayGroundPage = () => {
 					</StyledComponent.ModeContainer>
 				</StyledComponent.SearchContainer>
 				<StyledComponent.PlayGroundContainer>
-					<PlaygroundContent title="TypeScript Making" date="2021.01.09" />
-					<PlaygroundContent title="SVG Making" date="2021.01.17" />
-					<PlaygroundContent title="Spring Core" date="2021.01.27" />
-					<PlaygroundContent title="React" date="2021.02.28" />
+					{groundData.map((v) => {
+						return (
+							<PlaygroundContent key={v.id} title={v.title} date={v.date} />
+						);
+					})}
 				</StyledComponent.PlayGroundContainer>
 			</StyledComponent.mainContainer>
 		</>
