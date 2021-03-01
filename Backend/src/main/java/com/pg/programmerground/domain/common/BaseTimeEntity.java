@@ -1,4 +1,4 @@
-package com.pg.programmerground.domain;
+package com.pg.programmerground.domain.common;
 
 import lombok.Getter;
 import org.springframework.data.annotation.CreatedDate;

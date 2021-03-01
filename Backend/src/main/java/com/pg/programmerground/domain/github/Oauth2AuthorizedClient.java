@@ -1,6 +1,6 @@
 package com.pg.programmerground.domain.github;
 
-import com.pg.programmerground.domain.BaseTimeEntity;
+import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.OAuthUser;
 import lombok.*;
 

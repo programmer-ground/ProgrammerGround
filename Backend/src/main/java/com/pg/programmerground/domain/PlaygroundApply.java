@@ -1,5 +1,7 @@
 package com.pg.programmerground.domain;
 
+import com.pg.programmerground.domain.common.BaseTimeEntity;
+import com.pg.programmerground.domain.common.BooleanToYNConverter;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,9 +11,9 @@ import java.util.Objects;
 
 @Getter
 @Entity
-@Table(name = "TBL_USER_PLAYGROUND")
+@Table(name = "PLAYGROUND_APPLY")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class OAuthUserPlayground extends BaseTimeEntity {
+public class PlaygroundApply extends BaseTimeEntity {
 
   @Id
   @Column(name = "USER_PLAYGROUND_ID")
@@ -26,24 +28,28 @@ public class OAuthUserPlayground extends BaseTimeEntity {
   @JoinColumn(name = "PLAYGROUND_ID")
   private Playground playground;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "POSITION_ID")
-  private PlaygroundPosition position;
+  @OneToOne
+  @JoinColumn(name = "PLAYGROUND_POSITION_ID")
+  private PlaygroundPosition playgroundPosition;
+
+  @Column(name = "APPLY_YN")
+  @Convert(converter = BooleanToYNConverter.class)
+  private boolean applyYn;
 
   /**
    * oAuthUser와 playground 연관 객체 생성
    * 연관 객체에 oAuthUser 등록
    * oAuthUser 객체에도 연관 객체 등록 -> 양방향 관계
    */
-  public static OAuthUserPlayground createOAuthUserPlayground(OAuthUser user) {
-    OAuthUserPlayground userPlayground = new OAuthUserPlayground();
+  public static PlaygroundApply createOAuthUserPlayground(OAuthUser user) {
+    PlaygroundApply userPlayground = new PlaygroundApply();
     userPlayground.user = user;
     user.addUserPlayground(userPlayground);
     return userPlayground;
   }
 
   //리더를 설정하는 메소드는 playground에 있는것이 낫지 않을까
-  public void updateLeader(OAuthUserPlayground userPlayground) {
+  public void updateLeader(PlaygroundApply userPlayground) {
     if(userPlayground.getPlayground().getCurrentMemberCount() <= 1) {
         playground.updateLeader(userPlayground.getUser());
     }
@@ -63,10 +69,10 @@ public class OAuthUserPlayground extends BaseTimeEntity {
     if (this == o) {
       return true;
     }
-    if (!(o instanceof OAuthUserPlayground)) {
+    if (!(o instanceof PlaygroundApply)) {
       return false;
     }
-    OAuthUserPlayground that = (OAuthUserPlayground) o;
+    PlaygroundApply that = (PlaygroundApply) o;
     return Objects.equals(getId(), that.getId());
   }
 

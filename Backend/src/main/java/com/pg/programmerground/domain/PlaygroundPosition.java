@@ -1,15 +1,14 @@
 package com.pg.programmerground.domain;
 
+import com.pg.programmerground.domain.common.BaseTimeEntity;
 import lombok.Getter;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Getter
 @Table(name = "PLAYGROUND_POSITION")
-public class PlaygroundPosition {
+public class PlaygroundPosition extends BaseTimeEntity {
     @Id
     @GeneratedValue
     @Column(name = "PLAYGROUND_POSITION_ID")
@@ -19,16 +18,16 @@ public class PlaygroundPosition {
     @Column(name = "POSITION")
     private Position position;
 
-    @Column(name = "MAX_USER_NUM")
+    @Column(name = "MAX_POSITION_NUM")
     private int maxUserNum;
 
-    @Column(name = "CURRENT_USER_NUM")
+    @Column(name = "CURRENT_POSITION_NUM")
     private int currentUserNum;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "PLAYGROUND_ID")
-    private Playground playground;
+    @OneToOne(mappedBy = "playgroundPosition")
+    private PlaygroundApply playgroundApply;
 
-    @OneToMany(mappedBy = "position", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<OAuthUserPlayground> oAuthUserPlaygroundList = new ArrayList<>();
+    @OneToOne
+    @JoinColumn(name = "OAUTH_USER_ID")
+    private OAuthUser oAuthUser;
 }

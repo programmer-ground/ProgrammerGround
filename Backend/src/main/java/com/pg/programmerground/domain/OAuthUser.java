@@ -1,5 +1,6 @@
 package com.pg.programmerground.domain;
 
+import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
 import com.pg.programmerground.domain.github.UserGithubInfo;
 import io.jsonwebtoken.lang.Assert;
@@ -47,7 +48,7 @@ public class OAuthUser extends BaseTimeEntity {
     private UserExtraInfo userExtraInfo;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<OAuthUserPlayground> userPlaygrounds = new ArrayList<>();
+    private final List<PlaygroundApply> userPlaygrounds = new ArrayList<>();
 
     @OneToMany(mappedBy = "leader", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Playground> leaderPlaygrounds = new ArrayList<>();
@@ -70,8 +71,8 @@ public class OAuthUser extends BaseTimeEntity {
     /**
      * UserPlayground 등록
      */
-    public void addUserPlayground(OAuthUserPlayground oAuthUserPlayground) {
-        this.userPlaygrounds.add(oAuthUserPlayground);
+    public void addUserPlayground(PlaygroundApply playgroundApply) {
+        this.userPlaygrounds.add(playgroundApply);
     }
 
     public void addLeaderPlayground(Playground playground) {

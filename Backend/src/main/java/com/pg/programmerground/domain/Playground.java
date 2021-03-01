@@ -1,5 +1,6 @@
 package com.pg.programmerground.domain;
 
+import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
 import lombok.*;
 
@@ -11,7 +12,7 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class Playground extends BaseTimeEntity{
+public class Playground extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -19,7 +20,7 @@ public class Playground extends BaseTimeEntity{
     private Long id;
 
     @OneToMany(mappedBy = "playground", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<OAuthUserPlayground> userPlaygrounds = new ArrayList<>();
+    private final List<PlaygroundApply> userPlaygrounds = new ArrayList<>();
 
     @Column(name = "MAX_MEMBER_COUNT")
     private int maxMemberCount;
@@ -37,9 +38,6 @@ public class Playground extends BaseTimeEntity{
     @JoinColumn(name = "LEADER_USER_ID")
     private OAuthUser leader;
 
-    @OneToMany(mappedBy = "playground", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<PlaygroundPosition> playgroundPositionList = new ArrayList<>();
-
     @Builder
     public Playground(int maxMemberCount, String title, String description) {
         this.maxMemberCount = maxMemberCount;
@@ -52,7 +50,7 @@ public class Playground extends BaseTimeEntity{
      * playground 정보 builer로 생성
      * playground 객체에 oAuthUser가 등록된 연관 객체(oAuthUserPlayground) 등록
      */
-    public static Playground createPlayground(OAuthUserPlayground userPlayground, MakePlaygroundInfoDto playgroundInfo) {
+    public static Playground createPlayground(PlaygroundApply userPlayground, MakePlaygroundInfoDto playgroundInfo) {
         Playground playground = Playground.builder()
                 .title(playgroundInfo.getTitle())
                 .description(playgroundInfo.getDescription())
@@ -68,7 +66,7 @@ public class Playground extends BaseTimeEntity{
      * Playground 객체에 UserPlayground 객체 등록
      * UserPlayground 객체에도 Playground 객체 등록 -> 양방향 관계를 위해
      */
-    public void addUserPlayground(OAuthUserPlayground userPlayground) {
+    public void addUserPlayground(PlaygroundApply userPlayground) {
         userPlaygrounds.add(userPlayground);
         userPlayground.addPlayground(this);
     }

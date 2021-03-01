@@ -67,7 +67,7 @@ class PlaygroundTest {
         OAuthUser getUser = oAuthUserRepository.findById(1L).orElseThrow(UserNotFoundException::new);
         MakePlaygroundInfoDto dto = new MakePlaygroundInfoDto();
         //when
-        OAuthUserPlayground userPlayground = OAuthUserPlayground.createOAuthUserPlayground(getUser);
+        PlaygroundApply userPlayground = PlaygroundApply.createOAuthUserPlayground(getUser);
         Playground playground = Playground.createPlayground(userPlayground, dto);
 
         Playground getPlayground = playgroundRepository.save(playground);
