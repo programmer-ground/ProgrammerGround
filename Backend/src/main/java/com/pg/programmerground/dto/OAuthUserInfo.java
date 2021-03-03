@@ -24,7 +24,7 @@ public class OAuthUserInfo {
     }
 
     public static List<OAuthUserInfo> ofList(Playground playground) {
-        return playground.getUserPlaygrounds().stream().map(oAuthUserPlayground -> {
+        return playground.getApplyPlaygrounds().stream().map(oAuthUserPlayground -> {
             OAuthUser user = oAuthUserPlayground.getUser();
             return OAuthUserInfo.builder()
                     .oAuthName(user.getOAuthName())

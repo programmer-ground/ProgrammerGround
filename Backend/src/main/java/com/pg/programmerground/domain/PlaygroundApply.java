@@ -3,6 +3,7 @@ package com.pg.programmerground.domain;
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.common.BooleanToYNConverter;
 import lombok.AccessLevel;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -14,70 +15,67 @@ import java.util.Objects;
 @Table(name = "PLAYGROUND_APPLY")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PlaygroundApply extends BaseTimeEntity {
+    private static final boolean LEADER_APPLY_YN = true;
 
-  @Id
-  @Column(name = "USER_PLAYGROUND_ID")
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+    @Id
+    @Column(name = "USER_PLAYGROUND_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "OAUTH_USER_ID")
-  private OAuthUser user;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "OAUTH_USER_ID")
+    private OAuthUser user;
 
-  @ManyToOne(fetch = FetchType.LAZY)
-  @JoinColumn(name = "PLAYGROUND_ID")
-  private Playground playground;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "PLAYGROUND_ID")
+    private Playground playground;
 
-  @OneToOne
-  @JoinColumn(name = "PLAYGROUND_POSITION_ID")
-  private PlaygroundPosition playgroundPosition;
+    @OneToOne
+    @JoinColumn(name = "PLAYGROUND_POSITION_ID")
+    private PlaygroundPosition playgroundPosition;
 
-  @Column(name = "APPLY_YN")
-  @Convert(converter = BooleanToYNConverter.class)
-  private boolean applyYn;
+    @Column(name = "APPLY_YN")
+    @Convert(converter = BooleanToYNConverter.class)
+    private boolean applyYn = false;
 
-  /**
-   * oAuthUser와 playground 연관 객체 생성
-   * 연관 객체에 oAuthUser 등록
-   * oAuthUser 객체에도 연관 객체 등록 -> 양방향 관계
-   */
-  public static PlaygroundApply createOAuthUserPlayground(OAuthUser user) {
-    PlaygroundApply userPlayground = new PlaygroundApply();
-    userPlayground.user = user;
-    user.addUserPlayground(userPlayground);
-    return userPlayground;
-  }
-
-  //리더를 설정하는 메소드는 playground에 있는것이 낫지 않을까
-  public void updateLeader(PlaygroundApply userPlayground) {
-    if(userPlayground.getPlayground().getCurrentMemberCount() <= 1) {
-        playground.updateLeader(userPlayground.getUser());
+    @Builder
+    public PlaygroundApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition, boolean applyYn) {
+        this.user = user;
+        this.playground = playground;
+        this.playgroundPosition = playgroundPosition;
+        this.applyYn = applyYn;
     }
-  }
 
-  /**
-   * OAuthUser 등록된 엔티티에 playground 등록
-   */
-  public void addPlayground(Playground playground) {
-    playground.increaseCurrentMemberCount();
-    this.playground = playground;
-    updateLeader(this);
-  }
-
-  @Override
-  public boolean equals(Object o) {
-    if (this == o) {
-      return true;
+    /**
+     * Playground 생성시 리더의 포지션을 넣기 위한 함수
+     */
+    public static PlaygroundApply createLeaderApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition) {
+        PlaygroundApply playgroundApply = PlaygroundApply.builder()
+                .user(user)
+                .playground(playground)
+                .playgroundPosition(playgroundPosition)
+                .applyYn(LEADER_APPLY_YN)       //리더는 포지션에 넣음
+                .build();
+        user.getApplyPlaygrounds().add(playgroundApply);
+        playground.getApplyPlaygrounds().add(playgroundApply);
+        playgroundPosition.setPlaygroundApply(playgroundApply);
+        return playgroundApply;
     }
-    if (!(o instanceof PlaygroundApply)) {
-      return false;
-    }
-    PlaygroundApply that = (PlaygroundApply) o;
-    return Objects.equals(getId(), that.getId());
-  }
 
-  @Override
-  public int hashCode() {
-    return Objects.hash(getId());
-  }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof PlaygroundApply)) {
+            return false;
+        }
+        PlaygroundApply that = (PlaygroundApply) o;
+        return Objects.equals(getId(), that.getId());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getId());
+    }
 }

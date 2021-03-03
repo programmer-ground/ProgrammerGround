@@ -1,8 +1,9 @@
 package com.pg.programmerground.service;
 
 import com.pg.programmerground.domain.OAuthUser;
-import com.pg.programmerground.domain.PlaygroundApply;
 import com.pg.programmerground.domain.Playground;
+import com.pg.programmerground.domain.PlaygroundApply;
+import com.pg.programmerground.domain.PlaygroundPosition;
 import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
 import com.pg.programmerground.dto.playground.PlaygroundCardInfoDto;
 import com.pg.programmerground.dto.playground.PlaygroundInfoDto;
@@ -15,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @Transactional
@@ -44,21 +46,30 @@ public class PlaygroundService {
      */
     @Transactional
     public Long createPlayground(MakePlaygroundInfoDto playgroundInfo) {
-        Long userId = UserAuthenticationService.getUserId();
         //로그인 유저 가져오기
-        OAuthUser oAuthUser = oAuthUserRepository.findById(userId).orElseThrow();
-
-        //OAuthUser 테이블과 Playground 테이블의 연관 테이블 생성
-        PlaygroundApply playgroundApply = PlaygroundApply.createOAuthUserPlayground(oAuthUser);
+        OAuthUser leaderUser = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
+        //Playground Position 객체 리스트 만들기
+        List<PlaygroundPosition> playgroundPositionList = PlaygroundPosition.createPosition(playgroundInfo.getPositionInfo());
         //Playground 생성
-        Playground playground = Playground.createPlayground(playgroundApply, playgroundInfo);
+        Playground playground = Playground.createPlayground(playgroundInfo, leaderUser, playgroundPositionList);
+        //리더 포지션 검색
+        PlaygroundPosition leaderPosition = searchLeaderPosition(playgroundPositionList, playgroundInfo.getLeaderPosition());
+        //리더도 Position에 포함되야하므로 PlaygroundApply 객체를 만든다.
+        PlaygroundApply playgroundApply = PlaygroundApply.createLeaderApply(leaderUser, playground, leaderPosition);
         return playgroundRepository.save(playground).getId();
     }
 
+    private PlaygroundPosition searchLeaderPosition(List<PlaygroundPosition> playgroundPositions, String positionName) {
+        return playgroundPositions.stream()
+                .filter(playgroundPosition -> {
+                    return playgroundPosition.getPosition().name().equals(positionName);
+                }).findFirst().orElseThrow(() -> {
+                    throw new NoSuchElementException("입력되지 않은 포지션입니다");
+                });
+    }
     @Transactional(readOnly = true)
     public PlaygroundInfoDto getPlaygroundDetailInfo(Long playgroundId) {
         return PlaygroundInfoDto.of(
-                playgroundRepository.findById(playgroundId).orElseThrow());
-        //return playgroundRepository.findById(playgroundId).orElseThrow(PlaygroundNotFoundException::new);
+                playgroundRepository.findById(playgroundId).orElseThrow(() -> new NoSuchElementException("playground 존재 안함")));
     }
 }

@@ -10,13 +10,15 @@ import java.util.List;
  * 제목
  * 설명
  * 인원
- *
+ * 찾는 포지션 정보
  */
 @Getter
 public class MakePlaygroundInfoDto {
     private String title;
     private String description;
+    @JsonProperty("leader_position")
+    private String leaderPosition;
     @JsonProperty("max_user_num")
     private Integer maxUserNum;
-    List<MakePositionInfo> makePositionInfoList;
+    List<MakePositionInfo> positionInfo;
 }

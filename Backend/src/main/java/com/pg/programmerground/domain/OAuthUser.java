@@ -48,7 +48,7 @@ public class OAuthUser extends BaseTimeEntity {
     private UserExtraInfo userExtraInfo;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    private final List<PlaygroundApply> userPlaygrounds = new ArrayList<>();
+    private final List<PlaygroundApply> applyPlaygrounds = new ArrayList<>();
 
     @OneToMany(mappedBy = "leader", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<Playground> leaderPlaygrounds = new ArrayList<>();
@@ -66,16 +66,5 @@ public class OAuthUser extends BaseTimeEntity {
         this.Role = Role;
         this.code = code;
         this.oauth2AuthorizedClient = oauth2AuthorizedClient;
-    }
-
-    /**
-     * UserPlayground 등록
-     */
-    public void addUserPlayground(PlaygroundApply playgroundApply) {
-        this.userPlaygrounds.add(playgroundApply);
-    }
-
-    public void addLeaderPlayground(Playground playground) {
-        this.leaderPlaygrounds.add(playground);
     }
 }
