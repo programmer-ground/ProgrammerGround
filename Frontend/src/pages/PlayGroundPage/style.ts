@@ -8,7 +8,7 @@ export const SearchContainer = styled.div`
 
 export const mainContainer = styled.div`
 	display: flex;
-	height: 350px;
+	height: 320px;
 	flex-direction: column;
 `;
 

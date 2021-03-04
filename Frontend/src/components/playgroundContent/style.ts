@@ -24,11 +24,13 @@ export const PlaygroundHeader = styled.header`
 export const PlaygroundTitle = styled.div`
 	font-size: 20px;
 	font-weight: bold;
+	color: #000;
 `;
 
 export const PlaygroundDate = styled.div`
 	font-size: 20px;
 	font-weight: bold;
+	color: #000;
 `;
 
 export const PlaygroundImg = styled.img.attrs((props) => ({
@@ -36,4 +38,30 @@ export const PlaygroundImg = styled.img.attrs((props) => ({
 }))`
 	width: 100%;
 	height: 200px;
+`;
+
+export const PlaygroundPersonInfo = styled.div`
+	display: flex;
+	justify-content: space-between;
+	& span {
+		margin-left: 10px;
+		font-weight: bold;
+		font-size: 20px;
+		margin-top: 10px;
+		color: #000;
+	}
+`;
+export const PlaygroundTechListContainer = styled.div`
+	display: flex;
+`;
+export const PlaygroundTechList = styled.div`
+	margin-left: 10px;
+	box-sizing: border-box;
+	text-align: center;
+	padding-top: 10px;
+	width: 90px;
+	height: 40px;
+	background-color: #4572c4;
+	font-weight: bold;
+	color: #fff;
 `;

@@ -28,6 +28,9 @@ const PlayGroundPage = () => {
 								title={v.title}
 								date={v.date}
 								src={v.src}
+								position={v.position}
+								personnel={v.personnel}
+								language={v.language}
 							/>
 						);
 					})}
