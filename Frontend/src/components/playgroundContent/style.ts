@@ -30,3 +30,10 @@ export const PlaygroundDate = styled.div`
 	font-size: 20px;
 	font-weight: bold;
 `;
+
+export const PlaygroundImg = styled.img.attrs((props) => ({
+	src: props.src,
+}))`
+	width: 100%;
+	height: 200px;
+`;

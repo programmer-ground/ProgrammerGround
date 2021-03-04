@@ -23,7 +23,12 @@ const PlayGroundPage = () => {
 				<StyledComponent.PlayGroundContainer>
 					{groundData.map((v) => {
 						return (
-							<PlaygroundContent key={v.id} title={v.title} date={v.date} />
+							<PlaygroundContent
+								key={v.id}
+								title={v.title}
+								date={v.date}
+								src={v.src}
+							/>
 						);
 					})}
 				</StyledComponent.PlayGroundContainer>
