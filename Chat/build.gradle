@@ -1,0 +1,60 @@
+plugins {
+    id 'org.springframework.boot' version '2.3.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+    id 'java'
+}
+
+group = 'com.pg'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    testImplementation 'io.projectreactor:reactor-test'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+
+bootJar {
+    layered()
+}
+
+// querydsl 적용
+def querydslSrcDir = 'src/main/generated'
+
+querydsl {
+    library = "com.querydsl:querydsl-apt"
+    jpa = true
+    querydslSourcesDir = querydslSrcDir
+}
+
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+
+configurations {
+    querydsl.extendsFrom compileClasspath
+}
+
+sourceSets {
+    main {
+        java {
+            srcDirs = ['src/main/java', querydslSrcDir]
+        }
+    }
+}
