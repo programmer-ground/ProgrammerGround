@@ -1,18 +1,33 @@
-# bulid stage
-FROM golang:1.15 AS build
-LABEL stage=builder
+# Build Stage
+FROM gradle:6.8.0-jdk11 AS builder
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
 
-WORKDIR /src
-COPY . .
-RUN make build-linux
+# Only copy dependency-related files
+COPY build.gradle settings.gradle ./
 
-# final stage
-FROM scratch
+# Donwload dependencies. docker layer caching
+RUN gradle clean build --no-daemon > /dev/null 2>&1 || true
 
-WORKDIR /
-COPY --from=build /src/build/PGChatServer-linux-amd64 /PGChatServer
-COPY --from=build /src/static .
+# Copy Source File
+COPY src src
 
-EXPOSE 8080
+# Build soruce file
+RUN gradle clean build -x test --console=plain
 
-CMD ["/PGChatServer"]
+# Extract Layerd Jar
+RUN java -Djarmode=layertools -jar build/libs/*.jar extract
+
+# Runtime Stage
+FROM openjdk:11-jre-slim
+# Working Directory
+ENV APP_HOME=/usr/app/
+WORKDIR $APP_HOME
+
+COPY --from=builder ${APP_HOME}/dependencies/ ./
+COPY --from=builder ${APP_HOME}/spring-boot-loader/ ./
+COPY --from=builder ${APP_HOME}/snapshot-dependencies/ ./
+COPY --from=builder ${APP_HOME}/application/ ./
+
+EXPOSE 8081
+CMD ["java", "-Xms700M", "-Xmx700M", "org.springframework.boot.loader.JarLauncher"]

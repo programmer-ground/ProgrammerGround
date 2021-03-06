@@ -2,15 +2,13 @@
 const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
+const webpack = require('webpack');
 
 module.exports = {
-	entry: ['@babel/polyfill', './src/index.tsx'],
-	output: {
-		filename: 'bundle.js',
-		path: path.resolve(__dirname, 'dist'),
-		publicPath: '/',
+	entry: {
+		app: ['@babel/polyfill', './src/index'],
 	},
-	mode: 'none',
+	mode: 'development',
 	resolve: {
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		alias: {
@@ -68,5 +66,13 @@ module.exports = {
 			template: './public/index.html',
 		}),
 		new CleanWebpackPlugin(),
+		new webpack.BannerPlugin({
+			banner: '배너내용입니다.',
+		}),
 	],
+	output: {
+		filename: '[name].[chunkhash].js',
+		path: path.resolve(__dirname, 'dist'),
+		publicPath: '/',
+	},
 };
