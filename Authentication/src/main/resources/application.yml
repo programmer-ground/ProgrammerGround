@@ -3,8 +3,7 @@ server:
 
 ---
 spring:
-  profiles:
-    active: seansin-local
+  profiles: seansin-local
   # 자신의 환경에 맞게 active 하면됌.
 
   datasource:
@@ -53,12 +52,13 @@ spring:
 
 ---
 spring:
-  profiles: jaewoo-local
+  profiles:
+    active: jaewoo-local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/auth?serverTimezone=UTC&characterEncoding=UTF-8
     username: root
-    password:
+    password: awdsd123
 
   jpa:
     hibernate:

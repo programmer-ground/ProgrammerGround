@@ -64,9 +64,9 @@ public class OAuthUserService {
         if (oAuthUser == null) {
             OAuth2User oAuth2User = authentication.getPrincipal();
             oAuthUser = OAuthUser.builder()
-                .userName(oAuth2User.getAttribute("name"))
+                .userName(oAuth2User.getAttribute("name") != null ? oAuth2User.getAttribute("name") : "No Name")
                 .oauth2AuthorizedClient(authorizedClient)
-                .OAuthName(oAuth2User.getAttribute("login"))
+                .OAuthName(oAuth2User.getAttribute("login") != null ? oAuth2User.getAttribute("login") : "No Nickname ")
                 .code(loginCode)
                 .Role(oAuth2User.getAuthorities().stream().
                     map(GrantedAuthority::getAuthority).
@@ -137,8 +137,16 @@ public class OAuthUserService {
             () -> getOAuthCommitCount(oauthInfo.getLogin(), header));
         CompletableFuture<Void> voidCompletableFuture = CompletableFuture.allOf(repoFuture, pullRequestFuture,
             commitFuture);
-        voidCompletableFuture.get();
+        try {
+            voidCompletableFuture.get();
+        } catch (Exception ignored) { }
 
+        int repoCnt = 0;
+        List<RepositoryItem> repositoryItems = new ArrayList<>();
+        try{
+            repoCnt = repoFuture.join().getTotalCount();
+            repositoryItems = repoFuture.join().getRepositoryItems();
+        } catch (Exception e) { }
         return UserGithubInfo.builder()
             //프로필 이미지
             .profileImg(oauthInfo.getAvatarUrl())
@@ -147,11 +155,11 @@ public class OAuthUserService {
             //Commit 개수
             .commitCnt(commitFuture.join())
             //Repo 개수
-            .repositoryCnt(repoFuture.join().getTotalCount())
+            .repositoryCnt(repoCnt)
             //Issue, PR 수
             .pullRequestCnt(pullRequestFuture.join())
             //가장 많이 사용한 언어 수
-            .mostLanguage(getMostLanguage(repoFuture.join().getRepositoryItems()))
+            .mostLanguage(getMostLanguage(repositoryItems))
             .user(oAuthUser)
             .build();
     }
@@ -198,6 +206,9 @@ public class OAuthUserService {
      * Repository에서 가장 많이 사용된 상위 3개 언어 추출
      */
     private String getMostLanguage(List<RepositoryItem> repositoryItems) {
+        if(repositoryItems.isEmpty()) {
+            return "No Repo";
+        }
         Map<String, Integer> languageMap = new HashMap<>();
         //데이터중에서 프로그래밍 언어만 추출
         repositoryItems.stream().filter(repositoryItem -> repositoryItem.getLanguage() != null)

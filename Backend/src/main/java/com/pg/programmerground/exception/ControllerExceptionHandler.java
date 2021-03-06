@@ -22,5 +22,11 @@ public class ControllerExceptionHandler {
         map.put("code", 10);
         return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, Object>> exceptionHandler(Exception e) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("msg", e.getMessage());
+        map.put("code", 11);
+        return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
 }

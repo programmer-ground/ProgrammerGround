@@ -7,6 +7,7 @@ import lombok.*;
 import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Entity(name = "PLAYGROUND")
 @Getter
@@ -34,7 +35,7 @@ public class Playground extends BaseTimeEntity {
     @OneToMany(mappedBy = "playground", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<PlaygroundApply> applyPlaygrounds = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LEADER_USER_ID")
     private OAuthUser leader;
 
@@ -64,35 +65,38 @@ public class Playground extends BaseTimeEntity {
         return playground;
     }
 
-    public void addPosition(PlaygroundPosition position) {
+    /**
+     * Playground의 Position 등록
+     */
+    private void addPosition(PlaygroundPosition position) {
         this.playgroundPositionList.add(position);
         position.setPlayground(this);
     }
 
-    public void addLeader(OAuthUser leader) {
+    /**
+     * Playground의 Leader 설정
+     */
+    private void addLeader(OAuthUser leader) {
         this.leader = leader;
         leader.getLeaderPlaygrounds().add(this);
     }
+
     /**
-     * Playground 객체에 UserPlayground 객체 등록
-     * UserPlayground 객체에도 Playground 객체 등록 -> 양방향 관계를 위해
+     * Position ID로 탐색
      */
-    /*public void addUserPlayground(PlaygroundApply userPlayground) {
-        userPlaygrounds.add(userPlayground);
-        userPlayground.addPlayground(this);
+    public PlaygroundPosition searchPosition(Long positionId) {
+        return this.playgroundPositionList.stream()
+                .filter(playgroundPosition -> playgroundPosition.getId().equals(positionId))
+                .findFirst()
+                .orElseThrow(() -> new NoSuchElementException("포지션이 존재하지 않음"));
     }
 
-    public void updateLeader(OAuthUser user) {
-        leader = user;
-        user.addLeaderPlayground(this);
+    /**
+     * 이미 해당 Playground에 참여중인 유저인지 체크
+     */
+    public boolean checkAlreadyMember(OAuthUser user) {
+        return applyPlaygrounds.stream().noneMatch(playgroundApply -> {
+            return playgroundApply.getUser() == user;
+        });
     }
-
-    public void increaseCurrentMemberCount() {
-        int current = this.maxMemberCount - currentMemberCount;
-
-        if(current < 0 || current > this.maxMemberCount) {
-            //TODO : Exception 처리해야함
-        }
-        this.currentMemberCount++;
-    }*/
 }

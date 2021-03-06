@@ -1,10 +1,7 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.controller.response.ApiResponse;
-import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
-import com.pg.programmerground.dto.playground.PlaygroundCardInfoDto;
-import com.pg.programmerground.dto.playground.PlaygroundInfoDto;
-import com.pg.programmerground.dto.playground.RevisePlaygroundInfoDto;
+import com.pg.programmerground.dto.playground.*;
 import com.pg.programmerground.service.PlaygroundService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,10 +30,17 @@ public class PlaygroundController {
      * playground 생성
      */
     @PostMapping("")
-    public ResponseEntity<ApiResponse<Long>> makePlayground(@Valid @RequestBody MakePlaygroundInfoDto info) {
+    public ResponseEntity<ApiResponse<Long>> makePlayground(@Valid @RequestBody MakePlaygroundInfoDto info) throws Exception {
         return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.createPlayground(info)));
     }
 
+    /**
+     * playground 참여 신청
+     */
+    @PostMapping("/apply/{playgroundId}")
+    public ResponseEntity<ApiResponse<Boolean>> applyPlayground(@PathVariable Long playgroundId, @RequestBody ApplyPlaygroundDto applyPlayground) throws Exception {
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.applyPlayground(playgroundId, applyPlayground)));
+    }
     /**
      * playground 상세 정보
      */
@@ -58,14 +62,6 @@ public class PlaygroundController {
      */
     @DeleteMapping("/{playgroundId}")
     public ResponseEntity<ApiResponse<Integer>> deletePlayground(@PathVariable Long playgroundId) {
-        return ResponseEntity.ok().body(new ApiResponse<>(null));
-    }
-
-    /**
-     * playground 참가 신청
-     */
-    @PostMapping("/apply/{playgroundId}")
-    public ResponseEntity<ApiResponse<Boolean>> applyPlayground(@PathVariable Long playgroundId) {
         return ResponseEntity.ok().body(new ApiResponse<>(null));
     }
 }
