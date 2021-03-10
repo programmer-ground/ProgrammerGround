@@ -1,15 +1,14 @@
 package com.pg.programmerground.domain;
 
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import com.pg.programmerground.dto.playground.MakePositionLanguage;
+import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 @Getter
-@Setter
 @Table(name = "POSITION_LANGUAGE")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class PositionLanguage {
@@ -24,4 +23,21 @@ public class PositionLanguage {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PLAYGROUND_POSITION_ID")
     private PlaygroundPosition playgroundPosition;
+
+    @Builder
+    private PositionLanguage(String languageName) {
+        this.languageName = languageName;
+    }
+
+    public void setPlaygroundPosition(PlaygroundPosition playgroundPosition) {
+        this.playgroundPosition = playgroundPosition;
+    }
+
+    public static List<PositionLanguage> createPositionLanguage(List<MakePositionLanguage> languages) {
+        return languages.stream()
+                .map(makePositionLanguage ->
+                        PositionLanguage.builder().languageName(makePositionLanguage.getLanguageName())
+                        .build())
+                .collect(Collectors.toList());
+    }
 }

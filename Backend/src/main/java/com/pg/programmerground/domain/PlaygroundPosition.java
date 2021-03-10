@@ -2,7 +2,7 @@ package com.pg.programmerground.domain;
 
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.enumerated.Position;
-import com.pg.programmerground.dto.playground.MakePositionInfo;
+import com.pg.programmerground.dto.playground.MakePositionInfoDto;
 import lombok.*;
 
 import javax.persistence.*;
@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 @Setter
 @Table(name = "PLAYGROUND_POSITION")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class PlaygroundPosition extends BaseTimeEntity {
+public class
+PlaygroundPosition extends BaseTimeEntity {
     @Id
     @GeneratedValue
     @Column(name = "PLAYGROUND_POSITION_ID")
@@ -42,24 +43,31 @@ public class PlaygroundPosition extends BaseTimeEntity {
     private List<PositionLanguage> positionLanguageList = new ArrayList<>();
 
     @Builder
-    private PlaygroundPosition(String position, int maxPositionNum) {
+    private PlaygroundPosition(String position, int maxPositionNum, List<PositionLanguage> positionLanguageList) {
         this.position = Position.valueOf(position);
+        this.positionLanguageList = positionLanguageList;
         this.maxPositionNum = maxPositionNum;
         this.currentPositionNum = 0;
     }
 
-    public static List<PlaygroundPosition> createPosition(List<MakePositionInfo> positionInfoList) {
+    public static List<PlaygroundPosition> createPosition(List<MakePositionInfoDto> positionInfoList) {
         return positionInfoList.stream()
-                .map(makePositionInfo -> {
-                    return PlaygroundPosition.builder()
-                            .position(makePositionInfo.getPositionName())
-                            .maxPositionNum(makePositionInfo.getPositionMaxNum())
-                            .build();
+                .map(makePositionInfoDto -> {
+                    PlaygroundPosition playgroundPosition =
+                            PlaygroundPosition.builder()
+                                    .position(makePositionInfoDto.getPositionName())
+                                    .maxPositionNum(makePositionInfoDto.getPositionMaxNum())
+                                    .positionLanguageList(PositionLanguage.createPositionLanguage(makePositionInfoDto.getPositionLanguage()))
+                                    .build();
+                    for (PositionLanguage positionLanguage : playgroundPosition.positionLanguageList) {
+                        positionLanguage.setPlaygroundPosition(playgroundPosition);
+                    }
+                    return playgroundPosition;
                 }).collect(Collectors.toList());
     }
 
     public void increaseMember() throws Exception {
-        if(maxPositionNum <= currentPositionNum) {
+        if (maxPositionNum <= currentPositionNum) {
             throw new Exception("Position 최대 인원을 넘음");
         }
         currentPositionNum++;

@@ -20,5 +20,5 @@ public class MakePlaygroundInfoDto {
     private String leaderPosition;
     @JsonProperty("max_user_num")
     private Integer maxUserNum;
-    List<MakePositionInfo> positionInfo;
+    List<MakePositionInfoDto> positionInfo;
 }
