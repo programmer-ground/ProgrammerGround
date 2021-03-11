@@ -13,9 +13,9 @@ export const Container = styled.div`
 `;
 export const ModalContent = styled.div`
 	background-color: #fefefe;
-	width: 50%;
+	width: 30%;
 	height: 400px;
-	margin: 15% auto;
+	margin: 10% auto;
 	border: 1px solid #888;
 	border-radius: 10px;
 `;
@@ -39,4 +39,9 @@ export const ModalClose = styled.div`
 
 export const ModalTitle = styled.div`
 	font-size: 20px;
+`;
+
+export const ModalBody = styled.div`
+	display: flex;
+	justify-content: center;
 `;
