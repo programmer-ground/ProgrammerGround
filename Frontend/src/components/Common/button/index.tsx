@@ -1,13 +1,11 @@
 /* eslint-disable react/destructuring-assignment */
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@src/store/modules/index';
 import { changeModalMode } from '@src/store/modules/modal';
+import useShow from '@src/hooks/useShow';
 import * as StyledComponent from './style';
 
 const Button = (props: { text: string }) => {
-	const { show } = useSelector((state: RootState) => state.modalReducer);
-	const dispatch = useDispatch();
+	const [show, dispatch] = useShow();
 	const onClick = () => {
 		dispatch(changeModalMode());
 	};
