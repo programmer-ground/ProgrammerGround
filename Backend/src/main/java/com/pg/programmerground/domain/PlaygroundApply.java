@@ -74,10 +74,10 @@ public class PlaygroundApply extends BaseTimeEntity {
          * 버그 유발 방지
          * 프론트단에서 확인(인원 검사, 이미 참여 여부) 요청을 통해 처리해야함
          */
-        if(!playgroundPosition.checkFullPosition()) {
+        if (!playgroundPosition.checkFullPosition()) {
             throw new Exception("해당 포지션의 인원 가득참");
         }
-        if(!playground.checkAlreadyMember(user)) {
+        if (!playground.checkAlreadyMember(user)) {
             throw new Exception("이미 참여 신청했거나 가입되어있거나 거절당함");
         }
         PlaygroundApply playgroundApply = PlaygroundApply.builder()
@@ -91,6 +91,7 @@ public class PlaygroundApply extends BaseTimeEntity {
         playgroundPosition.setPlaygroundApply(playgroundApply);
         return playgroundApply;
     }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

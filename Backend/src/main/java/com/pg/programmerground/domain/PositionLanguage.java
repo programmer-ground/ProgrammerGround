@@ -37,7 +37,7 @@ public class PositionLanguage {
         return languages.stream()
                 .map(makePositionLanguage ->
                         PositionLanguage.builder().languageName(makePositionLanguage.getLanguageName())
-                        .build())
+                                .build())
                 .collect(Collectors.toList());
     }
 }

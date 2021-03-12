@@ -2,6 +2,7 @@ package com.pg.programmerground.domain;
 
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.enumerated.Position;
+import com.pg.programmerground.domain.enumerated.PositionLevel;
 import com.pg.programmerground.dto.playground.MakePositionInfoDto;
 import lombok.*;
 
@@ -32,6 +33,10 @@ PlaygroundPosition extends BaseTimeEntity {
     @Column(name = "CURRENT_POSITION_NUM")
     private int currentPositionNum;
 
+    @Enumerated(value = EnumType.STRING)
+    @Column(name = "POSITION_LEVEL")
+    private PositionLevel positionLevel;
+
     @OneToOne(mappedBy = "playgroundPosition", cascade = CascadeType.ALL, orphanRemoval = true)
     private PlaygroundApply playgroundApply;
 
@@ -43,10 +48,11 @@ PlaygroundPosition extends BaseTimeEntity {
     private List<PositionLanguage> positionLanguageList = new ArrayList<>();
 
     @Builder
-    private PlaygroundPosition(String position, int maxPositionNum, List<PositionLanguage> positionLanguageList) {
+    private PlaygroundPosition(String position, int maxPositionNum, List<PositionLanguage> positionLanguageList, PositionLevel positionLevel) {
         this.position = Position.valueOf(position);
         this.positionLanguageList = positionLanguageList;
         this.maxPositionNum = maxPositionNum;
+        this.positionLevel = positionLevel;
         this.currentPositionNum = 0;
     }
 
@@ -57,6 +63,7 @@ PlaygroundPosition extends BaseTimeEntity {
                             PlaygroundPosition.builder()
                                     .position(makePositionInfoDto.getPositionName())
                                     .maxPositionNum(makePositionInfoDto.getPositionMaxNum())
+                                    .positionLevel(PositionLevel.valueOf(makePositionInfoDto.getPositionLevel()))
                                     .positionLanguageList(PositionLanguage.createPositionLanguage(makePositionInfoDto.getPositionLanguage()))
                                     .build();
                     for (PositionLanguage positionLanguage : playgroundPosition.positionLanguageList) {

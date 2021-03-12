@@ -18,5 +18,8 @@ public class MakePositionInfoDto {
     @JsonProperty("position_max_num")
     private int positionMaxNum;
 
+    @JsonProperty("position_level")
+    private String positionLevel;
+
     private List<MakePositionLanguage> positionLanguage;
 }
