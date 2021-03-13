@@ -1,7 +1,7 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.controller.response.ApiResponse;
-import com.pg.programmerground.dto.UserInfoDto;
+import com.pg.programmerground.dto.playground.response.UserResponse;
 import com.pg.programmerground.service.OAuthUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -27,7 +27,7 @@ public class OAuthUserController {
      * "oauthName": "CJW23"
      */
     @GetMapping("")
-    public ResponseEntity<ApiResponse<UserInfoDto>> userInfo() {
+    public ResponseEntity<ApiResponse<UserResponse>> userInfo() {
         return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.getUserInfo()));
     }
 

@@ -1,4 +1,4 @@
-package com.pg.programmerground.dto;
+package com.pg.programmerground.dto.playground.response;
 
 import com.pg.programmerground.auth.MyUserDetails;
 import lombok.AllArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 @Getter
 @Builder
 @AllArgsConstructor
-public class UserInfoDto {
+public class UserResponse {
     private final String OAuthName;
     private final int commitCnt;
     private final int pullRequestCnt;
@@ -21,8 +21,8 @@ public class UserInfoDto {
     private final String profileImg;
     private final String role;
 
-    public static UserInfoDto of(MyUserDetails userDetails) {
-        return UserInfoDto.builder()
+    public static UserResponse of(MyUserDetails userDetails) {
+        return UserResponse.builder()
                 .OAuthName(userDetails.getOAuthName())
                 .role(userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
                 .commitCnt(userDetails.getCommitCnt())
