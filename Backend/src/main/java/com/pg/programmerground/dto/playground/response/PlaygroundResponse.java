@@ -1,22 +1,21 @@
-package com.pg.programmerground.dto.playground;
+package com.pg.programmerground.dto.playground.response;
 
 import com.pg.programmerground.domain.Playground;
-import com.pg.programmerground.dto.OAuthUserInfo;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
-public class PlaygroundInfoDto {
+public class PlaygroundResponse {
     private final String title;
     private final String description;
     private final int maxUserNum;
     private final int currentUserNum;
-    private final List<OAuthUserInfo> userInfoList;
+    private final List<OAuthUserResponse> userInfoList;
 
     @Builder
-    public PlaygroundInfoDto(String title, String description, int maxUserNum, int currentUserNum, List<OAuthUserInfo> userInfoList) {
+    public PlaygroundResponse(String title, String description, int maxUserNum, int currentUserNum, List<OAuthUserResponse> userInfoList) {
         this.title = title;
         this.description = description;
         this.maxUserNum = maxUserNum;
@@ -24,13 +23,13 @@ public class PlaygroundInfoDto {
         this.userInfoList = userInfoList;
     }
 
-    public static PlaygroundInfoDto of(Playground playground) {
-        return PlaygroundInfoDto.builder()
+    public static PlaygroundResponse of(Playground playground) {
+        return PlaygroundResponse.builder()
                 .title(playground.getTitle())
                 .description(playground.getDescription())
                 .maxUserNum(playground.getMaxMemberCount())
                 .currentUserNum(playground.getCurrentMemberCount())
-                .userInfoList(OAuthUserInfo.ofList(playground))
+                .userInfoList(OAuthUserResponse.ofList(playground))
                 .build();
     }
 }

@@ -1,4 +1,4 @@
-package com.pg.programmerground.dto.playground;
+package com.pg.programmerground.dto.playground.api_req;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -10,7 +10,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class RevisePlaygroundInfoDto{
+public class RevisePlaygroundApi {
     private final String title;
     private final String description;
     private final String leader;

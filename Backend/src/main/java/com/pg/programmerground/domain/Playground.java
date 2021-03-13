@@ -1,7 +1,7 @@
 package com.pg.programmerground.domain;
 
 import com.pg.programmerground.domain.common.BaseTimeEntity;
-import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
+import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,7 +24,7 @@ public class Playground extends BaseTimeEntity {
     private int maxMemberCount;
 
     @Column(name = "CURRENT_MEMBER_COUNT")
-    private int currentMemberCount = 1;
+    private int currentMemberCount = 1;     //Playground를 생성하면 Leader가 포함되기 때문에 기본값 1
 
     @Column(name = "TITLE")
     private String title;
@@ -54,7 +54,7 @@ public class Playground extends BaseTimeEntity {
      * playground 정보 builer로 생성
      * playground 객체에 oAuthUser가 등록된 연관 객체(oAuthUserPlayground) 등록
      */
-    public static Playground createPlayground(MakePlaygroundInfoDto playgroundInfo, OAuthUser leader, List<PlaygroundPosition> playgroundPositionList) {
+    public static Playground createPlayground(PlaygroundApi playgroundInfo, OAuthUser leader, List<PlaygroundPosition> playgroundPositionList) {
         Playground playground = Playground.builder()
                 .title(playgroundInfo.getTitle())
                 .description(playgroundInfo.getDescription())

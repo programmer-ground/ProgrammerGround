@@ -1,4 +1,4 @@
-package com.pg.programmerground.dto.playground;
+package com.pg.programmerground.dto.playground.response;
 
 import com.pg.programmerground.domain.Playground;
 import lombok.Builder;
@@ -17,29 +17,31 @@ import java.util.stream.Collectors;
  */
 @Getter
 @NoArgsConstructor
-
-public class PlaygroundCardInfoDto {
+public class PlaygroundCardResponse {
     private Long id;
     private String title;
-    private String description;
+    private int maxMemberNum;
+    private int currentMemberNum;
     private String leaderUserName;
 
     @Builder
-    public PlaygroundCardInfoDto(Long id, String title, String description, String leaderUserName) {
+    public PlaygroundCardResponse(Long id, String title, int maxMemberNum, int currentMemberNum, String leaderUserName) {
         this.id = id;
         this.title = title;
-        this.description = description;
+        this.maxMemberNum = maxMemberNum;
+        this.currentMemberNum = currentMemberNum;
         this.leaderUserName = leaderUserName;
     }
 
     /**
      * playground 목록에 출력될 데이터
      */
-    public static List<PlaygroundCardInfoDto> makePlaygroundCardList(List<Playground> playgrounds) {
-        return playgrounds.stream().map(playground -> PlaygroundCardInfoDto.builder()
+    public static List<PlaygroundCardResponse> createPlaygroundCardList(List<Playground> playgrounds) {
+        return playgrounds.stream().map(playground -> PlaygroundCardResponse.builder()
                 .id(playground.getId())
                 .title(playground.getTitle())
-                .description(playground.getDescription())
+                .maxMemberNum(playground.getMaxMemberCount())
+                .currentMemberNum(playground.getCurrentMemberCount())
                 .leaderUserName(playground.getLeader().getUserName()).build()).collect(Collectors.toList());
     }
 }

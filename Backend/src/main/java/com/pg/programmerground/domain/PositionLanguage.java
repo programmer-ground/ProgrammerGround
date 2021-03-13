@@ -1,6 +1,6 @@
 package com.pg.programmerground.domain;
 
-import com.pg.programmerground.dto.playground.MakePositionLanguage;
+import com.pg.programmerground.dto.playground.api_req.PositionLanguageApi;
 import lombok.*;
 
 import javax.persistence.*;
@@ -36,10 +36,10 @@ public class PositionLanguage {
     /**
      * 각 Position의 Language객체 List 추출
      */
-    public static List<PositionLanguage> createPositionLanguage(List<MakePositionLanguage> languages) {
+    public static List<PositionLanguage> createPositionLanguage(List<PositionLanguageApi> languages) {
         return languages.stream()
-                .map(makePositionLanguage ->
-                        PositionLanguage.builder().languageName(makePositionLanguage.getLanguageName())
+                .map(positionLanguageApi ->
+                        PositionLanguage.builder().languageName(positionLanguageApi.getLanguageName())
                                 .build())
                 .collect(Collectors.toList());
     }
