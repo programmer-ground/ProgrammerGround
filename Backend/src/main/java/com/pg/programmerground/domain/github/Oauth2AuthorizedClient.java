@@ -3,6 +3,7 @@ package com.pg.programmerground.domain.github;
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.OAuthUser;
 import lombok.*;
+import org.springframework.util.Assert;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -51,6 +52,13 @@ public class Oauth2AuthorizedClient extends BaseTimeEntity {
         String accessTokenType, String accessTokenValue, Date accessTokenIssuedAt,
         Date accessTokenExpiresAt, String accessTokenScopes,
         OAuthUser user) {
+        Assert.notNull(id, "Oauth2AuthorizedClient Id must not be null");
+        Assert.notNull(id, "accessTokenType must not be null");
+        Assert.notNull(id, "accessTokenValue must not be null");
+        Assert.notNull(id, "accessTokenIssuedAt must not be null");
+        Assert.notNull(id, "accessTokenExpiresAt must not be null");
+        Assert.notNull(id, "accessTokenScopes must not be null");
+        Assert.notNull(id, "user must not be null");
         this.id = id;
         this.clientRegistrationId = clientRegistrationId;
         this.accessTokenType = accessTokenType;

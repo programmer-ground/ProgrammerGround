@@ -16,7 +16,7 @@ public class MakePositionInfoDto {
     private String positionName;
 
     @JsonProperty("position_max_num")
-    private int positionMaxNum;
+    private Integer positionMaxNum;
 
     @JsonProperty("position_level")
     private String positionLevel;

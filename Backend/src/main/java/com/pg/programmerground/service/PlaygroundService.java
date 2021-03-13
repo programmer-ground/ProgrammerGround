@@ -54,26 +54,15 @@ public class PlaygroundService {
         //Playground 생성
         Playground playground = Playground.createPlayground(playgroundInfo, leaderUser, playgroundPositionList);
         //리더 포지션 검색
-        PlaygroundPosition leaderPosition = searchLeaderPosition(playgroundPositionList, playgroundInfo.getLeaderPosition());
+        PlaygroundPosition leaderPosition = PlaygroundPosition.searchLeaderPosition(playgroundPositionList, playgroundInfo.getLeaderPosition());
         //리더도 Position에 포함되야하므로 PlaygroundApply 객체를 만든다.
         PlaygroundApply.createLeaderApply(leaderUser, playground, leaderPosition);
         return playgroundRepository.save(playground).getId();
     }
 
-    /**
-     * Leader Position을 생성시 입력받은 Position 중에 탐색
-     */
-    private PlaygroundPosition searchLeaderPosition(List<PlaygroundPosition> playgroundPositions, String positionName) {
-        //입력받은 Position중에 Leader가 신청한 Position 탐색
-        return playgroundPositions.stream()
-                .filter(playgroundPosition -> {
-                    return playgroundPosition.getPosition().name().equals(positionName);
-                }).findFirst()
-                .orElseThrow(() -> new NoSuchElementException("입력되지 않은 포지션입니다"));
-    }
 
     /**
-     * User가 Playground 신청
+     * User가 Playground Member신청
      */
     @Transactional
     public Boolean applyPlayground(Long playgroundId, ApplyPlaygroundDto applyPlayground) throws Exception {

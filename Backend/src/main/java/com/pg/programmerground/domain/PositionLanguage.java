@@ -33,6 +33,9 @@ public class PositionLanguage {
         this.playgroundPosition = playgroundPosition;
     }
 
+    /**
+     * 각 Position의 Language객체 List 추출
+     */
     public static List<PositionLanguage> createPositionLanguage(List<MakePositionLanguage> languages) {
         return languages.stream()
                 .map(makePositionLanguage ->

@@ -3,8 +3,8 @@ package com.pg.programmerground.domain;
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
 import com.pg.programmerground.domain.github.UserGithubInfo;
-import io.jsonwebtoken.lang.Assert;
 import lombok.*;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.ArrayList;

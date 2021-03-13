@@ -6,6 +6,7 @@ import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.util.Assert;
 
 import javax.persistence.*;
 import java.util.Objects;
@@ -40,6 +41,10 @@ public class PlaygroundApply extends BaseTimeEntity {
 
     @Builder
     public PlaygroundApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition, ApplyStatus applyYn) {
+        Assert.notNull(user, "user must not be null");
+        Assert.notNull(playground, "playground must not be null");
+        Assert.notNull(playgroundPosition, "playgroundPosition must not be null");
+        Assert.notNull(applyYn, "applyYn must not be null");
         this.user = user;
         this.playground = playground;
         this.playgroundPosition = playgroundPosition;
