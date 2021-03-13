@@ -6,7 +6,6 @@ import com.pg.programmerground.domain.PlaygroundPosition;
 import com.pg.programmerground.domain.PositionLanguage;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -40,6 +39,5 @@ public class PlaygroundCardPositionResponse {
                             .language(playgroundPosition.getPositionLanguageList().stream().map(PositionLanguage::getLanguageName).collect(Collectors.toList()))
                             .build();
                 }).collect(Collectors.toList());
-        //positionlist 던져주는 것까지 완료
     }
 }

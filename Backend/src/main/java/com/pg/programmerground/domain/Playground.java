@@ -2,6 +2,7 @@ package com.pg.programmerground.domain;
 
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
+import com.pg.programmerground.exception.WrongRequestException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -54,15 +55,25 @@ public class Playground extends BaseTimeEntity {
      * playground 정보 builer로 생성
      * playground 객체에 oAuthUser가 등록된 연관 객체(oAuthUserPlayground) 등록
      */
-    public static Playground createPlayground(PlaygroundApi playgroundInfo, OAuthUser leader, List<PlaygroundPosition> playgroundPositionList) {
+    public static Playground createPlayground(PlaygroundApi playgroundApi, OAuthUser leader, List<PlaygroundPosition> playgroundPositionList) {
+        Playground.checkMaxMemberNumWithPosition(playgroundApi, playgroundPositionList);
         Playground playground = Playground.builder()
-                .title(playgroundInfo.getTitle())
-                .description(playgroundInfo.getDescription())
-                .maxMemberCount(playgroundInfo.getMaxUserNum())
+                .title(playgroundApi.getTitle())
+                .description(playgroundApi.getDescription())
+                .maxMemberCount(playgroundApi.getMaxUserNum())
                 .build();
         playgroundPositionList.forEach(playground::addPosition);
         playground.addLeader(leader);
         return playground;
+    }
+
+    /**
+     * playground의 전체 인원수와 각 position의 인원수의 합이 같은지 체크
+     */
+    private static void checkMaxMemberNumWithPosition(PlaygroundApi playgroundApi, List<PlaygroundPosition> playgroundPositionList) {
+        if(playgroundPositionList.stream().mapToInt(PlaygroundPosition::getMaxPositionNum).sum() != playgroundApi.getMaxUserNum()) {
+            throw new WrongRequestException("playground 인원과 position 합산 인원이 다름");
+        }
     }
 
     /**
