@@ -1,20 +1,26 @@
 package com.pg.programmerground.dto.playground.response;
 
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pg.programmerground.domain.PlaygroundPosition;
 import com.pg.programmerground.domain.PositionLanguage;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-@NoArgsConstructor
+@Getter
 public class PlaygroundCardPositionResponse {
-    private String positionName;
-    private int maxPositionNum;
-    private int currentPositionNum;
-    private List<String> language;
+    @JsonProperty("position_name")
+    private final String positionName;
+    @JsonProperty("max_position_num")
+    private final int maxPositionNum;
+    @JsonProperty("current_position_num")
+    private final int currentPositionNum;
+    @JsonProperty("language")
+    private final List<String> language;
 
     @Builder
     public PlaygroundCardPositionResponse(String positionName, int maxPositionNum, int currentPositionNum, List<String> language) {
@@ -24,7 +30,7 @@ public class PlaygroundCardPositionResponse {
         this.language = language;
     }
 
-    public static List<PlaygroundCardPositionResponse> createPositionList(List<PlaygroundPosition> playgroundPositionList) {
+    public static List<PlaygroundCardPositionResponse> ofList(List<PlaygroundPosition> playgroundPositionList) {
         return playgroundPositionList.stream()
                 .map(playgroundPosition -> {
                     return PlaygroundCardPositionResponse.builder()

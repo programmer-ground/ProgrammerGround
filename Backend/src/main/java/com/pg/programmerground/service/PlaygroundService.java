@@ -39,7 +39,7 @@ public class PlaygroundService {
      */
     @Transactional(readOnly = true)
     public List<PlaygroundCardResponse> getPlaygroundCardList() {
-        return PlaygroundCardResponse.createPlaygroundCardList(playgroundRepository.findAll());
+        return PlaygroundCardResponse.ofList(playgroundRepository.findAll());
     }
 
     /**

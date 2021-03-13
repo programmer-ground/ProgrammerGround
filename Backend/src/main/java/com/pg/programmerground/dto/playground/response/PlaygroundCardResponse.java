@@ -1,5 +1,6 @@
 package com.pg.programmerground.dto.playground.response;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pg.programmerground.domain.Playground;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,11 +20,17 @@ import java.util.stream.Collectors;
 @Getter
 @NoArgsConstructor
 public class PlaygroundCardResponse {
+    @JsonProperty("playground_id")
     private Long id;
+    @JsonProperty("title")
     private String title;
+    @JsonProperty("max_member_num")
     private int maxMemberNum;
+    @JsonProperty("current_member_num")
     private int currentMemberNum;
+    @JsonProperty("leader_user_name")
     private String leaderUserName;
+    @JsonProperty("position_list")
     private List<PlaygroundCardPositionResponse> positionList;
 
     @Builder
@@ -39,13 +46,13 @@ public class PlaygroundCardResponse {
     /**
      * playground 목록에 출력될 데이터
      */
-    public static List<PlaygroundCardResponse> createPlaygroundCardList(List<Playground> playgrounds) {
+    public static List<PlaygroundCardResponse> ofList(List<Playground> playgrounds) {
         return playgrounds.stream().map(playground -> PlaygroundCardResponse.builder()
                 .id(playground.getId())
                 .title(playground.getTitle())
                 .maxMemberNum(playground.getMaxMemberCount())
                 .currentMemberNum(playground.getCurrentMemberCount())
-                .positionList(PlaygroundCardPositionResponse.createPositionList(playground.getPlaygroundPositionList()))
+                .positionList(PlaygroundCardPositionResponse.ofList(playground.getPlaygroundPositionList()))
                 .leaderUserName(playground.getLeader().getUserName()).build()).collect(Collectors.toList());
     }
 }
