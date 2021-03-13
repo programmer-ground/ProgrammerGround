@@ -34,7 +34,7 @@ public class PlaygroundController {
      * playground 생성
      */
     @PostMapping("")
-    public ResponseEntity<ApiResponse<Long>> makePlayground(@Valid @RequestBody PlaygroundApi info) throws Exception {
+    public ResponseEntity<ApiResponse<Long>> createPlayground(@Valid @RequestBody PlaygroundApi info) throws Exception {
         return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.createPlayground(info)));
     }
 

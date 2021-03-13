@@ -20,5 +20,6 @@ public class PlaygroundApi {
     private String leaderPosition;
     @JsonProperty("max_user_num")
     private Integer maxUserNum;
+    @JsonProperty("position")
     List<PositionApi> positionInfo;
 }
