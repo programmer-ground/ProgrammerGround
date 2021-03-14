@@ -49,9 +49,17 @@ public class PlaygroundController {
     /**
      * playground 신청 수락
      */
-    @PutMapping("/apply/{playgroundApplyId}")
-    public ResponseEntity<ApiResponse<Boolean>> acceptPlayground(@PathVariable Long playgroundApplyId) {
+    @PutMapping("/accept-apply/{playgroundApplyId}")
+    public ResponseEntity<ApiResponse<Boolean>> acceptPlaygroundApply(@PathVariable Long playgroundApplyId) {
         return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.acceptPlayground(playgroundApplyId)));
+    }
+
+    /**
+     * playground 신청 거절
+     */
+    @PutMapping("/reject-apply/{playgroundApplyId}")
+    public ResponseEntity<ApiResponse<Boolean>> rejectPlaygroundApply(@PathVariable Long playgroundApplyId) {
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.rejectPlayground(playgroundApplyId)));
     }
 
     /**

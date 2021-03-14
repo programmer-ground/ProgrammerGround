@@ -2,7 +2,6 @@ package com.pg.programmerground.domain;
 
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.enumerated.ApplyStatus;
-import com.pg.programmerground.exception.FullMemberException;
 import com.pg.programmerground.exception.WrongRequestException;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -56,12 +55,17 @@ public class PlaygroundApply extends BaseTimeEntity {
     /**
      * 생각해봐야 할 것 : 여러 요청이 온 상황에 하나의 요청을 수락해서 인원이 가득찰 경우 나머지 요청 처리 여부
      */
-    public void acceptApply() {
+    public void acceptApply(OAuthUser user) {
+        this.playground.isLeaderUser(user);
         this.applyYn = ApplyStatus.ACCEPT;
         this.playgroundPosition.increaseMemberNum();
         this.playground.increaseMemberNum();
     }
 
+    public void rejectApply(OAuthUser user) {
+        this.playground.isLeaderUser(user);
+        this.applyYn = ApplyStatus.REJECT;
+    }
     /**
      * Playground 생성시 리더의 포지션을 넣기 위한 함수
      */

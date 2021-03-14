@@ -29,13 +29,6 @@ public class PlaygroundService {
     private final OAuthUserRepository oAuthUserRepository;
     private final ModelMapper modelMapper;
 
-    @Transactional(readOnly = true)
-    public PlaygroundResponse findById(Long id) {
-        Playground playGround = playgroundRepository.findById(id)
-                .orElseThrow(PlaygroundNotFoundException::new);
-        return modelMapper.map(playGround, PlaygroundResponse.class);
-    }
-
     /**
      * 메인 페이지 playground card 목록 가져오기
      */
@@ -84,13 +77,17 @@ public class PlaygroundService {
     @Transactional
     public Boolean acceptPlayground(Long playgroundApplyId) {
         PlaygroundApply playgroundApply = playgroundApplyRepository.findById(playgroundApplyId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 Playground 요청입니다"));
-        playgroundApply.acceptApply();
+        OAuthUser user = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
+        playgroundApply.acceptApply(user);
         return true;
     }
 
     @Transactional
     public Boolean rejectPlayground(Long playgroundApplyId) {
-        return null;
+        PlaygroundApply playgroundApply = playgroundApplyRepository.findById(playgroundApplyId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 Playground 요청입니다"));
+        OAuthUser user = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
+        playgroundApply.rejectApply(user);
+        return true;
     }
 
     @Transactional(readOnly = true)
