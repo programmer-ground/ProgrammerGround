@@ -1,9 +1,9 @@
-package com.pg.chat.config;
+package com.pg.chat.config.websocket;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@EnableConfigurationProperties({MessageEndPointProperty.class})
-public class PropertyConfiguration {
+@EnableConfigurationProperties({WebSocketMessageEndPointProperty.class})
+public class WebSocketPropertyConfiguration {
 }

@@ -1,4 +1,4 @@
-package com.pg.chat.config;
+package com.pg.chat.config.websocket;
 
 import javax.annotation.PostConstruct;
 
@@ -16,22 +16,22 @@ import lombok.extern.slf4j.Slf4j;
 @EnableWebSocketMessageBroker
 @RequiredArgsConstructor
 public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
-	private final MessageEndPointProperty messageEndPointProperty;
+	private final WebSocketMessageEndPointProperty webSocketMessageEndPointProperty;
 
 	@PostConstruct
 	public void init() {
-		log.info("WebSocketConfiguration - Properties:: {} ",messageEndPointProperty);
+		log.info("WebSocketConfiguration - Properties:: {} ", webSocketMessageEndPointProperty);
 	}
 
 	@Override
 	public void configureMessageBroker(MessageBrokerRegistry registry) {
-		registry.enableSimpleBroker(messageEndPointProperty.getMessageSubscribeContextPath());
-		registry.setApplicationDestinationPrefixes(messageEndPointProperty.getMessagePublishContextPath());
+		registry.enableSimpleBroker(webSocketMessageEndPointProperty.getMessageSubscribeContextPath());
+		registry.setApplicationDestinationPrefixes(webSocketMessageEndPointProperty.getMessagePublishContextPath());
 	}
 
 	@Override
 	public void registerStompEndpoints(StompEndpointRegistry registry) {
-		registry.addEndpoint(messageEndPointProperty.getWebSocketPath())
+		registry.addEndpoint(webSocketMessageEndPointProperty.getWebSocketPath())
 			.setAllowedOrigins("*")
 			.withSockJS();
 	}
