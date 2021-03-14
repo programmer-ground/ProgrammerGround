@@ -45,12 +45,30 @@ export const ModalBody = styled.div`
 	padding-top: 20px;
 
 	font-size: 20px;
-	& div {
-		margin-top: 20px;
-		display: flex;
-		justify-content: center;
-	}
 	& hr {
-		width: 400px;
+		width: 100%;
+	}
+`;
+export const InputSection = styled.div`
+	margin-top: 20px;
+	display: flex;
+	justify-content: center;
+`;
+export const ModalCreateSection = styled.div`
+	display: flex;
+	flex-direction: column;
+`;
+
+export const ModalCreateSectionTitle = styled.div`
+	display: flex;
+	justify-content: space-around;
+	& > button {
+		width: 55px;
+		height: 32px;
+		cursor: pointer;
+		background-color: #04c584;
+		font-size: 12px;
+		color: #fff;
+		border: 0px;
 	}
 `;
