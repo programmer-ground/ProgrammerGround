@@ -42,6 +42,15 @@ export const ModalTitle = styled.div`
 `;
 
 export const ModalBody = styled.div`
-	display: flex;
-	justify-content: center;
+	padding-top: 20px;
+
+	font-size: 20px;
+	& div {
+		margin-top: 20px;
+		display: flex;
+		justify-content: center;
+	}
+	& hr {
+		width: 400px;
+	}
 `;

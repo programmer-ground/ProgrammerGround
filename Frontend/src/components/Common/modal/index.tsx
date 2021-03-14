@@ -3,6 +3,7 @@
 import React from 'react';
 import useShow from '@src/hooks/useShow';
 import { changeModalMode } from '@src/store/modules/modal';
+import ModalInput from '@src/components/Common/modalInput';
 import * as StyledComponent from './style';
 
 const ModalWrapper = () => {
@@ -28,13 +29,14 @@ const ModalWrapper = () => {
 							<form action="/">
 								<div>
 									<label>이름:</label>
-									<input type="text" name="name" />
+									<ModalInput />
 								</div>
 								<div>
 									<label>타이틀:</label>
-									<input type="text" name="name" />
+									<ModalInput />
 								</div>
 								<div>최대 0명</div>
+								<hr />
 							</form>
 						</StyledComponent.ModalBody>
 					</StyledComponent.ModalContent>
