@@ -14,7 +14,7 @@ message:
   message-subscribe-context-path: "/subscribe"
   message-publish-context-path: "/publish"
 
-logging:
-  level:
-    org.springframework.messaging: trace
+#logging:
+#  level:
+#    org.springframework.messaging: trace
 

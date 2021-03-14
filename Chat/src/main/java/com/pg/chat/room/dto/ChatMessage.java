@@ -1,4 +1,4 @@
-package com.pg.chat.room;
+package com.pg.chat.room.dto;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -13,7 +13,7 @@ public class ChatMessage {
 
 	@Override
 	public String toString() {
-		return "ChatMessage{" +
+		return "{" +
 			"roomId='" + roomId + '\'' +
 			", senderId='" + senderId + '\'' +
 			", senderName='" + senderName + '\'' +
