@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom';
 import LoginPage from '@src/pages/LoginPage';
 import PlayGroundPage from '@src/pages/PlayGroundPage';
+import ModalWrapper from '@src/components/Common/modal';
 import { GlobalStyle } from './Global';
 
 const App = () => {
@@ -14,6 +15,7 @@ const App = () => {
 					<Route exact path="/playground" component={PlayGroundPage} />
 				</Switch>
 			</Router>
+			<ModalWrapper />
 		</>
 	);
 };
