@@ -29,11 +29,21 @@ const ModalWrapper = () => {
 							<form action="/">
 								<div>
 									<label>이름:</label>
-									<ModalInput />
+									<ModalInput name="name" placeholder="이름을 적어주세요!" />
 								</div>
 								<div>
 									<label>타이틀:</label>
-									<ModalInput />
+									<ModalInput
+										name="title"
+										placeholder="프로젝트에 대한 상세 설명을 해주세요!"
+									/>
+								</div>
+								<div>
+									<label>leader 포지션:</label>
+									<ModalInput
+										name="position"
+										placeholder="리더의 포지션을 입력해주세요!"
+									/>
 								</div>
 								<div>최대 0명</div>
 								<hr />

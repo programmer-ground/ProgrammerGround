@@ -6,4 +6,5 @@ export const Input = styled.input`
 	border: 0px;
 	border-bottom: 1px solid #000;
 	height: 20px;
+	width: 250px;
 `;
