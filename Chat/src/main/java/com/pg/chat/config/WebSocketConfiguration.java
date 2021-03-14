@@ -1,71 +1,38 @@
 package com.pg.chat.config;
 
-import java.util.HashMap;
-import java.util.Map;
+import javax.annotation.PostConstruct;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.core.Ordered;
-import org.springframework.web.reactive.HandlerMapping;
-import org.springframework.web.reactive.handler.SimpleUrlHandlerMapping;
-import org.springframework.web.reactive.socket.server.WebSocketService;
-import org.springframework.web.reactive.socket.server.support.HandshakeWebSocketService;
-import org.springframework.web.reactive.socket.server.support.WebSocketHandlerAdapter;
-import org.springframework.web.reactive.socket.server.upgrade.ReactorNettyRequestUpgradeStrategy;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pg.chat.event.Event;
-import com.pg.chat.handler.ChattingMessageHandler;
-import com.pg.chat.user.UserStats;
+import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
+import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
+import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import reactor.core.publisher.Flux;
-import reactor.core.publisher.UnicastProcessor;
 
 @Slf4j
 @Configuration
+@EnableWebSocketMessageBroker
 @RequiredArgsConstructor
-public class WebSocketConfiguration {
-	private static final String WEB_SOCKET_PATH = "/chat/message";
-	private final ObjectMapper objectMapper;
+public class WebSocketConfiguration implements WebSocketMessageBrokerConfigurer {
+	private final MessageEndPointProperty messageEndPointProperty;
 
-	@Bean
-	public UnicastProcessor<Event> eventPublisher() {
-		return UnicastProcessor.create();
+	@PostConstruct
+	public void init() {
+		log.info("WebSocketConfiguration - Properties:: {} ",messageEndPointProperty);
 	}
 
-	@Bean
-	public Flux<Event> events(UnicastProcessor<Event> eventPublisher) {
-		return eventPublisher
-			.replay(25)
-			.autoConnect();
+	@Override
+	public void configureMessageBroker(MessageBrokerRegistry registry) {
+		registry.enableSimpleBroker(messageEndPointProperty.getMessageSubscribeContextPath());
+		registry.setApplicationDestinationPrefixes(messageEndPointProperty.getMessagePublishContextPath());
 	}
 
-	@Bean
-	public HandlerMapping webSocketMapping(UnicastProcessor<Event> eventPublisher, Flux<Event> events) {
-		Map<String, Object> map = new HashMap<>();
-		map.put(WEB_SOCKET_PATH, new ChattingMessageHandler(eventPublisher, events, objectMapper));
-		SimpleUrlHandlerMapping simpleUrlHandlerMapping = new SimpleUrlHandlerMapping();
-		simpleUrlHandlerMapping.setOrder(Ordered.HIGHEST_PRECEDENCE);
-		simpleUrlHandlerMapping.setUrlMap(map);
-
-		log.info("[WEB_SOCKET_PATH] - {}", WEB_SOCKET_PATH);
-		return simpleUrlHandlerMapping;
-	}
-
-	@Bean
-	public WebSocketHandlerAdapter handlerAdapter(WebSocketService webSocketService) {
-		return new WebSocketHandlerAdapter(webSocketService);
-	}
-
-	@Bean
-	public UserStats userStats(Flux<Event> events, UnicastProcessor<Event> eventPublisher) {
-		return new UserStats(events, eventPublisher);
-	}
-
-	@Bean
-	public WebSocketService webSocketService() {
-		return new HandshakeWebSocketService(new ReactorNettyRequestUpgradeStrategy());
+	@Override
+	public void registerStompEndpoints(StompEndpointRegistry registry) {
+		registry.addEndpoint(messageEndPointProperty.getWebSocketPath())
+			.setAllowedOrigins("*")
+			.withSockJS();
 	}
 }

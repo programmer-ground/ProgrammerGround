@@ -8,3 +8,13 @@ server:
     whitelabel:
       enabled: false
 
+
+message:
+  web-socket-path: "/chat"
+  message-subscribe-context-path: "/subscribe"
+  message-publish-context-path: "/publish"
+
+logging:
+  level:
+    org.springframework.messaging: trace
+
