@@ -10,13 +10,12 @@ type Action = ReturnType<typeof createPosition>;
 interface Person {
 	position: string;
 	personNumber: string;
-	id: number;
 }
 export interface PositionState {
 	persons: Person[];
 }
 const initialState = {
-	persons: [{ position: '프론트엔드', personNumber: '3', id: 1 }],
+	persons: [{ position: '프론트엔드', personNumber: '3' }],
 };
 
 export const positionReducer = handleActions(
@@ -25,7 +24,13 @@ export const positionReducer = handleActions(
 			state: PositionState = initialState,
 			action: Action,
 		) => {
-			return { ...state, persons: action.payload };
+			return {
+				...state,
+				persons: state.persons.concat({
+					position: '프론트엔드',
+					personNumber: '3',
+				}),
+			};
 		},
 	},
 	initialState,

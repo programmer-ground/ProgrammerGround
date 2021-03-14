@@ -5,6 +5,7 @@
 import React from 'react';
 import useShow from '@src/hooks/useShow';
 import { changeModalMode } from '@src/store/modules/modal';
+import { createPosition } from '@src/store/modules/createPosition';
 import ModalInput from '@src/components/Common/modalInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@src/store/modules/index';
@@ -17,6 +18,10 @@ const ModalWrapper = () => {
 	const closeClick = () => {
 		dispatch(changeModalMode());
 	};
+	const plusPosition = () => {
+		dispatch(createPosition({ position: '프론트엔드', personNumber: '3' }));
+	};
+
 	return (
 		<div>
 			{show ? (
@@ -60,11 +65,13 @@ const ModalWrapper = () => {
 									<StyledComponent.ModalCreateSectionTitle>
 										<div>포지션</div>
 										<div>인원</div>
-										<button type="button">추가</button>
+										<button type="button" onClick={plusPosition}>
+											추가
+										</button>
 									</StyledComponent.ModalCreateSectionTitle>
 									{persons.map((v, i) => {
 										return (
-											<StyledComponent.ModalCreateSectionBody>
+											<StyledComponent.ModalCreateSectionBody key={i}>
 												<input type="text" placeholder={v.position} />
 												<input type="text" placeholder={v.personNumber} />
 											</StyledComponent.ModalCreateSectionBody>
