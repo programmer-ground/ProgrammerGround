@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-key */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
@@ -5,10 +6,14 @@ import React from 'react';
 import useShow from '@src/hooks/useShow';
 import { changeModalMode } from '@src/store/modules/modal';
 import ModalInput from '@src/components/Common/modalInput';
+import { useDispatch, useSelector } from 'react-redux';
+import { RootState } from '@src/store/modules/index';
 import * as StyledComponent from './style';
 
 const ModalWrapper = () => {
 	const [show, dispatch] = useShow();
+	const { persons } = useSelector((state: RootState) => state.positionReducer);
+
 	const closeClick = () => {
 		dispatch(changeModalMode());
 	};
@@ -57,6 +62,14 @@ const ModalWrapper = () => {
 										<div>인원</div>
 										<button type="button">추가</button>
 									</StyledComponent.ModalCreateSectionTitle>
+									{persons.map((v, i) => {
+										return (
+											<StyledComponent.ModalCreateSectionBody>
+												<input type="text" placeholder={v.position} />
+												<input type="text" placeholder={v.personNumber} />
+											</StyledComponent.ModalCreateSectionBody>
+										);
+									})}
 								</StyledComponent.ModalCreateSection>
 							</form>
 						</StyledComponent.ModalBody>

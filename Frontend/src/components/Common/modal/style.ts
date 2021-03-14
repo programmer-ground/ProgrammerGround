@@ -72,3 +72,15 @@ export const ModalCreateSectionTitle = styled.div`
 		border: 0px;
 	}
 `;
+
+export const ModalCreateSectionBody = styled.div`
+	display: flex;
+	& input {
+		background-color: transparent;
+		border: 0px;
+		border-bottom: 1px solid #000;
+		height: 20px;
+		width: 100px;
+		margin-left: 56px;
+	}
+`;
