@@ -1,5 +1,6 @@
 package com.pg.programmerground.domain;
 
+import com.pg.programmerground.domain.enumerated.Language;
 import com.pg.programmerground.dto.playground.api_req.PositionLanguageApi;
 import lombok.*;
 
@@ -18,7 +19,8 @@ public class PositionLanguage {
     private Long id;
 
     @Column(name = "LANGUAGE_NAME")
-    private String languageName;
+    @Enumerated(value = EnumType.STRING)
+    private Language languageName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PLAYGROUND_POSITION_ID")
@@ -26,7 +28,7 @@ public class PositionLanguage {
 
     @Builder
     private PositionLanguage(String languageName) {
-        this.languageName = languageName;
+        this.languageName = Language.valueOf(languageName);
     }
 
     public void setPlaygroundPosition(PlaygroundPosition playgroundPosition) {

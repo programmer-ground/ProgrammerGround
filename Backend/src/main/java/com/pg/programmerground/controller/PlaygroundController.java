@@ -45,6 +45,15 @@ public class PlaygroundController {
     public ResponseEntity<ApiResponse<Boolean>> applyPlayground(@PathVariable Long playgroundId, @RequestBody ApplyPlaygroundApi applyPlayground) throws Exception {
         return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.applyPlayground(playgroundId, applyPlayground)));
     }
+
+    /**
+     * playground 신청 수락
+     */
+    @PutMapping("/apply/{playgroundApplyId}")
+    public ResponseEntity<ApiResponse<Boolean>> acceptPlayground(@PathVariable Long playgroundApplyId) {
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.acceptPlayground(playgroundApplyId)));
+    }
+
     /**
      * playground 상세 정보
      */

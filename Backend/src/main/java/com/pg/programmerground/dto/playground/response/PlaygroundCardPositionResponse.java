@@ -3,7 +3,6 @@ package com.pg.programmerground.dto.playground.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.pg.programmerground.domain.PlaygroundPosition;
-import com.pg.programmerground.domain.PositionLanguage;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -36,7 +35,10 @@ public class PlaygroundCardPositionResponse {
                             .positionName(playgroundPosition.getPosition().name())
                             .maxPositionNum(playgroundPosition.getMaxPositionNum())
                             .currentPositionNum(playgroundPosition.getCurrentPositionNum())
-                            .language(playgroundPosition.getPositionLanguageList().stream().map(PositionLanguage::getLanguageName).collect(Collectors.toList()))
+                            .language(playgroundPosition.getPositionLanguageList().stream()
+                                    .map(positionLanguage -> {
+                                        return positionLanguage.getLanguageName().name();
+                                    }).collect(Collectors.toList()))
                             .build();
                 }).collect(Collectors.toList());
     }

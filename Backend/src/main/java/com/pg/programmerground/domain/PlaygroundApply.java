@@ -2,6 +2,8 @@ package com.pg.programmerground.domain;
 
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.enumerated.ApplyStatus;
+import com.pg.programmerground.exception.FullMemberException;
+import com.pg.programmerground.exception.WrongRequestException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
@@ -52,9 +54,18 @@ public class PlaygroundApply extends BaseTimeEntity {
     }
 
     /**
+     * 생각해봐야 할 것 : 여러 요청이 온 상황에 하나의 요청을 수락해서 인원이 가득찰 경우 나머지 요청 처리 여부
+     */
+    public void acceptApply() {
+        this.applyYn = ApplyStatus.ACCEPT;
+        this.playgroundPosition.increaseMemberNum();
+        this.playground.increaseMemberNum();
+    }
+
+    /**
      * Playground 생성시 리더의 포지션을 넣기 위한 함수
      */
-    public static PlaygroundApply createLeaderApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition) throws Exception {
+    public static void createLeaderApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition) throws Exception {
         PlaygroundApply playgroundApply = PlaygroundApply.builder()
                 .user(user)
                 .playground(playground)
@@ -65,25 +76,23 @@ public class PlaygroundApply extends BaseTimeEntity {
         user.getApplyPlaygrounds().add(playgroundApply);
         playground.getApplyPlaygrounds().add(playgroundApply);
         playgroundPosition.setPlaygroundApply(playgroundApply);
-        return playgroundApply;
     }
 
     /**
-     * User Playground 신청
-     * 추후 Playground 신청시 예외처리 추가
+     * User가 Playground 신청
      */
-    public static PlaygroundApply createUserApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition) throws Exception {
+    public static void createUserApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition) {
         /**
          * 포지션의 현재 인원이 꽉차있다면 예외처리
          * 이미 신청했거나, 수락됐거나, 거절당했을 시
          * 버그 유발 방지
          * 프론트단에서 확인(인원 검사, 이미 참여 여부) 요청을 통해 처리해야함
          */
-        if (!playgroundPosition.checkFullPosition()) {
-            throw new Exception("해당 포지션의 인원 가득참");
+        if (playgroundPosition.isFullPosition()) {
+            throw new WrongRequestException("해당 포지션의 인원 가득참");
         }
-        if (!playground.checkAlreadyMember(user)) {
-            throw new Exception("이미 참여 신청했거나 가입되어있거나 거절당함");
+        if (playground.checkAlreadyMember(user)) {
+            throw new WrongRequestException("이미 참여 신청했거나 가입되어있거나 거절당함");
         }
         PlaygroundApply playgroundApply = PlaygroundApply.builder()
                 .user(user)
@@ -91,10 +100,10 @@ public class PlaygroundApply extends BaseTimeEntity {
                 .playgroundPosition(playgroundPosition)
                 .applyYn(ApplyStatus.WAIT)
                 .build();
+        //양방향 관계 매핑
         user.getApplyPlaygrounds().add(playgroundApply);
         playground.getApplyPlaygrounds().add(playgroundApply);
         playgroundPosition.setPlaygroundApply(playgroundApply);
-        return playgroundApply;
     }
 
     @Override

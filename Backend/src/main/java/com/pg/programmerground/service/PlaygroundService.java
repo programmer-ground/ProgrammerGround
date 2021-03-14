@@ -10,6 +10,7 @@ import com.pg.programmerground.dto.playground.response.PlaygroundCardResponse;
 import com.pg.programmerground.dto.playground.response.PlaygroundResponse;
 import com.pg.programmerground.exception.PlaygroundNotFoundException;
 import com.pg.programmerground.model.OAuthUserRepository;
+import com.pg.programmerground.model.PlaygroundApplyRepository;
 import com.pg.programmerground.model.PlaygroundRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -24,6 +25,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class PlaygroundService {
     private final PlaygroundRepository playgroundRepository;
+    private final PlaygroundApplyRepository playgroundApplyRepository;
     private final OAuthUserRepository oAuthUserRepository;
     private final ModelMapper modelMapper;
 
@@ -65,7 +67,7 @@ public class PlaygroundService {
      * User가 Playground Member신청
      */
     @Transactional
-    public Boolean applyPlayground(Long playgroundId, ApplyPlaygroundApi applyPlayground) throws Exception {
+    public Boolean applyPlayground(Long playgroundId, ApplyPlaygroundApi applyPlayground) {
         //유저 정보
         OAuthUser user = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
         //Playground 정보
@@ -74,6 +76,21 @@ public class PlaygroundService {
         PlaygroundPosition userPosition = playground.searchPosition(applyPlayground.getPositionId());
         PlaygroundApply.createUserApply(user, playground, userPosition);
         return true;
+    }
+
+    /**
+     * Playground 요청 수락
+     */
+    @Transactional
+    public Boolean acceptPlayground(Long playgroundApplyId) {
+        PlaygroundApply playgroundApply = playgroundApplyRepository.findById(playgroundApplyId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 Playground 요청입니다"));
+        playgroundApply.acceptApply();
+        return true;
+    }
+
+    @Transactional
+    public Boolean rejectPlayground(Long playgroundApplyId) {
+        return null;
     }
 
     @Transactional(readOnly = true)

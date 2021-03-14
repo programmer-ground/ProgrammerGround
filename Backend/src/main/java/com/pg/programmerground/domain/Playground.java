@@ -1,7 +1,9 @@
 package com.pg.programmerground.domain;
 
 import com.pg.programmerground.domain.common.BaseTimeEntity;
+import com.pg.programmerground.domain.enumerated.ApplyStatus;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
+import com.pg.programmerground.exception.FullMemberException;
 import com.pg.programmerground.exception.WrongRequestException;
 import lombok.*;
 
@@ -103,11 +105,29 @@ public class Playground extends BaseTimeEntity {
     }
 
     /**
-     * 이미 해당 Playground에 참여중인 유저인지 체크
+     * 이미 해당 Playground에 참여중이거나 수락 대기중인 유저 체크
+     * !!거절 당했던 유저는 다시 신청 가능
      */
     public boolean checkAlreadyMember(OAuthUser user) {
-        return applyPlaygrounds.stream().noneMatch(playgroundApply -> {
-            return playgroundApply.getUser() == user;
+        return applyPlaygrounds.stream().anyMatch(playgroundApply -> {
+            return playgroundApply.getUser() == user && playgroundApply.getApplyYn() != ApplyStatus.REJECT;
         });
+    }
+
+    /**
+     * Playground 멤버 가득찼는지 확인
+     */
+    private boolean isFullMember() {
+        return maxMemberCount <= currentMemberCount;
+    }
+
+    /**
+     * Playground Member수 증가
+     */
+    public void increaseMemberNum() {
+        if(isFullMember()) {
+            throw new FullMemberException("해당 Playground 멤버가 가득참");
+        }
+        currentMemberCount++;
     }
 }
