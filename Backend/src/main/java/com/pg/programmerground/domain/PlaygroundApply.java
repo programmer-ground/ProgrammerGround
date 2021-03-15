@@ -110,6 +110,10 @@ public class PlaygroundApply extends BaseTimeEntity {
         playgroundPosition.setPlaygroundApply(playgroundApply);
     }
 
+    public boolean isAlreadyMember(OAuthUser user) {
+        return this.user.equals(user) && this.applyYn != ApplyStatus.REJECT;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

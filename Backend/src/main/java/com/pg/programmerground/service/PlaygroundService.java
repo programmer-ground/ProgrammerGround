@@ -21,7 +21,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PlaygroundService {
     private final PlaygroundRepository playgroundRepository;
@@ -32,7 +32,6 @@ public class PlaygroundService {
     /**
      * 메인 페이지 playground card 목록 가져오기
      */
-    @Transactional(readOnly = true)
     public List<PlaygroundCardResponse> getPlaygroundCardList() {
         return PlaygroundCardResponse.ofList(playgroundRepository.findAll());
     }
@@ -90,7 +89,6 @@ public class PlaygroundService {
         return true;
     }
 
-    @Transactional(readOnly = true)
     public PlaygroundResponse getPlaygroundDetailInfo(Long playgroundId) {
         return PlaygroundResponse.of(
                 playgroundRepository.findById(playgroundId).orElseThrow(() -> new NoSuchElementException("playground 존재 안함")));

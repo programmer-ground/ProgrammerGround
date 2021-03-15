@@ -110,7 +110,7 @@ public class Playground extends BaseTimeEntity {
      * !!거절 당했던 유저는 다시 신청 가능
      */
     public boolean checkAlreadyMember(OAuthUser user) {
-        return applyPlaygrounds.stream().anyMatch(playgroundApply -> playgroundApply.getUser() == user && playgroundApply.getApplyYn() != ApplyStatus.REJECT);
+        return applyPlaygrounds.stream().anyMatch(playgroundApply -> playgroundApply.isAlreadyMember(user));
     }
 
     /**
