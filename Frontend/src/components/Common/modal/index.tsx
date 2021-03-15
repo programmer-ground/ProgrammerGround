@@ -1,25 +1,29 @@
+/* eslint-disable radix */
+/* eslint-disable react/jsx-one-expression-per-line */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/button-has-type */
 /* eslint-disable jsx-a11y/label-has-associated-control */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import useShow from '@src/hooks/useShow';
 import { changeModalMode } from '@src/store/modules/modal';
 import { createPosition } from '@src/store/modules/createPosition';
 import ModalInput from '@src/components/Common/modalInput';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@src/store/modules/index';
+import ModalNumberInput from '@src/components/Common/modal/modalNumber';
 import * as StyledComponent from './style';
 
 const ModalWrapper = () => {
 	const [show, dispatch] = useShow();
 	const { persons } = useSelector((state: RootState) => state.positionReducer);
+	const [maxPersonNumber, setMaxPersonNumber] = useState(0);
 
 	const closeClick = () => {
 		dispatch(changeModalMode());
 	};
 	const plusPosition = () => {
-		dispatch(createPosition({ position: '프론트엔드', personNumber: '3' }));
+		dispatch(createPosition());
 	};
 
 	return (
@@ -57,7 +61,7 @@ const ModalWrapper = () => {
 									/>
 								</StyledComponent.InputSection>
 								<StyledComponent.InputSection>
-									최대 0명
+									최대 {maxPersonNumber}명
 								</StyledComponent.InputSection>
 
 								<hr />
@@ -71,9 +75,20 @@ const ModalWrapper = () => {
 									</StyledComponent.ModalCreateSectionTitle>
 									{persons.map((v, i) => {
 										return (
-											<StyledComponent.ModalCreateSectionBody key={i}>
-												<input type="text" placeholder={v.position} />
-												<input type="text" placeholder={v.personNumber} />
+											<StyledComponent.ModalCreateSectionBody
+  className="input-Ref"
+												key={i}
+											>
+												<input
+													type="text"
+													name="position"
+													placeholder={v.position}
+												/>
+
+												<ModalNumberInput
+  placeholder={v.personNumber}
+  setMaxPersonNumber={setMaxPersonNumber}
+												/>
 											</StyledComponent.ModalCreateSectionBody>
 										);
 									})}
