@@ -1,7 +1,11 @@
 package com.pg.programmerground.domain;
 
 import com.pg.programmerground.domain.common.BaseTimeEntity;
-import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
+import com.pg.programmerground.domain.enumerated.ApplyStatus;
+import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
+import com.pg.programmerground.exception.FullMemberException;
+import com.pg.programmerground.exception.IncorrectUserException;
+import com.pg.programmerground.exception.WrongRequestException;
 import lombok.*;
 
 import javax.persistence.*;
@@ -24,7 +28,7 @@ public class Playground extends BaseTimeEntity {
     private int maxMemberCount;
 
     @Column(name = "CURRENT_MEMBER_COUNT")
-    private int currentMemberCount = 1;
+    private int currentMemberCount = 1;     //Playground를 생성하면 Leader가 포함되기 때문에 기본값 1
 
     @Column(name = "TITLE")
     private String title;
@@ -54,15 +58,25 @@ public class Playground extends BaseTimeEntity {
      * playground 정보 builer로 생성
      * playground 객체에 oAuthUser가 등록된 연관 객체(oAuthUserPlayground) 등록
      */
-    public static Playground createPlayground(MakePlaygroundInfoDto playgroundInfo, OAuthUser leader, List<PlaygroundPosition> playgroundPositionList) {
+    public static Playground createPlayground(PlaygroundApi playgroundApi, OAuthUser leader, List<PlaygroundPosition> playgroundPositionList) {
+        Playground.checkMaxMemberNumWithPosition(playgroundApi, playgroundPositionList);
         Playground playground = Playground.builder()
-                .title(playgroundInfo.getTitle())
-                .description(playgroundInfo.getDescription())
-                .maxMemberCount(playgroundInfo.getMaxUserNum())
+                .title(playgroundApi.getTitle())
+                .description(playgroundApi.getDescription())
+                .maxMemberCount(playgroundApi.getMaxUserNum())
                 .build();
         playgroundPositionList.forEach(playground::addPosition);
         playground.addLeader(leader);
         return playground;
+    }
+
+    /**
+     * playground의 전체 인원수와 각 position의 인원수의 합이 같은지 체크
+     */
+    private static void checkMaxMemberNumWithPosition(PlaygroundApi playgroundApi, List<PlaygroundPosition> playgroundPositionList) {
+        if(playgroundPositionList.stream().mapToInt(PlaygroundPosition::getMaxPositionNum).sum() != playgroundApi.getMaxUserNum()) {
+            throw new WrongRequestException("playground 인원과 position 합산 인원이 다름");
+        }
     }
 
     /**
@@ -92,11 +106,36 @@ public class Playground extends BaseTimeEntity {
     }
 
     /**
-     * 이미 해당 Playground에 참여중인 유저인지 체크
+     * 이미 해당 Playground에 참여중이거나 수락 대기중인 유저 체크
+     * !!거절 당했던 유저는 다시 신청 가능
      */
     public boolean checkAlreadyMember(OAuthUser user) {
-        return applyPlaygrounds.stream().noneMatch(playgroundApply -> {
-            return playgroundApply.getUser() == user;
-        });
+        return applyPlaygrounds.stream().anyMatch(playgroundApply -> playgroundApply.isAlreadyMember(user));
+    }
+
+    /**
+     * Playground 멤버 가득찼는지 확인
+     */
+    private boolean isFullMember() {
+        return maxMemberCount <= currentMemberCount;
+    }
+
+    /**
+     * Playground Member수 증가
+     */
+    public void increaseMemberNum() {
+        if(isFullMember()) {
+            throw new FullMemberException("해당 Playground 멤버가 가득참");
+        }
+        currentMemberCount++;
+    }
+
+    /**
+     * 해당 playground의 leader인지 확인
+     */
+    public void isLeaderUser(OAuthUser user) {
+        if(user != this.leader) {
+            throw new IncorrectUserException("해당 playground 리더가 아님");
+        }
     }
 }

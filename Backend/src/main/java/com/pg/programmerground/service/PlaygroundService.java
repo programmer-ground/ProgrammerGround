@@ -4,12 +4,13 @@ import com.pg.programmerground.domain.OAuthUser;
 import com.pg.programmerground.domain.Playground;
 import com.pg.programmerground.domain.PlaygroundApply;
 import com.pg.programmerground.domain.PlaygroundPosition;
-import com.pg.programmerground.dto.playground.ApplyPlaygroundDto;
-import com.pg.programmerground.dto.playground.MakePlaygroundInfoDto;
-import com.pg.programmerground.dto.playground.PlaygroundCardInfoDto;
-import com.pg.programmerground.dto.playground.PlaygroundInfoDto;
+import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
+import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
+import com.pg.programmerground.dto.playground.response.PlaygroundCardResponse;
+import com.pg.programmerground.dto.playground.response.PlaygroundResponse;
 import com.pg.programmerground.exception.PlaygroundNotFoundException;
 import com.pg.programmerground.model.OAuthUserRepository;
+import com.pg.programmerground.model.PlaygroundApplyRepository;
 import com.pg.programmerground.model.PlaygroundRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -20,33 +21,26 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-@Transactional
+@Transactional(readOnly = true)
 @RequiredArgsConstructor
 public class PlaygroundService {
     private final PlaygroundRepository playgroundRepository;
+    private final PlaygroundApplyRepository playgroundApplyRepository;
     private final OAuthUserRepository oAuthUserRepository;
     private final ModelMapper modelMapper;
-
-    @Transactional(readOnly = true)
-    public PlaygroundInfoDto findById(Long id) {
-        Playground playGround = playgroundRepository.findById(id)
-                .orElseThrow(PlaygroundNotFoundException::new);
-        return modelMapper.map(playGround, PlaygroundInfoDto.class);
-    }
 
     /**
      * 메인 페이지 playground card 목록 가져오기
      */
-    @Transactional(readOnly = true)
-    public List<PlaygroundCardInfoDto> getPlaygroundCardList() {
-        return PlaygroundCardInfoDto.makePlaygroundCardList(playgroundRepository.findAll());
+    public List<PlaygroundCardResponse> getPlaygroundCardList() {
+        return PlaygroundCardResponse.ofList(playgroundRepository.findAll());
     }
 
     /**
      * Playground 생성
      */
     @Transactional
-    public Long createPlayground(MakePlaygroundInfoDto playgroundInfo) throws Exception {
+    public Long createPlayground(PlaygroundApi playgroundInfo) throws Exception {
         //로그인 유저 가져오기
         OAuthUser leaderUser = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
         //Playground Position 객체 리스트 만들기
@@ -65,7 +59,7 @@ public class PlaygroundService {
      * User가 Playground Member신청
      */
     @Transactional
-    public Boolean applyPlayground(Long playgroundId, ApplyPlaygroundDto applyPlayground) throws Exception {
+    public Boolean applyPlayground(Long playgroundId, ApplyPlaygroundApi applyPlayground) {
         //유저 정보
         OAuthUser user = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
         //Playground 정보
@@ -76,9 +70,27 @@ public class PlaygroundService {
         return true;
     }
 
-    @Transactional(readOnly = true)
-    public PlaygroundInfoDto getPlaygroundDetailInfo(Long playgroundId) {
-        return PlaygroundInfoDto.of(
+    /**
+     * Playground 요청 수락
+     */
+    @Transactional
+    public Boolean acceptPlayground(Long playgroundApplyId) {
+        PlaygroundApply playgroundApply = playgroundApplyRepository.findById(playgroundApplyId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 Playground 요청입니다"));
+        OAuthUser user = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
+        playgroundApply.acceptApply(user);
+        return true;
+    }
+
+    @Transactional
+    public Boolean rejectPlayground(Long playgroundApplyId) {
+        PlaygroundApply playgroundApply = playgroundApplyRepository.findById(playgroundApplyId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 Playground 요청입니다"));
+        OAuthUser user = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
+        playgroundApply.rejectApply(user);
+        return true;
+    }
+
+    public PlaygroundResponse getPlaygroundDetailInfo(Long playgroundId) {
+        return PlaygroundResponse.of(
                 playgroundRepository.findById(playgroundId).orElseThrow(() -> new NoSuchElementException("playground 존재 안함")));
     }
 }

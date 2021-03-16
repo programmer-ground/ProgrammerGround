@@ -22,11 +22,15 @@ public class ControllerExceptionHandler {
         map.put("code", 10);
         return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
     }
-    /*@ExceptionHandler(Exception.class)
-    public ResponseEntity<Map<String, Object>> exceptionHandler(Exception e) {
+
+    /**
+     * 잘못된 요청 parameter전달
+     */
+    @ExceptionHandler(WrongRequestException.class)
+    public ResponseEntity<Map<String, Object>> WrongRequestExceptionHandler(WrongRequestException e) {
         Map<String, Object> map = new HashMap<>();
         map.put("msg", e.getMessage());
         map.put("code", 11);
         return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
-    }*/
+    }
 }

@@ -3,7 +3,8 @@ package com.pg.programmerground.domain;
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.enumerated.Position;
 import com.pg.programmerground.domain.enumerated.PositionLevel;
-import com.pg.programmerground.dto.playground.MakePositionInfoDto;
+import com.pg.programmerground.dto.playground.api_req.PositionApi;
+import com.pg.programmerground.exception.FullMemberException;
 import lombok.*;
 import org.springframework.util.Assert;
 
@@ -18,8 +19,7 @@ import java.util.stream.Collectors;
 @Setter
 @Table(name = "PLAYGROUND_POSITION")
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class
-PlaygroundPosition extends BaseTimeEntity {
+public class PlaygroundPosition extends BaseTimeEntity {
     @Id
     @GeneratedValue
     @Column(name = "PLAYGROUND_POSITION_ID")
@@ -62,15 +62,15 @@ PlaygroundPosition extends BaseTimeEntity {
         this.currentPositionNum = 0;
     }
 
-    public static List<PlaygroundPosition> createPosition(List<MakePositionInfoDto> positionInfoList) {
+    public static List<PlaygroundPosition> createPosition(List<PositionApi> positionInfoList) {
         return positionInfoList.stream()
-                .map(makePositionInfoDto -> {
+                .map(positionApi -> {
                     PlaygroundPosition playgroundPosition =
                             PlaygroundPosition.builder()
-                                    .position(makePositionInfoDto.getPositionName())
-                                    .maxPositionNum(makePositionInfoDto.getPositionMaxNum())
-                                    .positionLevel(PositionLevel.valueOf(makePositionInfoDto.getPositionLevel()))
-                                    .positionLanguageList(PositionLanguage.createPositionLanguage(makePositionInfoDto.getPositionLanguage()))
+                                    .position(positionApi.getPositionName())
+                                    .maxPositionNum(positionApi.getPositionMaxNum())
+                                    .positionLevel(PositionLevel.valueOf(positionApi.getPositionLevel()))
+                                    .positionLanguageList(PositionLanguage.createPositionLanguage(positionApi.getPositionLanguage()))
                                     .build();
                     //양방향 설정
                     for (PositionLanguage positionLanguage : playgroundPosition.positionLanguageList) {
@@ -87,10 +87,16 @@ PlaygroundPosition extends BaseTimeEntity {
         currentPositionNum++;
     }
 
-    public boolean checkFullPosition() {
-        return currentPositionNum < maxPositionNum;
+    public boolean isFullPosition() {
+        return maxPositionNum <= currentPositionNum;
     }
 
+    public void increaseMemberNum() {
+        if(isFullPosition()) {
+            throw new FullMemberException("해당 포지션 멤버가 가득참");
+        }
+        currentPositionNum++;
+    }
     /**
      * Leader Position을 생성시 입력받은 Position중에 탐색
      */

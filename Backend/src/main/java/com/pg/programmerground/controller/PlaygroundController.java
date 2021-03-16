@@ -1,7 +1,12 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.controller.response.ApiResponse;
-import com.pg.programmerground.dto.playground.*;
+import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
+import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
+import com.pg.programmerground.dto.playground.api_req.RevisePlaygroundApi;
+import com.pg.programmerground.dto.playground.response.PlaygroundCardListResponse;
+import com.pg.programmerground.dto.playground.response.PlaygroundResponse;
+import com.pg.programmerground.dto.playground.response.PlaygroundResultResponse;
 import com.pg.programmerground.service.PlaygroundService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -9,7 +14,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -22,15 +26,15 @@ public class PlaygroundController {
      * 무한 스크롤 적용위한 방법? 찾기
      */
     @GetMapping("")
-    public ResponseEntity<ApiResponse<List<PlaygroundCardInfoDto>>> playgroundList() {
-        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.getPlaygroundCardList()));
+    public ResponseEntity<ApiResponse<PlaygroundCardListResponse>> playgroundList() {
+        return ResponseEntity.ok().body(new ApiResponse<>(new PlaygroundCardListResponse(playgroundService.getPlaygroundCardList())));
     }
 
     /**
      * playground 생성
      */
     @PostMapping("")
-    public ResponseEntity<ApiResponse<Long>> makePlayground(@Valid @RequestBody MakePlaygroundInfoDto info) throws Exception {
+    public ResponseEntity<ApiResponse<Long>> createPlayground(@Valid @RequestBody PlaygroundApi info) throws Exception {
         return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.createPlayground(info)));
     }
 
@@ -38,14 +42,31 @@ public class PlaygroundController {
      * playground 참여 신청
      */
     @PostMapping("/apply/{playgroundId}")
-    public ResponseEntity<ApiResponse<Boolean>> applyPlayground(@PathVariable Long playgroundId, @RequestBody ApplyPlaygroundDto applyPlayground) throws Exception {
-        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.applyPlayground(playgroundId, applyPlayground)));
+    public ResponseEntity<ApiResponse<PlaygroundResultResponse>> applyPlayground(@PathVariable Long playgroundId, @RequestBody ApplyPlaygroundApi applyPlayground) throws Exception {
+        return ResponseEntity.ok().body(new ApiResponse<>(new PlaygroundResultResponse(playgroundService.applyPlayground(playgroundId, applyPlayground))));
     }
+
+    /**
+     * playground 신청 수락
+     */
+    @PutMapping("/applicants/{playgroundApplyId}/accept")
+    public ResponseEntity<ApiResponse<PlaygroundResultResponse>> acceptPlaygroundApply(@PathVariable Long playgroundApplyId) {
+        return ResponseEntity.ok().body(new ApiResponse<>(new PlaygroundResultResponse(playgroundService.acceptPlayground(playgroundApplyId))));
+    }
+
+    /**
+     * playground 신청 거절
+     */
+    @PutMapping("/applicants/{playgroundApplyId}/reject")
+    public ResponseEntity<ApiResponse<Boolean>> rejectPlaygroundApply(@PathVariable Long playgroundApplyId) {
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.rejectPlayground(playgroundApplyId)));
+    }
+
     /**
      * playground 상세 정보
      */
     @GetMapping("/{playgroundId}")
-    public ResponseEntity<ApiResponse<PlaygroundInfoDto>> getPlayground(@PathVariable Long playgroundId) {
+    public ResponseEntity<ApiResponse<PlaygroundResponse>> getPlayground(@PathVariable Long playgroundId) {
         return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.getPlaygroundDetailInfo(playgroundId)));
     }
 
@@ -53,7 +74,7 @@ public class PlaygroundController {
      * playground 수정
      */
     @PutMapping("/{playgroundId}")
-    public ResponseEntity<ApiResponse<Integer>> revisePlayground(@Valid RevisePlaygroundInfoDto info, @PathVariable Long playgroundId) {
+    public ResponseEntity<ApiResponse<Integer>> revisePlayground(@Valid RevisePlaygroundApi info, @PathVariable Long playgroundId) {
         return ResponseEntity.accepted().body(new ApiResponse<>(null));
     }
 

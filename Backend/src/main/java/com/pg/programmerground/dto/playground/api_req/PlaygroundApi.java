@@ -1,4 +1,4 @@
-package com.pg.programmerground.dto.playground;
+package com.pg.programmerground.dto.playground.api_req;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
@@ -13,12 +13,13 @@ import java.util.List;
  * 찾는 포지션 정보
  */
 @Getter
-public class MakePlaygroundInfoDto {
+public class PlaygroundApi {
     private String title;
     private String description;
     @JsonProperty("leader_position")
     private String leaderPosition;
     @JsonProperty("max_user_num")
     private Integer maxUserNum;
-    List<MakePositionInfoDto> positionInfo;
+    @JsonProperty("position")
+    List<PositionApi> positionInfo;
 }

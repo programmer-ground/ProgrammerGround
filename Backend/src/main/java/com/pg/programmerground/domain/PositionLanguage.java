@@ -1,6 +1,7 @@
 package com.pg.programmerground.domain;
 
-import com.pg.programmerground.dto.playground.MakePositionLanguage;
+import com.pg.programmerground.domain.enumerated.Language;
+import com.pg.programmerground.dto.playground.api_req.PositionLanguageApi;
 import lombok.*;
 
 import javax.persistence.*;
@@ -18,7 +19,8 @@ public class PositionLanguage {
     private Long id;
 
     @Column(name = "LANGUAGE_NAME")
-    private String languageName;
+    @Enumerated(value = EnumType.STRING)
+    private Language languageName;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PLAYGROUND_POSITION_ID")
@@ -26,7 +28,7 @@ public class PositionLanguage {
 
     @Builder
     private PositionLanguage(String languageName) {
-        this.languageName = languageName;
+        this.languageName = Language.valueOf(languageName);
     }
 
     public void setPlaygroundPosition(PlaygroundPosition playgroundPosition) {
@@ -36,10 +38,10 @@ public class PositionLanguage {
     /**
      * 각 Position의 Language객체 List 추출
      */
-    public static List<PositionLanguage> createPositionLanguage(List<MakePositionLanguage> languages) {
+    public static List<PositionLanguage> createPositionLanguage(List<PositionLanguageApi> languages) {
         return languages.stream()
-                .map(makePositionLanguage ->
-                        PositionLanguage.builder().languageName(makePositionLanguage.getLanguageName())
+                .map(positionLanguageApi ->
+                        PositionLanguage.builder().languageName(positionLanguageApi.getLanguageName())
                                 .build())
                 .collect(Collectors.toList());
     }

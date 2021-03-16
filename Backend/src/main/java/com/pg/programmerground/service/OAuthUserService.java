@@ -4,7 +4,7 @@ import com.pg.programmerground.auth.MyUserDetails;
 import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.domain.OAuthUser;
 import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
-import com.pg.programmerground.dto.UserInfoDto;
+import com.pg.programmerground.dto.playground.response.UserResponse;
 import com.pg.programmerground.model.OAuthUserRepository;
 import com.pg.programmerground.model.Oauth2AuthorizedClientRepository;
 import lombok.RequiredArgsConstructor;
@@ -32,8 +32,8 @@ public class OAuthUserService {
 		return new MyUserDetails(oAuthUser);
 	}
 
-	public UserInfoDto getUserInfo() {
-		return UserInfoDto.of(
+	public UserResponse getUserInfo() {
+		return UserResponse.of(
 				(MyUserDetails) ((JwtAuthenticationToken)SecurityContextHolder.getContext().getAuthentication()).getPrincipal());
 	}
 }
