@@ -103,7 +103,7 @@ const ModalWrapper = () => {
 											</StyledComponent.ModalCreateSectionBody>
 										);
 									})}
-									<input type="submit" value="제출버튼" />
+									<StyledComponent.SubmitButton type="submit" />
 								</StyledComponent.ModalCreateSection>
 							</form>
 						</StyledComponent.ModalBody>

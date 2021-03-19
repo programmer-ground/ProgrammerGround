@@ -91,3 +91,11 @@ export const ModalCreateSectionBody = styled.div`
 		margin-left: 56px;
 	}
 `;
+
+export const SubmitButton = styled.input`
+	margin: 2% auto;
+	width: 50%;
+	border: 0px;
+	cursor: pointer;
+	background-color: #04c584;
+`;
