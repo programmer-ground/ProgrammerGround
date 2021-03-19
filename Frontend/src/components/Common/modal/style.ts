@@ -13,7 +13,7 @@ export const Container = styled.div`
 `;
 export const ModalContent = styled.div`
 	background-color: #fefefe;
-	width: 30%;
+	width: 50%;
 	height: 400px;
 	margin: 10% auto;
 	border: 1px solid #888;
@@ -66,6 +66,9 @@ export const ModalCreateSection = styled.div`
 export const ModalCreateSectionTitle = styled.div`
 	display: flex;
 	justify-content: space-around;
+	& > div {
+		margin-left: 35px;
+	}
 	& > button {
 		width: 55px;
 		height: 32px;

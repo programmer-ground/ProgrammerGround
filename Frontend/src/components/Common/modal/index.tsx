@@ -47,10 +47,10 @@ const ModalWrapper = () => {
 									<ModalInput name="name" placeholder="이름을 적어주세요!" />
 								</StyledComponent.InputSection>
 								<StyledComponent.InputSection>
-									<label>타이틀:</label>
+									<label>상세설명:</label>
 									<ModalInput
-										name="title"
-										placeholder="프로젝트에 대한 상세 설명을 해주세요!"
+  name="title"
+  placeholder="프로젝트에 대한 상세 설명을 해주세요!"
 									/>
 								</StyledComponent.InputSection>
 								<StyledComponent.InputSection>
@@ -72,6 +72,8 @@ const ModalWrapper = () => {
 									<StyledComponent.ModalCreateSectionTitle>
 										<div>포지션</div>
 										<div>인원</div>
+										<div>경력</div>
+										<div>언어</div>
 										<button type="button" onClick={plusPosition}>
 											추가
 										</button>
@@ -79,22 +81,29 @@ const ModalWrapper = () => {
 									{persons.map((v, i) => {
 										return (
 											<StyledComponent.ModalCreateSectionBody
-  className="input-Ref"
-												key={i}
+												className="input-Ref"
+  key={i}
 											>
 												<input
-													type="text"
-													name="position"
-													placeholder={v.position}
+  type="text"
+  name="position"
+  placeholder={v.position}
 												/>
 
 												<ModalNumberInput
-  placeholder={v.personNumber}
-  setMaxPersonNumber={setMaxPersonNumber}
+													placeholder={v.personNumber}
+													setMaxPersonNumber={setMaxPersonNumber}
+												/>
+												<input type="text" name="level" placeholder="junior" />
+												<input
+													type="text"
+													name="language"
+													placeholder="react"
 												/>
 											</StyledComponent.ModalCreateSectionBody>
 										);
 									})}
+									<input type="submit" value="제출버튼" />
 								</StyledComponent.ModalCreateSection>
 							</form>
 						</StyledComponent.ModalBody>
