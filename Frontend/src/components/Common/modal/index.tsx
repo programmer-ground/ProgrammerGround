@@ -55,10 +55,13 @@ const ModalWrapper = () => {
 								</StyledComponent.InputSection>
 								<StyledComponent.InputSection>
 									<label>leader 포지션:</label>
-									<ModalInput
-										name="position"
-										placeholder="리더의 포지션을 입력해주세요!"
-									/>
+									<select>
+										<option value="Backend">Backend</option>
+										<option value="Frontend">Frontend</option>
+										<option value="Infra">Infra</option>
+										<option value="UI/UX">UI/UX</option>
+										<option value="디자이너">디자이너</option>
+									</select>
 								</StyledComponent.InputSection>
 								<StyledComponent.InputSection>
 									최대 {maxPersonNumber}명
