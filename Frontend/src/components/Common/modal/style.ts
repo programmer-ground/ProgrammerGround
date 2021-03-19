@@ -35,10 +35,14 @@ export const ModalClose = styled.div`
 	font-weight: bold;
 	cursor: pointer;
 	border-radius: 10px;
+	margin-top: 20px;
+	margin-right: 10px;
 `;
 
 export const ModalTitle = styled.div`
-	font-size: 20px;
+	font-size: 30px;
+	margin-top: 20px;
+	box-sizing: border-box;
 `;
 
 export const ModalBody = styled.div`
