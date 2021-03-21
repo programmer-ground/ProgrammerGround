@@ -1,0 +1,51 @@
+{
+  "create_playground": {
+    "title": "test",
+    "description": "test",
+    "max_user_num": 10,
+    "leader_position": "BACKEND",
+    "position": [
+      {
+        "position_name": "BACKEND",
+        "position_max_num": 1,
+        "position_level": "JUNIOR",
+        "position_language": [
+          {
+            "language_name": "spring"
+          }
+        ]
+      },
+      {
+        "position_name": "FRONTEND",
+        "position_max_num": 2,
+        "position_level": "SENIOR",
+        "position_language": [
+          {
+            "language_name": "vue"
+          }
+        ]
+      },
+      {
+        "position_name": "DESIGN",
+        "position_max_num": 3,
+        "position_level": "STUDENT",
+        "position_language": [
+          {
+            "language_name": "html"
+          }
+        ]
+      },
+      {
+        "position_name": "PLANNER",
+        "position_max_num": 4,
+        "position_level": "SENIOR",
+        "position_language": [
+          {
+            "language_name": "axsure"
+          }
+        ]
+      }
+    ]
+  }
+
+}
