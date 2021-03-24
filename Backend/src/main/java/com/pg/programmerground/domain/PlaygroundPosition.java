@@ -3,8 +3,10 @@ package com.pg.programmerground.domain;
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.enumerated.Position;
 import com.pg.programmerground.domain.enumerated.PositionLevel;
+import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.PositionApi;
 import com.pg.programmerground.exception.FullMemberException;
+import com.pg.programmerground.exception.WrongRequestException;
 import lombok.*;
 import org.springframework.util.Assert;
 
@@ -62,22 +64,47 @@ public class PlaygroundPosition extends BaseTimeEntity {
         this.currentPositionNum = 0;
     }
 
-    public static List<PlaygroundPosition> createPosition(List<PositionApi> positionInfoList) {
-        return positionInfoList.stream()
-                .map(positionApi -> {
-                    PlaygroundPosition playgroundPosition =
-                            PlaygroundPosition.builder()
-                                    .position(positionApi.getPositionName())
-                                    .maxPositionNum(positionApi.getPositionMaxNum())
-                                    .positionLevel(PositionLevel.valueOf(positionApi.getPositionLevel()))
-                                    .positionLanguageList(PositionLanguage.createPositionLanguage(positionApi.getPositionLanguage()))
-                                    .build();
-                    //양방향 설정
-                    for (PositionLanguage positionLanguage : playgroundPosition.positionLanguageList) {
-                        positionLanguage.setPlaygroundPosition(playgroundPosition);
-                    }
-                    return playgroundPosition;
-                }).collect(Collectors.toList());
+    public static List<PlaygroundPosition> createPosition(PlaygroundApi playgroundApiList) {
+        List<PlaygroundPosition> list =
+                playgroundApiList.getPositionInfo().stream()
+                        .map(positionApi -> {
+                            PlaygroundPosition playgroundPosition =
+                                    PlaygroundPosition.builder()
+                                            .position(positionApi.getPositionName())
+                                            .maxPositionNum(positionApi.getPositionMaxNum())
+                                            .positionLevel(PositionLevel.valueOf(positionApi.getPositionLevel()))
+                                            .positionLanguageList(PositionLanguage.createPositionLanguage(positionApi.getPositionLanguage()))
+                                            .build();
+                            //양방향 설정
+                            for (PositionLanguage positionLanguage : playgroundPosition.positionLanguageList) {
+                                positionLanguage.setPlaygroundPosition(playgroundPosition);
+                            }
+                            return playgroundPosition;
+                        }).collect(Collectors.toList());
+        if(!isCorrectMemberNum(playgroundApiList.getMaxUserNum(), list)) {
+            throw new WrongRequestException("각 포지션 인원수와 최대 인원수가 다름");
+        }
+        return list;
+    }
+
+    /**
+     * Playground에 저장된 MaxNum과 각 Position정보의 MaxNum의 합이 같은지 체크
+     */
+    private static boolean isCorrectMemberNum(int playgroundMaxNum, List<PlaygroundPosition> playgroundPositionList) {
+        int positionTotalNum = playgroundPositionList.stream().mapToInt(PlaygroundPosition::getMaxPositionNum).sum();
+        return positionTotalNum == playgroundMaxNum;
+    }
+
+    /**
+     * Leader Position을 생성시 입력받은 Position중에 탐색
+     */
+    public static PlaygroundPosition searchLeaderPosition(List<PlaygroundPosition> playgroundPositions, String positionName) {
+        //입력받은 Position중에 Leader가 신청한 Position탐색
+        return playgroundPositions.stream()
+                .filter(playgroundPosition -> {
+                    return playgroundPosition.getPosition().name().equals(positionName);
+                }).findFirst()
+                .orElseThrow(() -> new NoSuchElementException("입력되지 않은 포지션입니다"));
     }
 
     public void increaseMember() throws Exception {
@@ -92,20 +119,9 @@ public class PlaygroundPosition extends BaseTimeEntity {
     }
 
     public void increaseMemberNum() {
-        if(isFullPosition()) {
+        if (isFullPosition()) {
             throw new FullMemberException("해당 포지션 멤버가 가득참");
         }
         currentPositionNum++;
-    }
-    /**
-     * Leader Position을 생성시 입력받은 Position중에 탐색
-     */
-    public static PlaygroundPosition searchLeaderPosition(List<PlaygroundPosition> playgroundPositions, String positionName) {
-        //입력받은 Position중에 Leader가 신청한 Position탐색
-        return playgroundPositions.stream()
-                .filter(playgroundPosition -> {
-                    return playgroundPosition.getPosition().name().equals(positionName);
-                }).findFirst()
-                .orElseThrow(() -> new NoSuchElementException("입력되지 않은 포지션입니다"));
     }
 }

@@ -11,7 +11,7 @@
         "position_level": "JUNIOR",
         "position_language": [
           {
-            "language_name": "spring"
+            "language_name": "SPRING"
           }
         ]
       },
@@ -21,7 +21,7 @@
         "position_level": "SENIOR",
         "position_language": [
           {
-            "language_name": "vue"
+            "language_name": "VUE"
           }
         ]
       },
@@ -31,7 +31,7 @@
         "position_level": "STUDENT",
         "position_language": [
           {
-            "language_name": "html"
+            "language_name": "HTML"
           }
         ]
       },
@@ -41,11 +41,64 @@
         "position_level": "SENIOR",
         "position_language": [
           {
-            "language_name": "axsure"
+            "language_name": "AXSURE"
+          }
+        ]
+      }
+    ]
+  },
+  "position_sum": {
+    "title": "test",
+    "description": "test",
+    "max_user_num": 10,
+    "leader_position": "AXSURE",
+    "position": [
+      {
+        "position_name": "PLANNER",
+        "position_max_num": 4,
+        "position_level": "SENIOR",
+        "position_language": [
+          {
+            "language_name": "AXSURE"
+          }
+        ]
+      }
+    ]
+  },
+  "position_enum": {
+    "title": "test",
+    "description": "test",
+    "max_user_num": 10,
+    "leader_position": "BACKEND",
+    "position": [
+      {
+        "position_name": "PLANNER",
+        "position_max_num": 4,
+        "position_level": "SENIOR",
+        "position_language": [
+          {
+            "language_name": "test"
+          }
+        ]
+      }
+    ]
+  },
+  "leader_position": {
+    "title": "test",
+    "description": "test",
+    "max_user_num": 4,
+    "leader_position": "BACKEND",
+    "position": [
+      {
+        "position_name": "PLANNER",
+        "position_max_num": 4,
+        "position_level": "SENIOR",
+        "position_language": [
+          {
+            "language_name": "JAVA"
           }
         ]
       }
     ]
   }
-
 }
