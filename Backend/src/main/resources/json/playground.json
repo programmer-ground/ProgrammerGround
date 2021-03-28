@@ -100,5 +100,23 @@
         ]
       }
     ]
+  },
+  "apply_position": {
+    "title": "test",
+    "description": "test",
+    "max_user_num": 2,
+    "leader_position": "BACKEND",
+    "position": [
+      {
+        "position_name": "BACKEND",
+        "position_max_num": 2,
+        "position_level": "SENIOR",
+        "position_language": [
+          {
+            "language_name": "JAVA"
+          }
+        ]
+      }
+    ]
   }
 }

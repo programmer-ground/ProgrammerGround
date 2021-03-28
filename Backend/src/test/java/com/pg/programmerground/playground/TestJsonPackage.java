@@ -25,7 +25,8 @@ public class TestJsonPackage {
     PlaygroundApi positionEnum;
     @JsonProperty("leader_position")
     PlaygroundApi leaderPosition;
-
+    @JsonProperty("apply_position")
+    PlaygroundApi applyPosition;
     /**
      * Json To DTO
      */
