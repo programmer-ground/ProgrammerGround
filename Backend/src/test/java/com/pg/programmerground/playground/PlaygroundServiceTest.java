@@ -1,5 +1,6 @@
 package com.pg.programmerground.playground;
 
+import com.pg.programmerground.TestUserManagement;
 import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.domain.Playground;
 import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
@@ -8,10 +9,7 @@ import com.pg.programmerground.exception.WrongRequestException;
 import com.pg.programmerground.model.PlaygroundRepository;
 import com.pg.programmerground.service.OAuthUserService;
 import com.pg.programmerground.service.PlaygroundService;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,8 +26,8 @@ import static org.junit.jupiter.api.Assertions.*;
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class PlaygroundServiceTest {
-    private static final Long GITHUB_ID = 32676275L;
-    private static final Long GITHUB_ID2 = 80170559L;
+    private static final Long GITHUB_ID = 1234L;
+    private static final Long GITHUB_ID2 = 12345L;
     TestJsonPackage dtoList;
     @Autowired
     private OAuthUserService oAuthUserService;
@@ -37,11 +35,12 @@ public class PlaygroundServiceTest {
     private PlaygroundService playgroundService;
     @Autowired
     private PlaygroundRepository playgroundRepository;
-
     //private MockMvc mvc;
+    @Autowired
+    TestUserManagement management;
 
     @BeforeEach
-    void init() {
+    void authenticationSetUp() {
         //Github 로그인을 한번 시도하고
         UserDetails userDetails = oAuthUserService.loadUserByOAuthId(GITHUB_ID);
         Authentication authentication = new JwtAuthenticationToken(userDetails, "토큰 값 필요없음", userDetails.getAuthorities());
@@ -49,8 +48,14 @@ public class PlaygroundServiceTest {
     }
 
     @BeforeAll
-    void jsonInit() throws IOException {
+    void dataSetUp() throws IOException {
         dtoList = TestJsonPackage.of();
+        management.saveTestUser();
+    }
+
+    @AfterAll
+    void deleteTestUser() {
+        management.deleteTestUser();
     }
 
     @Test
@@ -67,7 +72,7 @@ public class PlaygroundServiceTest {
     }
 
     @Test
-    void Playground_Position_합_예외() throws Exception {
+    void Playground_Position_합_예외() {
         //given
         PlaygroundApi playgroundApi = dtoList.positionSum;
         //when then
@@ -77,7 +82,7 @@ public class PlaygroundServiceTest {
     }
 
     @Test
-    void Playground_Position_Enum_예외() throws Exception {
+    void Playground_Position_Enum_예외() {
         PlaygroundApi playgroundApi = dtoList.positionEnum;
         assertThrows(IllegalArgumentException.class, () -> {
             Long playgroundId = playgroundService.createPlayground(playgroundApi);
@@ -85,7 +90,7 @@ public class PlaygroundServiceTest {
     }
 
     @Test
-    void Playground_Leader_Position_존재안함_예외() throws Exception {
+    void Playground_Leader_Position_존재안함_예외() {
         PlaygroundApi playgroundApi = dtoList.leaderPosition;
         assertThrows(NoSuchElementException.class, () -> {
             Long playgroundId = playgroundService.createPlayground(playgroundApi);
@@ -98,6 +103,7 @@ public class PlaygroundServiceTest {
         //playground 생성
         PlaygroundApi playgroundApi = dtoList.applyPosition;
         Long playgroundId = playgroundService.createPlayground(playgroundApi);
+
         //playground position 가져오기
         Playground playground = playgroundRepository.findById(playgroundId).orElseThrow();
         Long positionId = playground.getPlaygroundPositionList().get(0).getId();
@@ -119,14 +125,17 @@ public class PlaygroundServiceTest {
         //playground 생성
         PlaygroundApi playgroundApi = dtoList.applyPosition;
         Long playgroundId = playgroundService.createPlayground(playgroundApi);
+
         //playground position 가져오기
         Playground playground = playgroundRepository.findById(playgroundId).orElseThrow();
         Long positionId = playground.getPlaygroundPositionList().get(0).getId();
         ApplyPlaygroundApi applyPlaygroundApi = new ApplyPlaygroundApi();
         Whitebox.setInternalState(applyPlaygroundApi, "positionId", positionId);
-        //리더가 자기 playground를 신청
+
+        //리더가 자기 playground에 참가 신청
         assertThrows(WrongRequestException.class, () -> {
             boolean rst = playgroundService.applyPlayground(playgroundId, applyPlaygroundApi);
         });
     }
+
 }

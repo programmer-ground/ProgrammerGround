@@ -54,13 +54,13 @@ public class OAuthUser extends BaseTimeEntity {
     private final List<Playground> leaderPlaygrounds = new ArrayList<>();
 
     @Builder
-    public OAuthUser(String userName, String OAuthName, String Role, String code, Oauth2AuthorizedClient oauth2AuthorizedClient) {
+    public OAuthUser(String userName, String OAuthName, String Role, String code, Oauth2AuthorizedClient oauth2AuthorizedClient, UserGithubInfo userGithubInfo) {
         Assert.notNull(userName, "userName must not be null");
         Assert.notNull(OAuthName, "OAuthName must not be null");
         Assert.notNull(Role, "Role must not be null");
-        Assert.notNull(code, "code must not be null");
         Assert.notNull(oauth2AuthorizedClient, "AuthorizedClient must not be null");
 
+        this.userGithubInfo = userGithubInfo;
         this.userName = userName;
         this.OAuthName = OAuthName;
         this.Role = Role;
