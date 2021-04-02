@@ -41,7 +41,7 @@ const ModalWrapper = () => {
 							</StyledComponent.ModalClose>
 						</StyledComponent.ModalHeader>
 						<StyledComponent.ModalBody>
-							<form action="/">
+							<form action="http://localhost:9000/playground">
 								<StyledComponent.InputSection>
 									<label>이름:</label>
 									<ModalInput name="name" placeholder="이름을 적어주세요!" />
@@ -49,8 +49,8 @@ const ModalWrapper = () => {
 								<StyledComponent.InputSection>
 									<label>상세설명:</label>
 									<ModalInput
-  name="title"
-  placeholder="프로젝트에 대한 상세 설명을 해주세요!"
+										name="title"
+										placeholder="프로젝트에 대한 상세 설명을 해주세요!"
 									/>
 								</StyledComponent.InputSection>
 								<StyledComponent.InputSection>
@@ -82,12 +82,12 @@ const ModalWrapper = () => {
 										return (
 											<StyledComponent.ModalCreateSectionBody
 												className="input-Ref"
-  key={i}
+												key={i}
 											>
 												<input
-  type="text"
-  name="position"
-  placeholder={v.position}
+													type="text"
+													name="position"
+													placeholder={v.position}
 												/>
 
 												<ModalNumberInput
