@@ -26,7 +26,7 @@ export const HeaderImg = styled.img.attrs({
 	}
 `;
 
-export const HeaderContainer = styled.div`
+export const HeaderContainer = styled.header`
 	display: flex;
 	justify-content: space-around;
 	border-bottom: 1px solid #a2b8e1;

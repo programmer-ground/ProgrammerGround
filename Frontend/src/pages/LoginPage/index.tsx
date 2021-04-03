@@ -16,7 +16,7 @@ const LoginPage = () => {
 
 		if (Object.keys(params).length > 0) {
 			const getToken = async () => {
-				const v: any = await axios
+				await axios
 					.post('http://localhost:8080/jwtLogin', params, getOptions)
 					.then((response: AxiosResponse) => {
 						localStorage.setItem('token', response.headers.token);

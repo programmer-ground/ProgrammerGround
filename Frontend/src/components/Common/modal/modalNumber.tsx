@@ -25,12 +25,12 @@ const ModalNumberInput = (props: {
 	}, []);
 	return (
 		<input
-  type="text"
-  name="number"
-  placeholder={props.placeholder}
-  ref={ref}
-  onChange={onChange}
-  value={value}
+			type="text"
+			name="number"
+			placeholder={props.placeholder}
+			ref={ref}
+			onChange={onChange}
+			value={value}
 		/>
 	);
 };
