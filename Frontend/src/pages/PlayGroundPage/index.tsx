@@ -26,13 +26,13 @@ const PlayGroundPage = () => {
 					{groundData.map((v) => {
 						return (
 							<PlaygroundContent
-  key={v.id}
-  title={v.title}
-  date={v.date}
-  src={v.src}
-  position={v.position}
-  personnel={v.personnel}
-  language={v.language}
+								key={v.id}
+								title={v.title}
+								date={v.date}
+								src={v.src}
+								position={v.position}
+								personnel={v.personnel}
+								language={v.language}
 							/>
 						);
 					})}
