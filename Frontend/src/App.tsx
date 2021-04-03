@@ -11,8 +11,8 @@ const App = () => {
 			<GlobalStyle />
 			<Router>
 				<Switch>
-					<Route exact path="/" component={LoginPage} />
-					<Route exact path="/playground" component={PlayGroundPage} />
+					<Route exact path="/login" component={LoginPage} />
+					<Route exact path="/" component={PlayGroundPage} />
 				</Switch>
 			</Router>
 			<ModalWrapper />
