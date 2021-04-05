@@ -12,3 +12,8 @@ export const CreateContainer = styled.div`
 	justify-content: center;
 	margin: 90px auto;
 `;
+
+export const CreateSubTitle = styled.h1`
+	font-size: 15px;
+	text-align: center;
+`;
