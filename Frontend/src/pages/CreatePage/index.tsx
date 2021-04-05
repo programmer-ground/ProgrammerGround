@@ -12,6 +12,10 @@ const CreatePage = () => {
 				<label>프로젝트 이름: </label>
 				<input type="text" placeholder="프로젝트 제목을 입력하세요" />
 			</StyledComponent.CreateNameDiv>
+			<StyledComponent.CreateNameDiv>
+				<label>프로젝트 내용</label>
+				<StyledComponent.CreateContent />
+			</StyledComponent.CreateNameDiv>
 		</StyledComponent.CreateContainer>
 	);
 };

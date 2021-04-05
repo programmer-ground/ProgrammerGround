@@ -6,7 +6,7 @@ export const CreateContainer = styled.div`
 	box-sizing: border-box;
 	flex-direction: column;
 	width: 50%;
-	height: 500px;
+	height: 700px;
 	border: 1px solid #e9e9e9;
 	border-radius: 10px;
 	justify-content: center;
@@ -33,4 +33,10 @@ export const CreateNameDiv = styled.div`
 	& input:focus {
 		outline: none;
 	}
+`;
+
+export const CreateContent = styled.div`
+	width: 70%;
+	height: 500px;
+	border: 1px solid #e9e9e9;
 `;
