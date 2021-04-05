@@ -7,3 +7,8 @@ services:
    ports:
      - "5672:5672"
      - "15672:15672"
+  mongodb:
+    image: mongo
+    container_name: mongodb
+    ports:
+      - "27107:27107"
