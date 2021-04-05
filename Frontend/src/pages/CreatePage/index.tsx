@@ -1,6 +1,7 @@
 import React from 'react';
+import * as StyledComponent from './style';
 
 const CreatePage = () => {
-	return <div>create</div>;
+	return <StyledComponent.CreateContainer>hi</StyledComponent.CreateContainer>;
 };
 export default CreatePage;
