@@ -14,7 +14,9 @@ const CreatePage = () => {
 			</StyledComponent.CreateNameDiv>
 			<StyledComponent.CreateNameDiv>
 				<label>프로젝트 내용</label>
-				<StyledComponent.CreateContent />
+				<StyledComponent.CreateContent>
+					<StyledComponent.CreateEditorMenu />
+				</StyledComponent.CreateContent>
 			</StyledComponent.CreateNameDiv>
 		</StyledComponent.CreateContainer>
 	);

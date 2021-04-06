@@ -40,3 +40,8 @@ export const CreateContent = styled.div`
 	height: 500px;
 	border: 1px solid #e9e9e9;
 `;
+
+export const CreateEditorMenu = styled.div`
+	border-bottom: 1px solid #e9e9e9;
+	height: 50px;
+`;
