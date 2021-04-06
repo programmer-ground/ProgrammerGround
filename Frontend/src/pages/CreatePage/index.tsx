@@ -1,5 +1,6 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 import React from 'react';
+import Editor from '@src/components/Common/editor/';
 import * as StyledComponent from './style';
 
 const CreatePage = () => {
@@ -15,7 +16,13 @@ const CreatePage = () => {
 			<StyledComponent.CreateNameDiv>
 				<label>프로젝트 내용</label>
 				<StyledComponent.CreateContent>
-					<StyledComponent.CreateEditorMenu />
+					<StyledComponent.CreateEditorMenu>
+						<Editor data="bold" />
+						<Editor data="italic" />
+						<Editor data="text" />
+						<Editor data="" />
+						<Editor data="" />
+					</StyledComponent.CreateEditorMenu>
 				</StyledComponent.CreateContent>
 			</StyledComponent.CreateNameDiv>
 		</StyledComponent.CreateContainer>
