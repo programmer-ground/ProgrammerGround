@@ -1,0 +1,22 @@
+{
+  "rooms": [
+    {
+      "id": 1,
+      "uuid": "0e0a01da-4c6e-424a-82e5-c6b06da8ee38",
+      "playGroundId": 13,
+      "title": "Spring Cloud Gateway gRPC Starter 개발 프로젝트",
+      "createdAt": "2021-04-08 12:22:29",
+      "updatedAt": "2021-04-08 12:22:25",
+      "members": [
+        {
+          "memberId": 1,
+          "role": "master"
+        },
+        {
+          "memberId": 2,
+          "role": "member"
+        }
+      ]
+    }
+  ]
+}

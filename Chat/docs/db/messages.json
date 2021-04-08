@@ -1,0 +1,79 @@
+{
+  "messages": [
+    {
+      "id": 1,
+      "roomId": 1,
+      "text": "팀원 분들 안녕하세요~~\n저희 프로젝트 로고이미지 보내드려요",
+      "objectType": "text",
+      "contents": [],
+      "sendUserId": 1,
+      "createdAt": "2021-04-08 12:22:25.321"
+    },
+    {
+      "id": 2,
+      "roomId": 1,
+      "text": "",
+      "objectType": "image",
+      "contents": [
+        {
+          "id": 1,
+          "width": 800,
+          "height": 800,
+          "size": 1234,
+          "extension": "png",
+          "url": "https://file.programmerground.com/images/aaaa-cccc-dddd-eeee.png",
+          "createdAt": "2021-04-08 12:22:23.132"
+        }
+      ],
+      "sendUserId": 1,
+      "createdAt": "2021-04-08 12:22:24.321"
+    },
+    {
+      "id": 3,
+      "roomId": 1,
+      "text": "안녕하세요~ 스프링마스터입니다. 제 이력서 보내드려요",
+      "objectType": "text",
+      "contents": [],
+      "sendUserId": 2,
+      "createdAt": "2021-04-08 12:22:24.321"
+    },
+    {
+      "id": 4,
+      "roomId": 1,
+      "text": "별건 없지만 정리해봤어요",
+      "objectType": "content",
+      "contents": [
+        {
+          "id": 2,
+          "width": 0,
+          "height": 0,
+          "size": 68909,
+          "extension": "pdf",
+          "url": "https://file.programmerground.com/files/eeqwe-eeee-zzzz-wwww.pdf",
+          "createdAt": "2021-04-08 12:22:25.132"
+        }
+      ],
+      "sendUserId": 2,
+      "createdAt": "2021-04-08 12:22:26.321"
+    },
+    {
+      "id": 5,
+      "roomId": 1,
+      "text": "",
+      "objectType": "file",
+      "contents": [
+        {
+          "id": 2,
+          "width": 0,
+          "height": 0,
+          "size": 23122003,
+          "extension": "docs",
+          "url": "https://file.programmerground.com/files/32123-eeee-zzzz-wwww.docs",
+          "createdAt": "2021-04-08 12:22:27.132"
+        }
+      ],
+      "sendUserId": 2,
+      "createdAt": "2021-04-08 12:22:31.321"
+    }
+  ]
+}
