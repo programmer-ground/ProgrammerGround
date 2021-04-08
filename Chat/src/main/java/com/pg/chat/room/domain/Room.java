@@ -17,6 +17,8 @@ public class Room {
 	@Id
 	private String id;
 
+	private String uuid;
+
 	@Indexed
 	private Long playgroundId;
 
