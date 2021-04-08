@@ -1,6 +1,10 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+// @ts-nocheck
 /* eslint-disable jsx-a11y/label-has-associated-control */
+
 import React from 'react';
-import Editor from '@src/components/Common/editor/';
+import EdiTor from '@src/components/Common/editor/';
+import Editor from 'rich-markdown-editor';
 import * as StyledComponent from './style';
 
 const CreatePage = () => {
@@ -16,13 +20,14 @@ const CreatePage = () => {
 			<StyledComponent.CreateNameDiv>
 				<label>프로젝트 내용</label>
 				<StyledComponent.CreateContent>
-					<StyledComponent.CreateEditorMenu>
-						<Editor data="bold" />
-						<Editor data="italic" />
-						<Editor data="text" />
-						<Editor data="" />
-						<Editor data="" />
-					</StyledComponent.CreateEditorMenu>
+					{/* <StyledComponent.CreateEditorMenu>
+						<EdiTor data="bold" />
+						<EdiTor data="italic" />
+						<EdiTor data="text" />
+						<EdiTor data="" />
+						<EdiTor data="" />
+					</StyledComponent.CreateEditorMenu> */}
+					<Editor defaultValue="Hello world!" />
 				</StyledComponent.CreateContent>
 			</StyledComponent.CreateNameDiv>
 		</StyledComponent.CreateContainer>

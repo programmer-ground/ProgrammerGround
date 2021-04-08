@@ -4,7 +4,7 @@ import React from 'react';
 import * as StyledComponent from './style';
 
 // eslint-disable-next-line react/prop-types
-const Editor = (props: { data: string }) => {
+const EdiTor = (props: { data: string }) => {
 	return (
 		<>
 			{props.data === 'bold' && <StyledComponent.ButtonBoldImage />}
@@ -14,4 +14,4 @@ const Editor = (props: { data: string }) => {
 	);
 };
 
-export default Editor;
+export default EdiTor;

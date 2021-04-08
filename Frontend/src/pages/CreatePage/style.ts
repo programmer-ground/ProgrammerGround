@@ -27,7 +27,7 @@ export const CreateNameDiv = styled.div`
 	& input {
 		margin-left: 10px;
 		font-size: 20px;
-		width: 50%;
+		width: 368px;
 		border: 2px solid #e9e9e9;
 	}
 	& input:focus {
@@ -44,4 +44,8 @@ export const CreateContent = styled.div`
 export const CreateEditorMenu = styled.div`
 	border-bottom: 1px solid #e9e9e9;
 	height: 50px;
+`;
+
+export const CreateTextArea = styled.p`
+	background-color: #e9e9e9;
 `;
