@@ -1,6 +1,8 @@
 package com.pg.chat.room.domain;
 
-import java.util.UUID;
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.Set;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
@@ -11,27 +13,45 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 @Getter
-@EqualsAndHashCode(of = {"id","roomMasterId"})
+@EqualsAndHashCode(of = {"id", "masterId"})
 @Document(collation = "room")
 public class Room {
 	@Id
 	private String id;
-
-	private String uuid;
 
 	@Indexed
 	private Long playgroundId;
 
 	private String title;
 
-	private Long roomMasterId;
+	private Long masterId;
+
+	private Set<Member> members = new HashSet<>();
+
+	private LocalDateTime createdAt;
+
+	private LocalDateTime updatedAt;
 
 	@Builder(builderMethodName = "createNewRoom")
-	Room(Long playgroundId, String title, Long roomMasterId) {
-		this.id = UUID.randomUUID().toString();
+	Room(Long playgroundId, String title, Long masterId) {
+		// this.id = UUID.randomUUID().toString();
 		this.playgroundId = playgroundId;
 		this.title = title;
-		this.roomMasterId = roomMasterId;
+		this.masterId = masterId;
+		this.createdAt = LocalDateTime.now();
+		this.updatedAt = LocalDateTime.now();
+	}
+
+	public boolean joinNewMember(Member member) {
+		return this.members.add(member);
+	}
+
+	public boolean kickOutMember(Member member) {
+		return this.members.remove(member);
+	}
+
+	public boolean kickOutMemberByMemberId(Long memberId) {
+		return this.members.removeIf(m -> m.getMemberId().equals(memberId));
 	}
 
 	@Override
@@ -40,7 +60,10 @@ public class Room {
 			"id='" + id + '\'' +
 			", playgroundId=" + playgroundId +
 			", title='" + title + '\'' +
-			", roomMasterId=" + roomMasterId +
+			", masterId=" + masterId +
+			", members=" + members +
+			", createdAt=" + createdAt +
+			", updatedAt=" + updatedAt +
 			'}';
 	}
 }
