@@ -29,6 +29,9 @@ const CreatePage = () => {
 					</StyledComponent.CreateEditorMenu> */}
 					<Editor defaultValue="Hello world!" />
 				</StyledComponent.CreateContent>
+				<StyledComponent.CreateImageButton>
+					Image upload
+				</StyledComponent.CreateImageButton>
 			</StyledComponent.CreateNameDiv>
 		</StyledComponent.CreateContainer>
 	);

@@ -6,7 +6,7 @@ export const CreateContainer = styled.div`
 	box-sizing: border-box;
 	flex-direction: column;
 	width: 50%;
-	height: 700px;
+	height: 1200px;
 	border: 1px solid #e9e9e9;
 	border-radius: 10px;
 	justify-content: center;
@@ -39,6 +39,7 @@ export const CreateContent = styled.div`
 	width: 70%;
 	height: 500px;
 	border: 1px solid #e9e9e9;
+	overflow: auto;
 `;
 
 export const CreateEditorMenu = styled.div`
@@ -48,4 +49,17 @@ export const CreateEditorMenu = styled.div`
 
 export const CreateTextArea = styled.p`
 	background-color: #e9e9e9;
+`;
+
+export const CreateImageButton = styled.button`
+	width: 70%;
+	height: 30px;
+	background-color: #525d60;
+	margin: 0 auto;
+	border: 1px solid #e9e9e9;
+	color: #fff;
+	&:hover {
+		cursor: pointer;
+		background-color: #50d56d;
+	}
 `;
