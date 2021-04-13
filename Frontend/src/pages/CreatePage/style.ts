@@ -63,3 +63,14 @@ export const CreateImageButton = styled.button`
 		background-color: #50d56d;
 	}
 `;
+
+export const CreateLeaderPosition = styled.div`
+	display: flex;
+	width: 70%;
+	margin-top: 10px;
+	justify-content: center;
+	& > label {
+		font-size: 20px;
+		display: inline-block;
+	}
+`;

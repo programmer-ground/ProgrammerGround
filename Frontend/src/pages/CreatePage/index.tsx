@@ -32,6 +32,16 @@ const CreatePage = () => {
 				<StyledComponent.CreateImageButton>
 					Image upload
 				</StyledComponent.CreateImageButton>
+				<StyledComponent.CreateLeaderPosition>
+					<label>Leader 포지션</label>
+					<select name="position">
+						<option value="Backend">Backend</option>
+						<option value="Fronted">Frontend</option>
+						<option value="Infra">Infra</option>
+						<option value="UI/UX">UI/UX</option>
+						<option value="디자이너">디자이너</option>
+					</select>
+				</StyledComponent.CreateLeaderPosition>
 			</StyledComponent.CreateNameDiv>
 		</StyledComponent.CreateContainer>
 	);
