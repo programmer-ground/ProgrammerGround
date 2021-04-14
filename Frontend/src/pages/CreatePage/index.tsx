@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent-props */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 /* eslint-disable jsx-a11y/label-has-associated-control */
@@ -8,14 +9,19 @@ import Editor from 'rich-markdown-editor';
 import * as StyledComponent from './style';
 
 const CreatePage = () => {
+	const changeFunc = () => {};
 	return (
 		<StyledComponent.CreateContainer>
 			<StyledComponent.CreateSubTitle>
 				플레이 그라운드 생성 페이지
 			</StyledComponent.CreateSubTitle>
 			<StyledComponent.CreateNameDiv>
-				<label>프로젝트 이름: </label>
-				<input type="text" placeholder="프로젝트 제목을 입력하세요" />
+				<label htmlFor="projectId">프로젝트 이름: </label>
+				<input
+					type="text"
+					placeholder="프로젝트 제목을 입력하세요"
+					id="projectId"
+				/>
 			</StyledComponent.CreateNameDiv>
 			<StyledComponent.CreateNameDiv>
 				<label>프로젝트 내용</label>
@@ -27,7 +33,7 @@ const CreatePage = () => {
 						<EdiTor data="" />
 						<EdiTor data="" />
 					</StyledComponent.CreateEditorMenu> */}
-					<Editor defaultValue="Hello world!" />
+					<Editor onChange={changeFunc} defaultValue="Hello world!" />
 				</StyledComponent.CreateContent>
 				<StyledComponent.CreateImageButton>
 					Image upload
@@ -42,6 +48,7 @@ const CreatePage = () => {
 						<option value="디자이너">디자이너</option>
 					</select>
 				</StyledComponent.CreateLeaderPosition>
+				<StyledComponent.PersonNumber>최대 0 명</StyledComponent.PersonNumber>
 			</StyledComponent.CreateNameDiv>
 		</StyledComponent.CreateContainer>
 	);

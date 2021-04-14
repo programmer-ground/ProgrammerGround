@@ -6,7 +6,7 @@ export const CreateContainer = styled.div`
 	box-sizing: border-box;
 	flex-direction: column;
 	width: 50%;
-	height: 1200px;
+	height: 1000px;
 	border: 1px solid #e9e9e9;
 	border-radius: 10px;
 	justify-content: center;
@@ -73,4 +73,11 @@ export const CreateLeaderPosition = styled.div`
 		font-size: 20px;
 		display: inline-block;
 	}
+`;
+export const PersonNumber = styled.div`
+	display: flex;
+	width: 70%;
+	font-size: 20px;
+	justify-content: center;
+	margin-top: 10px;
 `;
