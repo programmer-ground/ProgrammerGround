@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
+import colorType from '@src/utils/color';
 
 export const CreateContainer = styled.div`
 	display: flex;
@@ -7,7 +8,7 @@ export const CreateContainer = styled.div`
 	flex-direction: column;
 	width: 50%;
 	height: 1000px;
-	border: 3px solid #e9e9e9;
+	border: 3px solid ${colorType.gray};
 	border-radius: 10px;
 	justify-content: center;
 	margin: 90px auto;
@@ -28,7 +29,7 @@ export const CreateNameDiv = styled.div`
 		margin-left: 10px;
 		font-size: 20px;
 		width: 374px;
-		border: 3px solid #e9e9e9;
+		border: 3px solid ${colorType.gray};
 	}
 	& input:focus {
 		outline: none;
@@ -38,17 +39,17 @@ export const CreateNameDiv = styled.div`
 export const CreateContent = styled.div`
 	width: 70%;
 	height: 500px;
-	border: 3px solid #e9e9e9;
+	border: 3px solid ${colorType.gray};
 	overflow: auto;
 `;
 
 export const CreateEditorMenu = styled.div`
-	border-bottom: 1px solid #e9e9e9;
+	border-bottom: 1px solid ${colorType.gray};
 	height: 50px;
 `;
 
 export const CreateTextArea = styled.p`
-	background-color: #e9e9e9;
+	background-color: ${colorType.gray};
 `;
 
 export const CreateImageButton = styled.button`
@@ -56,7 +57,7 @@ export const CreateImageButton = styled.button`
 	height: 30px;
 	background-color: #525d60;
 	margin: 0 auto;
-	border: 1px solid #e9e9e9;
+	border: 1px solid ${colorType.gray};
 	color: #fff;
 	&:hover {
 		cursor: pointer;
@@ -92,11 +93,11 @@ export const addButton = styled.button.attrs((props) => ({
 	width: 70px;
 	height: 30px;
 	background-color: #0f0;
-	color: #000;
+	color: ${colorType.dark};
 	outline: none;
 	&:hover {
-		background-color: #a4a4a4;
-		color: #fff;
+		background-color: ${colorType.gray};
+		color: ${colorType.white};
 		cursor: pointer;
 	}
 `;
@@ -108,11 +109,11 @@ export const removeButton = styled.button.attrs((props) => ({
 	width: 70px;
 	height: 30px;
 	background-color: #0f0;
-	color: #000;
+	color: ${colorType.dark};
 	outline: none;
 	&:hover {
-		background-color: #a4a4a4;
-		color: #fff;
+		background-color: ${colorType.gray};
+		color: ${colorType.white};
 		cursor: pointer;
 	}
 `;
