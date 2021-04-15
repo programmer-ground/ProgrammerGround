@@ -39,10 +39,9 @@ spring:
       client:
         registration:
           github:
-            #client-id: 7bab473b0ca219902152
-            #client-secret: 1cfce19b69d76ebb4fedd31d914fabad0062706d
             client-id: 5f8150b5b4b06259a3aa
             client-secret: 1fa30fbeceef904db5b2a1323b32dbcdd200379b
+            scope: public_repo, read:user
 
   logging:
     level:
@@ -79,4 +78,5 @@ spring:
           github:
             client-id: 5f8150b5b4b06259a3aa
             client-secret: 1fa30fbeceef904db5b2a1323b32dbcdd200379b
+            scope: public_repo, read:user
 ---
