@@ -1,22 +1,25 @@
+/* eslint-disable react/jsx-pascal-case */
 /* eslint-disable react/jsx-indent-props */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 // @ts-nocheck
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import React from 'react';
-import EdiTor from '@src/components/Common/editor/';
 import Editor from 'rich-markdown-editor';
 import * as StyledComponent from './style';
 
 const CreatePage = () => {
-	const changeFunc = () => {};
+	const changeFunc = (a) => {
+		console.log(a);
+		console.log(a());
+	};
 	return (
 		<StyledComponent.CreateContainer>
 			<StyledComponent.CreateSubTitle>
 				플레이 그라운드 생성 페이지
 			</StyledComponent.CreateSubTitle>
 			<StyledComponent.CreateNameDiv>
-				<label htmlFor="projectId">프로젝트 이름: </label>
+				<label htmlFor="projectId">프로젝트 이름 </label>
 				<input
 					type="text"
 					placeholder="프로젝트 제목을 입력하세요"
@@ -48,7 +51,11 @@ const CreatePage = () => {
 						<option value="디자이너">디자이너</option>
 					</select>
 				</StyledComponent.CreateLeaderPosition>
-				<StyledComponent.PersonNumber>최대 0 명</StyledComponent.PersonNumber>
+				<StyledComponent.CreateLabel>
+					<StyledComponent.PersonNumber>최대 0 명</StyledComponent.PersonNumber>
+					<StyledComponent.addButton>추가하기</StyledComponent.addButton>
+					<StyledComponent.removeButton>삭제하기</StyledComponent.removeButton>
+				</StyledComponent.CreateLabel>
 			</StyledComponent.CreateNameDiv>
 		</StyledComponent.CreateContainer>
 	);

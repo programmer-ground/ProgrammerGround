@@ -7,7 +7,7 @@ export const CreateContainer = styled.div`
 	flex-direction: column;
 	width: 50%;
 	height: 1000px;
-	border: 1px solid #e9e9e9;
+	border: 3px solid #e9e9e9;
 	border-radius: 10px;
 	justify-content: center;
 	margin: 90px auto;
@@ -27,8 +27,8 @@ export const CreateNameDiv = styled.div`
 	& input {
 		margin-left: 10px;
 		font-size: 20px;
-		width: 368px;
-		border: 2px solid #e9e9e9;
+		width: 374px;
+		border: 3px solid #e9e9e9;
 	}
 	& input:focus {
 		outline: none;
@@ -38,7 +38,7 @@ export const CreateNameDiv = styled.div`
 export const CreateContent = styled.div`
 	width: 70%;
 	height: 500px;
-	border: 1px solid #e9e9e9;
+	border: 3px solid #e9e9e9;
 	overflow: auto;
 `;
 
@@ -52,7 +52,7 @@ export const CreateTextArea = styled.p`
 `;
 
 export const CreateImageButton = styled.button`
-	width: 70%;
+	width: 71%;
 	height: 30px;
 	background-color: #525d60;
 	margin: 0 auto;
@@ -74,10 +74,45 @@ export const CreateLeaderPosition = styled.div`
 		display: inline-block;
 	}
 `;
-export const PersonNumber = styled.div`
+export const CreateLabel = styled.div`
 	display: flex;
 	width: 70%;
-	font-size: 20px;
 	justify-content: center;
 	margin-top: 10px;
+`;
+
+export const PersonNumber = styled.div`
+	font-size: 20px;
+`;
+
+export const addButton = styled.button.attrs((props) => ({
+	type: 'button',
+}))`
+	margin-left: 10px;
+	width: 70px;
+	height: 30px;
+	background-color: #0f0;
+	color: #000;
+	outline: none;
+	&:hover {
+		background-color: #a4a4a4;
+		color: #fff;
+		cursor: pointer;
+	}
+`;
+
+export const removeButton = styled.button.attrs((props) => ({
+	type: 'button',
+}))`
+	margin-left: 10px;
+	width: 70px;
+	height: 30px;
+	background-color: #0f0;
+	color: #000;
+	outline: none;
+	&:hover {
+		background-color: #a4a4a4;
+		color: #fff;
+		cursor: pointer;
+	}
 `;
