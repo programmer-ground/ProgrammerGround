@@ -80,6 +80,7 @@ export const CreateLabel = styled.div`
 	width: 70%;
 	justify-content: center;
 	margin-top: 10px;
+	border-bottom: 1px soild ${colorType.gray};
 `;
 
 export const PersonNumber = styled.div`
@@ -115,5 +116,15 @@ export const removeButton = styled.button.attrs((props) => ({
 		background-color: ${colorType.gray};
 		color: ${colorType.white};
 		cursor: pointer;
+	}
+`;
+
+export const AttributeLabel = styled.div`
+	width: 70%;
+	display: flex;
+	justify-content: space-between;
+	margin-top: 10px;
+	& > label {
+		font-size: 20px;
 	}
 `;
