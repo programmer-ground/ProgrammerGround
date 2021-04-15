@@ -8,7 +8,6 @@ import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
 import com.pg.programmerground.dto.playground.response.PlaygroundCardResponse;
 import com.pg.programmerground.dto.playground.response.PlaygroundResponse;
-import com.pg.programmerground.exception.PlaygroundNotFoundException;
 import com.pg.programmerground.model.OAuthUserRepository;
 import com.pg.programmerground.model.PlaygroundApplyRepository;
 import com.pg.programmerground.model.PlaygroundRepository;
@@ -44,7 +43,7 @@ public class PlaygroundService {
         //로그인 유저 가져오기
         OAuthUser leaderUser = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
         //Playground Position 객체 리스트 만들기
-        List<PlaygroundPosition> playgroundPositionList = PlaygroundPosition.createPosition(playgroundInfo.getPositionInfo());
+        List<PlaygroundPosition> playgroundPositionList = PlaygroundPosition.createPosition(playgroundInfo);
         //Playground 생성
         Playground playground = Playground.createPlayground(playgroundInfo, leaderUser, playgroundPositionList);
         //리더 포지션 검색
