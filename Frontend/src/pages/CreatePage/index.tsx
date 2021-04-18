@@ -4,6 +4,7 @@
 // @ts-nocheck
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
+import HashTag from '@src/components/hashTag';
 import React from 'react';
 import Editor from 'rich-markdown-editor';
 import * as StyledComponent from './style';
@@ -56,13 +57,14 @@ const CreatePage = () => {
 					<StyledComponent.addButton>추가하기</StyledComponent.addButton>
 					<StyledComponent.removeButton>삭제하기</StyledComponent.removeButton>
 				</StyledComponent.CreateLabel>
-				<StyledComponent.AttributeLabel>
-					<label>포지션</label>
-					<label>인원</label>
-					<label>경력</label>
-					<label>언어</label>
-				</StyledComponent.AttributeLabel>
 			</StyledComponent.CreateNameDiv>
+			<StyledComponent.AttributeLabel>
+				<label>포지션</label>
+				<label>인원</label>
+				<label>경력</label>
+				<label>언어</label>
+			</StyledComponent.AttributeLabel>
+			<HashTag />
 		</StyledComponent.CreateContainer>
 	);
 };

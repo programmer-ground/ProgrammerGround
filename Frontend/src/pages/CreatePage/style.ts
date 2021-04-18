@@ -120,10 +120,12 @@ export const removeButton = styled.button.attrs((props) => ({
 `;
 
 export const AttributeLabel = styled.div`
-	width: 70%;
+	width: 100%;
 	display: flex;
-	justify-content: space-between;
-	margin-top: 10px;
+	justify-content: space-around;
+	margin-top: 20px;
+	padding-top: 10px;
+	border-top: 1px solid ${colorType.gray};
 	& > label {
 		font-size: 20px;
 	}
