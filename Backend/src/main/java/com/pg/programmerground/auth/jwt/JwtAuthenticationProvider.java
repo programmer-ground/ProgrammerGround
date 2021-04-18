@@ -28,7 +28,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         try {
             String jwtToken = (String) authentication.getCredentials();
-            Long OAuthId = jwtTokenProvider.getOAuthId(jwtToken);
+            Long OAuthId = jwtTokenProvider.getOAuthIdByToken(jwtToken);
             UserDetails userDetails = OAuthUserService.loadUserByOAuthId(OAuthId);
             return new JwtAuthenticationToken(userDetails, jwtToken, userDetails.getAuthorities());
         } catch (ExpiredJwtException e) {
