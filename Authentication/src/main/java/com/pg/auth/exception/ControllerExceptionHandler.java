@@ -32,6 +32,12 @@ public class ControllerExceptionHandler {
     public ResponseEntity<Map<String, Object>> noSuchElementExceptionHandler(NoSuchElementException e) {
         return new ResponseEntity<>(makeErrorCode(22, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(JwtNotFoundException.class)
+    public ResponseEntity<Map<String, Object>> jwtNotFoundExceptionHandler(JwtNotFoundException e) {
+        return new ResponseEntity<>(makeErrorCode(22, e.getMessage()), HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+
     private Map<String, Object> makeErrorCode(int code, String msg) {
         Map<String, Object> map = new HashMap<>();
         map.put("msg", msg);

@@ -5,6 +5,7 @@ import com.pg.auth.domain.github.UserGithubInfo;
 import com.pg.auth.domain.github.Oauth2AuthorizedClient;
 import com.pg.auth.dto.GithubOAuthInfoDto;
 import com.pg.auth.dto.GithubRepoDto;
+import com.pg.auth.dto.JwtToken;
 import com.pg.auth.dto.RepositoryItem;
 import com.pg.auth.exception.InvalidCodeException;
 import com.pg.auth.exception.OAuthLoginException;
@@ -35,16 +36,16 @@ public class OAuthUserService {
     private final OAuthUserRepository oAuthUserRepository;
     private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
     private final JwtTokenProvider jwtTokenProvider;
-    private final GithubRestService githubRestService;
+    private final RestService restService;
 
     //jdbc service에서 load하여 가져온다.
     public OAuthUserService(OAuthUserRepository oAuthUserRepository,
-        Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider,
-        GithubRestService githubRestService) {
+                            Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository, JwtTokenProvider jwtTokenProvider,
+                            RestService restService) {
         this.oAuthUserRepository = oAuthUserRepository;
         this.oauth2AuthorizedClientRepository = oauth2AuthorizedClientRepository;
         this.jwtTokenProvider = jwtTokenProvider;
-        this.githubRestService = githubRestService;
+        this.restService = restService;
     }
 
     /**
@@ -84,9 +85,8 @@ public class OAuthUserService {
      * OAuth 인증 후 발급된 Code를 확인해 Jwt 발급
      */
     @Transactional
-    public String jwtLogin(String code, Long id) throws InvalidCodeException {
-        OAuthUser oAuthUser = oAuthUserRepository.findByCodeAndOauth2AuthorizedClient(code,
-            oauth2AuthorizedClientRepository.findById(id).orElseThrow());
+    public JwtToken jwtLogin(String code, Long id) throws InvalidCodeException {
+        OAuthUser oAuthUser = oAuthUserRepository.findByCodeAndOauth2AuthorizedClient(code, oauth2AuthorizedClientRepository.findById(id).orElseThrow());
         if (oAuthUser == null || !validateLoginCode(code, oAuthUser)) {
             throw new InvalidCodeException("Login Code 에러");
         }
@@ -95,14 +95,26 @@ public class OAuthUserService {
     }
 
     /**
-     * JWT 토큰 생성
+     * 로그인시 AccessToken, RefreshToken 토큰 생성
      */
-    private String createJwtToken(OAuthUser oAuthUser) {
-        return jwtTokenProvider.createToken(
+    private JwtToken createJwtToken(OAuthUser oAuthUser) {
+        return jwtTokenProvider.createTokens(
             oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
             oAuthUser.getOauth2AuthorizedClient().getId(),
             oAuthUser.getId(),
             Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));
+    }
+
+    /**
+     * refreshToken을 통한 재발급
+     */
+    public String reissuedAccessToken(String refreshToken) {
+        OAuthUser oAuthUser = oauth2AuthorizedClientRepository.findById(jwtTokenProvider.getOAuthIdByRefreshToken(refreshToken)).orElseThrow().getUser();
+        return jwtTokenProvider.createAccessToken(
+                oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
+                oAuthUser.getOauth2AuthorizedClient().getId(),
+                oAuthUser.getId(),
+                Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));
     }
 
     /**
@@ -119,14 +131,14 @@ public class OAuthUserService {
      * commit
      * star
      */
-    private UserGithubInfo getGithubInfo(OAuthUser oAuthUser) throws ExecutionException, InterruptedException {
+    private UserGithubInfo getGithubInfo(OAuthUser oAuthUser) {
         //Spring Seucrity UserDetails 객체 가져오기
 
         Oauth2AuthorizedClient oauthUser = oAuthUser.getOauth2AuthorizedClient();
 
         HttpHeaders header = new HttpHeaders();
         header.set("Authorization", "bearer " + oauthUser.getAccessTokenValue());
-        GithubOAuthInfoDto oauthInfo = githubRestService.rest(
+        GithubOAuthInfoDto oauthInfo = restService.rest(
             "https://api.github.com/user", HttpMethod.GET, header, GithubOAuthInfoDto.class);
 
         CompletableFuture<GithubRepoDto> repoFuture = CompletableFuture.supplyAsync(
@@ -139,14 +151,18 @@ public class OAuthUserService {
             commitFuture);
         try {
             voidCompletableFuture.get();
-        } catch (Exception ignored) { }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         int repoCnt = 0;
         List<RepositoryItem> repositoryItems = new ArrayList<>();
         try{
             repoCnt = repoFuture.join().getTotalCount();
             repositoryItems = repoFuture.join().getRepositoryItems();
-        } catch (Exception e) { }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         return UserGithubInfo.builder()
             //프로필 이미지
             .profileImg(oauthInfo.getAvatarUrl())
@@ -169,7 +185,7 @@ public class OAuthUserService {
      */
     private Integer getOAuthCommitCount(String owner, HttpHeaders header) {
         header.set("Accept", "application/vnd.github.cloak-preview");
-        return (Integer)githubRestService.rest(
+        return (Integer) restService.rest(
             "https://api.github.com/search/commits?q=author:" + owner, HttpMethod.GET, header, Map.class)
             .get("total_count");
     }
@@ -187,7 +203,7 @@ public class OAuthUserService {
      */
     private Integer getOAuthPullRequestCount(String owner, HttpHeaders header) {
         header.set("Accept", "application/vnd.github.v3+json");
-        return (Integer)githubRestService.rest(
+        return (Integer) restService.rest(
             "https://api.github.com/search/issues?q=" + owner, HttpMethod.GET, header, Map.class)
             .get("total_count");
     }
@@ -199,7 +215,7 @@ public class OAuthUserService {
     private GithubRepoDto getOAuthUserRepository(String owner, HttpHeaders header) {
         UriComponents uri = UriComponentsBuilder
             .fromHttpUrl("https://api.github.com/search/repositories?q=user:" + owner + " fork:true").build();
-        return githubRestService.rest(uri.toString(), HttpMethod.GET, header, GithubRepoDto.class);
+        return restService.rest(uri.toString(), HttpMethod.GET, header, GithubRepoDto.class);
     }
 
     /**
