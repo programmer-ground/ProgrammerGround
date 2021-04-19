@@ -3,14 +3,29 @@
 import React, { useEffect, useRef } from 'react';
 import { checkValue } from '@src/utils/hashTag';
 import * as StyledComponent from './style';
+import './tag.scss';
 
 const HashTag = () => {
 	const tagSection = useRef(null);
 	const placeholderSection = useRef(null);
 
 	const inputFunc = (e: React.ChangeEvent<HTMLElement>) => {
-		const str = e.target.innerText;
+		let str = e.target.innerText;
 		checkValue(str, placeholderSection);
+
+		str = str
+			.replace(/^(@\S+)/g, "<span class='mention'>$1</span>")
+			.replace(/\n/g, '&nbsp;\n<br />')
+			.replace(/^(@\S+)/g, "<span class='mention'>$1</span>")
+			.replace(/([^\&])(@\S+)/g, "$1<span class='mention'>$2</span>");
+
+		const sel = window.getSelection();
+		const range = sel.getRangeAt(0);
+
+		sel.removeAllRanges();
+		sel.addRange(range);
+
+		tagSection.current.innerHTML = str;
 	};
 
 	const keyDownFunc = (e: React.ChangeEvent<HTMLElement>) => {
