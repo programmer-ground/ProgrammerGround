@@ -28,7 +28,7 @@ public class RoomRepositoryTest {
 		// given
 		Room room = Room.createNewRoom()
 			.title("데이터 엔지니어링 플젝구함@@")
-			.playgroundId(1L)
+			.playGroundId(1L)
 			.masterId(1L)
 			.build();
 
@@ -50,7 +50,7 @@ public class RoomRepositoryTest {
 		// given
 		Room room = Room.createNewRoom()
 			.title("데이터 엔지니어링 플젝구함@@")
-			.playgroundId(1L)
+			.playGroundId(1L)
 			.masterId(1L)
 			.build();
 

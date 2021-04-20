@@ -9,6 +9,11 @@ group = 'com.pg'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
+ext {
+    querydsl_version = '4.3.1'
+    mapstruct_version = '1.4.2.Final'
+}
+
 repositories {
     mavenCentral()
 }
@@ -20,13 +25,30 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-amqp'
     implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
     compileOnly 'org.projectlombok:lombok'
-    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-    annotationProcessor 'org.projectlombok:lombok'
+    implementation "com.querydsl:querydsl-jpa:${querydsl_version}"
+    implementation "com.querydsl:querydsl-mongodb:${querydsl_version}"
+    implementation "com.querydsl:querydsl-apt:${querydsl_version}"
+    implementation "org.mapstruct:mapstruct:${mapstruct_version}"
+
+    annotationProcessor(
+            'org.projectlombok:lombok',
+            'org.springframework.boot:spring-boot-configuration-processor',
+            "com.querydsl:querydsl-apt:${querydsl_version}",
+            "org.mapstruct:mapstruct-processor:${mapstruct_version}"
+    )
+
+    testAnnotationProcessor(
+            "org.mapstruct:mapstruct-processor:${mapstruct_version}"
+    )
+
+    // development
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    testImplementation ("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
+    testImplementation("de.flapdoodle.embed:de.flapdoodle.embed.mongo")
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
+
+
 }
 
 test {
@@ -42,8 +64,8 @@ bootJar {
 def querydslSrcDir = 'src/main/generated'
 
 querydsl {
-    library = "com.querydsl:querydsl-apt"
     jpa = true
+    springDataMongo = true
     querydslSourcesDir = querydslSrcDir
 }
 

@@ -14,13 +14,13 @@ import lombok.Getter;
 
 @Getter
 @EqualsAndHashCode(of = {"id", "masterId"})
-@Document(collation = "room")
+@Document(collection = "rooms")
 public class Room {
 	@Id
 	private String id;
 
 	@Indexed
-	private Long playgroundId;
+	private Long playGroundId;
 
 	private String title;
 
@@ -28,22 +28,25 @@ public class Room {
 
 	private Set<Member> members = new HashSet<>();
 
-	private LocalDateTime createdAt;
+	private LocalDateTime createdDate;
 
-	private LocalDateTime updatedAt;
+	private LocalDateTime updatedDate;
 
 	@Builder(builderMethodName = "createNewRoom")
-	Room(Long playgroundId, String title, Long masterId) {
-		// this.id = UUID.randomUUID().toString();
-		this.playgroundId = playgroundId;
+	Room(Long playGroundId, String title, Long masterId) {
+		this.playGroundId = playGroundId;
 		this.title = title;
 		this.masterId = masterId;
-		this.createdAt = LocalDateTime.now();
-		this.updatedAt = LocalDateTime.now();
+		this.createdDate = LocalDateTime.now();
+		this.updatedDate = LocalDateTime.now();
 	}
 
-	public boolean joinNewMember(Member member) {
-		return this.members.add(member);
+	public void joinNewMember(Member member) {
+		this.members.add(member);
+	}
+
+	public boolean memberExist(Long memberId, Role role) {
+		return this.members.contains(Member.of(memberId, role));
 	}
 
 	public boolean kickOutMember(Member member) {
@@ -58,12 +61,12 @@ public class Room {
 	public String toString() {
 		return "Room{" +
 			"id='" + id + '\'' +
-			", playgroundId=" + playgroundId +
+			", playGroundId=" + playGroundId +
 			", title='" + title + '\'' +
 			", masterId=" + masterId +
 			", members=" + members +
-			", createdAt=" + createdAt +
-			", updatedAt=" + updatedAt +
+			", createdDate=" + createdDate +
+			", updatedDate=" + updatedDate +
 			'}';
 	}
 }
