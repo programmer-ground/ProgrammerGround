@@ -19,7 +19,7 @@ RUN gradle clean build -x test --console=plain
 RUN java -Djarmode=layertools -jar build/libs/*.jar extract
 
 # Runtime Stage
-FROM openjdk:11-jre-slim
+FROM adoptopenjdk/openjdk11:alpine-slim
 # Working Directory
 ENV APP_HOME=/usr/app/
 WORKDIR $APP_HOME
