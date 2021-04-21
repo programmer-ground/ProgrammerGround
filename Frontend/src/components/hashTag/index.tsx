@@ -45,11 +45,15 @@ const HashTag = () => {
 		<>
 			<StyledComponent.Hash>
 				<StyledComponent.EditorBody>
-					<StyledComponent.Placeholder ref={placeholderSection}>
-						내용을 입력하세요 (@멘션)
-					</StyledComponent.Placeholder>
-					<StyledComponent.Inp ref={tagSection} />
-					<StyledComponent.outp />
+					<StyledComponent.inputComponent />
+					<StyledComponent.inputComponent />
+					<StyledComponent.inputComponent />
+					<div>
+						<StyledComponent.Placeholder ref={placeholderSection}>
+							내용 입력 (@멘션)
+						</StyledComponent.Placeholder>
+						<StyledComponent.Inp ref={tagSection} />
+					</div>
 				</StyledComponent.EditorBody>
 			</StyledComponent.Hash>
 		</>
