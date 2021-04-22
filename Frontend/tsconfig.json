@@ -7,9 +7,10 @@
     "esModuleInterop": true,
     "outDir": "./dist",
     "baseUrl": ".",
+    "strictNullChecks": false,
     "paths":{
       "@src/*":["src/*"]
-    }
+    },
   },
-  "exclude": ["node_modules"]
+  "exclude": ["node_modules", "./pages/CreatePage/index.tsx"]
 }

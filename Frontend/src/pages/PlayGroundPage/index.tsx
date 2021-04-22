@@ -21,18 +21,19 @@ const PlayGroundPage = () => {
 						<Bone />
 					</StyledComponent.ModeContainer>
 					<Button text="생성" />
+					<StyledComponent.CreateLink>방 생성</StyledComponent.CreateLink>
 				</StyledComponent.SearchContainer>
 				<StyledComponent.PlayGroundContainer>
 					{groundData.map((v) => {
 						return (
 							<PlaygroundContent
-  key={v.id}
-  title={v.title}
-  date={v.date}
-  src={v.src}
-  position={v.position}
-  personnel={v.personnel}
-  language={v.language}
+								key={v.id}
+								title={v.title}
+								date={v.date}
+								src={v.src}
+								position={v.position}
+								personnel={v.personnel}
+								language={v.language}
 							/>
 						);
 					})}

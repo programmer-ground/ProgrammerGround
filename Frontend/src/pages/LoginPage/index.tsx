@@ -1,7 +1,8 @@
 import React, { useLayoutEffect } from 'react';
 import queryString from 'query-string';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { useHistory } from 'react-router-dom';
+import { getOptions } from '@src/lib/api';
 import * as StyledComponent from './style';
 
 const LoginPage = () => {
@@ -12,20 +13,12 @@ const LoginPage = () => {
 	useLayoutEffect(() => {
 		const local = location.search;
 		const params = queryString.parse(local);
-		const options = {
-			mode: 'cors',
-			credentials: 'include',
-			headers: {
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*',
-			},
-		};
 
 		if (Object.keys(params).length > 0) {
 			const getToken = async () => {
-				const v: any = await axios
-					.post('http://localhost:8080/jwtLogin', params, options)
-					.then((response) => {
+				await axios
+					.post('http://localhost:8080/jwtLogin', params, getOptions)
+					.then((response: AxiosResponse) => {
 						localStorage.setItem('token', response.headers.token);
 					});
 			};
