@@ -1,5 +1,8 @@
 package com.pg.chat.global.common;
 
 public class LogFormat {
-	public static String PRAMETER_ERROR_LOG = "[PARAMETER ERROR]:: {}";
+	public static final String PARAMETER_ERROR_LOG = "[PARAMETER ERROR]:: {}";
+
+	private LogFormat() {
+	}
 }

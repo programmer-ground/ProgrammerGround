@@ -48,7 +48,7 @@ public class RoomApiController {
 	) {
 		log.info("request: [{}]", roomCreateRequest);
 		if (result.hasErrors()) {
-			result.getAllErrors().forEach(message -> log.error(LogFormat.PRAMETER_ERROR_LOG, message));
+			result.getAllErrors().forEach(message -> log.error(LogFormat.PARAMETER_ERROR_LOG, message));
 			throw new InvalidParameterException(ErrorCode.ERR_INVALID_REQUEST_PARAMETER);
 		}
 		NewChatRoomCreateResponse response = roomCommandService.createNewRoom(roomCreateRequest);
@@ -68,7 +68,7 @@ public class RoomApiController {
 	) {
 		log.info("request: [{}]", newMemberJoinRequest);
 		if (result.hasErrors()) {
-			result.getAllErrors().forEach(message -> log.error(LogFormat.PRAMETER_ERROR_LOG, message));
+			result.getAllErrors().forEach(message -> log.error(LogFormat.PARAMETER_ERROR_LOG, message));
 			throw new InvalidParameterException(ErrorCode.ERR_INVALID_REQUEST_PARAMETER);
 		}
 		RoomInfoResponse response = roomCommandService.addNewMemberInRoom(roomId, newMemberJoinRequest);
@@ -86,7 +86,7 @@ public class RoomApiController {
 		@RequestParam(value = "userId", defaultValue = "0") long userId, PagingRequest pagingRequest
 	){
 		if(userId <= 0){
-			log.error(LogFormat.PRAMETER_ERROR_LOG, "invalid search condition of [userId]");
+			log.error(LogFormat.PARAMETER_ERROR_LOG, "invalid search condition of [userId]");
 			throw new InvalidParameterException(ErrorCode.ERR_INVALID_REQUEST_PARAMETER);
 		}
 		MyRoomInfoListResponse response = roomQueryService.getMyRoomInfoList(userId, pagingRequest.of());
