@@ -45,8 +45,8 @@ public class Room {
 		this.members.add(member);
 	}
 
-	public boolean memberExist(Long memberId, Role role) {
-		return this.members.contains(Member.of(memberId, role));
+	public boolean memberExist(Long memberId) {
+		return this.members.stream().anyMatch(m -> m.getMemberId().equals(memberId));
 	}
 
 	public boolean kickOutMember(Member member) {

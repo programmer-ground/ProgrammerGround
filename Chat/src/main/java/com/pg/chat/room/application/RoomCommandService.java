@@ -50,19 +50,11 @@ public class RoomCommandService {
 		return ROOM_MAPPER.toNewChatRoomResponse(room);
 	}
 
-	private void addNewMember(Room room, long memberId, Role memberRole) {
-		Member member = Member.createNewMember()
-			.memberId(memberId)
-			.role(memberRole)
-			.build();
-		room.joinNewMember(member);
-	}
-
 	public RoomInfoResponse addNewMemberInRoom(String roomId, NewMemberJoinRequest newMemberJoinRequest) {
 		Room room = roomRepository.findById(roomId)
 			.orElseThrow(() -> new RoomNotFoundException(ErrorCode.ERR_ROOM_NOT_FOUND));
 
-		if (room.memberExist(newMemberJoinRequest.getMemberId(), Role.valueOf(newMemberJoinRequest.getMemberRole()))) {
+		if (room.memberExist(newMemberJoinRequest.getMemberId())) {
 			throw new DuplicateMemberJoinException(ErrorCode.ERR_MEMBER_JOIN_DUPLICATE);
 		}
 
@@ -71,5 +63,13 @@ public class RoomCommandService {
 		roomRepository.save(room);
 
 		return ROOM_MAPPER.toRoomInfoResponse(room);
+	}
+
+	private void addNewMember(Room room, long memberId, Role memberRole) {
+		Member member = Member.createNewMember()
+			.memberId(memberId)
+			.role(memberRole)
+			.build();
+		room.joinNewMember(member);
 	}
 }
