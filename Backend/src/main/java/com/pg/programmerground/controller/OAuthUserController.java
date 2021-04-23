@@ -1,6 +1,7 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.controller.response.ApiResponse;
+import com.pg.programmerground.dto.user.response.UserNoticeListResponse;
 import com.pg.programmerground.dto.user.response.UserResponse;
 import com.pg.programmerground.service.NoticeService;
 import com.pg.programmerground.service.OAuthUserService;
@@ -38,8 +39,7 @@ public class OAuthUserController {
      * User가 Leader인 Playground의 참여 신청 알림 리스트
      */
     @GetMapping("/notice")
-    public ResponseEntity<ApiResponse<String>> getUserNotice() {
-        noticeService.getUserNoticeList(UserAuthenticationService.getUserId());
-        return null;
+    public ResponseEntity<ApiResponse<UserNoticeListResponse>> getUserNotice() {
+        return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserNoticeList(UserAuthenticationService.getUserId())));
     }
 }

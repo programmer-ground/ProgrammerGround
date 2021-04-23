@@ -32,7 +32,7 @@ public class PlaygroundApply extends BaseTimeEntity {
     @JoinColumn(name = "PLAYGROUND_ID")
     private Playground playground;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "PLAYGROUND_POSITION_ID")
     private PlaygroundPosition playgroundPosition;
 
@@ -79,7 +79,7 @@ public class PlaygroundApply extends BaseTimeEntity {
         playgroundPosition.increaseMember();        //Position 증가
         user.getApplyPlaygrounds().add(playgroundApply);
         playground.getApplyPlaygrounds().add(playgroundApply);
-        playgroundPosition.setPlaygroundApply(playgroundApply);
+        playgroundPosition.addPlaygroundApply(playgroundApply);
     }
 
     /**
@@ -107,7 +107,7 @@ public class PlaygroundApply extends BaseTimeEntity {
         //양방향 관계 매핑
         user.getApplyPlaygrounds().add(playgroundApply);
         playground.getApplyPlaygrounds().add(playgroundApply);
-        playgroundPosition.setPlaygroundApply(playgroundApply);
+        playgroundPosition.addPlaygroundApply(playgroundApply);
     }
 
     public boolean isAlreadyMember(OAuthUser user) {

@@ -4,7 +4,6 @@ import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.enumerated.Position;
 import com.pg.programmerground.domain.enumerated.PositionLevel;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
-import com.pg.programmerground.dto.playground.api_req.PositionApi;
 import com.pg.programmerground.exception.FullMemberException;
 import com.pg.programmerground.exception.WrongRequestException;
 import lombok.*;
@@ -41,8 +40,8 @@ public class PlaygroundPosition extends BaseTimeEntity {
     @Column(name = "POSITION_LEVEL")
     private PositionLevel positionLevel;
 
-    @OneToOne(mappedBy = "playgroundPosition", cascade = CascadeType.ALL, orphanRemoval = true)
-    private PlaygroundApply playgroundApply;
+    @OneToMany(mappedBy = "playgroundPosition", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlaygroundApply> playgroundApply = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PLAYGROUND_ID")
@@ -123,5 +122,9 @@ public class PlaygroundPosition extends BaseTimeEntity {
             throw new FullMemberException("해당 포지션 멤버가 가득참");
         }
         currentPositionNum++;
+    }
+
+    public void addPlaygroundApply(PlaygroundApply playgroundApply) {
+        this.playgroundApply.add(playgroundApply);
     }
 }
