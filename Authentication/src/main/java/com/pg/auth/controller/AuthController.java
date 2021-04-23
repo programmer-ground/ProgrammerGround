@@ -50,10 +50,9 @@ public class AuthController {
      * AccessToken 만료시 RefreshToken 체크후 재발급
      */
     @PostMapping("/reissued")
-    public ResponseEntity<String> reissuedAccessToken(@RequestHeader("refreshToken") String refreshToken) {
-        HttpHeaders header = new HttpHeaders();
-        header.set("accessToken", oAuthUserService.reissuedAccessToken(refreshToken));
-        return ResponseEntity.ok().headers(header).body("success issue accessToken");
+    public ResponseEntity<String> reissuedAccessToken(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
+        response.setHeader("Set-Cookie", "access_token=" + oAuthUserService.reissuedAccessToken(refreshToken) + "; HttpOnly; Max-Age=1800; SameSite=Lax");
+        return ResponseEntity.ok().body("success issue accessToken");
     }
 
     @GetMapping("/info")

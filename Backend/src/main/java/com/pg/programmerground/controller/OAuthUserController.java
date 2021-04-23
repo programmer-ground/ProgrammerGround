@@ -1,8 +1,10 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.controller.response.ApiResponse;
-import com.pg.programmerground.dto.playground.response.UserResponse;
+import com.pg.programmerground.dto.user.response.UserResponse;
+import com.pg.programmerground.service.NoticeService;
 import com.pg.programmerground.service.OAuthUserService;
+import com.pg.programmerground.service.UserAuthenticationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,9 +13,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/oauth-user")
+@RequestMapping("/user")
 public class OAuthUserController {
     private final OAuthUserService oAuthUserService;
+    private final NoticeService noticeService;
 
     /**
      * 사용자 정보 가져오기
@@ -29,5 +32,14 @@ public class OAuthUserController {
     @GetMapping("")
     public ResponseEntity<ApiResponse<UserResponse>> userInfo() {
         return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.getUserInfo()));
+    }
+
+    /**
+     * User가 Leader인 Playground의 참여 신청 알림 리스트
+     */
+    @GetMapping("/notice")
+    public ResponseEntity<ApiResponse<String>> getUserNotice() {
+        noticeService.getUserNoticeList(UserAuthenticationService.getUserId());
+        return null;
     }
 }

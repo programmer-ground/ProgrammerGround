@@ -1,4 +1,4 @@
-package com.pg.programmerground.dto.playground.response;
+package com.pg.programmerground.dto.user.response;
 
 import com.pg.programmerground.auth.MyUserDetails;
 import lombok.AllArgsConstructor;

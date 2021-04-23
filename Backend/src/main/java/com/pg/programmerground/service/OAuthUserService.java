@@ -4,7 +4,7 @@ import com.pg.programmerground.auth.MyUserDetails;
 import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.domain.OAuthUser;
 import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
-import com.pg.programmerground.dto.playground.response.UserResponse;
+import com.pg.programmerground.dto.user.response.UserResponse;
 import com.pg.programmerground.model.OAuthUserRepository;
 import com.pg.programmerground.model.Oauth2AuthorizedClientRepository;
 import lombok.RequiredArgsConstructor;
