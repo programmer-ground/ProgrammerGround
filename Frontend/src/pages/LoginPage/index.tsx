@@ -15,6 +15,7 @@ const LoginPage = () => {
 		const options = {
 			mode: 'cors',
 			credentials: 'include',
+			withCredentials: true,
 			headers: {
 				'Content-Type': 'application/json',
 				'Access-Control-Allow-Origin': '*',
