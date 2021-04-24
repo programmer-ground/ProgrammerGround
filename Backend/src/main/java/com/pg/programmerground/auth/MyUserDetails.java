@@ -12,15 +12,25 @@ import java.util.stream.Collectors;
 
 public class MyUserDetails implements UserDetails {
     private final Long id;
+
     private final Long oAuthId;
+
     private final String oAuthName;
+
     private final String userName;
+
     private final List<? extends GrantedAuthority> authorities;
+
     private final int commitCnt;
+
     private final int pullRequestCnt;
+
     private final String mostLanguage;
+
     private final int repositoryCnt;
+
     private final String githubPage;
+
     private final String profileImg;
 
     public MyUserDetails(OAuthUser oAuthUser) {
@@ -36,6 +46,7 @@ public class MyUserDetails implements UserDetails {
         this.githubPage = oAuthUser.getUserGithubInfo().getGithubPage();
         this.profileImg = oAuthUser.getUserGithubInfo().getProfileImg();
     }
+
     public long getId() {
         return this.id;
     }
@@ -52,22 +63,35 @@ public class MyUserDetails implements UserDetails {
         return this.userName;
     }
 
-    public int getCommitCnt() { return commitCnt; }
+    public int getCommitCnt() {
+        return commitCnt;
+    }
 
-    public int getPullRequestCnt() { return pullRequestCnt; }
+    public int getPullRequestCnt() {
+        return pullRequestCnt;
+    }
 
-    public String getMostLanguage() { return mostLanguage; }
+    public String getMostLanguage() {
+        return mostLanguage;
+    }
 
-    public int getRepositoryCnt() { return repositoryCnt; }
+    public int getRepositoryCnt() {
+        return repositoryCnt;
+    }
 
-    public String getGithubPage() { return githubPage; }
+    public String getGithubPage() {
+        return githubPage;
+    }
 
-    public String getProfileImg() { return profileImg; }
+    public String getProfileImg() {
+        return profileImg;
+    }
 
     private List<? extends GrantedAuthority> makeAuthority(String role) {
-        // "," 구분해서 리스트에 넣음
+        //"," 구분해서 리스트에 넣음
         return Arrays.stream(role.split(",")).map(SimpleGrantedAuthority::new).collect(Collectors.toList());
     }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return authorities;

@@ -1,14 +1,12 @@
 package com.pg.programmerground.service;
 
 import com.pg.programmerground.auth.MyUserDetails;
-import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.domain.OAuthUser;
 import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
-import com.pg.programmerground.dto.playground.response.UserResponse;
+import com.pg.programmerground.dto.user.response.UserResponse;
 import com.pg.programmerground.model.OAuthUserRepository;
 import com.pg.programmerground.model.Oauth2AuthorizedClientRepository;
 import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
@@ -32,9 +30,8 @@ public class OAuthUserService {
 		return new MyUserDetails(oAuthUser);
 	}
 
-	public UserResponse getUserInfo() {
-		return UserResponse.of(
-				(MyUserDetails) ((JwtAuthenticationToken)SecurityContextHolder.getContext().getAuthentication()).getPrincipal());
+	public UserResponse getUserInfo(Long userId) {
+		return UserResponse.of(oAuthUserRepository.findById(userId).orElseThrow());
 	}
 }
 

@@ -74,6 +74,6 @@ class ProgrammergroundApplicationTests {
         MyUserDetails userDetails = new MyUserDetails(oAuthUser);
         JwtAuthenticationToken authentication = new JwtAuthenticationToken(userDetails, "principal", collection);
         SecurityContextHolder.getContext().setAuthentication(authentication);
-        assertEquals(service.getUserInfo().getCommitCnt(), 10);
+        assertEquals(service.getUserInfo(oAuthUser.getId()).getCommitCnt(), 10);
     }
 }

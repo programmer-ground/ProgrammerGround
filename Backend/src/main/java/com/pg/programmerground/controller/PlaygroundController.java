@@ -41,7 +41,7 @@ public class PlaygroundController {
     /**
      * playground 참여 신청
      */
-    @PostMapping("/apply/{playgroundId}")
+    @PostMapping("/{playgroundId}/apply")
     public ResponseEntity<ApiResponse<PlaygroundResultResponse>> applyPlayground(@PathVariable Long playgroundId, @RequestBody ApplyPlaygroundApi applyPlayground) throws Exception {
         return ResponseEntity.ok().body(new ApiResponse<>(new PlaygroundResultResponse(playgroundService.applyPlayground(playgroundId, applyPlayground))));
     }

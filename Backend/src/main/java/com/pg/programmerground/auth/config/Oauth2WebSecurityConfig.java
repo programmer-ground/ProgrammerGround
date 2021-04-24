@@ -34,8 +34,6 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors();
         http.csrf().disable();
-        //http.authorizeRequests().anyRequest().authenticated();
-        //UsernamePasswordAuthenticationFilter를 거치기 전에 Custom필터를 거친다.
         http.addFilterBefore(buildProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
@@ -52,7 +50,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * AuthenticationManager에 Provider를 등록한다.
      */
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(jwtAuthenticationProvider);
     }
 }
