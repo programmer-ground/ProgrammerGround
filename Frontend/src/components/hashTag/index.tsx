@@ -1,5 +1,4 @@
 /* eslint-disable react/jsx-pascal-case */
-
 import React, { useEffect, useRef } from 'react';
 import { checkValue } from '@src/utils/hashTag';
 import * as StyledComponent from './style';
