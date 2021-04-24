@@ -1,36 +1,59 @@
 package com.pg.programmerground.dto.user.response;
 
-import com.pg.programmerground.auth.MyUserDetails;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.pg.programmerground.domain.OAuthUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import org.springframework.security.core.GrantedAuthority;
 
-import java.util.stream.Collectors;
+import java.util.List;
 
 @Getter
 @Builder
 @AllArgsConstructor
 public class UserResponse {
-    private final String OAuthName;
-    private final int commitCnt;
-    private final int pullRequestCnt;
-    private final String mostLanguage;
-    private final int repositoryCnt;
-    private final String githubPage;
-    private final String profileImg;
-    private final String role;
+    @JsonProperty(value = "user_id")
+    private final Long userId;
 
-    public static UserResponse of(MyUserDetails userDetails) {
+    @JsonProperty(value = "oauth_id")
+    private final Long oauthId;
+
+    @JsonProperty(value = "oauth_name")
+    private final String oauthName;
+
+    @JsonProperty(value = "commit_cnt")
+    private final int commitCnt;
+
+    @JsonProperty(value = "puul_request_cnt")
+    private final int pullRequestCnt;
+
+    @JsonProperty(value = "most_language")
+    private final String mostLanguage;
+
+    @JsonProperty(value = "repository_cnt")
+    private final int repositoryCnt;
+
+    @JsonProperty(value = "github_page")
+    private final String githubPage;
+
+    @JsonProperty(value = "profile_img")
+    private final String profileImg;
+
+    @JsonProperty(value = "user_playgrounds")
+    private final List<UserPlaygroundResponse> userPlaygroundResponseList;
+
+    public static UserResponse of(OAuthUser user) {
         return UserResponse.builder()
-                .OAuthName(userDetails.getOAuthName())
-                .role(userDetails.getAuthorities().stream().map(GrantedAuthority::getAuthority).collect(Collectors.joining(",")))
-                .commitCnt(userDetails.getCommitCnt())
-                .pullRequestCnt(userDetails.getPullRequestCnt())
-                .mostLanguage(userDetails.getMostLanguage())
-                .repositoryCnt(userDetails.getRepositoryCnt())
-                .githubPage(userDetails.getGithubPage())
-                .profileImg(userDetails.getProfileImg())
+                .oauthId(user.getOauth2AuthorizedClient().getId())
+                .userId(user.getId())
+                .oauthName(user.getOAuthName())
+                .commitCnt(user.getUserGithubInfo().getCommitCnt())
+                .pullRequestCnt(user.getUserGithubInfo().getPullRequestCnt())
+                .mostLanguage(user.getUserGithubInfo().getMostLanguage())
+                .repositoryCnt(user.getUserGithubInfo().getRepositoryCnt())
+                .githubPage(user.getUserGithubInfo().getGithubPage())
+                .profileImg(user.getUserGithubInfo().getProfileImg())
+                .userPlaygroundResponseList(UserPlaygroundResponse.ofList(user.getApplyPlaygrounds()))
                 .build();
     }
 }

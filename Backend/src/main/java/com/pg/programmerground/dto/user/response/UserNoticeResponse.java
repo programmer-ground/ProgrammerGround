@@ -13,6 +13,8 @@ import java.util.stream.Collectors;
 @Getter
 @Builder
 public class UserNoticeResponse {
+    @JsonProperty(value = "playground_apply_id")
+    private final Long playgroundApplyId;
     private final String title;
     private final String position;
     @JsonProperty(value = "user_name")
@@ -21,6 +23,7 @@ public class UserNoticeResponse {
     public static List<UserNoticeResponse> ofList(List<PlaygroundApply> playgroundApplyList) {
         return playgroundApplyList.stream()
                 .map(playgroundApply -> UserNoticeResponse.builder()
+                        .playgroundApplyId(playgroundApply.getId())
                         .title(playgroundApply.getPlayground().getTitle())
                         .userName(playgroundApply.getUser().getUserName())
                         .position(playgroundApply.getPlaygroundPosition().getPosition().name())

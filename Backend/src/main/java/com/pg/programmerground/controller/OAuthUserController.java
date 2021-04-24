@@ -20,19 +20,26 @@ public class OAuthUserController {
     private final NoticeService noticeService;
 
     /**
-     * 사용자 정보 가져오기
-     * "commitCnt": 530,
-     * "pullRequestCnt": 0,
-     * "mostLanguage": "Java,PHP,C#",
-     * "repositoryCnt": 33,
-     * "githubPage": "https://github.com/CJW23",
-     * "profileImg": "https://avatars.githubusercontent.com/u/32676275?v=4",
-     * "role": "ROLE_USER,SCOPE_read:user",
-     * "oauthName": "CJW23"
+     "user_id": 1,
+     "oauth_id": 32676275,
+     "oauth_name": "CJW23",
+     "commit_cnt": 601,
+     "puul_request_cnt": 0,
+     "most_language": "Java,PHP,C#",
+     "repository_cnt": 36,
+     "github_page": "https://github.com/CJW23",
+     "profile_img": "https://avatars.githubusercontent.com/u/32676275?v=4",
+     "user_playgrounds": [
+     {
+         "playgroundId": 1,
+         "title": "test",
+         "maxMemberCount": 10,
+         "currentMemberCount": 1
+     }]
      */
     @GetMapping("")
     public ResponseEntity<ApiResponse<UserResponse>> userInfo() {
-        return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.getUserInfo()));
+        return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.getUserInfo(UserAuthenticationService.getUserId())));
     }
 
     /**
@@ -42,4 +49,5 @@ public class OAuthUserController {
     public ResponseEntity<ApiResponse<UserNoticeListResponse>> getUserNotice() {
         return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserNoticeList(UserAuthenticationService.getUserId())));
     }
+
 }

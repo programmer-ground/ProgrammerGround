@@ -53,6 +53,7 @@ public class PlaygroundApply extends BaseTimeEntity {
     }
 
     /**
+     * Playground 참여 요청 수락
      * 생각해봐야 할 것 : 여러 요청이 온 상황에 하나의 요청을 수락해서 인원이 가득찰 경우 나머지 요청 처리 여부
      */
     public void acceptApply(OAuthUser user) {
@@ -62,6 +63,9 @@ public class PlaygroundApply extends BaseTimeEntity {
         this.playground.increaseMemberNum();
     }
 
+    /**
+     * Playground 참여 요청 거절
+     */
     public void rejectApply(OAuthUser user) {
         this.playground.isLeaderUser(user);
         this.applyYn = ApplyStatus.REJECT;
@@ -110,8 +114,18 @@ public class PlaygroundApply extends BaseTimeEntity {
         playgroundPosition.addPlaygroundApply(playgroundApply);
     }
 
+    /**
+     * 해당 Playground에 이미 참여중인지 판별
+     */
     public boolean isAlreadyMember(OAuthUser user) {
         return this.user.equals(user) && this.applyYn != ApplyStatus.REJECT;
+    }
+
+    /**
+     * Playground에 참가중인가
+     */
+    public boolean isAcceptApply() {
+        return this.applyYn == ApplyStatus.ACCEPT;
     }
 
     @Override
