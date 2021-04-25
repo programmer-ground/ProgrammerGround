@@ -1,3 +1,4 @@
+/* eslint-disable react/jsx-indent-props */
 import React, { useState } from 'react';
 import useChange from '@src/hooks/useChange';
 import * as StyledComponent from './style';
@@ -19,9 +20,10 @@ const Bone = () => {
 				<StyledComponent.BoneMoveContainer
 					// eslint-disable-next-line react/jsx-indent-props
 					onClick={modeChange}
+					color="dark"
 				/>
 			) : (
-				<StyledComponent.BoneMoveDarkContainer onClick={modeChange} />
+				<StyledComponent.BoneMoveContainer onClick={modeChange} color="light" />
 			)}
 			<div>
 				<StyledComponent.MoonImg />
