@@ -44,7 +44,6 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(this.successHandler())
                 .failureHandler(failureHandler());
         http.csrf().disable();
-        //http.cors();
         http.cors().configurationSource(corsConfigurationSource());
     }
 
@@ -74,7 +73,6 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return (request, response, authentication) -> {
             try {
                 OAuthUser user = OAuthUserService.createUser((OAuth2AuthenticationToken) authentication);
-                log.info(request.getRemoteAddr());
                 //response.sendRedirect("/loginCode?code=" + user.getCode() + "&oauthId=" + user.getOauth2AuthorizedClient().getId()); //code와 id를 같이 보내준다.
                 response.sendRedirect("http://localhost:3000?code=" + user.getCode() + "&oauthId=" + user.getOauth2AuthorizedClient().getId()); //code와 id를 같이 보내준다.
             } catch (OAuthLoginException | InterruptedException | ExecutionException loginException) {
