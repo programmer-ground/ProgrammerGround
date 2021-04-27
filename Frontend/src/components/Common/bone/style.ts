@@ -7,20 +7,20 @@ export const BoneContainer = styled.div`
 	position: relative;
 	width: 50px;
 	height: 30px;
-	margin-top: 5px;
-	margin-bottom: 5px;
+	margin: 5px 0;
 	background-color: #d9dfe2;
-	border-radius: 50px;
 	border: 1px solid #d9dfe2;
+	border-radius: 50px;
 	cursor: pointer;
+
 	div {
 		display: flex;
 	}
+
 	@media screen and (max-width: 735px) and (min-width: 0px) {
 		width: 40px;
 		height: 20px;
-		margin-top: -10px;
-		margin-left: -10px;
+		margin: -10px 0 0 -10px;
 	}
 `;
 
@@ -29,13 +29,11 @@ export const SunImg = styled.img.attrs({
 })`
 	width: 20px;
 	height: 20px;
-	padding-top: 5px;
-	padding-right: 5px;
+	padding: 5px 5px 0 0;
 	@media screen and (max-width: 735px) and (min-width: 0px) {
 		width: 15px;
 		height: 15px;
-		padding-top: 3px;
-		padding-right: 1px;
+		padding: 3px 0 0 8px;
 	}
 `;
 
@@ -44,35 +42,21 @@ export const MoonImg = styled.img.attrs({
 })`
 	width: 23px;
 	height: 23px;
-	padding-top: 4px;
-	padding-left: 5px;
+	padding: 4px 0 0 5px;
 	@media screen and (max-width: 735px) and (min-width: 0px) {
 		width: 15px;
 		height: 15px;
-		padding-top: 3px;
-		padding-right: 2px;
+		padding: 3px 2px 0 0;
 	}
 `;
 
 export const BoneMoveContainer = styled.div`
 	width: 28px;
 	height: 30px;
+	left: ${(props) => (props.color === 'dark' ? '0px' : '22px')};
 	border-radius: 50px;
 	background-color: #fff;
 	position: absolute;
-	left: 0px;
-	@media screen and (max-width: 735px) and (min-width: 0px) {
-		width: 20px;
-		height: 20px;
-	}
-`;
-export const BoneMoveDarkContainer = styled.div`
-	width: 28px;
-	height: 30px;
-	border-radius: 50px;
-	background-color: #fff;
-	position: absolute;
-	left: 22px;
 	@media screen and (max-width: 735px) and (min-width: 0px) {
 		width: 20px;
 		height: 20px;
