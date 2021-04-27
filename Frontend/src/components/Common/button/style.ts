@@ -5,8 +5,7 @@ export const CreateButton = styled.button`
 	width: 55px;
 	height: 32px;
 	cursor: pointer;
-	margin-top: 62px;
-	margin-left: 10px;
+	margin: 62px 0 0 10px;
 	background-color: #04c584;
 	font-size: 12px;
 	color: #fff;

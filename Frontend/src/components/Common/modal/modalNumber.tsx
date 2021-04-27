@@ -7,6 +7,7 @@ import React, { useState, useEffect, useRef } from 'react';
 const ModalNumberInput = (props: {
 	placeholder: string;
 	setMaxPersonNumber: any;
+	name: string;
 }) => {
 	const [value, setValue] = useState(0);
 	const ref = useRef(null);

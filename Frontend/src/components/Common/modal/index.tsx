@@ -26,6 +26,13 @@ const ModalWrapper = () => {
 		dispatch(createPosition());
 	};
 
+	const onSubmit = (e: React.ChangeEvent<HTMLFormElement>) => {
+		e.preventDefault();
+	};
+	const onChangeFunc = (e: React.ChangeEvent<HTMLInputElement>) => {
+		e.preventDefault();
+		console.log(e.target.value);
+	};
 	return (
 		<div>
 			{show ? (
@@ -41,7 +48,7 @@ const ModalWrapper = () => {
 							</StyledComponent.ModalClose>
 						</StyledComponent.ModalHeader>
 						<StyledComponent.ModalBody>
-							<form action="http://localhost:9000/playground">
+							<form action="/" method="post" onSubmit={onSubmit}>
 								<StyledComponent.InputSection>
 									<label>이름:</label>
 									<ModalInput name="name" placeholder="이름을 적어주세요!" />
@@ -49,13 +56,13 @@ const ModalWrapper = () => {
 								<StyledComponent.InputSection>
 									<label>상세설명:</label>
 									<ModalInput
-										name="title"
+										name="description"
 										placeholder="프로젝트에 대한 상세 설명을 해주세요!"
 									/>
 								</StyledComponent.InputSection>
 								<StyledComponent.InputSection>
 									<label>leader 포지션:</label>
-									<select>
+									<select name="leader_position">
 										<option value="Backend">Backend</option>
 										<option value="Frontend">Frontend</option>
 										<option value="Infra">Infra</option>
@@ -65,6 +72,7 @@ const ModalWrapper = () => {
 								</StyledComponent.InputSection>
 								<StyledComponent.InputSection>
 									최대 {maxPersonNumber}명
+									<input type="hidden" name="max_user_num" />
 								</StyledComponent.InputSection>
 
 								<hr />
@@ -86,18 +94,23 @@ const ModalWrapper = () => {
 											>
 												<input
 													type="text"
-													name="position"
+													name="position_name"
 													placeholder={v.position}
 												/>
 
 												<ModalNumberInput
+													name="position_max_num"
 													placeholder={v.personNumber}
 													setMaxPersonNumber={setMaxPersonNumber}
 												/>
-												<input type="text" name="level" placeholder="junior" />
 												<input
 													type="text"
-													name="language"
+													name="position_level"
+													placeholder="junior"
+												/>
+												<input
+													type="text"
+													name="position_language"
 													placeholder="react"
 												/>
 											</StyledComponent.ModalCreateSectionBody>

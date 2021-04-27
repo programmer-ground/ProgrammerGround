@@ -47,13 +47,13 @@ public class JwtTokenProvider {
         if(header == null) {
             throw new JwtNotFoundException("토큰이 존재하지 않음");
         }
-        return request.getHeader("token");
+        return header;
     }
 
     /**
      * OAuthId 추출
      */
-    public Long getOAuthId(String jwtToken) {
+    public Long getOAuthIdByToken(String jwtToken) {
         return Long.valueOf((Integer) getBody(jwtToken).get("oauthId"));
     }
 

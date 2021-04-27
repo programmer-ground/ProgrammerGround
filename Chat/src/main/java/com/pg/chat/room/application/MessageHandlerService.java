@@ -8,8 +8,8 @@ import org.springframework.messaging.simp.SimpMessageSendingOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import com.pg.chat.config.amqp.RabbitMQConfiguration;
-import com.pg.chat.config.websocket.WebSocketMessageEndPointProperty;
+import com.pg.chat.global.config.amqp.RabbitMQConfiguration;
+import com.pg.chat.global.config.websocket.WebSocketMessageEndPointProperty;
 import com.pg.chat.room.dto.ChatMessage;
 import com.pg.chat.room.exception.MessageRoutingKeyExplodeException;
 

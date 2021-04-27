@@ -1,6 +1,11 @@
 spring:
   application:
     name: programmer-ground-chat-server
+  data:
+    mongodb:
+      host: localhost
+      port: 27017
+      database: test
 
 server:
   port: 8081
@@ -14,7 +19,8 @@ message:
   message-subscribe-context-path: "/subscribe"
   message-publish-context-path: "/publish"
 
-#logging:
-#  level:
-#    org.springframework.messaging: trace
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: TRACE
+#    org.springframework.messaging: TRACE
 

@@ -33,7 +33,8 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().mvcMatchers(HttpMethod.POST, "/jwtLogin").permitAll()
+        http.authorizeRequests()
+                .mvcMatchers(HttpMethod.POST, "/jwtLogin", "/reissued").permitAll()
                 .mvcMatchers("/oauth2/**", "/err", "/loginCode").permitAll()
                 .anyRequest().authenticated();
         http.httpBasic().disable();
@@ -43,6 +44,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(this.successHandler())
                 .failureHandler(failureHandler());
         http.csrf().disable();
+        //http.cors();
         http.cors().configurationSource(corsConfigurationSource());
     }
 
@@ -84,7 +86,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     /**
-     * @return
+     * 인증 실패시
      */
     private AuthenticationFailureHandler failureHandler() {
         return (request, response, exception) -> {

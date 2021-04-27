@@ -1,4 +1,4 @@
-package com.pg.chat.config.amqp;
+package com.pg.chat.global.config.amqp;
 
 import org.springframework.amqp.core.Binding;
 import org.springframework.amqp.core.BindingBuilder;

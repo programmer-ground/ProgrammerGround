@@ -1,4 +1,4 @@
-package com.pg.chat.config.websocket;
+package com.pg.chat.global.config.websocket;
 
 import javax.annotation.PostConstruct;
 

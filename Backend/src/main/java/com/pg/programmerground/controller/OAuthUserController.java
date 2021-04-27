@@ -30,5 +30,4 @@ public class OAuthUserController {
     public ResponseEntity<ApiResponse<UserResponse>> userInfo() {
         return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.getUserInfo()));
     }
-
 }

@@ -11,12 +11,12 @@ import org.springframework.web.client.RestTemplate;
 
 @Service
 @RequiredArgsConstructor
-public class GithubRestService {
+public class RestService {
     private final HttpComponentsClientHttpRequestFactory factory;
     private final RestTemplate restTemplate;
 
     @Autowired
-    public GithubRestService() {
+    public RestService() {
         this.factory = new HttpComponentsClientHttpRequestFactory();
         this.factory.setReadTimeout(5000);
         this.factory.setConnectionRequestTimeout(5000);
