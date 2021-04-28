@@ -41,7 +41,7 @@ public class AuthController {
     @PostMapping("/jwtLogin")
     public ResponseEntity<String> login(@RequestBody JwtLoginDTO jwtLoginDTO, HttpServletResponse response) throws InvalidCodeException {
         JwtToken tokens = oAuthUserService.jwtLogin(jwtLoginDTO.getCode(), jwtLoginDTO.getOauthId());
-        response.setHeader("Set-Cookie", "access_token=" + tokens.getAccessToken() + "; HttpOnly; Max-Age=1800; SameSite=Lax");
+        response.setHeader("access_token", tokens.getAccessToken());
         response.addHeader("Set-Cookie", "refresh_token=" + tokens.getAccessToken() + "; HttpOnly; Max-Age=1209600; SameSite=Lax");
         return ResponseEntity.ok().body("login");
     }
@@ -51,7 +51,7 @@ public class AuthController {
      */
     @PostMapping("/reissued")
     public ResponseEntity<String> reissuedAccessToken(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
-        response.setHeader("Set-Cookie", "access_token=" + oAuthUserService.reissuedAccessToken(refreshToken) + "; HttpOnly; Max-Age=1800; SameSite=Lax");
+        response.setHeader("access_token", oAuthUserService.reissuedAccessToken(refreshToken));
         return ResponseEntity.ok().body("success issue accessToken");
     }
 

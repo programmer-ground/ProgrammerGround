@@ -26,11 +26,11 @@ public class JwtTokenProvider {
      * 헤더에서 토큰 추출
      */
     public String resolveToken(HttpServletRequest request) {
-        String header = request.getHeader("token");
+        String header = request.getHeader("Authorization");
         if(header == null) {
             throw new JwtNotFoundException("토큰이 존재하지 않음");
         }
-        return header;
+        return header.replace("Bearer", "");
     }
 
     /**
