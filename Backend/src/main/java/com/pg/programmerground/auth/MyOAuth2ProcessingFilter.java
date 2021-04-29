@@ -61,14 +61,17 @@ public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFi
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException {
         //UNAUTHORIZED면 로그인 화면 으로 이동하도록 프론트 설계
         //401 Unauthorized
-        response.setStatus(HttpStatus.UNAUTHORIZED.value());
         if (failed instanceof JwtExpiredException) {
+            response.setStatus(HttpStatus.UNAUTHORIZED.value());
             response.getWriter().println("Expired Jwt Token");
         } else if (failed instanceof BadCredentialsException) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.getWriter().println("Invalid JWT Token");
         } else if (failed instanceof JwtNotFoundException) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.getWriter().println("Not Found JWT Token");
         } else if (failed instanceof OAuthUserNotFoundException) {
+            response.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
             response.getWriter().println("Not Found OAuth User");
         }
     }
