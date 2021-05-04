@@ -1,16 +1,19 @@
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable array-callback-return */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import Header from '@src/components/header';
 import SearchBar from '@src/components/searchBar';
 import Bone from '@src/components/Common/bone';
 import PlaygroundContent from '@src/components/playgroundContent';
 import playgroundData from '@src/data/playground';
 import Button from '@src/components/Common/button';
+import useCookie from '@src/hooks/useCookie';
 import * as StyledComponent from './style';
 
 const PlayGroundPage = () => {
 	const groundData = playgroundData.content;
+	const [cookie] = useCookie('access_token');
+	console.log(`cookie${cookie}`);
 	return (
 		<>
 			<Header />
