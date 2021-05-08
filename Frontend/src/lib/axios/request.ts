@@ -1,24 +1,95 @@
+/* eslint-disable import/prefer-default-export */
+/* eslint-disable consistent-return */
 import axios from 'axios';
 import useCookie from '@src/hooks/useCookie';
 
 const informError = (error: Error) => {
-	console.error(error);
-	const message = error.response.data.message
-		? error.response.data.message
+	const message = error.message
+		? error.message
 		: '오류가 발생하여 요청에 실패하였습니다';
 };
 
 const getOptions = () => {
-	const cookie = useCookie('access_token');
+	let cookie = useCookie('access_token');
+	if (cookie[0] === undefined) {
+		// eslint-disable-next-line @typescript-eslint/no-explicit-any
+		cookie = getReissued() as any;
+	}
+	const options = setOptions(cookie[0]);
+	return options;
+};
 
+const setOptions = (token: string) => {
 	const options = {
 		mode: 'cors',
 		credentials: 'include',
 		headers: {
 			'Content-Type': 'application/json;charset=UTF-8',
-			Authorization: `bearer ${cookie}`,
+			'Access-Control-Allow-Origin': '*',
+			Authorization: `Bearer ${token}`,
 		},
 	};
-
 	return options;
+};
+
+const getReissued = async () => {
+	const refreshToken = useCookie('refresh_token');
+	const options = setOptions(refreshToken[0]);
+	const token = await axios('http://localhost:8080/reissued', options);
+	return [token];
+};
+
+export const getData = async (url: string) => {
+	const options = getOptions();
+
+	try {
+		const response = await axios.get(url, options);
+		return response.data;
+	} catch (error) {
+		informError(error);
+	}
+};
+
+export const postData = async (url: string, body: string) => {
+	const options = getOptions();
+
+	try {
+		const response = await axios.post(url, body, options);
+		return response.data;
+	} catch (error) {
+		informError(error);
+	}
+};
+
+export const patchData = async (url: string, body: string) => {
+	const options = getOptions();
+
+	try {
+		const response = await axios.patch(url, body, options);
+		return response.data;
+	} catch (error) {
+		informError(error);
+	}
+};
+
+export const putData = async (url: string, body: string) => {
+	const options = getOptions();
+
+	try {
+		const response = await axios.put(url, body, options);
+		return response.data;
+	} catch (error) {
+		informError(error);
+	}
+};
+
+export const deleteData = async (url: string) => {
+	const options = getOptions();
+
+	try {
+		const response = await axios.delete(url, options);
+		return response.data;
+	} catch (error) {
+		informError(error);
+	}
 };
