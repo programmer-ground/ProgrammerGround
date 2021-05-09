@@ -1,3 +1,4 @@
+import { AxiosResponse } from 'axios';
 import { getData, patchData, postData, putData, deleteData } from './request';
 
 const url = {

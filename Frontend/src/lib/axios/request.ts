@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable consistent-return */
 import axios from 'axios';
@@ -41,10 +42,9 @@ const getReissued = async () => {
 
 export const getData = async (url: string) => {
 	const options = getOptions();
-
 	try {
 		const response = await axios.get(url, options);
-		return response.data;
+		return response.data.data;
 	} catch (error) {
 		informError(error);
 	}

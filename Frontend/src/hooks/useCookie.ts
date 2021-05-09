@@ -3,7 +3,7 @@ import { getItem } from '@src/utils/getCookie';
 
 const useCookie = (key: string) => {
 	const getCookie = () => getItem(key);
-	const [cookie, setCookie] = useState(getCookie());
+	const cookie = getCookie();
 	return [cookie];
 };
 
