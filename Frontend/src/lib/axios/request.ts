@@ -12,10 +12,11 @@ const informError = (error: Error) => {
 
 const getOptions = () => {
 	let cookie = useCookie('access_token');
-	if (cookie[0] === undefined) {
-		// eslint-disable-next-line @typescript-eslint/no-explicit-any
-		cookie = getReissued() as any;
+	if (cookie[0] === '') {
+		getReissued();
+		cookie = useCookie('access_token');
 	}
+
 	const options = setOptions(cookie[0]);
 	return options;
 };
@@ -24,6 +25,7 @@ const setOptions = (token: string) => {
 	const options = {
 		mode: 'cors',
 		credentials: 'include',
+		withCredentials: true,
 		headers: {
 			'Content-Type': 'application/json;charset=UTF-8',
 			'Access-Control-Allow-Origin': '*',
@@ -36,8 +38,7 @@ const setOptions = (token: string) => {
 const getReissued = async () => {
 	const refreshToken = useCookie('refresh_token');
 	const options = setOptions(refreshToken[0]);
-	const token = await axios('http://localhost:8080/reissued', options);
-	return [token];
+	await axios.post('http://localhost:8080/reissued', options);
 };
 
 export const getData = async (url: string) => {
