@@ -42,7 +42,7 @@ public class AuthController {
     public ResponseEntity<String> login(@RequestBody JwtLoginDTO jwtLoginDTO, HttpServletResponse response) throws InvalidCodeException {
         JwtToken tokens = oAuthUserService.jwtLogin(jwtLoginDTO.getCode(), jwtLoginDTO.getOauthId());
         response.setHeader("Set-Cookie", "access_token=" + tokens.getAccessToken() + "; Max-Age=60; SameSite=Lax");
-        response.addHeader("Set-Cookie", "refresh_token=" + tokens.getAccessToken() + "; HttpOnly; Max-Age=1209600; SameSite=Lax");
+        response.addHeader("Set-Cookie", "refresh_token=" + tokens.getAccessToken() + ";Max-Age=1209600; SameSite=Lax");
         return ResponseEntity.ok().body("login");
     }
 

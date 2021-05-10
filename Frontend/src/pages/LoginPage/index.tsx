@@ -7,31 +7,18 @@ import * as StyledComponent from './style';
 
 const LoginPage = () => {
 	const history = useHistory();
-	if (localStorage.getItem('token')) {
-		history.push('/');
-	}
 	useLayoutEffect(() => {
 		const local = location.search;
 		const params = queryString.parse(local);
-		const options = {
-			mode: 'cors',
-			credentials: 'include',
-			withCredentials: true,
-			headers: {
-				'Content-Type': 'application/json',
-				'Access-Control-Allow-Origin': '*',
-			},
-		};
 		if (Object.keys(params).length > 0) {
 			const getToken = async () => {
 				await axios
-					.post('http://localhost:8080/jwtLogin', params, options)
+					.post('http://localhost:8080/jwtLogin', params, getOptions)
 					.then((response: AxiosResponse) => {
-						console.log(response);
+						history.push('/');
 					});
 			};
 			getToken();
-			history.push('/');
 		}
 	}, []);
 	return (
