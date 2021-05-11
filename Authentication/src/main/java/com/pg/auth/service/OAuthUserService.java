@@ -108,8 +108,8 @@ public class OAuthUserService {
     /**
      * refreshToken을 통한 재발급
      */
-    public String reissuedAccessToken(String refreshToken) {
-        OAuthUser oAuthUser = oauth2AuthorizedClientRepository.findById(jwtTokenProvider.getOAuthIdByRefreshToken(refreshToken)).orElseThrow().getUser();
+    public String reissuedAccessToken(String bearerToken) {
+        OAuthUser oAuthUser = oauth2AuthorizedClientRepository.findById(jwtTokenProvider.getOAuthIdByRefreshToken(bearerToken)).orElseThrow().getUser();
         return jwtTokenProvider.createAccessToken(
                 oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
                 oAuthUser.getOauth2AuthorizedClient().getId(),

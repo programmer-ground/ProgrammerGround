@@ -85,24 +85,21 @@ public class JwtTokenProvider {
     private JwsHeader getHeader(String token) {
         return validateToken(token).getHeader();
     }
+
     /**
-     * 헤더에서 토큰 추출
+     * token 추출
      */
-    public String resolveRefreshToken(HttpServletRequest request) {
-        String header = request.getHeader(REFRESH_TOKEN);
-        if(header == null) {
-            throw new JwtNotFoundException("토큰이 존재하지 않음");
-        }
-        return header;
+    public String resolveToken(String refreshToken) {
+        return refreshToken.replace("Bearer", "").trim();
     }
 
     /**
      * OAuthId 추출
      */
     public Long getOAuthIdByRefreshToken(String jwtToken) {
-        JwsHeader header = this.getHeader(jwtToken);
-        Claims claims = this.getBody(jwtToken);
-        System.out.println(Long.valueOf((Integer) claims.get("oauthId")));
+        String refreshToken = this.resolveToken(jwtToken);
+        JwsHeader header = this.getHeader(refreshToken);
+        Claims claims = this.getBody(refreshToken);
         return header.get("type").equals(REFRESH_TOKEN) ?
                 Long.valueOf((Integer) claims.get("oauthId")) : null;
     }
