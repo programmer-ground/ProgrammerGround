@@ -4,7 +4,11 @@ import { changeModalMode } from '@src/store/modules/modal';
 import useShow from '@src/hooks/useShow';
 import * as StyledComponent from './style';
 
-const Button = (props: { text: string }) => {
+interface ButtonProps {
+	text: string;
+}
+// eslint-disable-next-line react/prop-types
+const Button = ({ text }: ButtonProps) => {
 	const [show, dispatch] = useShow();
 	const onClick = () => {
 		dispatch(changeModalMode());
@@ -12,7 +16,7 @@ const Button = (props: { text: string }) => {
 	return (
 		<>
 			<StyledComponent.CreateButton onClick={onClick}>
-				{props.text}
+				{text}
 			</StyledComponent.CreateButton>
 		</>
 	);

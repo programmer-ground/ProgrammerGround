@@ -3,6 +3,7 @@ package com.pg.programmerground.auth.config;
 import com.pg.programmerground.auth.MyOAuth2ProcessingFilter;
 import com.pg.programmerground.auth.jwt.JwtAuthenticationProvider;
 import com.pg.programmerground.auth.jwt.JwtTokenProvider;
+import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -12,6 +13,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springframework.security.web.util.matcher.NegatedRequestMatcher;
 import org.springframework.security.web.util.matcher.OrRequestMatcher;
 import org.springframework.security.web.util.matcher.RequestMatcher;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 @EnableWebSecurity
 public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
@@ -32,13 +36,24 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.cors();
+        http.cors().configurationSource(corsConfigurationSource());
         http.csrf().disable();
-        //http.authorizeRequests().anyRequest().authenticated();
-        //UsernamePasswordAuthenticationFilter를 거치기 전에 Custom필터를 거친다.
         http.addFilterBefore(buildProcessingFilter(), UsernamePasswordAuthenticationFilter.class);
     }
 
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+        configuration.setAllowCredentials(true);
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+        return source;
+    }
     /**
      * 인증을 진행할 Filter 객체를 생성
      */
@@ -52,7 +67,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * AuthenticationManager에 Provider를 등록한다.
      */
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(jwtAuthenticationProvider);
     }
 }

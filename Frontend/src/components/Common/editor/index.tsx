@@ -3,13 +3,16 @@
 import React from 'react';
 import * as StyledComponent from './style';
 
+interface DataTypes {
+	data: string;
+}
 // eslint-disable-next-line react/prop-types
-const EdiTor = (props: { data: string }) => {
+const EdiTor = ({ data }: DataTypes) => {
 	return (
 		<>
-			{props.data === 'bold' && <StyledComponent.ButtonBoldImage />}
-			{props.data === 'italic' && <StyledComponent.ButtonItalicImage />}
-			{props.data === 'text' && <StyledComponent.ButtonTextImage />}
+			{data === 'bold' && <StyledComponent.ButtonBoldImage />}
+			{data === 'italic' && <StyledComponent.ButtonItalicImage />}
+			{data === 'text' && <StyledComponent.ButtonTextImage />}
 		</>
 	);
 };

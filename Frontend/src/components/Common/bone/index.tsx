@@ -1,4 +1,6 @@
-import React, { useState, useEffect } from 'react';
+/* eslint-disable react/jsx-indent-props */
+import React, { useState } from 'react';
+import useChange from '@src/hooks/useChange';
 import * as StyledComponent from './style';
 
 const Bone = () => {
@@ -6,13 +8,9 @@ const Bone = () => {
 
 	const modeChange = () => {
 		if (darkMode === 'light') {
-			setDarkMode('dark');
-			localStorage.setItem('color-theme', 'dark');
-			document.documentElement.setAttribute('color-theme', 'dark');
+			useChange('dark', setDarkMode);
 		} else if (darkMode === 'dark') {
-			setDarkMode('light');
-			localStorage.setItem('color-theme', 'light');
-			document.documentElement.setAttribute('color-theme', 'light');
+			useChange('light', setDarkMode);
 		}
 	};
 
@@ -22,9 +20,10 @@ const Bone = () => {
 				<StyledComponent.BoneMoveContainer
 					// eslint-disable-next-line react/jsx-indent-props
 					onClick={modeChange}
+					color="dark"
 				/>
 			) : (
-				<StyledComponent.BoneMoveDarkContainer onClick={modeChange} />
+				<StyledComponent.BoneMoveContainer onClick={modeChange} color="light" />
 			)}
 			<div>
 				<StyledComponent.MoonImg />

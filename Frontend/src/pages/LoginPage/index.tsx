@@ -7,23 +7,18 @@ import * as StyledComponent from './style';
 
 const LoginPage = () => {
 	const history = useHistory();
-	if (localStorage.getItem('token')) {
-		history.push('/playground');
-	}
 	useLayoutEffect(() => {
 		const local = location.search;
 		const params = queryString.parse(local);
-
 		if (Object.keys(params).length > 0) {
 			const getToken = async () => {
 				await axios
 					.post('http://localhost:8080/jwtLogin', params, getOptions)
 					.then((response: AxiosResponse) => {
-						localStorage.setItem('token', response.headers.token);
+						history.push('/');
 					});
 			};
 			getToken();
-			history.push('/playground');
 		}
 	}, []);
 	return (
