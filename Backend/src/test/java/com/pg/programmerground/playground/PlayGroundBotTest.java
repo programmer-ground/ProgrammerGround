@@ -1,5 +1,8 @@
 package com.pg.programmerground.playground;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import com.pg.programmerground.TestUserManagement;
 import com.pg.programmerground.model.Oauth2AuthorizedClientRepository;
 import com.pg.programmerground.service.GithubRestService;
@@ -15,7 +18,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 @SpringBootTest
@@ -25,6 +30,7 @@ public class PlayGroundBotTest {
   private static final Long GITHUB_BOT_ID = 83174448L;
   private static final String PREFIX_GITHUB_API = "https://api.github.com/orgs/programmer-ground";
   private static final String PREFIX_ACCESS_TOKEN = "Bearer ";
+  private static final RestTemplate restTemplate = new RestTemplate();
   TestJsonPackage dtoList;
 
   @Autowired
@@ -46,20 +52,12 @@ public class PlayGroundBotTest {
   @Test
   @DisplayName("생성된 BOT 계정으로 소속 Organization의 정보를 얻을 수 있다.")
   public void get_github_org_by_bot_user() {
-    String githubBotUserToken = oauth2AuthorizedClientRepository
-        .findById(GITHUB_BOT_ID)
-        .orElseThrow(IllegalArgumentException::new)
-        .getAccessTokenValue();
-
-    System.out.println(githubBotUserToken);
-
-    HttpHeaders header = new HttpHeaders();
-    header.set("Accept", "application/vnd.github.v3+json");
-    header.set("Authorization", PREFIX_ACCESS_TOKEN + githubBotUserToken);
-
+    //given
+    HttpHeaders headers = getHeaders();
+    //when
     String rest = githubRestService
-        .rest(PREFIX_GITHUB_API, HttpMethod.GET, header, String.class);
-
+        .rest(PREFIX_GITHUB_API, HttpMethod.GET, headers, String.class);
+    //then
     System.out.println(rest);
   }
 
@@ -74,25 +72,29 @@ public class PlayGroundBotTest {
      *   "private": false,
      * }
      */
-    String githubBotUserToken = oauth2AuthorizedClientRepository
+    //given
+    Map<String, String> requestBody = new HashMap<>();
+    requestBody.put("name", "test-pg-bot-repo");
+    HttpEntity<Map<String, String>> request = new HttpEntity<>(requestBody, getHeaders());
+    //when
+    ResponseEntity<String> responseEntity = restTemplate
+        .postForEntity(PREFIX_GITHUB_API + "/repos", request, String.class);
+    //then
+    assertEquals(responseEntity.getStatusCode(), HttpStatus.CREATED);
+  }
+
+
+
+  private HttpHeaders getHeaders() {
+    String githubBotToken = oauth2AuthorizedClientRepository
         .findById(GITHUB_BOT_ID)
         .orElseThrow(IllegalArgumentException::new)
         .getAccessTokenValue();
 
     HttpHeaders headers = new HttpHeaders();
     headers.set("Accept", "application/vnd.github.v3+json");
-    headers.set("Authorization", PREFIX_ACCESS_TOKEN + githubBotUserToken);
-
-    Map<String, String> requestBody = new HashMap<>();
-    requestBody.put("name", "test-pg-bot-repo");
-
-    HttpEntity<Map<String, String>> request = new HttpEntity<>(requestBody, headers);
-
-    RestTemplate restTemplate = new RestTemplate();
-    ResponseEntity<String> responseEntity = restTemplate
-        .postForEntity(PREFIX_GITHUB_API + "/repos", request, String.class);
-
-    System.out.println(responseEntity.getBody());
+    headers.set("Authorization", PREFIX_ACCESS_TOKEN + githubBotToken);
+    return headers;
   }
 
 }
