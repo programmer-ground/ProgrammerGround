@@ -7,13 +7,10 @@ import com.pg.auth.jwtConfig.JwtTokenProvider;
 import com.pg.auth.service.OAuthUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -33,6 +30,15 @@ public class AuthController {
     public ResponseEntity<String> code(@RequestParam(name = "code") String code,
                                        @RequestParam(name = "oauthId") Long id) {
         return new ResponseEntity<>("code OK", HttpStatus.OK);
+    }
+
+    /**
+     * Test Access Token 발급
+     * 만료시간 무제한
+     */
+    @GetMapping("/test-token")
+    public String testToken(@RequestParam Long oauthId) throws InvalidCodeException {
+        return oAuthUserService.testAccessToken(oauthId).getAccessToken();
     }
 
     /**

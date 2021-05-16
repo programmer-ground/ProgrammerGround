@@ -15,7 +15,8 @@ import java.util.stream.Collectors;
 public class UserNoticeResponse {
     @JsonProperty(value = "playground_apply_id")
     private final Long playgroundApplyId;
-    private final String title;
+    @JsonProperty(value = "playground_title")
+    private final String playgroundTitle;
     private final String position;
     @JsonProperty(value = "user_name")
     private final String userName;
@@ -24,7 +25,7 @@ public class UserNoticeResponse {
         return playgroundApplyList.stream()
                 .map(playgroundApply -> UserNoticeResponse.builder()
                         .playgroundApplyId(playgroundApply.getId())
-                        .title(playgroundApply.getPlayground().getTitle())
+                        .playgroundTitle(playgroundApply.getPlayground().getTitle())
                         .userName(playgroundApply.getUser().getUserName())
                         .position(playgroundApply.getPlaygroundPosition().getPosition().name())
                         .build())

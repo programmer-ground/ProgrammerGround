@@ -95,6 +95,16 @@ public class OAuthUserService {
     }
 
     /**
+     * Test Access Token 발급
+     */
+    public JwtToken testAccessToken(Long id) throws InvalidCodeException {
+        OAuthUser oAuthUser = oAuthUserRepository.findByOauth2AuthorizedClient(oauth2AuthorizedClientRepository.findById(id).orElseThrow());
+        if(oAuthUser == null) {
+            throw new InvalidCodeException("유저 없음");
+        }
+        return createJwtToken(oAuthUser);
+    }
+    /**
      * 로그인시 AccessToken, RefreshToken 토큰 생성
      */
     private JwtToken createJwtToken(OAuthUser oAuthUser) {

@@ -35,7 +35,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers(HttpMethod.POST, "/jwtLogin", "/reissued").permitAll()
-                .mvcMatchers("/oauth2/**", "/err", "/loginCode").permitAll()
+                .mvcMatchers("/oauth2/**", "/err", "/loginCode", "/test-token").permitAll()
                 .anyRequest().authenticated();
         http.httpBasic().disable();
         //OAuthLogin 설정

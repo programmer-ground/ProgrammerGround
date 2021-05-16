@@ -54,7 +54,7 @@ public class JwtTokenProvider {
                 .setHeaderParam("type", "accessToken")
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + 1800000))   //30분
+                .setExpiration(new Date(now.getTime() + 60000))   //10초
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
@@ -73,7 +73,7 @@ public class JwtTokenProvider {
                 .setHeaderParam("type", "refreshToken")
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + 1209600000))   //30분
+                .setExpiration(new Date(now.getTime() + 1209600000))   //2주
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
