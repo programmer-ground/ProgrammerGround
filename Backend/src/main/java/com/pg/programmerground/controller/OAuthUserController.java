@@ -1,7 +1,8 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.controller.response.ApiResponse;
-import com.pg.programmerground.dto.user.response.UserNoticeListResponse;
+import com.pg.programmerground.dto.user.response.UserApplyNoticeListResponse;
+import com.pg.programmerground.dto.user.response.UserLeaderNoticeListResponse;
 import com.pg.programmerground.dto.user.response.UserResponse;
 import com.pg.programmerground.service.NoticeService;
 import com.pg.programmerground.service.OAuthUserService;
@@ -45,9 +46,28 @@ public class OAuthUserController {
     /**
      * User가 Leader인 Playground의 참여 신청 알림 리스트
      */
-    @GetMapping("/notice")
-    public ResponseEntity<ApiResponse<UserNoticeListResponse>> getUserNotice() {
+    @GetMapping("/notices/leader")
+    public ResponseEntity<ApiResponse<UserLeaderNoticeListResponse>> getUserNotice() {
         return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserNoticeList(UserAuthenticationService.getUserId())));
     }
+
+    /**
+     * User가 신청한 Playground중 대기 상태인 Playground 리스트
+     */
+    //취소 기능도 넣어야겠네
+    //취소일 경우 status cancel??
+    @GetMapping("/notices/waitings")
+    public ResponseEntity<ApiResponse<UserApplyNoticeListResponse>> getUserWaitingNotice() {
+        return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserStatusNoticeList(UserAuthenticationService.getUserId(), "wait")));
+    }
+
+    /**
+     * User가 신청한 Playground중 수락, 거절 상태인 Playground 리스트
+     */
+    @GetMapping("/notices/results")
+    public ResponseEntity<ApiResponse<UserApplyNoticeListResponse>> getUserResultNotice() {
+        return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserStatusNoticeList(UserAuthenticationService.getUserId(), "result")));
+    }
+
 
 }

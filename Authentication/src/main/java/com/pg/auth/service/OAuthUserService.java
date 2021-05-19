@@ -97,13 +97,25 @@ public class OAuthUserService {
     /**
      * Test Access Token 발급
      */
-    public JwtToken testAccessToken(Long id) throws InvalidCodeException {
+    public String testAccessToken(Long id) throws InvalidCodeException {
         OAuthUser oAuthUser = oAuthUserRepository.findByOauth2AuthorizedClient(oauth2AuthorizedClientRepository.findById(id).orElseThrow());
         if(oAuthUser == null) {
             throw new InvalidCodeException("유저 없음");
         }
-        return createJwtToken(oAuthUser);
+        return createTestToken(oAuthUser);
     }
+
+    /**
+     *
+     */
+    public String createTestToken(OAuthUser oAuthUser) {
+        return jwtTokenProvider.makeTestAccessToken(
+                oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
+                oAuthUser.getOauth2AuthorizedClient().getId(),
+                oAuthUser.getId(),
+                Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));
+    }
+
     /**
      * 로그인시 AccessToken, RefreshToken 토큰 생성
      */

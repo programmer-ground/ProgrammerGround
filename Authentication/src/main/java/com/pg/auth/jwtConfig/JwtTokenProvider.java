@@ -60,6 +60,25 @@ public class JwtTokenProvider {
     }
 
     /**
+     * Test AccessToken 발급
+     */
+    public String makeTestAccessToken(String oAuthToken, Long OAuthId, Long userId, List<String> roles) {
+        Claims claims = Jwts.claims();
+        claims.put("userId", userId);
+        claims.put("oauthId", OAuthId);
+        claims.put("accessToken", oAuthToken);
+        claims.put("roles", roles);
+        Date now = new Date();
+        return Jwts.builder()
+                .setHeaderParam("type", "accessToken")
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + 600000000))   //10초
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
+    /**
      * refreshToken 생성
      */
     private String makeRefreshToken(String oAuthToken, Long OAuthId, Long userId, List<String> roles) {
