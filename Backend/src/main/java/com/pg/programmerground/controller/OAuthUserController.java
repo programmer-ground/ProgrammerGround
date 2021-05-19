@@ -7,6 +7,7 @@ import com.pg.programmerground.dto.user.response.UserResponse;
 import com.pg.programmerground.service.NoticeService;
 import com.pg.programmerground.service.OAuthUserService;
 import com.pg.programmerground.service.UserAuthenticationService;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -38,36 +39,29 @@ public class OAuthUserController {
          "currentMemberCount": 1
      }]
      */
+    @ApiOperation(value = "유저 정보", notes = "JWT 토큰 인증된 유저의 정보")
     @GetMapping("")
     public ResponseEntity<ApiResponse<UserResponse>> userInfo() {
         return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.getUserInfo(UserAuthenticationService.getUserId())));
     }
 
-    /**
-     * User가 Leader인 Playground의 참여 신청 알림 리스트
-     */
+    @ApiOperation(value = "유저 Leader 알림 리스트", notes = "유저가 Leader인 Playground의 신청 알림 리스트")
     @GetMapping("/notices/leader")
     public ResponseEntity<ApiResponse<UserLeaderNoticeListResponse>> getUserNotice() {
         return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserNoticeList(UserAuthenticationService.getUserId())));
     }
 
-    /**
-     * User가 신청한 Playground중 대기 상태인 Playground 리스트
-     */
     //취소 기능도 넣어야겠네
     //취소일 경우 status cancel??
+    @ApiOperation(value = "유저 신청 Playground 대기 리스트",  notes = "유저가 신청한 Playground 리스트 중 대기중인 Playground")
     @GetMapping("/notices/waitings")
     public ResponseEntity<ApiResponse<UserApplyNoticeListResponse>> getUserWaitingNotice() {
         return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserStatusNoticeList(UserAuthenticationService.getUserId(), "wait")));
     }
 
-    /**
-     * User가 신청한 Playground중 수락, 거절 상태인 Playground 리스트
-     */
+    @ApiOperation(value = "유저 신청 Playground 결과 리스트", notes = "유저가 신청한 Playground중 결과(수락, 거절)가 나온 리스트")
     @GetMapping("/notices/results")
     public ResponseEntity<ApiResponse<UserApplyNoticeListResponse>> getUserResultNotice() {
         return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserStatusNoticeList(UserAuthenticationService.getUserId(), "result")));
     }
-
-
 }

@@ -24,8 +24,16 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private static final RequestMatcher PUBLIC_URLS =
             new OrRequestMatcher(
-                    new AntPathRequestMatcher("/"));        //인증안할 것들 넣기
+                    new AntPathRequestMatcher("/"),
+                    new AntPathRequestMatcher("/swagger-ui.html/**"),
+                    new AntPathRequestMatcher("/configuration/**"),
+                    new AntPathRequestMatcher("/swagger-resources/**"),
+                    new AntPathRequestMatcher("/v2/api-docs"),
+                    new AntPathRequestMatcher("/webjars/**"),
+                    new AntPathRequestMatcher("/webjars/springfox-swagger-ui/*.{js,css}"));        //인증안할 것들 넣기
+
     private static final RequestMatcher PROTECTED_URLS = new NegatedRequestMatcher(PUBLIC_URLS);
+
     public Oauth2WebSecurityConfig(JwtTokenProvider jwtTokenProvider, JwtAuthenticationProvider jwtAuthenticationProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
         this.jwtAuthenticationProvider = jwtAuthenticationProvider;

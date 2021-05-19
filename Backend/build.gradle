@@ -45,7 +45,10 @@ dependencies {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
     testCompile('org.springframework.security:spring-security-test')
-
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.21'
+    compile group: 'io.swagger', name: 'swagger-models', version: '1.5.21'
     testCompile "org.powermock:powermock-module-junit4:1.6.6"
     testCompile "org.powermock:powermock-api-mockito2:1.6.6"
 }
