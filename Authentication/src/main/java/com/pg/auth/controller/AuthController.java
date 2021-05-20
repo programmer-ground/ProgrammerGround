@@ -7,13 +7,10 @@ import com.pg.auth.jwtConfig.JwtTokenProvider;
 import com.pg.auth.service.OAuthUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
 @RestController
@@ -36,13 +33,22 @@ public class AuthController {
     }
 
     /**
+     * Test Access Token 발급
+     * 만료시간 무제한
+     */
+    @GetMapping("/test-token")
+    public String testToken(@RequestParam Long oauthId) throws InvalidCodeException {
+        return oAuthUserService.testAccessToken(oauthId).getAccessToken();
+    }
+
+    /**
      * 프론트에서 호출하여 code, oauthId를 통해 유저 인증을 하고 JWT 발급
      */
     @PostMapping("/jwtLogin")
     public ResponseEntity<String> login(@RequestBody JwtLoginDTO jwtLoginDTO, HttpServletResponse response) throws InvalidCodeException {
         JwtToken tokens = oAuthUserService.jwtLogin(jwtLoginDTO.getCode(), jwtLoginDTO.getOauthId());
-        response.setHeader("Set-Cookie", "access_token=" + tokens.getAccessToken() + "; Max-Age=60; SameSite=Lax");
-        response.addHeader("Set-Cookie", "refresh_token=" + tokens.getAccessToken() + ";Max-Age=1209600; SameSite=Lax");
+        response.setHeader("Set-Cookie", "access_token=" + tokens.getAccessToken() + "; Domain=; Max-Age=60; SameSite=Lax");
+        response.addHeader("Set-Cookie", "refresh_token=" + tokens.getRefreshToken() + "; Domain=; Max-Age=1209600; SameSite=Lax");
         return ResponseEntity.ok().body("login");
     }
 
@@ -50,7 +56,7 @@ public class AuthController {
      * AccessToken 만료시 RefreshToken 체크후 재발급
      */
     @PostMapping("/reissued")
-    public ResponseEntity<String> reissuedAccessToken(@CookieValue("refresh_token") String refreshToken, HttpServletResponse response) {
+    public ResponseEntity<String> reissuedAccessToken(@RequestHeader("Authorization") String refreshToken, HttpServletResponse response) {
         response.setHeader("Set-Cookie","access_token=" + oAuthUserService.reissuedAccessToken(refreshToken) + "; Max-Age=60; SameSite=Lax");
         return ResponseEntity.ok().body("success issue accessToken");
     }

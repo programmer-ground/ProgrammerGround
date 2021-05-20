@@ -22,15 +22,17 @@ const getOptions = () => {
 };
 
 const setOptions = (token: string) => {
+	const headers = {
+		'Content-Type': 'application/json;charset=UTF-8',
+		'Access-Control-Allow-Origin': '*',
+		Accept: 'application/json',
+		Authorization: `Bearer ${token}`,
+	};
 	const options = {
 		mode: 'cors',
 		credentials: 'include',
 		withCredentials: true,
-		headers: {
-			'Content-Type': 'application/json;charset=UTF-8',
-			'Access-Control-Allow-Origin': '*',
-			Authorization: `Bearer ${token}`,
-		},
+		headers,
 	};
 	return options;
 };
@@ -38,7 +40,12 @@ const setOptions = (token: string) => {
 const getReissued = async () => {
 	const refreshToken = useCookie('refresh_token');
 	const options = setOptions(refreshToken[0]);
-	await axios.post('http://localhost:8080/reissued', options);
+	try {
+		await axios.post('http://localhost:8080/reissued', '', options);
+		location.reload();
+	} catch (err) {
+		console.log('response: ', err.response.data);
+	}
 };
 
 export const getData = async (url: string) => {
@@ -53,7 +60,6 @@ export const getData = async (url: string) => {
 
 export const postData = async (url: string, body: string) => {
 	const options = getOptions();
-
 	try {
 		const response = await axios.post(url, body, options);
 		return response.data;

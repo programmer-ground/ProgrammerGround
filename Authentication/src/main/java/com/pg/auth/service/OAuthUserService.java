@@ -95,6 +95,28 @@ public class OAuthUserService {
     }
 
     /**
+     * Test Access Token 발급
+     */
+    public String testAccessToken(Long id) throws InvalidCodeException {
+        OAuthUser oAuthUser = oAuthUserRepository.findByOauth2AuthorizedClient(oauth2AuthorizedClientRepository.findById(id).orElseThrow());
+        if(oAuthUser == null) {
+            throw new InvalidCodeException("유저 없음");
+        }
+        return createTestToken(oAuthUser);
+    }
+
+    /**
+     *
+     */
+    public String createTestToken(OAuthUser oAuthUser) {
+        return jwtTokenProvider.makeTestAccessToken(
+                oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
+                oAuthUser.getOauth2AuthorizedClient().getId(),
+                oAuthUser.getId(),
+                Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));
+    }
+
+    /**
      * 로그인시 AccessToken, RefreshToken 토큰 생성
      */
     private JwtToken createJwtToken(OAuthUser oAuthUser) {
@@ -108,8 +130,8 @@ public class OAuthUserService {
     /**
      * refreshToken을 통한 재발급
      */
-    public String reissuedAccessToken(String refreshToken) {
-        OAuthUser oAuthUser = oauth2AuthorizedClientRepository.findById(jwtTokenProvider.getOAuthIdByRefreshToken(refreshToken)).orElseThrow().getUser();
+    public String reissuedAccessToken(String bearerToken) {
+        OAuthUser oAuthUser = oauth2AuthorizedClientRepository.findById(jwtTokenProvider.getOAuthIdByRefreshToken(bearerToken)).orElseThrow().getUser();
         return jwtTokenProvider.createAccessToken(
                 oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
                 oAuthUser.getOauth2AuthorizedClient().getId(),

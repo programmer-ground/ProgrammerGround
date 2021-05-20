@@ -54,7 +54,26 @@ public class JwtTokenProvider {
                 .setHeaderParam("type", "accessToken")
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + 1800000))   //30분
+                .setExpiration(new Date(now.getTime() + 60000))   //10초
+                .signWith(SignatureAlgorithm.HS256, secretKey)
+                .compact();
+    }
+
+    /**
+     * Test AccessToken 발급
+     */
+    public String makeTestAccessToken(String oAuthToken, Long OAuthId, Long userId, List<String> roles) {
+        Claims claims = Jwts.claims();
+        claims.put("userId", userId);
+        claims.put("oauthId", OAuthId);
+        claims.put("accessToken", oAuthToken);
+        claims.put("roles", roles);
+        Date now = new Date();
+        return Jwts.builder()
+                .setHeaderParam("type", "accessToken")
+                .setClaims(claims)
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + 600000000))   //10초
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
@@ -73,7 +92,7 @@ public class JwtTokenProvider {
                 .setHeaderParam("type", "refreshToken")
                 .setClaims(claims)
                 .setIssuedAt(now)
-                .setExpiration(new Date(now.getTime() + 1209600000))   //30분
+                .setExpiration(new Date(now.getTime() + 1209600000))   //2주
                 .signWith(SignatureAlgorithm.HS256, secretKey)
                 .compact();
     }
@@ -85,24 +104,21 @@ public class JwtTokenProvider {
     private JwsHeader getHeader(String token) {
         return validateToken(token).getHeader();
     }
+
     /**
-     * 헤더에서 토큰 추출
+     * token 추출
      */
-    public String resolveRefreshToken(HttpServletRequest request) {
-        String header = request.getHeader(REFRESH_TOKEN);
-        if(header == null) {
-            throw new JwtNotFoundException("토큰이 존재하지 않음");
-        }
-        return header;
+    public String resolveToken(String refreshToken) {
+        return refreshToken.replace("Bearer", "").trim();
     }
 
     /**
      * OAuthId 추출
      */
     public Long getOAuthIdByRefreshToken(String jwtToken) {
-        JwsHeader header = this.getHeader(jwtToken);
-        Claims claims = this.getBody(jwtToken);
-        System.out.println(Long.valueOf((Integer) claims.get("oauthId")));
+        String refreshToken = this.resolveToken(jwtToken);
+        JwsHeader header = this.getHeader(refreshToken);
+        Claims claims = this.getBody(refreshToken);
         return header.get("type").equals(REFRESH_TOKEN) ?
                 Long.valueOf((Integer) claims.get("oauthId")) : null;
     }

@@ -12,19 +12,20 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 @Getter
 @Builder
-public class UserNoticeResponse {
+public class UserLeaderNoticeResponse {
     @JsonProperty(value = "playground_apply_id")
     private final Long playgroundApplyId;
-    private final String title;
+    @JsonProperty(value = "playground_title")
+    private final String playgroundTitle;
     private final String position;
     @JsonProperty(value = "user_name")
     private final String userName;
 
-    public static List<UserNoticeResponse> ofList(List<PlaygroundApply> playgroundApplyList) {
+    public static List<UserLeaderNoticeResponse> ofList(List<PlaygroundApply> playgroundApplyList) {
         return playgroundApplyList.stream()
-                .map(playgroundApply -> UserNoticeResponse.builder()
+                .map(playgroundApply -> UserLeaderNoticeResponse.builder()
                         .playgroundApplyId(playgroundApply.getId())
-                        .title(playgroundApply.getPlayground().getTitle())
+                        .playgroundTitle(playgroundApply.getPlayground().getTitle())
                         .userName(playgroundApply.getUser().getUserName())
                         .position(playgroundApply.getPlaygroundPosition().getPosition().name())
                         .build())
