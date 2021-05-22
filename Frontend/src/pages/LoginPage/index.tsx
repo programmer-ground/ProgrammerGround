@@ -20,6 +20,10 @@ const LoginPage = () => {
 			};
 			getToken();
 		}
+
+		if (!localStorage.getItem('access_token')) {
+			history.push('/login');
+		}
 	}, []);
 	return (
 		<>
