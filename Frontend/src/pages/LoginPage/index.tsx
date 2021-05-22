@@ -3,13 +3,19 @@ import queryString from 'query-string';
 import axios, { AxiosResponse } from 'axios';
 import { useHistory } from 'react-router-dom';
 import { getOptions } from '@src/lib/api';
+import useCookie from '@src/hooks/useCookie';
 import * as StyledComponent from './style';
 
 const LoginPage = () => {
 	const history = useHistory();
+
 	useLayoutEffect(() => {
 		const local = location.search;
 		const params = queryString.parse(local);
+		const accessToken = useCookie('access_token');
+		if (accessToken[0] !== '') {
+			history.push('/');
+		}
 		if (Object.keys(params).length > 0) {
 			const getToken = async () => {
 				await axios
@@ -19,10 +25,6 @@ const LoginPage = () => {
 					});
 			};
 			getToken();
-		}
-
-		if (!localStorage.getItem('access_token')) {
-			history.push('/login');
 		}
 	}, []);
 	return (

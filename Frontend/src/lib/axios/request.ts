@@ -12,6 +12,7 @@ const informError = (error: Error) => {
 
 const getOptions = () => {
 	const refreshToken = useCookie('refresh_token');
+
 	if (refreshToken[0] === '') {
 		document.cookie = 'access_token=; Max-Age=0';
 		history.pushState(null, null, '/login');
