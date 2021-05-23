@@ -13,8 +13,8 @@ import org.springframework.transaction.annotation.Transactional;
 import com.pg.chat.global.common.PageInfo;
 import com.pg.chat.room.dao.RoomRepository;
 import com.pg.chat.room.domain.Room;
-import com.pg.chat.room.dto.MyRoomInfoListResponse;
-import com.pg.chat.room.dto.RoomInfoResponse;
+import com.pg.chat.room.dto.response.MyRoomInfoListResponse;
+import com.pg.chat.room.dto.response.RoomInfoResponse;
 import com.pg.chat.room.mapper.RoomMapper;
 
 import lombok.RequiredArgsConstructor;

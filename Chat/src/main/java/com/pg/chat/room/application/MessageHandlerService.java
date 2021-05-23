@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.pg.chat.global.config.amqp.RabbitMQConfiguration;
 import com.pg.chat.global.config.websocket.WebSocketMessageEndPointProperty;
-import com.pg.chat.room.dto.ChatMessage;
+import com.pg.chat.room.dto.message.ChatMessage;
 import com.pg.chat.room.exception.MessageRoutingKeyExplodeException;
 
 import lombok.RequiredArgsConstructor;

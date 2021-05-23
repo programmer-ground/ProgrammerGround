@@ -8,7 +8,7 @@ import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.stereotype.Controller;
 
 import com.pg.chat.global.config.amqp.RabbitMQConfiguration;
-import com.pg.chat.room.dto.ChatMessage;
+import com.pg.chat.room.dto.message.ChatMessage;
 import com.pg.chat.room.application.MessageHandlerService;
 
 import lombok.RequiredArgsConstructor;

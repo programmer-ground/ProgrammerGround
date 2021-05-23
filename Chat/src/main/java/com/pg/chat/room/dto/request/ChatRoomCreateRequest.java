@@ -1,4 +1,4 @@
-package com.pg.chat.room.dto;
+package com.pg.chat.room.dto.request;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;

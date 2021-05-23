@@ -1,4 +1,4 @@
-package com.pg.chat.room.dto;
+package com.pg.chat.room.dto.response;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;

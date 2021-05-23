@@ -1,5 +1,8 @@
 package com.pg.chat.room.api;
 
+import javax.validation.Valid;
+import javax.validation.constraints.Positive;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -7,12 +10,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pg.chat.global.common.ApiResponse;
-import com.pg.chat.global.common.LogFormat;
 import com.pg.chat.global.common.PagingRequest;
-import com.pg.chat.global.error.ErrorCode;
-import com.pg.chat.global.error.exception.InvalidParameterException;
 import com.pg.chat.room.application.RoomQueryService;
-import com.pg.chat.room.dto.MyRoomInfoListResponse;
+import com.pg.chat.room.dto.response.MyRoomInfoListResponse;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -32,12 +32,8 @@ public class RoomInfoQueryController {
 	 */
 	@GetMapping()
 	public ResponseEntity<ApiResponse<MyRoomInfoListResponse>> myRoomInfoListResponse(
-		@RequestParam(value = "userId", defaultValue = "0") long userId, PagingRequest pagingRequest
+		@RequestParam(value = "userId", defaultValue = "0") @Positive @Valid long userId, PagingRequest pagingRequest
 	) {
-		if (userId <= 0) {
-			log.error(LogFormat.PARAMETER_ERROR_LOG, "invalid search condition of [userId]");
-			throw new InvalidParameterException(ErrorCode.ERR_INVALID_REQUEST_PARAMETER);
-		}
 		MyRoomInfoListResponse response = roomQueryService.getMyRoomInfoList(userId, pagingRequest.of());
 		return ResponseEntity.ok(new ApiResponse<>(response));
 	}

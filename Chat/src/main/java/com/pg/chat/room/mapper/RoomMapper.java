@@ -5,8 +5,8 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import com.pg.chat.room.domain.Room;
-import com.pg.chat.room.dto.NewChatRoomCreateResponse;
-import com.pg.chat.room.dto.RoomInfoResponse;
+import com.pg.chat.room.dto.response.NewChatRoomCreateResponse;
+import com.pg.chat.room.dto.response.RoomInfoResponse;
 
 @Mapper(componentModel = "spring")
 public interface RoomMapper {

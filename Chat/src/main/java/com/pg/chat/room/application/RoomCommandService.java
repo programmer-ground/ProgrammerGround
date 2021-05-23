@@ -11,10 +11,12 @@ import com.pg.chat.room.dao.RoomRepository;
 import com.pg.chat.room.domain.Member;
 import com.pg.chat.room.domain.Role;
 import com.pg.chat.room.domain.Room;
-import com.pg.chat.room.dto.ChatRoomCreateRequest;
-import com.pg.chat.room.dto.NewChatRoomCreateResponse;
-import com.pg.chat.room.dto.NewMemberJoinRequest;
-import com.pg.chat.room.dto.RoomInfoResponse;
+import com.pg.chat.room.dto.request.ChatRoomCreateRequest;
+import com.pg.chat.room.dto.request.RoomMemberKickOutRequest;
+import com.pg.chat.room.dto.response.NewChatRoomCreateResponse;
+import com.pg.chat.room.dto.request.NewMemberJoinRequest;
+import com.pg.chat.room.dto.response.RoomInfoResponse;
+import com.pg.chat.room.dto.response.RoomMemberKickOutResponse;
 import com.pg.chat.room.exception.DuplicateMemberJoinException;
 import com.pg.chat.room.exception.RoomDuplicateException;
 import com.pg.chat.room.exception.RoomNotFoundException;
@@ -71,5 +73,11 @@ public class RoomCommandService {
 			.role(memberRole)
 			.build();
 		room.joinNewMember(member);
+	}
+
+	public RoomMemberKickOutResponse roomMemberKickOut(
+		String roomId, RoomMemberKickOutRequest roomMemberKickOutRequest
+	) {
+		return null;
 	}
 }
