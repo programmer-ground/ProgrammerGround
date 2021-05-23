@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: programmer-ground-chat-server
+  data:
+    mongodb:
+        host: 192.168.13.11
+      port: 27017
+      database: test
+  rabbitmq:
+    host: 192.168.13.11
+
+server:
+  port: 8081
+  error:
+    whitelabel:
+      enabled: false
+
+
+message:
+  web-socket-path: "/chat"
+  message-subscribe-context-path: "/subscribe"
+  message-publish-context-path: "/publish"
+
+logging:
+  level:
+    org.springframework.data.mongodb.core.MongoTemplate: TRACE
+#    org.springframework.messaging: TRACE
+
+

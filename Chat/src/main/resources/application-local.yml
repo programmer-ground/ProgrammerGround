@@ -3,9 +3,11 @@ spring:
     name: programmer-ground-chat-server
   data:
     mongodb:
-      host: localhost
+        host: localhost
       port: 27017
       database: test
+  rabbitmq:
+    host: localhost
 
 server:
   port: 8081
@@ -23,4 +25,5 @@ logging:
   level:
     org.springframework.data.mongodb.core.MongoTemplate: TRACE
 #    org.springframework.messaging: TRACE
+
 
