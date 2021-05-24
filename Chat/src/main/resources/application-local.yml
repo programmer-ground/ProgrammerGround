@@ -3,11 +3,11 @@ spring:
     name: programmer-ground-chat-server
   data:
     mongodb:
-        host: localhost
+      host: 192.168.13.11
       port: 27017
       database: test
   rabbitmq:
-    host: localhost
+    host: 192.168.13.11
 
 server:
   port: 8081

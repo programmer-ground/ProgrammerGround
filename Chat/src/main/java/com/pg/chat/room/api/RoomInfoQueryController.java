@@ -10,7 +10,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pg.chat.global.common.ApiResponse;
+import com.pg.chat.global.common.LogFormat;
 import com.pg.chat.global.common.PagingRequest;
+import com.pg.chat.global.error.ErrorCode;
+import com.pg.chat.global.error.exception.InvalidParameterException;
 import com.pg.chat.room.application.RoomQueryService;
 import com.pg.chat.room.dto.response.MyRoomInfoListResponse;
 
@@ -32,8 +35,12 @@ public class RoomInfoQueryController {
 	 */
 	@GetMapping()
 	public ResponseEntity<ApiResponse<MyRoomInfoListResponse>> myRoomInfoListResponse(
-		@RequestParam(value = "userId", defaultValue = "0") @Positive @Valid long userId, PagingRequest pagingRequest
+		@RequestParam(value = "userId") @Positive @Valid long userId, PagingRequest pagingRequest
 	) {
+		if (userId <= 0) {
+			log.error(LogFormat.PARAMETER_ERROR_LOG, "invalid search condition of [userId]");
+			throw new InvalidParameterException(ErrorCode.ERR_INVALID_REQUEST_PARAMETER);
+		}
 		MyRoomInfoListResponse response = roomQueryService.getMyRoomInfoList(userId, pagingRequest.of());
 		return ResponseEntity.ok(new ApiResponse<>(response));
 	}

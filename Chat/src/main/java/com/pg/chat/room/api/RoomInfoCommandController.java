@@ -3,6 +3,7 @@ package com.pg.chat.room.api;
 import javax.validation.Valid;
 
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -11,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pg.chat.global.common.ApiResponse;
+import com.pg.chat.global.common.LogFormat;
+import com.pg.chat.global.error.ErrorCode;
+import com.pg.chat.global.error.exception.InvalidParameterException;
 import com.pg.chat.room.application.RoomCommandService;
 import com.pg.chat.room.dto.request.ChatRoomCreateRequest;
 import com.pg.chat.room.dto.request.NewMemberJoinRequest;
@@ -36,8 +40,13 @@ public class RoomInfoCommandController {
 	 */
 	@PostMapping
 	public ResponseEntity<ApiResponse<NewChatRoomCreateResponse>> createNewChatRoomRequest(
-		@RequestBody @Valid ChatRoomCreateRequest roomCreateRequest
+		@RequestBody @Valid ChatRoomCreateRequest roomCreateRequest,
+		BindingResult result
 	) {
+		if (result.hasErrors()) {
+			result.getAllErrors().forEach(message -> log.error(LogFormat.PARAMETER_ERROR_LOG, message));
+			throw new InvalidParameterException(ErrorCode.ERR_INVALID_REQUEST_PARAMETER);
+		}
 		NewChatRoomCreateResponse response = roomCommandService.createNewRoom(roomCreateRequest);
 		return ResponseEntity.ok(new ApiResponse<>(response));
 	}
@@ -50,8 +59,14 @@ public class RoomInfoCommandController {
 	 */
 	@PostMapping("/{roomId}/members")
 	public ResponseEntity<ApiResponse<RoomInfoResponse>> addNewMemberInRoom(
-		@PathVariable("roomId") String roomId, @RequestBody @Valid NewMemberJoinRequest newMemberJoinRequest
+		@PathVariable("roomId") String roomId,
+		@RequestBody @Valid NewMemberJoinRequest newMemberJoinRequest,
+		BindingResult result
 	) {
+		if (result.hasErrors()) {
+			result.getAllErrors().forEach(message -> log.error(LogFormat.PARAMETER_ERROR_LOG, message));
+			throw new InvalidParameterException(ErrorCode.ERR_INVALID_REQUEST_PARAMETER);
+		}
 		RoomInfoResponse response = roomCommandService.addNewMemberInRoom(roomId, newMemberJoinRequest);
 		return ResponseEntity.ok(new ApiResponse<>(response));
 	}
@@ -64,8 +79,14 @@ public class RoomInfoCommandController {
 	 */
 	@DeleteMapping("/{roomId}/members")
 	public ResponseEntity<ApiResponse<RoomMemberKickOutResponse>> roomMemberKickOut(
-		@PathVariable("roomId") String roomId, @RequestBody @Valid RoomMemberKickOutRequest roomMemberKickOutRequest
+		@PathVariable("roomId") String roomId,
+		@RequestBody @Valid RoomMemberKickOutRequest roomMemberKickOutRequest,
+		BindingResult result
 	) {
+		if (result.hasErrors()) {
+			result.getAllErrors().forEach(message -> log.error(LogFormat.PARAMETER_ERROR_LOG, message));
+			throw new InvalidParameterException(ErrorCode.ERR_INVALID_REQUEST_PARAMETER);
+		}
 		RoomMemberKickOutResponse kickOutResponse = roomCommandService.roomMemberKickOut(
 			roomId,
 			roomMemberKickOutRequest

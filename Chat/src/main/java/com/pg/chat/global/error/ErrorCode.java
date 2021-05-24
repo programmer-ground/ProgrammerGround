@@ -6,8 +6,8 @@ public enum ErrorCode {
 	ERR_MEMBER_JOIN_DUPLICATE(1002, "Member Duplicate Error. Member Already Registered."),
 
 	// Common Error start 9000
-	ERR_INVALID_REQUEST_PARAMETER(9000, "Client Request Parameter is invalid."),
-	ERR_UNEXPECT_SERVER_ERROR(9999, "Unexpected Server Error.");
+	ERR_INVALID_REQUEST_PARAMETER(9000, "Client Request Parameter Is Invalid."),
+	ERR_UNEXPECTED_SERVER_ERROR(9999, "Unexpected Server Error.");
 
 	private final int code;
 	private final String message;
