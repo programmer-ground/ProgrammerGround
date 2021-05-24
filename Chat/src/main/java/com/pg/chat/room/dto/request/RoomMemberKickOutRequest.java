@@ -1,22 +1,26 @@
 package com.pg.chat.room.dto.request;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Positive;
+
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
 public class RoomMemberKickOutRequest {
-	private String masterUserId;
-	private String kickOutUserId;
+	@NotNull
+	@Positive
+	private long masterUserId;
+	@NotNull
+	@Positive
+	private long kickOutUserId;
 
-	public void setMasterUserId(String masterUserId) {
-		this.masterUserId = masterUserId;
-	}
-
-	public void setKickOutUserId(String kickOutUserId) {
-		this.kickOutUserId = kickOutUserId;
-	}
-
-	public String getMasterUserId() {
-		return masterUserId;
-	}
-
-	public String getKickOutUserId() {
-		return kickOutUserId;
+	@Override
+	public String toString() {
+		return "RoomMemberKickOutRequest{" +
+			"masterUserId=" + masterUserId +
+			", kickOutUserId=" + kickOutUserId +
+			'}';
 	}
 }

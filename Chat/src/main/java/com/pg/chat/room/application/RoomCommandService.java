@@ -12,13 +12,14 @@ import com.pg.chat.room.domain.Member;
 import com.pg.chat.room.domain.Role;
 import com.pg.chat.room.domain.Room;
 import com.pg.chat.room.dto.request.ChatRoomCreateRequest;
+import com.pg.chat.room.dto.request.NewMemberJoinRequest;
 import com.pg.chat.room.dto.request.RoomMemberKickOutRequest;
 import com.pg.chat.room.dto.response.NewChatRoomCreateResponse;
-import com.pg.chat.room.dto.request.NewMemberJoinRequest;
 import com.pg.chat.room.dto.response.RoomInfoResponse;
 import com.pg.chat.room.dto.response.RoomMemberKickOutResponse;
 import com.pg.chat.room.exception.DuplicateMemberJoinException;
 import com.pg.chat.room.exception.RoomDuplicateException;
+import com.pg.chat.room.exception.RoomManagementPermissionDeniedException;
 import com.pg.chat.room.exception.RoomNotFoundException;
 
 import lombok.RequiredArgsConstructor;
@@ -53,8 +54,7 @@ public class RoomCommandService {
 	}
 
 	public RoomInfoResponse addNewMemberInRoom(String roomId, NewMemberJoinRequest newMemberJoinRequest) {
-		Room room = roomRepository.findById(roomId)
-			.orElseThrow(() -> new RoomNotFoundException(ErrorCode.ERR_ROOM_NOT_FOUND));
+		Room room = findRoomInfoByRoomId(roomId);
 
 		if (room.memberExist(newMemberJoinRequest.getMemberId())) {
 			throw new DuplicateMemberJoinException(ErrorCode.ERR_MEMBER_JOIN_DUPLICATE);
@@ -78,6 +78,27 @@ public class RoomCommandService {
 	public RoomMemberKickOutResponse roomMemberKickOut(
 		String roomId, RoomMemberKickOutRequest roomMemberKickOutRequest
 	) {
-		return null;
+
+		Room room = findRoomInfoByRoomId(roomId);
+
+		if (!hasRoomManagementPermission(room, roomMemberKickOutRequest.getMasterUserId())) {
+			throw new RoomManagementPermissionDeniedException(ErrorCode.ERR_PERMISSION_DENIED);
+		}
+
+		boolean kickOutResult = room.kickOutMemberByMemberId(roomMemberKickOutRequest.getKickOutUserId());
+		roomRepository.save(room);
+
+		RoomInfoResponse roomInfoResponse = ROOM_MAPPER.toRoomInfoResponse(room);
+
+		return new RoomMemberKickOutResponse(kickOutResult, roomInfoResponse);
+	}
+
+	private Room findRoomInfoByRoomId(String roomId) {
+		return roomRepository.findById(roomId)
+			.orElseThrow(() -> new RoomNotFoundException(ErrorCode.ERR_ROOM_NOT_FOUND));
+	}
+
+	private boolean hasRoomManagementPermission(Room room, long permissionCheckUserId) {
+		return room.getMasterId() == permissionCheckUserId;
 	}
 }
