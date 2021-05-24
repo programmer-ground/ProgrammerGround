@@ -1,4 +1,4 @@
-package com.pg.chat.room.dto;
+package com.pg.chat.room.dto.message;
 
 import lombok.Getter;
 import lombok.Setter;

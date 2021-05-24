@@ -10,7 +10,7 @@ import org.springframework.util.StringUtils;
 
 import com.pg.chat.global.config.amqp.RabbitMQConfiguration;
 import com.pg.chat.global.config.websocket.WebSocketMessageEndPointProperty;
-import com.pg.chat.room.dto.ChatMessage;
+import com.pg.chat.room.dto.message.ChatMessage;
 import com.pg.chat.room.exception.MessageRoutingKeyExplodeException;
 
 import lombok.RequiredArgsConstructor;
@@ -20,10 +20,10 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 @RequiredArgsConstructor
 public class MessageHandlerService {
-	private final String RABBITMQ_PUBLISH_LOG = "[RABBITMQ_PUBLISH_MESSAGE][{}] >> {}";
-	private final String MESSAGE_PUBLISH_LOG = "[STOMP_MESSAGE_PUBLISH][{}] >> {}";
-	private final String RABBITMQ_SUBSCRIBE_LOG = "[RABBITMQ_SUBSCRIBE_MESSAGE][{}] << {}";
-	private final String MESSAGE_SUBSCRIBE_LOG = "[STOMP_MESSAGE_SUBSCRIBE][{}] << {}";
+	private static final String RABBITMQ_PUBLISH_LOG = "[RABBITMQ_PUBLISH_MESSAGE][{}] >> {}";
+	private static final String MESSAGE_PUBLISH_LOG = "[STOMP_MESSAGE_PUBLISH][{}] >> {}";
+	private static final String RABBITMQ_SUBSCRIBE_LOG = "[RABBITMQ_SUBSCRIBE_MESSAGE][{}] << {}";
+	private static final String MESSAGE_SUBSCRIBE_LOG = "[STOMP_MESSAGE_SUBSCRIBE][{}] << {}";
 
 	private final RabbitTemplate rabbitMQOperationTemplate;
 	private final WebSocketMessageEndPointProperty messageProperty;
