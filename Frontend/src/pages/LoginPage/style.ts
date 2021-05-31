@@ -10,6 +10,10 @@ export const GlobalStyle = createGlobalStyle`
 		margin:0;
 		padding:0;
 	}
+	#root{
+		width:100%;
+		height:100%;
+	}
 	body{
     background-color:#e9e9e9;
   }
@@ -36,10 +40,6 @@ export const GlobalStyle = createGlobalStyle`
 		text-decoration:none;
 	}
 
-	a:hover{
-		text-decoration:underline;
-	}
-
 	img{
 		vertical-align:top;
 	}
@@ -48,15 +48,23 @@ export const GlobalStyle = createGlobalStyle`
 		border:0;
 	}
 `;
-export const LoginContainer = styled.div`
-	position: relative;
+
+export const LoginAllContainer = styled.div`
+	width: 100%;
+	height: 100%;
 	display: flex;
 	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+`;
+
+export const LoginContainer = styled.div`
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
 	width: 40%;
-	height: 400px;
 	border: 1px solid black;
 	background-color: #fff;
-	margin: 100px auto;
 	@media screen and (max-width: 840px) and (min-width: 480px) {
 		height: 330px;
 		width: 300px;
@@ -70,7 +78,6 @@ export const LoginContainer = styled.div`
 export const LoginLogo = styled.img.attrs({
 	src: logo,
 })`
-	position: relative;
 	width: 300px;
 	height: 250px;
 	margin: 0 auto;
@@ -88,16 +95,18 @@ export const LoginButtonContainer = styled.div`
 	display: flex;
 	justify-content: center;
 `;
-export const LoginButton = styled.button`
-	position: relative;
+export const LoginLink = styled.a`
 	display: inline-block;
-	width: 600px;
-	height: 70px;
+	width: 100%;
+	height: 30px;
 	background-color: #000;
+	text-align: center;
 	margin: 20px auto;
 	color: #fff;
 	font-weight: bold;
 	font-size: 30px;
+	line-height: 30px;
+	padding: 20px 0;
 	&:hover {
 		cursor: pointer;
 	}
@@ -116,7 +125,6 @@ export const LoginButton = styled.button`
 		font-size: 15px;
 	}
 `;
-
 export const GithubLogo = styled.img.attrs({
 	src: githublogo,
 })`

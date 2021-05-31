@@ -30,17 +30,17 @@ const LoginPage = () => {
 	return (
 		<>
 			<StyledComponent.GlobalStyle />
-			<StyledComponent.LoginContainer>
-				<StyledComponent.LoginLogo />
-				<StyledComponent.LoginButtonContainer>
-					<StyledComponent.LoginButton>
-						<a href="http://localhost:8080/oauth2/authorization/github">
+			<StyledComponent.LoginAllContainer>
+				<StyledComponent.LoginContainer>
+					<StyledComponent.LoginLogo />
+					<StyledComponent.LoginButtonContainer>
+						<StyledComponent.LoginLink href="http://localhost:8080/oauth2/authorization/github">
 							Sign In With GitHub
 							<StyledComponent.GithubLogo />
-						</a>
-					</StyledComponent.LoginButton>
-				</StyledComponent.LoginButtonContainer>
-			</StyledComponent.LoginContainer>
+						</StyledComponent.LoginLink>
+					</StyledComponent.LoginButtonContainer>
+				</StyledComponent.LoginContainer>
+			</StyledComponent.LoginAllContainer>
 		</>
 	);
 };
