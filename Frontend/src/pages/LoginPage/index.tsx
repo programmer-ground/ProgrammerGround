@@ -39,6 +39,9 @@ const LoginPage = () => {
 							<StyledComponent.GithubLogo />
 						</StyledComponent.LoginLink>
 					</StyledComponent.LoginButtonContainer>
+					<StyledComponent.DetailComment>
+						사용하는 GitHub 계정으로 로그인해주세요
+					</StyledComponent.DetailComment>
 				</StyledComponent.LoginContainer>
 			</StyledComponent.LoginAllContainer>
 		</>

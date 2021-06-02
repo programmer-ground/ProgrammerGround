@@ -101,3 +101,12 @@ export const GithubLogo = styled.img.attrs({
 	height: 25px;
 	margin-left: 10px;
 `;
+
+export const DetailComment = styled.p`
+	display: inline-block;
+	text-align: center;
+	font-size: 20px;
+	line-height: 25px;
+	font-weight: bold;
+	color: #000;
+`;
