@@ -10,14 +10,14 @@ export const GlobalStyle = createGlobalStyle`
 		margin:0;
 		padding:0;
 	}
-	#root{
-		width:100%;
+	html, body{
 		height:100%;
-	}
-	body{
     background-color:#e9e9e9;
   }
 
+	#root{
+		height:100%;
+	}
 	body, input, textarea, select, button{
 		font-size:14px;
 		font-family: Dotum, '돋움', Helvetica, "Apple SD Gothic Neo", sans-serif;
@@ -50,9 +50,8 @@ export const GlobalStyle = createGlobalStyle`
 `;
 
 export const LoginAllContainer = styled.div`
-	width: 100%;
-	height: 100%;
 	display: flex;
+	height: 100%;
 	flex-direction: column;
 	justify-content: center;
 	align-items: center;
