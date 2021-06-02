@@ -62,16 +62,9 @@ export const LoginContainer = styled.div`
 	flex-direction: column;
 	justify-content: center;
 	width: 40%;
+	height: 400px;
 	border: 1px solid black;
 	background-color: #fff;
-	@media screen and (max-width: 840px) and (min-width: 480px) {
-		height: 330px;
-		width: 300px;
-	}
-	@media screen and (max-width: 479px) and (min-width: 0px) {
-		height: 230px;
-		width: 200px;
-	}
 `;
 
 export const LoginLogo = styled.img.attrs({
@@ -80,14 +73,6 @@ export const LoginLogo = styled.img.attrs({
 	width: 300px;
 	height: 250px;
 	margin: 0 auto;
-	@media screen and (max-width: 840px) and (min-width: 480px) {
-		height: 200px;
-		width: 200px;
-	}
-	@media screen and (max-width: 479px) and (min-width: 0px) {
-		height: 130px;
-		width: 130px;
-	}
 `;
 export const LoginButtonContainer = styled.div`
 	width: 100%;
@@ -105,23 +90,8 @@ export const LoginLink = styled.a`
 	font-weight: bold;
 	font-size: 30px;
 	line-height: 30px;
-	padding: 20px 0;
 	&:hover {
 		cursor: pointer;
-	}
-	& a {
-		color: #fff;
-		text-decoration: none;
-	}
-	@media screen and (max-width: 840px) and (min-width: 480px) {
-		height: 60px;
-		width: 340px;
-		font-size: 20px;
-	}
-	@media screen and (max-width: 479px) and (min-width: 0px) {
-		height: 40px;
-		width: 260px;
-		font-size: 15px;
 	}
 `;
 export const GithubLogo = styled.img.attrs({
@@ -130,9 +100,4 @@ export const GithubLogo = styled.img.attrs({
 	width: 25px;
 	height: 25px;
 	margin-left: 10px;
-
-	@media screen and (max-width: 479px) and (min-width: 0px) {
-		width: 15px;
-		height: 15px;
-	}
 `;
