@@ -61,18 +61,25 @@ export const LoginContainer = styled.div`
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
-	width: 40%;
-	height: 400px;
+	min-width: 210px;
+	height: 250px;
 	border: 1px solid black;
 	background-color: #fff;
+	@media screen and (min-width: 700px) {
+		width: 400px;
+		height: 300px;
+	}
 `;
 
 export const LoginLogo = styled.img.attrs({
 	src: logo,
 })`
 	width: 300px;
-	height: 250px;
 	margin: 0 auto;
+	@media screen and (max-width: 700px) {
+		width: 200px;
+		height: 150px;
+	}
 `;
 export const LoginButtonContainer = styled.div`
 	width: 100%;
@@ -93,6 +100,10 @@ export const LoginLink = styled.a`
 	&:hover {
 		cursor: pointer;
 	}
+	@media screen and (max-width: 700px) {
+		font-size: 20px;
+		line-height: 30px;
+	}
 `;
 export const GithubLogo = styled.img.attrs({
 	src: githublogo,
@@ -100,6 +111,11 @@ export const GithubLogo = styled.img.attrs({
 	width: 25px;
 	height: 25px;
 	margin-left: 10px;
+	@media screen and (max-width: 700px) {
+		width: 20px;
+		height: 20px;
+		vertical-align: middle;
+	}
 `;
 
 export const DetailComment = styled.p`
@@ -109,4 +125,8 @@ export const DetailComment = styled.p`
 	line-height: 25px;
 	font-weight: bold;
 	color: #000;
+	@media screen and (max-width: 700px) {
+		font-size: 14px;
+		line-height: 18px;
+	}
 `;
