@@ -36,10 +36,10 @@ public class AuthController {
      * Test Access Token 발급
      * 만료시간 무제한
      */
-    @GetMapping("/test-token")
-    public String testToken(@RequestParam Long oauthId) throws InvalidCodeException {
-        return oAuthUserService.testAccessToken(oauthId).getAccessToken();
-    }
+    // @GetMapping("/test-token")
+    // public String testToken(@RequestParam Long oauthId) throws InvalidCodeException {
+    //     return oAuthUserService.testAccessToken(oauthId).getAccessToken();
+    // }
 
     /**
      * 프론트에서 호출하여 code, oauthId를 통해 유저 인증을 하고 JWT 발급

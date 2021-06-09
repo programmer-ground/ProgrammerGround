@@ -11,7 +11,16 @@ const informError = (error: Error) => {
 };
 
 const getOptions = () => {
+	const refreshToken = useCookie('refresh_token');
+
+	if (refreshToken[0] === '') {
+		document.cookie = 'access_token=; Max-Age=0';
+		history.pushState(null, null, '/login');
+		location.reload();
+	}
+
 	let cookie = useCookie('access_token');
+
 	if (cookie[0] === '') {
 		getReissued();
 		cookie = useCookie('access_token');
@@ -39,6 +48,7 @@ const setOptions = (token: string) => {
 
 const getReissued = async () => {
 	const refreshToken = useCookie('refresh_token');
+
 	const options = setOptions(refreshToken[0]);
 	try {
 		await axios.post('http://localhost:8080/reissued', '', options);

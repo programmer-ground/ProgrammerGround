@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/prop-types */
@@ -40,7 +41,7 @@ const PlaygroundContent = ({
 				<StyledComponent.PlaygroundTechListContainer>
 					{language.map((v, i) => {
 						return (
-							<StyledComponent.PlaygroundTechList>
+							<StyledComponent.PlaygroundTechList key={i}>
 								{v}
 							</StyledComponent.PlaygroundTechList>
 						);
