@@ -1,34 +1,44 @@
-import React, { useLayoutEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import queryString from 'query-string';
 import axios, { AxiosResponse } from 'axios';
 import { useHistory } from 'react-router-dom';
 import { getOptions } from '@src/lib/api';
 import useCookie from '@src/hooks/useCookie';
+import LoadingSpinner from '@src/components/loading';
 import * as StyledComponent from './style';
 
 const LoginPage = () => {
 	const history = useHistory();
-
-	useLayoutEffect(() => {
+	const [loading, setLoading] = useState(null);
+	useEffect(() => {
 		const local = location.search;
 		const params = queryString.parse(local);
 		const accessToken = useCookie('access_token');
 		if (accessToken[0] !== '') {
 			history.push('/');
 		}
+
 		if (Object.keys(params).length > 0) {
 			const getToken = async () => {
-				await axios
-					.post('http://localhost:8080/jwtLogin', params, getOptions)
-					.then((response: AxiosResponse) => {
-						history.push('/');
-					});
+				try {
+					setLoading(true);
+					await axios
+						.post('http://localhost:8080/jwtLogin', params, getOptions)
+						.then((response: AxiosResponse) => {
+							setLoading(false);
+							history.push('/');
+						});
+				} catch (e) {
+					console.error(e);
+				}
 			};
 			getToken();
 		}
 	}, []);
 	return (
 		<>
+			{loading ? <LoadingSpinner /> : ''}
+
 			<StyledComponent.GlobalStyle />
 			<StyledComponent.LoginAllContainer>
 				<StyledComponent.LoginContainer>
