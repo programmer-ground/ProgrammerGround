@@ -7,12 +7,31 @@
 import HashTag from '@src/components/hashTag';
 import React from 'react';
 import Editor from 'rich-markdown-editor';
+import useShow from '@src/hooks/useShow';
+import { useDispatch, useSelector } from 'react-redux';
+
+import {
+	createPosition,
+	deletePosition,
+} from '@src/store/modules/createPosition';
+import { RootState } from '@src/store/modules/index';
+
 import * as StyledComponent from './style';
 
 const CreatePage = () => {
+	const [show, dispatch] = useShow();
+	const { persons } = useSelector((state: RootState) => state.positionReducer);
+
 	const changeFunc = (a) => {
-		console.log(a);
 		console.log(a());
+	};
+
+	const plusPosition = () => {
+		dispatch(createPosition(persons.length));
+	};
+
+	const deletePerson = () => {
+		dispatch(deletePosition(persons.length - 1));
 	};
 	return (
 		<StyledComponent.CreateContainer>
@@ -20,51 +39,50 @@ const CreatePage = () => {
 				플레이 그라운드 생성 페이지
 			</StyledComponent.CreateSubTitle>
 			<StyledComponent.CreateNameDiv>
-				<label htmlFor="projectId">프로젝트 이름 </label>
-				<input
-					type="text"
-					placeholder="프로젝트 제목을 입력하세요"
-					id="projectId"
-				/>
+				<StyledComponent.ProjectLabel>
+					프로젝트 이름
+				</StyledComponent.ProjectLabel>
+				<input type="text" placeholder="프로젝트 이름을 입력하세요" />
 			</StyledComponent.CreateNameDiv>
-			<StyledComponent.CreateNameDiv>
-				<label>프로젝트 내용</label>
-				<StyledComponent.CreateContent>
-					{/* <StyledComponent.CreateEditorMenu>
-						<EdiTor data="bold" />
-						<EdiTor data="italic" />
-						<EdiTor data="text" />
-						<EdiTor data="" />
-						<EdiTor data="" />
-					</StyledComponent.CreateEditorMenu> */}
-					<Editor onChange={changeFunc} defaultValue="Hello world!" />
-				</StyledComponent.CreateContent>
-				<StyledComponent.CreateImageButton>
-					Image upload
-				</StyledComponent.CreateImageButton>
-				<StyledComponent.CreateLeaderPosition>
-					<label>Leader 포지션</label>
-					<select name="position">
-						<option value="Backend">Backend</option>
-						<option value="Fronted">Frontend</option>
-						<option value="Infra">Infra</option>
-						<option value="UI/UX">UI/UX</option>
-						<option value="디자이너">디자이너</option>
-					</select>
-				</StyledComponent.CreateLeaderPosition>
-				<StyledComponent.CreateLabel>
-					<StyledComponent.PersonNumber>최대 0 명</StyledComponent.PersonNumber>
-					<StyledComponent.addButton>추가하기</StyledComponent.addButton>
-					<StyledComponent.removeButton>삭제하기</StyledComponent.removeButton>
-				</StyledComponent.CreateLabel>
-			</StyledComponent.CreateNameDiv>
+			<StyledComponent.ProjectLabel>프로젝트 내용</StyledComponent.ProjectLabel>
+			<StyledComponent.CreateContent>
+				<Editor onChange={changeFunc} defaultValue="Hello world!" />
+			</StyledComponent.CreateContent>
+			<StyledComponent.CreateLeaderPosition>
+				<label>리더포지션</label>
+				<select name="position">
+					<option value="Backend">Backend</option>
+					<option value="Fronted">Frontend</option>
+					<option value="Infra">Infra</option>
+					<option value="UI/UX">UI/UX</option>
+					<option value="디자이너">디자이너</option>
+				</select>
+			</StyledComponent.CreateLeaderPosition>
+			<StyledComponent.CreateLabel>
+				<StyledComponent.addButton onClick={plusPosition}>
+					추가하기
+				</StyledComponent.addButton>
+				<StyledComponent.removeButton onClick={deletePerson}>
+					삭제하기
+				</StyledComponent.removeButton>
+			</StyledComponent.CreateLabel>
 			<StyledComponent.AttributeLabel>
 				<label>포지션</label>
 				<label>인원</label>
 				<label>경력</label>
 				<label>언어</label>
 			</StyledComponent.AttributeLabel>
-			<HashTag />
+			{persons.map((v, i) => {
+				return (
+					<StyledComponent.PersonContainer>
+						<input type="text" name="position_name" placeholder={v.position} />
+
+						<input name="position_max_num" placeholder={v.personNumber} />
+						<input type="text" name="position_level" placeholder="junior" />
+						<input type="text" name="position_language" placeholder="react" />
+					</StyledComponent.PersonContainer>
+				);
+			})}
 		</StyledComponent.CreateContainer>
 	);
 };
