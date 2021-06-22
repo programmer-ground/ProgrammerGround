@@ -5,7 +5,7 @@
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
 import HashTag from '@src/components/hashTag';
-import React from 'react';
+import React, { useState } from 'react';
 import Editor from 'rich-markdown-editor';
 import useShow from '@src/hooks/useShow';
 import { useDispatch, useSelector } from 'react-redux';
@@ -13,6 +13,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import {
 	createPosition,
 	deletePosition,
+	changePosition,
 } from '@src/store/modules/createPosition';
 import { RootState } from '@src/store/modules/index';
 
@@ -21,7 +22,6 @@ import * as StyledComponent from './style';
 const CreatePage = () => {
 	const [show, dispatch] = useShow();
 	const { persons } = useSelector((state: RootState) => state.positionReducer);
-
 	const changeFunc = (a) => {
 		console.log(a());
 	};
@@ -32,6 +32,14 @@ const CreatePage = () => {
 
 	const deletePerson = () => {
 		dispatch(deletePosition(persons.length - 1));
+	};
+
+	const changeValue = (index: number, e: any) => {
+		const obj = {
+			index,
+			currentValue: e.target.value === '' ? 0 : e.target.value,
+		};
+		dispatch(changePosition(obj));
 	};
 	return (
 		<StyledComponent.CreateContainer>
@@ -66,6 +74,11 @@ const CreatePage = () => {
 					삭제하기
 				</StyledComponent.removeButton>
 			</StyledComponent.CreateLabel>
+			최대
+			{persons.reduce((acc, cur) => {
+				return acc + parseInt(cur.personNumber);
+			}, 0)}
+			명
 			<StyledComponent.AttributeLabel>
 				<label>포지션</label>
 				<label>인원</label>
@@ -77,7 +90,11 @@ const CreatePage = () => {
 					<StyledComponent.PersonContainer>
 						<input type="text" name="position_name" placeholder={v.position} />
 
-						<input name="position_max_num" placeholder={v.personNumber} />
+						<input
+							name="position_max_num"
+							onChange={(e) => changeValue(i, e)}
+							placeholder={v.personNumber}
+						/>
 						<input type="text" name="position_level" placeholder="junior" />
 						<input type="text" name="position_language" placeholder="react" />
 					</StyledComponent.PersonContainer>
