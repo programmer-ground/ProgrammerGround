@@ -41,65 +41,81 @@ const CreatePage = () => {
 		};
 		dispatch(changePosition(obj));
 	};
+
+	const onSubmitHandler = (e) => {
+		e.preventDefault();
+	};
 	return (
 		<StyledComponent.CreateContainer>
 			<StyledComponent.CreateSubTitle>
 				플레이 그라운드 생성 페이지
 			</StyledComponent.CreateSubTitle>
-			<StyledComponent.CreateNameDiv>
+			<form onSubmit={onSubmitHandler}>
+				<StyledComponent.CreateNameDiv>
+					<StyledComponent.ProjectLabel>
+						프로젝트 이름
+					</StyledComponent.ProjectLabel>
+					<input type="text" placeholder="프로젝트 이름을 입력하세요" />
+				</StyledComponent.CreateNameDiv>
 				<StyledComponent.ProjectLabel>
-					프로젝트 이름
+					프로젝트 내용
 				</StyledComponent.ProjectLabel>
-				<input type="text" placeholder="프로젝트 이름을 입력하세요" />
-			</StyledComponent.CreateNameDiv>
-			<StyledComponent.ProjectLabel>프로젝트 내용</StyledComponent.ProjectLabel>
-			<StyledComponent.CreateContent>
-				<Editor onChange={changeFunc} defaultValue="Hello world!" />
-			</StyledComponent.CreateContent>
-			<StyledComponent.CreateLeaderPosition>
-				<label>리더포지션</label>
-				<select name="position">
-					<option value="Backend">Backend</option>
-					<option value="Fronted">Frontend</option>
-					<option value="Infra">Infra</option>
-					<option value="UI/UX">UI/UX</option>
-					<option value="디자이너">디자이너</option>
-				</select>
-			</StyledComponent.CreateLeaderPosition>
-			<StyledComponent.CreateLabel>
-				<StyledComponent.addButton onClick={plusPosition}>
-					추가하기
-				</StyledComponent.addButton>
-				<StyledComponent.removeButton onClick={deletePerson}>
-					삭제하기
-				</StyledComponent.removeButton>
-			</StyledComponent.CreateLabel>
-			최대
-			{persons.reduce((acc, cur) => {
-				return acc + parseInt(cur.personNumber);
-			}, 0)}
-			명
-			<StyledComponent.AttributeLabel>
-				<label>포지션</label>
-				<label>인원</label>
-				<label>경력</label>
-				<label>언어</label>
-			</StyledComponent.AttributeLabel>
-			{persons.map((v, i) => {
-				return (
-					<StyledComponent.PersonContainer>
-						<input type="text" name="position_name" placeholder={v.position} />
+				<StyledComponent.CreateContent>
+					<Editor onChange={changeFunc} defaultValue="Hello world!" />
+				</StyledComponent.CreateContent>
+				<StyledComponent.CreateLeaderPosition>
+					<label htmlFor="positionId">리더포지션</label>
+					<select name="position" id="positionId">
+						<option value="Backend">Backend</option>
+						<option value="Fronted">Frontend</option>
+						<option value="Infra">Infra</option>
+						<option value="UI/UX">UI/UX</option>
+						<option value="디자이너">디자이너</option>
+					</select>
+				</StyledComponent.CreateLeaderPosition>
+				<StyledComponent.CreateLabel>
+					<StyledComponent.addButton onClick={plusPosition}>
+						추가하기
+					</StyledComponent.addButton>
+					<StyledComponent.removeButton onClick={deletePerson}>
+						삭제하기
+					</StyledComponent.removeButton>
+				</StyledComponent.CreateLabel>
+				<StyledComponent.PersonNumberLength>
+					최대
+					{persons.reduce((acc, cur) => {
+						return acc + parseInt(cur.personNumber);
+					}, 0)}
+					명
+				</StyledComponent.PersonNumberLength>
 
-						<input
-							name="position_max_num"
-							onChange={(e) => changeValue(i, e)}
-							placeholder={v.personNumber}
-						/>
-						<input type="text" name="position_level" placeholder="junior" />
-						<input type="text" name="position_language" placeholder="react" />
-					</StyledComponent.PersonContainer>
-				);
-			})}
+				<StyledComponent.AttributeLabel>
+					<label>포지션</label>
+					<label>인원</label>
+					<label>경력</label>
+					<label>언어</label>
+				</StyledComponent.AttributeLabel>
+				{persons.map((v, i) => {
+					return (
+						<StyledComponent.PersonContainer>
+							<input
+								type="text"
+								name="position_name"
+								placeholder={v.position}
+							/>
+
+							<input
+								name="position_max_num"
+								onChange={(e) => changeValue(i, e)}
+								placeholder={v.personNumber}
+							/>
+							<input type="text" name="position_level" placeholder="junior" />
+							<input type="text" name="position_language" placeholder="react" />
+						</StyledComponent.PersonContainer>
+					);
+				})}
+				<button type="submit">제출</button>
+			</form>
 		</StyledComponent.CreateContainer>
 	);
 };

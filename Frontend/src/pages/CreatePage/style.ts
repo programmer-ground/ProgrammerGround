@@ -39,7 +39,9 @@ export const CreateNameDiv = styled.div`
 	}
 `;
 
-export const ProjectLabel = styled.label`
+export const ProjectLabel = styled.label.attrs((props) => {})`
+	display: block;
+	text-align: center;
 	margin-top: 5px;
 	font-size: 20px;
 	line-height: 24px;
@@ -47,6 +49,7 @@ export const ProjectLabel = styled.label`
 
 export const CreateContent = styled.div`
 	width: 54%;
+	margin: 0 auto;
 	height: 300px;
 	border: 3px solid ${colorType.gray};
 	overflow-y: auto;
@@ -75,9 +78,13 @@ export const CreateImageButton = styled.button`
 	}
 `;
 
+export const PersonNumberLength = styled.span`
+	display: block;
+	text-align: center;
+`;
+
 export const CreateLeaderPosition = styled.div`
 	display: flex;
-	width: 70%;
 	margin-top: 10px;
 	justify-content: center;
 	& > label {
@@ -87,7 +94,6 @@ export const CreateLeaderPosition = styled.div`
 `;
 export const CreateLabel = styled.div`
 	display: flex;
-	width: 70%;
 	justify-content: center;
 	margin-top: 10px;
 	border-bottom: 1px soild ${colorType.gray};
