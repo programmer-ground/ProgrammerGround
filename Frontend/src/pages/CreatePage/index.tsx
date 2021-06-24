@@ -14,6 +14,9 @@ import {
 	createPosition,
 	deletePosition,
 	changePosition,
+	changeLevel,
+	changeSeveralPosition,
+	changeLanguage,
 } from '@src/store/modules/createPosition';
 import { RootState } from '@src/store/modules/index';
 
@@ -22,9 +25,14 @@ import * as StyledComponent from './style';
 const CreatePage = () => {
 	const [show, dispatch] = useShow();
 	const { persons } = useSelector((state: RootState) => state.positionReducer);
-	const changeFunc = (a) => {
-		console.log(a());
-	};
+	const [totalPersonNumber, setTotalPerson] = useState(0);
+
+	// 프로젝트 이름
+	const [title, setTitle] = useState('');
+	// 프로젝트 설명
+	const [description, setDescription] = useState('');
+	// 리더 포지션
+	const [leaderPosition, setLeaderPosition] = useState('');
 
 	const plusPosition = () => {
 		dispatch(createPosition(persons.length));
@@ -43,7 +51,68 @@ const CreatePage = () => {
 	};
 
 	const onSubmitHandler = (e) => {
+		const obj = {
+			title,
+			description,
+			max_user_num: persons.reduce((acc, cur) => {
+				return acc + parseInt(cur.personNumber);
+			}, 0),
+			leader_position: leaderPosition,
+		};
+		const result = {
+			...obj,
+			persons,
+		};
+		console.log(result);
 		e.preventDefault();
+	};
+
+	const titleFunc = (e) => {
+		setTitle(e.target.value);
+	};
+
+	const descriptionFunc = (a) => {
+		setDescription(a());
+	};
+
+	const leaderFunc = (e) => {
+		setLeaderPosition(e.target.value);
+	};
+
+	const changeFunc = (index: number, e: any) => {
+		const obj = {
+			index,
+			positionLevel: e.target.value,
+		};
+		dispatch(changeLevel(obj));
+	};
+
+	const changeValue = (index: number, e: any) => {
+		const obj = {
+			index,
+			currentValue: e.target.value === '' ? 0 : e.target.value,
+		};
+		dispatch(changePosition(obj));
+	};
+
+	const severalPosition = (index: number, e: any) => {
+		const obj = {
+			index,
+			position: e.target.value,
+		};
+		dispatch(changeSeveralPosition(obj));
+	};
+
+	const changeLanguageFunc = (index: number, e: any) => {
+		const languageList = e.target.value.split(',');
+		const obj = {
+			index,
+			positionLanguage: languageList.reduce((acc, cur) => {
+				acc.push({ language_name: cur });
+				return acc;
+			}, []),
+		};
+		dispatch(changeLanguage(obj));
 	};
 	return (
 		<StyledComponent.CreateContainer>
@@ -55,17 +124,26 @@ const CreatePage = () => {
 					<StyledComponent.ProjectLabel>
 						프로젝트 이름
 					</StyledComponent.ProjectLabel>
-					<input type="text" placeholder="프로젝트 이름을 입력하세요" />
+					<input
+						type="text"
+						onChange={titleFunc}
+						placeholder="프로젝트 이름을 입력하세요"
+					/>
 				</StyledComponent.CreateNameDiv>
 				<StyledComponent.ProjectLabel>
 					프로젝트 내용
 				</StyledComponent.ProjectLabel>
 				<StyledComponent.CreateContent>
-					<Editor onChange={changeFunc} defaultValue="Hello world!" />
+					<Editor onChange={descriptionFunc} defaultValue="Hello world!" />
 				</StyledComponent.CreateContent>
 				<StyledComponent.CreateLeaderPosition>
 					<label htmlFor="positionId">리더포지션</label>
-					<select name="position" id="positionId">
+					<select
+						name="position"
+						id="positionId"
+						defaultValue="Backend"
+						onChange={leaderFunc}
+					>
 						<option value="Backend">Backend</option>
 						<option value="Fronted">Frontend</option>
 						<option value="Infra">Infra</option>
@@ -101,6 +179,7 @@ const CreatePage = () => {
 							<input
 								type="text"
 								name="position_name"
+								onChange={(e) => severalPosition(i, e)}
 								placeholder={v.position}
 							/>
 
@@ -109,8 +188,18 @@ const CreatePage = () => {
 								onChange={(e) => changeValue(i, e)}
 								placeholder={v.personNumber}
 							/>
-							<input type="text" name="position_level" placeholder="junior" />
-							<input type="text" name="position_language" placeholder="react" />
+							<input
+								type="text"
+								name="position_level"
+								onChange={(e) => changeFunc(i, e)}
+								placeholder="junior"
+							/>
+							<input
+								type="text"
+								name="position_language"
+								onChange={(e) => changeLanguageFunc(i, e)}
+								placeholder="react,typescript"
+							/>
 						</StyledComponent.PersonContainer>
 					);
 				})}
