@@ -12,7 +12,6 @@ const informError = (error: Error) => {
 
 const getOptions = () => {
 	const refreshToken = useCookie('refresh_token');
-
 	if (refreshToken[0] === '') {
 		document.cookie = 'access_token=; Max-Age=0';
 		history.pushState(null, null, '/login');
@@ -72,6 +71,7 @@ export const postData = async (url: string, body: string) => {
 	const options = getOptions();
 	try {
 		const response = await axios.post(url, body, options);
+		console.log(response);
 		return response.data;
 	} catch (error) {
 		informError(error);

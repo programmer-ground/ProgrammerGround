@@ -20,11 +20,12 @@ import {
 } from '@src/store/modules/createPosition';
 import { RootState } from '@src/store/modules/index';
 
+import { createPlayground } from '@src/lib/axios/playground';
 import * as StyledComponent from './style';
 
 const CreatePage = () => {
 	const [show, dispatch] = useShow();
-	const { persons } = useSelector((state: RootState) => state.positionReducer);
+	const { position } = useSelector((state: RootState) => state.positionReducer);
 	const [totalPersonNumber, setTotalPerson] = useState(0);
 
 	// 프로젝트 이름
@@ -35,11 +36,11 @@ const CreatePage = () => {
 	const [leaderPosition, setLeaderPosition] = useState('');
 
 	const plusPosition = () => {
-		dispatch(createPosition(persons.length));
+		dispatch(createPosition(position.length));
 	};
 
 	const deletePerson = () => {
-		dispatch(deletePosition(persons.length - 1));
+		dispatch(deletePosition(position.length - 1));
 	};
 
 	const changeValue = (index: number, e: any) => {
@@ -51,20 +52,24 @@ const CreatePage = () => {
 	};
 
 	const onSubmitHandler = (e) => {
+		e.preventDefault();
 		const obj = {
 			title,
 			description,
-			max_user_num: persons.reduce((acc, cur) => {
-				return acc + parseInt(cur.personNumber);
+			max_user_num: position.reduce((acc, cur) => {
+				return acc + parseInt(cur.position_max_num);
 			}, 0),
 			leader_position: leaderPosition,
 		};
 		const result = {
 			...obj,
-			persons,
+			position,
 		};
 		console.log(result);
-		e.preventDefault();
+		const create = async () => {
+			const data = await createPlayground(result);
+		};
+		create();
 	};
 
 	const titleFunc = (e) => {
@@ -90,7 +95,7 @@ const CreatePage = () => {
 	const changeValue = (index: number, e: any) => {
 		const obj = {
 			index,
-			currentValue: e.target.value === '' ? 0 : e.target.value,
+			currentValue: e.target.value === '' ? 0 : +e.target.value,
 		};
 		dispatch(changePosition(obj));
 	};
@@ -144,9 +149,9 @@ const CreatePage = () => {
 						defaultValue="Backend"
 						onChange={leaderFunc}
 					>
-						<option value="Backend">Backend</option>
-						<option value="Fronted">Frontend</option>
-						<option value="Infra">Infra</option>
+						<option value="BACKEND">BACKEND</option>
+						<option value="FRONTEND">FRONTED</option>
+						<option value="INFRA">INFRA</option>
 						<option value="UI/UX">UI/UX</option>
 						<option value="디자이너">디자이너</option>
 					</select>
@@ -161,8 +166,8 @@ const CreatePage = () => {
 				</StyledComponent.CreateLabel>
 				<StyledComponent.PersonNumberLength>
 					최대
-					{persons.reduce((acc, cur) => {
-						return acc + parseInt(cur.personNumber);
+					{position.reduce((acc, cur) => {
+						return acc + parseInt(cur.position_max_num);
 					}, 0)}
 					명
 				</StyledComponent.PersonNumberLength>
@@ -173,20 +178,20 @@ const CreatePage = () => {
 					<label>경력</label>
 					<label>언어</label>
 				</StyledComponent.AttributeLabel>
-				{persons.map((v, i) => {
+				{position.map((v, i) => {
 					return (
 						<StyledComponent.PersonContainer>
 							<input
 								type="text"
 								name="position_name"
 								onChange={(e) => severalPosition(i, e)}
-								placeholder={v.position}
+								placeholder={v.position_name}
 							/>
 
 							<input
 								name="position_max_num"
 								onChange={(e) => changeValue(i, e)}
-								placeholder={v.personNumber}
+								placeholder={v.position_max_num}
 							/>
 							<input
 								type="text"

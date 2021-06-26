@@ -27,22 +27,22 @@ type languageAction = ReturnType<typeof changeLanguage>;
 
 interface Person {
 	id: number;
-	position: string;
-	personNumber: string;
-	positionLevel: string;
-	positionLanguage: [];
+	position_name: string;
+	position_max_num: string;
+	position_level: string;
+	position_language: [];
 }
 export interface PositionState {
-	persons: Person[];
+	position: Person[];
 }
 const initialState = {
-	persons: [
+	position: [
 		{
 			id: 0,
-			position: '프론트엔드',
-			personNumber: 0,
-			positionLevel: 'junior',
-			positionLanguage: [],
+			position_name: '프론트엔드',
+			position_max_num: 0,
+			position_level: 'junior',
+			position_language: [],
 		},
 	],
 };
@@ -56,12 +56,12 @@ export const positionReducer = handleActions(
 			return {
 				...state,
 
-				persons: state.persons.concat({
+				position: state.position.concat({
 					id: action.payload,
-					position: '프론트엔드',
-					personNumber: 0,
-					positionLevel: 'junior',
-					positionLanguage: [],
+					position_name: '프론트엔드',
+					position_max_num: 0,
+					position_level: 'junior',
+					position_language: [],
 				}),
 			};
 		},
@@ -71,7 +71,7 @@ export const positionReducer = handleActions(
 		) => {
 			return {
 				...state,
-				persons: state.persons.filter((item) => item.id !== action.payload),
+				position: state.position.filter((item) => item.id !== action.payload),
 			};
 		},
 		[CHANGE_POSITION]: (
@@ -80,9 +80,9 @@ export const positionReducer = handleActions(
 		) => {
 			return {
 				...state,
-				persons: state.persons.map((item) =>
+				position: state.position.map((item) =>
 					item.id === action.payload.index
-						? { ...item, personNumber: action.payload.currentValue }
+						? { ...item, position_max_num: action.payload.currentValue }
 						: item,
 				),
 			};
@@ -93,9 +93,9 @@ export const positionReducer = handleActions(
 		) => {
 			return {
 				...state,
-				persons: state.persons.map((item) =>
+				position: state.position.map((item) =>
 					item.id === action.payload.index
-						? { ...item, positionLevel: action.payload.positionLevel }
+						? { ...item, position_level: action.payload.positionLevel }
 						: item,
 				),
 			};
@@ -106,9 +106,9 @@ export const positionReducer = handleActions(
 		) => {
 			return {
 				...state,
-				persons: state.persons.map((item) =>
+				position: state.position.map((item) =>
 					item.id === action.payload.index
-						? { ...item, position: action.payload.position }
+						? { ...item, position_name: action.payload.position }
 						: item,
 				),
 			};
@@ -120,9 +120,9 @@ export const positionReducer = handleActions(
 		) => {
 			return {
 				...state,
-				persons: state.persons.map((item) =>
+				position: state.position.map((item) =>
 					item.id === action.payload.index
-						? { ...item, positionLanguage: action.payload.positionLanguage }
+						? { ...item, position_language: action.payload.positionLanguage }
 						: item,
 				),
 			};
