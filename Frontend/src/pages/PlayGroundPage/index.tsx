@@ -17,18 +17,18 @@ import * as StyledComponent from './style';
 const PlayGroundPage = () => {
 	const groundData = playgroundData.content;
 	const [playground, setPlayground] = useState([]);
-	const fetchData = async () => {
-		try {
-			const data = await getAllPlaygrounds();
-			setPlayground(data);
-		} catch (e) {
-			// eslint-disable-next-line no-console
-			console.log(e);
-		}
-	};
-	useEffect(() => {
-		fetchData();
-	}, []);
+	// const fetchData = async () => {
+	// 	try {
+	// 		const data = await getAllPlaygrounds();
+	// 		setPlayground(data);
+	// 	} catch (e) {
+	// 		// eslint-disable-next-line no-console
+	// 		console.log(e);
+	// 	}
+	// };
+	// useEffect(() => {
+	// 	fetchData();
+	// }, []);
 
 	return (
 		<>

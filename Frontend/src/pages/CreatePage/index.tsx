@@ -10,6 +10,7 @@ import Editor from 'rich-markdown-editor';
 import useShow from '@src/hooks/useShow';
 import { useDispatch, useSelector } from 'react-redux';
 import LoadingSpinner from '@src/components/loading';
+import { useHistory } from 'react-router-dom';
 import {
 	createPosition,
 	deletePosition,
@@ -25,6 +26,7 @@ import * as StyledComponent from './style';
 
 const CreatePage = () => {
 	const [show, dispatch] = useShow();
+	const history = useHistory();
 	const { position } = useSelector((state: RootState) => state.positionReducer);
 	const [totalPersonNumber, setTotalPerson] = useState(0);
 	const [loading, setLoading] = useState(false);
@@ -65,11 +67,15 @@ const CreatePage = () => {
 			...obj,
 			position,
 		};
-		console.log(result);
 		const create = async () => {
-			setLoading(true);
-			const data = await createPlayground(result);
-			setLoading(false);
+			try {
+				setLoading(true);
+				await createPlayground(result);
+				setLoading(false);
+				history.push('/');
+			} catch (error) {
+				console.error(error);
+			}
 		};
 		create();
 	};
