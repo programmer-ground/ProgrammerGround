@@ -1,6 +1,5 @@
 package com.pg.auth;
 
-import com.pg.auth.domain.github.GithubRepositoryInfo;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;

@@ -5,30 +5,33 @@ import colorType from '@src/utils/color';
 export const CreateContainer = styled.div`
 	display: flex;
 	box-sizing: border-box;
-	flex-direction: column;
 	width: 50%;
-	height: 1000px;
+	flex-direction: column;
 	border: 3px solid ${colorType.gray};
 	border-radius: 10px;
-	justify-content: center;
+	align-items: center;
 	margin: 90px auto;
 `;
 
 export const CreateSubTitle = styled.h1`
 	font-size: 30px;
+	line-height: 38px;
 	text-align: center;
 `;
 
 export const CreateNameDiv = styled.div`
-	margin: 0 20%;
-	width: 700px;
+	width: 100%;
+	display: flex;
+	justify-content: center;
 	& > label {
 		font-size: 20px;
+		line-height: 24px;
 	}
 	& input {
 		margin-left: 10px;
 		font-size: 20px;
-		width: 374px;
+		line-height: 24px;
+		width: 34%;
 		border: 3px solid ${colorType.gray};
 	}
 	& input:focus {
@@ -36,16 +39,26 @@ export const CreateNameDiv = styled.div`
 	}
 `;
 
-export const CreateContent = styled.div`
-	width: 70%;
-	height: 500px;
-	border: 3px solid ${colorType.gray};
-	overflow: auto;
+export const ProjectLabel = styled.label.attrs((props) => {})`
+	display: block;
+	text-align: center;
+	margin-top: 5px;
+	font-size: 20px;
+	line-height: 24px;
 `;
 
-export const CreateEditorMenu = styled.div`
-	border-bottom: 1px solid ${colorType.gray};
-	height: 50px;
+export const CreateContent = styled.div`
+	width: 54%;
+	margin: 0 auto;
+	height: 300px;
+	border: 3px solid ${colorType.gray};
+	overflow-y: auto;
+`;
+
+export const CreateContentContainer = styled.div`
+	display: flex;
+	width: 100%;
+	justify-content: center;
 `;
 
 export const CreateTextArea = styled.p`
@@ -65,9 +78,13 @@ export const CreateImageButton = styled.button`
 	}
 `;
 
+export const PersonNumberLength = styled.span`
+	display: block;
+	text-align: center;
+`;
+
 export const CreateLeaderPosition = styled.div`
 	display: flex;
-	width: 70%;
 	margin-top: 10px;
 	justify-content: center;
 	& > label {
@@ -77,7 +94,6 @@ export const CreateLeaderPosition = styled.div`
 `;
 export const CreateLabel = styled.div`
 	display: flex;
-	width: 70%;
 	justify-content: center;
 	margin-top: 10px;
 	border-bottom: 1px soild ${colorType.gray};
@@ -129,4 +145,9 @@ export const AttributeLabel = styled.div`
 	& > label {
 		font-size: 20px;
 	}
+`;
+
+export const PersonContainer = styled.div`
+	display: flex;
+	justify-content: center;
 `;

@@ -1,6 +1,9 @@
 /* eslint-disable camelcase */
 /* eslint-disable import/prefer-default-export */
 /* eslint-disable consistent-return */
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+
 import axios from 'axios';
 import useCookie from '@src/hooks/useCookie';
 
@@ -10,9 +13,8 @@ const informError = (error: Error) => {
 		: '오류가 발생하여 요청에 실패하였습니다';
 };
 
-const getOptions = () => {
+const getOptions = async () => {
 	const refreshToken = useCookie('refresh_token');
-
 	if (refreshToken[0] === '') {
 		document.cookie = 'access_token=; Max-Age=0';
 		history.pushState(null, null, '/login');
@@ -22,15 +24,14 @@ const getOptions = () => {
 	let cookie = useCookie('access_token');
 
 	if (cookie[0] === '') {
-		getReissued();
+		await getReissued();
 		cookie = useCookie('access_token');
 	}
-
 	const options = setOptions(cookie[0]);
 	return options;
 };
 
-const setOptions = (token: string) => {
+const setOptions = (token: string): any => {
 	const headers = {
 		'Content-Type': 'application/json;charset=UTF-8',
 		'Access-Control-Allow-Origin': '*',
@@ -51,8 +52,11 @@ const getReissued = async () => {
 
 	const options = setOptions(refreshToken[0]);
 	try {
-		await axios.post('http://localhost:8080/reissued', '', options);
-		location.reload();
+		const data = await axios.post(
+			'http://localhost:8080/reissued',
+			'',
+			options,
+		);
 	} catch (err) {
 		console.log('response: ', err.response.data);
 	}
@@ -69,7 +73,8 @@ export const getData = async (url: string) => {
 };
 
 export const postData = async (url: string, body: string) => {
-	const options = getOptions();
+	const options = await getOptions();
+	console.log(options);
 	try {
 		const response = await axios.post(url, body, options);
 		return response.data;

@@ -16,7 +16,7 @@ import * as StyledComponent from './style';
 
 const ModalWrapper = () => {
 	const [show, dispatch] = useShow();
-	const { persons } = useSelector((state: RootState) => state.positionReducer);
+	const { position } = useSelector((state: RootState) => state.positionReducer);
 	const [maxPersonNumber, setMaxPersonNumber] = useState(0);
 
 	const closeClick = () => {
@@ -86,36 +86,7 @@ const ModalWrapper = () => {
 											추가
 										</button>
 									</StyledComponent.ModalCreateSectionTitle>
-									{persons.map((v, i) => {
-										return (
-											<StyledComponent.ModalCreateSectionBody
-												className="input-Ref"
-												key={i}
-											>
-												<input
-													type="text"
-													name="position_name"
-													placeholder={v.position}
-												/>
 
-												<ModalNumberInput
-													name="position_max_num"
-													placeholder={v.personNumber}
-													setMaxPersonNumber={setMaxPersonNumber}
-												/>
-												<input
-													type="text"
-													name="position_level"
-													placeholder="junior"
-												/>
-												<input
-													type="text"
-													name="position_language"
-													placeholder="react"
-												/>
-											</StyledComponent.ModalCreateSectionBody>
-										);
-									})}
 									<StyledComponent.SubmitButton type="submit" />
 								</StyledComponent.ModalCreateSection>
 							</form>
