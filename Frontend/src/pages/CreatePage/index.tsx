@@ -9,7 +9,7 @@ import React, { useState } from 'react';
 import Editor from 'rich-markdown-editor';
 import useShow from '@src/hooks/useShow';
 import { useDispatch, useSelector } from 'react-redux';
-
+import LoadingSpinner from '@src/components/loading';
 import {
 	createPosition,
 	deletePosition,
@@ -27,7 +27,7 @@ const CreatePage = () => {
 	const [show, dispatch] = useShow();
 	const { position } = useSelector((state: RootState) => state.positionReducer);
 	const [totalPersonNumber, setTotalPerson] = useState(0);
-
+	const [loading, setLoading] = useState(false);
 	// 프로젝트 이름
 	const [title, setTitle] = useState('');
 	// 프로젝트 설명
@@ -67,7 +67,9 @@ const CreatePage = () => {
 		};
 		console.log(result);
 		const create = async () => {
+			setLoading(true);
 			const data = await createPlayground(result);
+			setLoading(false);
 		};
 		create();
 	};
@@ -210,6 +212,7 @@ const CreatePage = () => {
 				})}
 				<button type="submit">제출</button>
 			</form>
+			{loading ? <LoadingSpinner /> : ''}
 		</StyledComponent.CreateContainer>
 	);
 };
