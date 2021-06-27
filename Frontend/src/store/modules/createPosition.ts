@@ -39,9 +39,9 @@ const initialState = {
 	position: [
 		{
 			id: 0,
-			position_name: '프론트엔드',
+			position_name: 'BACKEND',
 			position_max_num: 0,
-			position_level: 'junior',
+			position_level: 'JUNIOR',
 			position_language: [],
 		},
 	],
@@ -58,9 +58,9 @@ export const positionReducer = handleActions(
 
 				position: state.position.concat({
 					id: action.payload,
-					position_name: '프론트엔드',
+					position_name: 'BACKEND',
 					position_max_num: 0,
-					position_level: 'junior',
+					position_level: 'JUNIOR',
 					position_language: [],
 				}),
 			};

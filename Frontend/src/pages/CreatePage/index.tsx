@@ -151,14 +151,10 @@ const CreatePage = () => {
 				</StyledComponent.CreateContent>
 				<StyledComponent.CreateLeaderPosition>
 					<label htmlFor="positionId">리더포지션</label>
-					<select
-						name="position"
-						id="positionId"
-						defaultValue="Backend"
-						onChange={leaderFunc}
-					>
+					<select name="position" id="positionId" onChange={leaderFunc}>
+						<option value="리더 포지션 선택">리더 포지션 선택</option>
 						<option value="BACKEND">BACKEND</option>
-						<option value="FRONTEND">FRONTED</option>
+						<option value="FRONTEND">FRONTEND</option>
 						<option value="DESIGN">DESIGN</option>
 						<option value="PLANNER">PLANNER</option>
 						<option value="DEVOPS">DEVOPS</option>
@@ -191,12 +187,12 @@ const CreatePage = () => {
 						<StyledComponent.PersonContainer>
 							<select
 								name="position_name"
-								placeholder={v.position_name}
 								id="position_id"
 								onChange={(e) => severalPosition(i, e)}
 							>
+								<option value="포지션 선택">포지션 선택</option>
 								<option value="BACKEND">BACKEND</option>
-								<option value="FRONTEND">FRONTED</option>
+								<option value="FRONTEND">FRONTEND</option>
 								<option value="DESIGN">DESIGN</option>
 								<option value="PLANNER">PLANNER</option>
 								<option value="DEVOPS">DEVOPS</option>
@@ -212,7 +208,9 @@ const CreatePage = () => {
 								name="position_level"
 								id="position_level"
 								onChange={(e) => changeFunc(i, e)}
+								value="JUNIOR"
 							>
+								<option value="경력 선택">경력 선택</option>
 								<option value="JUNIOR">JUNIOR</option>
 								<option value="SENIOR">SENIOR</option>
 								<option value="STUDENT">STUDENT</option>
@@ -224,7 +222,7 @@ const CreatePage = () => {
 								id="position_language"
 								name="position_language"
 								onChange={(e) => changeLanguageFunc(i, e)}
-								placeholder="react,typescript"
+								placeholder="REACT"
 							/>
 						</StyledComponent.PersonContainer>
 					);
