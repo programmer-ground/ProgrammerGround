@@ -159,9 +159,9 @@ const CreatePage = () => {
 					>
 						<option value="BACKEND">BACKEND</option>
 						<option value="FRONTEND">FRONTED</option>
-						<option value="INFRA">INFRA</option>
-						<option value="UI/UX">UI/UX</option>
-						<option value="디자이너">디자이너</option>
+						<option value="DESIGN">DESIGN</option>
+						<option value="PLANNER">PLANNER</option>
+						<option value="DEVOPS">DEVOPS</option>
 					</select>
 				</StyledComponent.CreateLeaderPosition>
 				<StyledComponent.CreateLabel>
@@ -181,34 +181,47 @@ const CreatePage = () => {
 				</StyledComponent.PersonNumberLength>
 
 				<StyledComponent.AttributeLabel>
-					<label>포지션</label>
-					<label>인원</label>
-					<label>경력</label>
-					<label>언어</label>
+					<label htmlFor="position_id">포지션</label>
+					<label htmlFor="position_num">인원</label>
+					<label htmlFor="position_level">경력</label>
+					<label htmlFor="position_language">언어</label>
 				</StyledComponent.AttributeLabel>
 				{position.map((v, i) => {
 					return (
 						<StyledComponent.PersonContainer>
-							<input
-								type="text"
+							<select
 								name="position_name"
-								onChange={(e) => severalPosition(i, e)}
 								placeholder={v.position_name}
-							/>
+								id="position_id"
+								onChange={(e) => severalPosition(i, e)}
+							>
+								<option value="BACKEND">BACKEND</option>
+								<option value="FRONTEND">FRONTED</option>
+								<option value="DESIGN">DESIGN</option>
+								<option value="PLANNER">PLANNER</option>
+								<option value="DEVOPS">DEVOPS</option>
+							</select>
 
 							<input
+								id="position_num"
 								name="position_max_num"
 								onChange={(e) => changeValue(i, e)}
 								placeholder={v.position_max_num}
 							/>
-							<input
-								type="text"
+							<select
 								name="position_level"
+								id="position_level"
 								onChange={(e) => changeFunc(i, e)}
-								placeholder="junior"
-							/>
+							>
+								<option value="JUNIOR">JUNIOR</option>
+								<option value="SENIOR">SENIOR</option>
+								<option value="STUDENT">STUDENT</option>
+								<option value="NEWCOMER">NEWCOMER</option>
+							</select>
+
 							<input
 								type="text"
+								id="position_language"
 								name="position_language"
 								onChange={(e) => changeLanguageFunc(i, e)}
 								placeholder="react,typescript"
