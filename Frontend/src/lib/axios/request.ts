@@ -63,7 +63,7 @@ const getReissued = async () => {
 };
 
 export const getData = async (url: string) => {
-	const options = getOptions();
+	const options = await getOptions();
 	try {
 		const response = await axios.get(url, options);
 		return response.data.data;
@@ -74,7 +74,6 @@ export const getData = async (url: string) => {
 
 export const postData = async (url: string, body: string) => {
 	const options = await getOptions();
-	console.log(options);
 	try {
 		const response = await axios.post(url, body, options);
 		return response.data;
