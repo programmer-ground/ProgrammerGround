@@ -10,21 +10,19 @@ import Header from '@src/components/header';
 import SearchBar from '@src/components/searchBar';
 import Bone from '@src/components/Common/bone';
 import PlaygroundContent from '@src/components/playgroundContent';
-import playgroundData from '@src/data/playground';
 import Button from '@src/components/Common/button';
 import { getAllPlaygrounds } from '@src/lib/axios/playground';
 import useShow from '@src/hooks/useShow';
 import * as StyledComponent from './style';
 
 const PlayGroundPage = () => {
-	const groundData = playgroundData.content;
 	const [show, dispatch] = useShow();
-	const [datas, setData] = useState([]);
+	const [playgrounds, setPlaygrounds] = useState([]);
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const data = await getAllPlaygrounds();
-				setData(data.playground_card);
+				setPlaygrounds(data.playground_card);
 			} catch (e) {
 				console.log(e);
 			}
@@ -34,9 +32,7 @@ const PlayGroundPage = () => {
 	return (
 		<>
 			<Header />
-			{datas.map((v) => {
-				return <h2>{v.playground_id}</h2>;
-			})}
+
 			<StyledComponent.mainContainer>
 				<StyledComponent.SearchContainer>
 					<SearchBar />
@@ -47,16 +43,13 @@ const PlayGroundPage = () => {
 					<StyledComponent.CreateLink>방 생성</StyledComponent.CreateLink>
 				</StyledComponent.SearchContainer>
 				<StyledComponent.PlayGroundContainer>
-					{groundData.map((v) => {
+					{playgrounds.map((v) => {
 						return (
 							<PlaygroundContent
-								key={v.id}
+								key={v.playground_id}
 								title={v.title}
-								date={v.date}
-								src={v.src}
-								position={v.position}
-								personnel={v.personnel}
-								language={v.language}
+								position={v.position_list[0].position_name}
+								language={v.position_list[0].language}
 							/>
 						);
 					})}
