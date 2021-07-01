@@ -10,7 +10,6 @@ import Header from '@src/components/header';
 import SearchBar from '@src/components/searchBar';
 import Bone from '@src/components/Common/bone';
 import PlaygroundContent from '@src/components/playgroundContent';
-import Button from '@src/components/Common/button';
 import { getAllPlaygrounds } from '@src/lib/axios/playground';
 import useShow from '@src/hooks/useShow';
 import * as StyledComponent from './style';
@@ -39,7 +38,6 @@ const PlayGroundPage = () => {
 					<StyledComponent.ModeContainer>
 						<Bone />
 					</StyledComponent.ModeContainer>
-					<Button text="생성" />
 					<StyledComponent.CreateLink>방 생성</StyledComponent.CreateLink>
 				</StyledComponent.SearchContainer>
 				<StyledComponent.PlayGroundContainer>
