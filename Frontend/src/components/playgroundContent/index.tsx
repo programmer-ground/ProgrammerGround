@@ -2,10 +2,12 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/prop-types */
-import React from 'react';
+import React, { useState } from 'react';
+import OnePlaygroundModal from '@src/components/Common/modal/onePlaygroundModal';
 import * as StyledComponent from './style';
 
 interface Playground {
+	id: number;
 	title: string;
 	date: string;
 	src?: string;
@@ -15,6 +17,7 @@ interface Playground {
 }
 
 const PlaygroundContent = ({
+	id,
 	title,
 	date,
 	src,
@@ -22,9 +25,15 @@ const PlaygroundContent = ({
 	personnel,
 	language,
 }: Playground) => {
+	const [openState, setOpenState] = useState(false);
+	const createModalFunc = (playgroundId: number, event: any) => {
+		setOpenState(true);
+	};
 	return (
 		<>
-			<StyledComponent.PlaygroundContent>
+			<StyledComponent.PlaygroundContent
+				onClick={(e) => createModalFunc(id, e)}
+			>
 				<StyledComponent.PlaygroundHeader>
 					<StyledComponent.PlaygroundTitle>
 						{title}
@@ -48,6 +57,7 @@ const PlaygroundContent = ({
 					})}
 				</StyledComponent.PlaygroundTechListContainer>
 			</StyledComponent.PlaygroundContent>
+			{openState ? <OnePlaygroundModal /> : ''}
 		</>
 	);
 };

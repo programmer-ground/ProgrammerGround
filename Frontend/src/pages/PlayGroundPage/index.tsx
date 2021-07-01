@@ -50,6 +50,7 @@ const PlayGroundPage = () => {
 								title={v.title}
 								position={v.position_list[0].position_name}
 								language={v.position_list[0].language}
+								id={v.playground_id}
 							/>
 						);
 					})}
