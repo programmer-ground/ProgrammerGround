@@ -4,6 +4,7 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import OnePlaygroundModal from '@src/components/Common/modal/onePlaygroundModal';
+import { getOnePlayground } from '@src/lib/axios/playground';
 import * as StyledComponent from './style';
 
 interface Playground {
@@ -26,8 +27,10 @@ const PlaygroundContent = ({
 	language,
 }: Playground) => {
 	const [openState, setOpenState] = useState(false);
-	const createModalFunc = (playgroundId: number, event: any) => {
+	const createModalFunc = async (playgroundId: number, event: any) => {
 		setOpenState(true);
+		const onePlayground = await getOnePlayground(playgroundId);
+		console.log(onePlayground);
 	};
 	return (
 		<>
