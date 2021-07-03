@@ -4,5 +4,5 @@ public enum ApplyStatus {
     ACCEPT,
     REJECT,
     WAIT,
-    EXIT //탈퇴
+    EXIT //Playground 퇴장
 }

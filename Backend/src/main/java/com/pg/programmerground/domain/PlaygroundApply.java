@@ -38,18 +38,18 @@ public class PlaygroundApply extends BaseTimeEntity {
 
     @Column(name = "APPLY_STATUS")
     @Enumerated(EnumType.STRING)
-    private ApplyStatus applyYn;
+    private ApplyStatus applyStatus;
 
     @Builder
-    public PlaygroundApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition, ApplyStatus applyYn) {
+    public PlaygroundApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition, ApplyStatus applyStatus) {
         Assert.notNull(user, "user must not be null");
         Assert.notNull(playground, "playground must not be null");
         Assert.notNull(playgroundPosition, "playgroundPosition must not be null");
-        Assert.notNull(applyYn, "applyYn must not be null");
+        Assert.notNull(applyStatus, "applyStatus must not be null");
         this.user = user;
         this.playground = playground;
         this.playgroundPosition = playgroundPosition;
-        this.applyYn = applyYn;
+        this.applyStatus = applyStatus;
     }
 
     /**
@@ -58,7 +58,7 @@ public class PlaygroundApply extends BaseTimeEntity {
      */
     public void acceptApply(OAuthUser user) {
         this.playground.isLeaderUser(user);
-        this.applyYn = ApplyStatus.ACCEPT;
+        this.applyStatus = ApplyStatus.ACCEPT;
         this.playgroundPosition.increaseMemberNum();
         this.playground.increaseMemberNum();
     }
@@ -68,7 +68,7 @@ public class PlaygroundApply extends BaseTimeEntity {
      */
     public void rejectApply(OAuthUser user) {
         this.playground.isLeaderUser(user);
-        this.applyYn = ApplyStatus.REJECT;
+        this.applyStatus = ApplyStatus.REJECT;
     }
     /**
      * Playground 생성시 리더의 포지션을 넣기 위한 함수
@@ -78,7 +78,7 @@ public class PlaygroundApply extends BaseTimeEntity {
                 .user(user)
                 .playground(playground)
                 .playgroundPosition(playgroundPosition)
-                .applyYn(ApplyStatus.ACCEPT)       //리더는 포지션에 넣음
+                .applyStatus(ApplyStatus.ACCEPT)       //리더는 포지션에 넣음
                 .build();
         playgroundPosition.increaseMember();        //Position 증가
         user.getApplyPlaygrounds().add(playgroundApply);
@@ -106,7 +106,7 @@ public class PlaygroundApply extends BaseTimeEntity {
                 .user(user)
                 .playground(playground)
                 .playgroundPosition(playgroundPosition)
-                .applyYn(ApplyStatus.WAIT)
+                .applyStatus(ApplyStatus.WAIT)
                 .build();
         //양방향 관계 매핑
         user.getApplyPlaygrounds().add(playgroundApply);
@@ -118,14 +118,14 @@ public class PlaygroundApply extends BaseTimeEntity {
      * 해당 Playground에 이미 참여중인지 판별
      */
     public boolean isAlreadyMember(OAuthUser user) {
-        return this.user.equals(user) && this.applyYn != ApplyStatus.REJECT;
+        return this.user.equals(user) && this.applyStatus != ApplyStatus.REJECT;
     }
 
     /**
      * Playground에 참가중인가
      */
     public boolean isAcceptApply() {
-        return this.applyYn == ApplyStatus.ACCEPT;
+        return this.applyStatus == ApplyStatus.ACCEPT;
     }
 
     @Override

@@ -31,13 +31,13 @@ public class NoticeService {
     }
 
     public UserApplyNoticeListResponse getUserStatusNoticeList(Long userId, String status) {
-        List<String> statusList;
+        List<ApplyStatus> statusList;
         switch (status) {
             case "wait":
-                statusList = new ArrayList<>(Collections.singletonList(ApplyStatus.WAIT.name()));
+                statusList = new ArrayList<>(Collections.singletonList(ApplyStatus.WAIT));
                 break;
             case "result":
-                statusList = new ArrayList<>(Arrays.asList(ApplyStatus.ACCEPT.name(), ApplyStatus.REJECT.name()));
+                statusList = new ArrayList<>(Arrays.asList(ApplyStatus.ACCEPT, ApplyStatus.REJECT));
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + status);

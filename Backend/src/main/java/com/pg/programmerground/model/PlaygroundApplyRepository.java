@@ -1,6 +1,7 @@
 package com.pg.programmerground.model;
 
 import com.pg.programmerground.domain.PlaygroundApply;
+import com.pg.programmerground.domain.enumerated.ApplyStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -17,7 +18,7 @@ public interface PlaygroundApplyRepository extends JpaRepository<PlaygroundApply
                 "JOIN pa.playground p " +
                 "JOIN pa.playgroundPosition pp " +
             "WHERE p.leader.id = :leaderUserId " +
-                "AND pa.applyYn = 'WAIT'")
+                "AND pa.applyStatus = 'WAIT'")
     List<PlaygroundApply> findPlaygroundApplyByLeader(@Param("leaderUserId")Long leaderUserId);
 
     /**
@@ -28,7 +29,8 @@ public interface PlaygroundApplyRepository extends JpaRepository<PlaygroundApply
             "FROM PlaygroundApply pa " +
                 "JOIN pa.playground p " +
                 "JOIN pa.playgroundPosition pp " +
-            "WHERE pa.applyYn IN :status " +
-                "AND p.leader.id <> :userId")
-    List<PlaygroundApply> findPlaygroundApplyByOAuthUserAndStatus(@Param("userId")Long userId, @Param("status")List<String> status);
+            "WHERE pa.applyStatus IN :status " +
+                "AND p.leader.id <> :userId " +
+                "AND pa.user.id = :userId")
+    List<PlaygroundApply> findPlaygroundApplyByOAuthUserAndStatus(@Param("userId")Long userId, @Param("status")List<ApplyStatus> status);
 }
