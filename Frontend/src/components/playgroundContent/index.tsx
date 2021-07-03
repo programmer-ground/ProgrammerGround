@@ -30,7 +30,6 @@ const PlaygroundContent = ({
 	const createModalFunc = async (playgroundId: number, event: any) => {
 		setOpenState(true);
 		const onePlayground = await getOnePlayground(playgroundId);
-		console.log(onePlayground);
 	};
 	return (
 		<>

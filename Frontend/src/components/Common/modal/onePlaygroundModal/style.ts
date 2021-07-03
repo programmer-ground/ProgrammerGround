@@ -27,3 +27,17 @@ export const ModalClose = styled.div`
 	border-radius: 10px;
 	margin: 20px 10px 0 0;
 `;
+
+export const ModalHeader = styled.header`
+	width: 100%;
+	height: 50px;
+	display: flex;
+	justify-content: space-between;
+	margin: 0 auto;
+`;
+
+export const ModalTitle = styled.div`
+	font-size: 30px;
+	margin-top: 20px;
+	box-sizing: border-box;
+`;
