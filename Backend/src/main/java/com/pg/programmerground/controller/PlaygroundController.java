@@ -74,4 +74,29 @@ public class PlaygroundController {
     public ResponseEntity<ApiResponse<Integer>> deletePlayground(@PathVariable Long playgroundId) {
         return ResponseEntity.ok().body(new ApiResponse<>(null));
     }
+
+    /**
+     * Playground 레포 생성 요청
+     * TODO : 응답 값 객체 만들 예정
+     */
+    @PostMapping("/{playgroundId}/repo")
+    public ResponseEntity<?> createPlaygroundGithubRepo(
+        @PathVariable Long playgroundId,
+        @Valid @RequestBody String repoTitle) {
+
+//        return ResponseEntity.ok()
+//            .body(new ApiResponse<>(playgroundService.createPlaygroundGithubRepo(playgroundId, repoTitle)));
+        return ResponseEntity.ok().body(playgroundService.createPlaygroundGithubRepo(playgroundId, repoTitle));
+    }
+
+    /**
+     * 생성된 Github Repo에 Playground Member를 Collaborator로 등록
+     * TODO : 응답 값 및 에러 수정 필요
+     */
+    @PutMapping("/{playgroundId}/collaborators")
+    public ResponseEntity<?> applyCollaborators(
+        @PathVariable Long playgroundId,
+        @Valid @RequestBody String repoTitle) {
+        return ResponseEntity.ok().body(playgroundService.applyCollaboratorPlaygroundGithubRepo(playgroundId, repoTitle));
+    }
 }

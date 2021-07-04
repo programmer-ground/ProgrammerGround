@@ -33,6 +33,11 @@ spring:
     jwt-token:
       secret-key: awdsd
 
+github:
+  token: "bearer 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"
+  org-url : "https://api.github.com/orgs/programmer-ground"
+  org-repo-url : "https://api.github.com/repos/programmer-ground"
+
   servlet:
     multipart:
       max-file-size: 1MB

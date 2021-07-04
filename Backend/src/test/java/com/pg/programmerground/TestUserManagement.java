@@ -1,5 +1,6 @@
 package com.pg.programmerground;
 
+import com.pg.programmerground.config.GithubBotConfig;
 import com.pg.programmerground.domain.OAuthUser;
 import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
 import com.pg.programmerground.domain.github.UserGithubInfo;
@@ -15,6 +16,10 @@ import javax.transaction.Transactional;
 public class TestUserManagement {
     private static final Long GITHUB_ID = 1234L;
     private static final Long GITHUB_ID2 = 12345L;
+    private static final Long GITHUB_BOT_ID = 83174448L;
+
+    @Autowired
+    private GithubBotConfig githubBotConfig;
     @Autowired
     private OAuthUserRepository oAuthUserRepository;
     @Autowired
@@ -69,6 +74,33 @@ public class TestUserManagement {
         userGithubInfoRepository.save(userGithubInfo2);
         oauth2AuthorizedClientRepository.save(oauth2AuthorizedClient2);
         oAuthUserRepository.save(oAuthUser2);
+    }
+
+    @Transactional
+    public void saveGithubRepoBotUser() {
+        Oauth2AuthorizedClient oauth2AuthorizedClient = Oauth2AuthorizedClient.builder()
+            .id(GITHUB_BOT_ID)
+            .clientRegistrationId("github")
+            .accessTokenScopes("read:user")
+            .accessTokenType("Bearer")
+            .accessTokenValue(githubBotConfig.getToken())
+            .build();
+        UserGithubInfo userGithubInfo = UserGithubInfo.builder()
+            .commitCnt(0)
+            .pullRequestCnt(0)
+            .repositoryCnt(0)
+            .build();
+        OAuthUser oAuthUser = OAuthUser.builder()
+            .userName("test")
+            .OAuthName("test")
+            .Role("ROLE_USER,SCOPE_read:user")
+            .oauth2AuthorizedClient(oauth2AuthorizedClient)
+            .userGithubInfo(userGithubInfo)
+            .build();
+
+        userGithubInfoRepository.save(userGithubInfo);
+        oauth2AuthorizedClientRepository.save(oauth2AuthorizedClient);
+        oAuthUserRepository.save(oAuthUser);
     }
 
     @Transactional
