@@ -1,9 +1,11 @@
 package com.pg.programmerground.service;
 
+import com.pg.programmerground.config.GithubBotConfig;
 import com.pg.programmerground.domain.OAuthUser;
 import com.pg.programmerground.domain.Playground;
 import com.pg.programmerground.domain.PlaygroundApply;
 import com.pg.programmerground.domain.PlaygroundPosition;
+import com.pg.programmerground.dto.UploadImg;
 import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
 import com.pg.programmerground.dto.playground.response.PlaygroundCardResponse;
@@ -11,24 +13,17 @@ import com.pg.programmerground.dto.playground.response.PlaygroundResponse;
 import com.pg.programmerground.model.OAuthUserRepository;
 import com.pg.programmerground.model.PlaygroundApplyRepository;
 import com.pg.programmerground.model.PlaygroundRepository;
-import com.pg.programmerground.config.GithubBotConfig;
+import com.pg.programmerground.service.upload.PlaygroundMainImgStore;
 import com.pg.programmerground.util.GithubHttpUtil;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.NoSuchElementException;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.util.*;
 
 @Service
 @Transactional(readOnly = true)
