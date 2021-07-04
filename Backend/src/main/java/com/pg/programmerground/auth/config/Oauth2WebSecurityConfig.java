@@ -29,6 +29,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     new AntPathRequestMatcher("/configuration/**"),
                     new AntPathRequestMatcher("/swagger-resources/**"),
                     new AntPathRequestMatcher("/v2/api-docs"),
+                    new AntPathRequestMatcher("/images/**"),
                     new AntPathRequestMatcher("/webjars/**"),
                     new AntPathRequestMatcher("/webjars/springfox-swagger-ui/*.{js,css}"));        //인증안할 것들 넣기
 

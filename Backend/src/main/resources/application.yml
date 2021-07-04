@@ -33,6 +33,10 @@ spring:
     jwt-token:
       secret-key: awdsd
 
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 10MB
   #logging:
   #  level
   #    org.hibernate.SQL: debug
@@ -40,6 +44,12 @@ spring:
 
 server:
   port: 8080
+
+#이미지 파일 저장 경로 설정 각자 컴퓨터에 맞게 설정
+file:
+  dir: /Users/jaewoochoi/Desktop/image
+  playground-main-img: /pgmainimg/ #image/pgmainimg 만들 것
+  playground-description-img: /pgdesimg/  #image/pgdesimg 만들 것
 ---
 
 ---
@@ -55,12 +65,17 @@ spring:
   jpa:
     hibernate:
       #옵션 create, update, none, create-drop, validate 있음
-      ddl-auto: create-drop
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         format_sql: true
+    show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 10MB
 
   security:
     jwt-token:
@@ -68,4 +83,10 @@ spring:
 
 server:
   port: 9000
+
+file:
+  dir: /Users/jaewoochoi/Desktop/image
+  playground-main-img: /pgmainimg/
+  playground-description-img: /pgdesimg/
+
 ---

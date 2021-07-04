@@ -4,6 +4,7 @@ import com.pg.programmerground.domain.OAuthUser;
 import com.pg.programmerground.domain.Playground;
 import com.pg.programmerground.domain.PlaygroundApply;
 import com.pg.programmerground.domain.PlaygroundPosition;
+import com.pg.programmerground.dto.UploadImg;
 import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
 import com.pg.programmerground.dto.playground.response.PlaygroundCardResponse;
@@ -11,10 +12,11 @@ import com.pg.programmerground.dto.playground.response.PlaygroundResponse;
 import com.pg.programmerground.model.OAuthUserRepository;
 import com.pg.programmerground.model.PlaygroundApplyRepository;
 import com.pg.programmerground.model.PlaygroundRepository;
+import com.pg.programmerground.service.upload.PlaygroundMainImgStore;
 import lombok.RequiredArgsConstructor;
-import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -26,7 +28,7 @@ public class PlaygroundService {
     private final PlaygroundRepository playgroundRepository;
     private final PlaygroundApplyRepository playgroundApplyRepository;
     private final OAuthUserRepository oAuthUserRepository;
-    private final ModelMapper modelMapper;
+    private final PlaygroundMainImgStore playgroundMainImgStore;
 
     /**
      * 메인 페이지 playground card 목록 가져오기
@@ -39,13 +41,15 @@ public class PlaygroundService {
      * Playground 생성
      */
     @Transactional
-    public Long createPlayground(PlaygroundApi playgroundInfo) throws Exception {
+    public Long createPlayground(MultipartFile mainImg, PlaygroundApi playgroundInfo) throws Exception {
         //로그인 유저 가져오기
         OAuthUser leaderUser = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
+        //Playground 메인 이미지 업로드
+        UploadImg uploadMainImg = playgroundMainImgStore.storeFile(mainImg);
         //Playground Position 객체 리스트 만들기
         List<PlaygroundPosition> playgroundPositionList = PlaygroundPosition.createPosition(playgroundInfo);
         //Playground 생성
-        Playground playground = Playground.createPlayground(playgroundInfo, leaderUser, playgroundPositionList);
+        Playground playground = Playground.createPlayground(playgroundInfo, uploadMainImg, leaderUser, playgroundPositionList);
         //리더 포지션 검색
         PlaygroundPosition leaderPosition = PlaygroundPosition.searchLeaderPosition(playgroundPositionList, playgroundInfo.getLeaderPosition());
         //리더도 Position에 포함되야하므로 PlaygroundApply 객체를 만든다.

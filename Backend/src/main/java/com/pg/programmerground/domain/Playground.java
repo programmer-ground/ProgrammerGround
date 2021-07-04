@@ -1,7 +1,7 @@
 package com.pg.programmerground.domain;
 
 import com.pg.programmerground.domain.common.BaseTimeEntity;
-import com.pg.programmerground.domain.enumerated.ApplyStatus;
+import com.pg.programmerground.dto.UploadImg;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
 import com.pg.programmerground.exception.FullMemberException;
 import com.pg.programmerground.exception.IncorrectUserException;
@@ -36,6 +36,12 @@ public class Playground extends BaseTimeEntity {
     @Column(name = "DESCRIPTION")
     private String description;
 
+    @Column(name = "MAIN_IMG_NAME")
+    private String mainImgName;
+
+    @Column(name = "MAIN_IMG_UPLOAD_NAME")
+    private String mainImgUploadName;
+
     @OneToMany(mappedBy = "playground", cascade = CascadeType.ALL, orphanRemoval = true)
     private final List<PlaygroundApply> applyPlaygrounds = new ArrayList<>();
 
@@ -47,10 +53,12 @@ public class Playground extends BaseTimeEntity {
     private List<PlaygroundPosition> playgroundPositionList = new ArrayList<>();
 
     @Builder
-    private Playground(int maxMemberCount, String title, String description) {
+    private Playground(int maxMemberCount, String title, String description, String mainImgName, String mainImgUploadName) {
         this.maxMemberCount = maxMemberCount;
         this.title = title;
         this.description = description;
+        this.mainImgName = mainImgName;
+        this.mainImgUploadName = mainImgUploadName;
     }
 
     /**
@@ -58,12 +66,14 @@ public class Playground extends BaseTimeEntity {
      * playground 정보 builer로 생성
      * playground 객체에 oAuthUser가 등록된 연관 객체(oAuthUserPlayground) 등록
      */
-    public static Playground createPlayground(PlaygroundApi playgroundApi, OAuthUser leader, List<PlaygroundPosition> playgroundPositionList) {
+    public static Playground createPlayground(PlaygroundApi playgroundApi, UploadImg uploadMainImg, OAuthUser leader, List<PlaygroundPosition> playgroundPositionList) {
         Playground.checkMaxMemberNumWithPosition(playgroundApi, playgroundPositionList);
         Playground playground = Playground.builder()
                 .title(playgroundApi.getTitle())
                 .description(playgroundApi.getDescription())
                 .maxMemberCount(playgroundApi.getMaxUserNum())
+                .mainImgName(uploadMainImg.getOriginalFileName())
+                .mainImgUploadName(uploadMainImg.getStoreFileName())
                 .build();
         playgroundPositionList.forEach(playground::addPosition);
         playground.addLeader(leader);

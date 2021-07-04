@@ -11,15 +11,11 @@ import com.pg.programmerground.service.PlaygroundService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
-import java.io.File;
-import java.io.IOException;
-import java.util.List;
 
 @Slf4j
 @RestController
@@ -37,12 +33,10 @@ public class PlaygroundController {
         return ResponseEntity.ok().body(new ApiResponse<>(new PlaygroundCardListResponse(playgroundService.getPlaygroundCardList())));
     }
 
-    /**
-     * playground 생성
-     */
+    @ApiOperation(value = "Playground 생성", notes = "Playground 생성 요청")
     @PostMapping("")
-    public ResponseEntity<ApiResponse<Long>> createPlayground(@Valid @RequestBody PlaygroundApi info) throws Exception {
-        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.createPlayground(info)));
+    public ResponseEntity<ApiResponse<Long>> createPlayground(@RequestPart(required = false) MultipartFile mainImg, @Valid @RequestPart PlaygroundApi info) throws Exception {
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.createPlayground(mainImg, info)));
     }
 
     @ApiOperation(value = "Playground 참가 신청", notes = "Playground 참가 신청 요청")
