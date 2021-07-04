@@ -1,7 +1,8 @@
 ---
 # Suung Profile YAML
 spring:
-  profiles: seansin-local
+  profiles:
+    active: seansin-local
     # 자신의 환경에 맞게 active 하면됌.
 
   datasource:
@@ -33,11 +34,15 @@ spring:
     jwt-token:
       secret-key: awdsd
 
+github:
+  token: "bearer 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"
+  org-url : "https://api.github.com/orgs/programmer-ground"
+  org-repo-url : "https://api.github.com/repos/programmer-ground"
+
   #logging:
   #  level
   #    org.hibernate.SQL: debug
   #    org.hibernate.type: trace
-
 server:
   port: 8080
 ---
@@ -45,8 +50,7 @@ server:
 ---
 # Jeawoo Profile YAML
 spring:
-  profiles:
-    active: jeawoo-local
+  profiles: jeawoo-local
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/auth?serverTimezone=UTC&characterEncoding=UTF-8

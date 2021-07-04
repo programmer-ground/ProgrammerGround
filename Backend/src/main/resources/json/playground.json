@@ -118,5 +118,11 @@
         ]
       }
     ]
-  }
+  },
+  "create_org_repo": {
+    "name": "pg-test-repo",
+    "description": "test-repo",
+    "homepage": "https://github.com",
+    "private": false
+    }
 }
