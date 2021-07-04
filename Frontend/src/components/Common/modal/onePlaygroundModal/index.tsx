@@ -1,12 +1,12 @@
 import React from 'react';
-import { changeModalMode } from '@src/store/modules/modal';
+import { playgroundModalMode } from '@src/store/modules/modal';
 import useShow from '@src/hooks/useShow';
 import * as StyledComponent from './style';
 
 const OnePlaygroundModal = () => {
 	const [show, dispatch] = useShow();
 	const closeHandler = () => {
-		console.log('1');
+		dispatch(playgroundModalMode());
 	};
 	return (
 		<>
