@@ -5,23 +5,32 @@
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable array-callback-return */
 // @ts-nocheck
-import React, { useState, useEffect, useLayoutEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Header from '@src/components/header';
 import SearchBar from '@src/components/searchBar';
 import Bone from '@src/components/Common/bone';
+import { useDispatch, useSelector } from 'react-redux';
 import PlaygroundContent from '@src/components/playgroundContent';
-import { getAllPlaygrounds } from '@src/lib/axios/playground';
+import { getAllPlaygrounds, getOnePlayground } from '@src/lib/axios/playground';
 import useShow from '@src/hooks/useShow';
+import OnePlaygroundModal from '@src/components/Common/modal/onePlaygroundModal';
+import { RootState } from '@src/store/modules';
+import { getAllPlayground } from '@src/store/modules/Playground';
 import * as StyledComponent from './style';
 
 const PlayGroundPage = () => {
 	const [show, dispatch] = useShow();
 	const [playgrounds, setPlaygrounds] = useState([]);
+	const { playgroundShow } = useSelector(
+		(state: RootState) => state.modalReducer,
+	);
+
 	useEffect(() => {
 		const fetchData = async () => {
 			try {
 				const data = await getAllPlaygrounds();
 				setPlaygrounds(data.playground_card);
+				dispatch(getAllPlayground(data));
 			} catch (e) {
 				console.log(e);
 			}
@@ -54,6 +63,7 @@ const PlayGroundPage = () => {
 					})}
 				</StyledComponent.PlayGroundContainer>
 			</StyledComponent.mainContainer>
+			{playgroundShow ? <OnePlaygroundModal /> : ''}
 		</>
 	);
 };

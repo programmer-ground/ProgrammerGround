@@ -4,12 +4,12 @@
 /* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 import useShow from '@src/hooks/useShow';
-
-import OnePlaygroundModal from '@src/components/Common/modal/onePlaygroundModal';
-import { getOnePlayground } from '@src/lib/axios/playground';
 import { useDispatch, useSelector } from 'react-redux';
-import { playgroundModalMode } from '@src/store/modules/modal';
 import { RootState } from '@src/store/modules';
+
+import { playgroundModalMode } from '@src/store/modules/modal';
+import { getOnePlayground } from '@src/lib/axios/playground';
+import { getOnePlaygroundItem } from '@src/store/modules/Playground';
 import * as StyledComponent from './style';
 
 interface Playground {
@@ -31,14 +31,12 @@ const PlaygroundContent = ({
 	personnel,
 	language,
 }: Playground) => {
-	const [openState, setOpenState] = useState(false);
 	const [show, dispatch] = useShow();
-	const { playgroundShow } = useSelector(
-		(state: RootState) => state.modalReducer,
-	);
+
 	const createModalFunc = async (playgroundId: number, event: any) => {
 		dispatch(playgroundModalMode());
-		const onePlayground = await getOnePlayground(playgroundId);
+		const data = await getOnePlayground(playgroundId);
+		dispatch(getOnePlaygroundItem(data));
 	};
 	return (
 		<>
@@ -68,7 +66,6 @@ const PlaygroundContent = ({
 					})}
 				</StyledComponent.PlaygroundTechListContainer>
 			</StyledComponent.PlaygroundContent>
-			{playgroundShow ? <OnePlaygroundModal /> : ''}
 		</>
 	);
 };

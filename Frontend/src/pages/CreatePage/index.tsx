@@ -28,7 +28,6 @@ const CreatePage = () => {
 	const [show, dispatch] = useShow();
 	const history = useHistory();
 	const { position } = useSelector((state: RootState) => state.positionReducer);
-	const [totalPersonNumber, setTotalPerson] = useState(0);
 	const [loading, setLoading] = useState(false);
 	// 프로젝트 이름
 	const [title, setTitle] = useState('');
@@ -67,6 +66,7 @@ const CreatePage = () => {
 			...obj,
 			position,
 		};
+		console.log(result);
 		const create = async () => {
 			try {
 				setLoading(true);
