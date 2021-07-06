@@ -30,7 +30,6 @@ const PlayGroundPage = () => {
 			try {
 				const data = await getAllPlaygrounds();
 				setPlaygrounds(data.playground_card);
-				dispatch(getAllPlayground(data));
 			} catch (e) {
 				console.log(e);
 			}

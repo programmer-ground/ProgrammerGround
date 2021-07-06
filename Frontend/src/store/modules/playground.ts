@@ -25,15 +25,7 @@ export interface PlaygroundState {
 	onePlayground: Playground;
 }
 const initialState = {
-	playground: [
-		{
-			id: 0,
-			description: '',
-			maxUserNum: 0,
-			userInfoList: [],
-			title: '',
-		},
-	],
+	playground: [],
 	onePlayground: {
 		id: 0,
 		description: '',

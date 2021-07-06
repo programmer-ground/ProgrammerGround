@@ -1,8 +1,6 @@
 import React from 'react';
 import { playgroundModalMode } from '@src/store/modules/modal';
 import useShow from '@src/hooks/useShow';
-import { getAllPlaygrounds, getOnePlayground } from '@src/lib/axios/playground';
-import { getAllPlayground } from '@src/store/modules/Playground';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@src/store/modules';
 import * as StyledComponent from './style';
@@ -13,6 +11,7 @@ const OnePlaygroundModal = () => {
 		(state: RootState) => state.playgroundReducer,
 	);
 	const closeHandler = async () => {
+		console.log(onePlayground);
 		dispatch(playgroundModalMode());
 	};
 	return (
@@ -22,12 +21,21 @@ const OnePlaygroundModal = () => {
 					<StyledComponent.ModalHeader>
 						<StyledComponent.ModalTitle>
 							{onePlayground.title}
-							{onePlayground.description}
 						</StyledComponent.ModalTitle>
 						<StyledComponent.ModalClose onClick={closeHandler}>
 							&times;
 						</StyledComponent.ModalClose>
 					</StyledComponent.ModalHeader>
+					<StyledComponent.ModalInputItem>
+						<span className="project_title">프로젝트 생성일</span>
+						<span className="project_date" />
+					</StyledComponent.ModalInputItem>
+					<StyledComponent.ModalInputItem>
+						<span className="project_title">프로젝트 설명</span>
+						<span className="project_description">
+							{onePlayground.description}
+						</span>
+					</StyledComponent.ModalInputItem>
 				</StyledComponent.ModalContent>
 			</StyledComponent.ModalContainer>
 		</>
