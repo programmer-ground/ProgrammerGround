@@ -5,54 +5,80 @@ import colorType from '@src/utils/color';
 export const CreateContainer = styled.div`
 	display: flex;
 	box-sizing: border-box;
-	width: 50%;
+	width: 80%;
 	flex-direction: column;
 	border: 3px solid ${colorType.gray};
 	border-radius: 10px;
-	align-items: center;
-	margin: 90px auto;
+	margin: 0 auto;
 `;
 
-export const CreateSubTitle = styled.h1`
-	font-size: 30px;
-	line-height: 38px;
-	text-align: center;
+export const CreateSubTitle = styled.div`
+	display: flex;
+	justify-content: center;
+	.create_project_title {
+		font-size: 30px;
+		line-height: 38px;
+		text-align: center;
+	}
+	.create_comment_title {
+		margin: 30px 0 0 20px;
+		font-size: 15px;
+		line-height: 22px;
+		letter-spacing: -0.3px;
+		color: #999;
+	}
 `;
 
 export const CreateNameDiv = styled.div`
-	width: 100%;
 	display: flex;
 	justify-content: center;
-	& > label {
-		font-size: 20px;
-		line-height: 24px;
+	&:not(:first-child) {
+		margin-top: 20px;
 	}
-	& input {
-		margin-left: 10px;
+	.project_text_name {
 		font-size: 20px;
 		line-height: 24px;
 		width: 34%;
-		border: 3px solid ${colorType.gray};
+		border: none;
+		border-bottom: 1px solid #707070;
+		&:focus {
+			outline: none;
+		}
+		&::placeholder {
+			color: #f00;
+			font-size: 15px;
+			font-weight: bold;
+			line-height: 22px;
+		}
 	}
-	& input:focus {
-		outline: none;
+	&:first-child .project_label_name {
+		margin-top: 5px;
 	}
-`;
+	.project_label_name {
+		width: 130px;
+		display: block;
+		text-align: center;
+		font-size: 20px;
+		line-height: 24px;
+	}
 
-export const ProjectLabel = styled.label.attrs((props) => {})`
-	display: block;
-	text-align: center;
-	margin-top: 5px;
-	font-size: 20px;
-	line-height: 24px;
-`;
+	.project_editor_text {
+		width: 34%;
+		margin: 0;
+		padding: 0;
+		height: 300px;
+		border: 1px solid #707070;
+		color: #f00;
+		overflow-y: auto;
+	}
 
-export const CreateContent = styled.div`
-	width: 54%;
-	margin: 0 auto;
-	height: 300px;
-	border: 3px solid ${colorType.gray};
-	overflow-y: auto;
+	.project_position {
+		width: 34%;
+		border: none;
+		font-weight: bold;
+		border-bottom: 1px solid #707070;
+		color: #f00;
+	}
 `;
 
 export const CreateContentContainer = styled.div`
@@ -79,8 +105,30 @@ export const CreateImageButton = styled.button`
 `;
 
 export const PersonNumberLength = styled.span`
-	display: block;
+	display: flex;
+	justify-content: center;
 	text-align: center;
+	margin-top: 20px;
+	font-size: 20px;
+	line-height: 24px;
+
+	.person_max_text {
+		display: inline-block;
+		width: 130px;
+	}
+
+	.person_number_info {
+		margin-left: 21%;
+	}
+
+	.person_number {
+		margin-left: 59px;
+		color: #dbdbdb;
+	}
+
+	.person_unit {
+		display: inline-block;
+	}
 `;
 
 export const CreateLeaderPosition = styled.div`
