@@ -12,18 +12,18 @@ import Bone from '@src/components/Common/bone';
 import { useDispatch, useSelector } from 'react-redux';
 import PlaygroundContent from '@src/components/playgroundContent';
 import { getAllPlaygrounds, getOnePlayground } from '@src/lib/axios/playground';
-import useShow from '@src/hooks/useShow';
 import OnePlaygroundModal from '@src/components/Common/modal/onePlaygroundModal';
 import { RootState } from '@src/store/modules';
-import { getAllPlayground } from '@src/store/modules/Playground';
+import { throttling } from '@src/utils/throttle';
 import * as StyledComponent from './style';
 
 const PlayGroundPage = () => {
-	const [result, setResult] = useState([]);
-	const [item, setItem] = useState([]);
+	const [result, setResult] = useState<any[] | any>([]);
+	const [item, setItem] = useState<any[] | any>([]);
 	const { playgroundShow } = useSelector(
 		(state: RootState) => state.modalReducer,
 	);
+
 	const infiniteScroll = () => {
 		const scrollHeight = Math.max(
 			document.documentElement.scrollHeight,
@@ -37,7 +37,8 @@ const PlayGroundPage = () => {
 		const { clientHeight } = document.documentElement;
 
 		if (scrollTop + clientHeight >= scrollHeight) {
-			fetchMoreData();
+			const throttler = throttling();
+			throttler.throttle(fetchMoreData, 500);
 		}
 	};
 
@@ -57,6 +58,7 @@ const PlayGroundPage = () => {
 		setResult(result.concat(item.slice(0, 15)));
 		setItem(item.slice(15));
 	};
+
 	useEffect(() => {
 		fetchData();
 	}, []);
