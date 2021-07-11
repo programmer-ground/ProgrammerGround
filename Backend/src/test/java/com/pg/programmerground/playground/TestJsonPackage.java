@@ -4,6 +4,7 @@ package com.pg.programmerground.playground;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
+import com.pg.programmerground.dto.playground.api_req.PlaygroundBotApi;
 import org.springframework.core.io.ClassPathResource;
 
 import java.io.IOException;
@@ -27,6 +28,9 @@ public class TestJsonPackage {
     PlaygroundApi leaderPosition;
     @JsonProperty("apply_position")
     PlaygroundApi applyPosition;
+    @JsonProperty("create_org_repo")
+    PlaygroundBotApi createOrgRepo;
+
     /**
      * Json To DTO
      */

@@ -1,8 +1,5 @@
 package com.pg.programmerground.playground;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-
 import com.pg.programmerground.TestUserManagement;
 import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.config.GithubBotConfig;
@@ -12,26 +9,22 @@ import com.pg.programmerground.model.PlaygroundRepository;
 import com.pg.programmerground.service.GithubRestService;
 import com.pg.programmerground.service.OAuthUserService;
 import com.pg.programmerground.service.PlaygroundService;
-import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpMethod;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -92,7 +85,7 @@ public class PlayGroundBotTest {
   public void playground_leader_request_create_github_repo() throws Exception {
     //given
     PlaygroundApi playgroundApi = dtoList.createPlayground;
-    Long playgroundId = playgroundService.createPlayground(playgroundApi);
+    Long playgroundId = playgroundService.createPlayground(null, playgroundApi);
     Playground playground = playgroundRepository.findById(playgroundId).orElseThrow();
 
     //when

@@ -48,8 +48,6 @@ public class TestUserManagement {
                 .userGithubInfo(userGithubInfo)
                 .build();
 
-        userGithubInfoRepository.save(userGithubInfo);
-        oauth2AuthorizedClientRepository.save(oauth2AuthorizedClient);
         oAuthUserRepository.save(oAuthUser);
 
         Oauth2AuthorizedClient oauth2AuthorizedClient2 = Oauth2AuthorizedClient.builder()
@@ -71,9 +69,8 @@ public class TestUserManagement {
                 .userGithubInfo(userGithubInfo2)
                 .build();
 
-        userGithubInfoRepository.save(userGithubInfo2);
-        oauth2AuthorizedClientRepository.save(oauth2AuthorizedClient2);
         oAuthUserRepository.save(oAuthUser2);
+
     }
 
     @Transactional
@@ -106,6 +103,7 @@ public class TestUserManagement {
     @Transactional
     public void deleteTestUser() {
         oAuthUserRepository.delete(oauth2AuthorizedClientRepository.findById(1234L).orElseThrow().getUser());
+        oAuthUserRepository.delete(oauth2AuthorizedClientRepository.findById(12345L).orElseThrow().getUser());
     }
 
 }

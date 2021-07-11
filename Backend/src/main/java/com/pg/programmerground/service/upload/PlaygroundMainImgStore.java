@@ -15,7 +15,7 @@ public class PlaygroundMainImgStore extends FileStore{
     }
 
     /**
-     * 이미지 절대 경로
+     * 이미지
      */
     @Override
     public String getFullPath(String fileName) {

@@ -20,7 +20,7 @@ public class ControllerExceptionHandler {
         Map<String, Object> map = new HashMap<>();
         map.put("msg", e.getMessage());
         map.put("code", 10);
-        return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
     }
 
     /**
@@ -31,6 +31,14 @@ public class ControllerExceptionHandler {
         Map<String, Object> map = new HashMap<>();
         map.put("msg", e.getMessage());
         map.put("code", 11);
-        return new ResponseEntity<>(map, HttpStatus.INTERNAL_SERVER_ERROR);
+        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler(FileExtractException.class)
+    public ResponseEntity<Map<String, Object>> FileExtractExceptionHandler(FileExtractException e) {
+        Map<String, Object> map = new HashMap<>();
+        map.put("msg", e.getMessage());
+        map.put("code", 12);
+        return new ResponseEntity<>(map, HttpStatus.BAD_REQUEST);
     }
 }
