@@ -19,13 +19,8 @@ import { getAllPlayground } from '@src/store/modules/Playground';
 import * as StyledComponent from './style';
 
 const PlayGroundPage = () => {
-	const [show, dispatch] = useShow();
-	const [infiniteData, setInfiniteData] = useState({
-		playgroundList: [],
-		itemLength: 15,
-		prevIndex: 0,
-	});
-	const [playgrounds, setPlaygrounds] = useState([]);
+	const [result, setResult] = useState([]);
+	const [item, setItem] = useState([]);
 	const { playgroundShow } = useSelector(
 		(state: RootState) => state.modalReducer,
 	);
@@ -42,30 +37,25 @@ const PlayGroundPage = () => {
 		const { clientHeight } = document.documentElement;
 
 		if (scrollTop + clientHeight >= scrollHeight) {
-			setInfiniteData({
-				...infiniteData,
-				prevIndex: infiniteData.itemLength,
-				itemLength: infiniteData.itemLength + 15,
-			});
-			fetchData();
+			fetchMoreData();
 		}
 	};
 
 	const fetchData = async () => {
 		try {
 			const data = await getAllPlaygrounds();
-			const result = data.playground_card.slice(
-				infiniteData.prevIndex,
-				infiniteData.itemLength,
-			);
-			setInfiniteData({
-				...infiniteData,
-				playgroundList: [...infiniteData.playgroundList, ...result],
-			});
-			setPlaygrounds(infiniteData.playgroundList);
+			let response = data.playground_card;
+			setResult(response.slice(0, 15));
+			response = response.slice(15);
+			setItem(response);
 		} catch (e) {
 			console.log(e);
 		}
+	};
+
+	const fetchMoreData = async () => {
+		setResult(result.concat(item.slice(0, 15)));
+		setItem(item.slice(15));
 	};
 	useEffect(() => {
 		fetchData();
@@ -90,7 +80,7 @@ const PlayGroundPage = () => {
 					<StyledComponent.CreateLink>방 생성</StyledComponent.CreateLink>
 				</StyledComponent.SearchContainer>
 				<StyledComponent.PlayGroundContainer>
-					{infiniteData.playgroundList.map((v) => {
+					{result.map((v) => {
 						return (
 							<PlaygroundContent
 								key={Math.random() * 10000}
