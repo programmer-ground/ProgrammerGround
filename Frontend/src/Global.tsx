@@ -8,6 +8,10 @@ export const GlobalStyle = createGlobalStyle`
     padding:0;
     font-family: 'Do Hyeon', sans-serif;
   }
+
+  em{
+    font-style:normal;
+  }
   :root[color-theme='light'] {
     --background: #fff;
     --color: #000;

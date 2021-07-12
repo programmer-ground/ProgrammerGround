@@ -28,7 +28,6 @@ const CreatePage = () => {
 	const [show, dispatch] = useShow();
 	const history = useHistory();
 	const { position } = useSelector((state: RootState) => state.positionReducer);
-	const [totalPersonNumber, setTotalPerson] = useState(0);
 	const [loading, setLoading] = useState(false);
 	// 프로젝트 이름
 	const [title, setTitle] = useState('');
@@ -130,28 +129,47 @@ const CreatePage = () => {
 	return (
 		<StyledComponent.CreateContainer>
 			<StyledComponent.CreateSubTitle>
-				플레이 그라운드 생성 페이지
+				<h1 className="create_project_title">* 프로젝트 생성</h1>
+				<em className="create_comment_title">
+					- 아래의 필수 입력사항을 모두 입력해주세요
+				</em>
 			</StyledComponent.CreateSubTitle>
+
 			<form onSubmit={onSubmitHandler}>
 				<StyledComponent.CreateNameDiv>
-					<StyledComponent.ProjectLabel>
+					<label htmlFor="projectNameId" className="project_label_name">
 						프로젝트 이름
-					</StyledComponent.ProjectLabel>
+					</label>
 					<input
+						className="project_text_name"
+						id="projectNameId"
 						type="text"
 						onChange={titleFunc}
-						placeholder="프로젝트 이름을 입력하세요"
+						placeholder="최소 3자이상 입력하세요"
 					/>
 				</StyledComponent.CreateNameDiv>
-				<StyledComponent.ProjectLabel>
-					프로젝트 내용
-				</StyledComponent.ProjectLabel>
-				<StyledComponent.CreateContent>
-					<Editor onChange={descriptionFunc} defaultValue="Hello world!" />
-				</StyledComponent.CreateContent>
-				<StyledComponent.CreateLeaderPosition>
-					<label htmlFor="positionId">리더포지션</label>
-					<select name="position" id="positionId" onChange={leaderFunc}>
+				<StyledComponent.CreateNameDiv>
+					<label htmlFor="projectContentId" className="project_label_name">
+						프로젝트 설명
+					</label>
+					<div className="project_editor_text">
+						<Editor
+							id="projectContentId"
+							onChange={descriptionFunc}
+							defaultValue="Hello world!"
+						/>
+					</div>
+				</StyledComponent.CreateNameDiv>
+				<StyledComponent.CreateNameDiv>
+					<label htmlFor="positionId" className="project_label_name">
+						리더포지션
+					</label>
+					<select
+						name="position"
+						id="positionId"
+						className="project_position"
+						onChange={leaderFunc}
+					>
 						<option value="리더 포지션 선택">리더 포지션 선택</option>
 						<option value="BACKEND">BACKEND</option>
 						<option value="FRONTEND">FRONTEND</option>
@@ -159,7 +177,19 @@ const CreatePage = () => {
 						<option value="PLANNER">PLANNER</option>
 						<option value="DEVOPS">DEVOPS</option>
 					</select>
-				</StyledComponent.CreateLeaderPosition>
+				</StyledComponent.CreateNameDiv>
+				<StyledComponent.PersonNumberLength>
+					<span className="person_max_text">인원수</span>
+					<span className="person_number_info">
+						최대
+						<span className="person_number">
+							{position.reduce((acc, cur) => {
+								return acc + parseInt(cur.position_max_num);
+							}, 0)}
+						</span>
+						<span className="person_unit">명</span>
+					</span>
+				</StyledComponent.PersonNumberLength>
 				<StyledComponent.CreateLabel>
 					<StyledComponent.addButton onClick={plusPosition}>
 						추가하기
@@ -168,13 +198,6 @@ const CreatePage = () => {
 						삭제하기
 					</StyledComponent.removeButton>
 				</StyledComponent.CreateLabel>
-				<StyledComponent.PersonNumberLength>
-					최대
-					{position.reduce((acc, cur) => {
-						return acc + parseInt(cur.position_max_num);
-					}, 0)}
-					명
-				</StyledComponent.PersonNumberLength>
 
 				<StyledComponent.AttributeLabel>
 					<label htmlFor="position_id">포지션</label>
