@@ -8,7 +8,11 @@ export const GlobalStyle = createGlobalStyle`
     padding:0;
     font-family: 'Do Hyeon', sans-serif;
   }
-
+ 
+  h1{
+    margin:0;
+    padding:0;
+  }
   em{
     font-style:normal;
   }
