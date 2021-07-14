@@ -7,7 +7,7 @@ export const PlaygroundContent = styled.div`
 	width: 30%;
 	height: 100%;
 	background-color: #fff;
-	margin-top: 50px;
+	margin: 50px 0 0 20px;
 	box-shadow: 0px 4px 10px 0 rgb(0 0 0 / 10%);
 	cursor: pointer;
 	transition: 1s all;

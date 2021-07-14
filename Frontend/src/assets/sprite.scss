@@ -1,0 +1,86 @@
+
+$alarm-name: "alarm";
+$alarm-x: 65px;
+$alarm-y: 107px;
+$alarm-offset-x: -65px;
+$alarm-offset-y: -107px;
+$alarm-width: 32px;
+$alarm-height: 32px;
+$alarm-total-width: 598px;
+$alarm-total-height: 161px;
+$alarm-image: "./sprite.png";
+$alarm: (65px, 107px, -65px, -107px, 32px, 32px, 598px, 161px, "@src/assets/sprite.png", "alarm", );
+$programmerground-name: "programmerground";
+$programmerground-x: 0px;
+$programmerground-y: 0px;
+$programmerground-offset-x: 0px;
+$programmerground-offset-y: 0px;
+$programmerground-width: 598px;
+$programmerground-height: 102px;
+$programmerground-total-width: 598px;
+$programmerground-total-height: 161px;
+$programmerground-image: "@src/assets/sprite.png";
+$programmerground: (0px, 0px, 0px, 0px, 598px, 102px, 598px, 161px, "@src/assets/sprite.png", "programmerground", );
+$project-icon-name: "projectIcon";
+$project-icon-x: 102px;
+$project-icon-y: 107px;
+$project-icon-offset-x: -102px;
+$project-icon-offset-y: -107px;
+$project-icon-width: 24px;
+$project-icon-height: 24px;
+$project-icon-total-width: 598px;
+$project-icon-total-height: 161px;
+$project-icon-image: "@src/assets/sprite.png";
+$project-icon: (102px, 107px, -102px, -107px, 24px, 24px, 598px, 161px, "@src/assets/sprite.png", "projectIcon", );
+$search-image-name: "searchImage";
+$search-image-x: 0px;
+$search-image-y: 107px;
+$search-image-offset-x: 0px;
+$search-image-offset-y: -107px;
+$search-image-width: 60px;
+$search-image-height: 54px;
+$search-image-total-width: 598px;
+$search-image-total-height: 161px;
+$search-image-image: "@src/assets/sprite.png";
+$search-image: (0px, 107px, 0px, -107px, 60px, 54px, 598px, 161px, "@src/assets/sprite.png", "searchImage", );
+$spritesheet-width: 598px;
+$spritesheet-height: 161px;
+$spritesheet-image: "@src/assets/sprite.png";
+$spritesheet-sprites: ($alarm, $programmerground, $project-icon, $search-image, );
+$spritesheet: (598px, 161px, "@src/assets/sprite.png", $spritesheet-sprites, );
+
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+
+@mixin sprites($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite($sprite);
+    }
+  }
+}

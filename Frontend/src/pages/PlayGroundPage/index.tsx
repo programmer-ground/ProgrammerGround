@@ -76,9 +76,9 @@ const PlayGroundPage = () => {
 			<StyledComponent.mainContainer>
 				<StyledComponent.SearchContainer>
 					<SearchBar />
-					<StyledComponent.ModeContainer>
+					{/* <StyledComponent.ModeContainer>
 						<Bone />
-					</StyledComponent.ModeContainer>
+					</StyledComponent.ModeContainer> */}
 					<StyledComponent.CreateLink>방 생성</StyledComponent.CreateLink>
 				</StyledComponent.SearchContainer>
 				<StyledComponent.PlayGroundContainer>

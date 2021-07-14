@@ -5,6 +5,7 @@ import logo from '../../assets/programmerground.png';
 import projectIcon from '../../assets/projectIcon.png';
 import alarm from '../../assets/alarm.png';
 import user from '../../assets/user.png';
+import '@src/assets/sprite.scss';
 
 export const GlobalStyle = createGlobalStyle`
   body{
@@ -61,9 +62,9 @@ export const HeaderMenuContainer = styled.div`
 	}
 `;
 
-export const ProjectIcon = styled.img.attrs({
-	src: projectIcon,
-})``;
+export const ProjectIcon = styled.div`
+	@include sprite($projectIcon);
+`;
 
 export const AlarmIcon = styled.img.attrs({
 	src: alarm,

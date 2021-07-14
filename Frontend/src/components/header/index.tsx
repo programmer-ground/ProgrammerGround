@@ -1,5 +1,6 @@
 import React from 'react';
 import * as StyledComponent from './style';
+import './headerImage.scss';
 
 const Header = () => {
 	return (
@@ -10,7 +11,7 @@ const Header = () => {
 					<StyledComponent.HeaderImg />
 				</a>
 				<StyledComponent.HeaderMenuContainer>
-					<StyledComponent.ProjectIcon />
+					<div className="projection_icon" />
 					<StyledComponent.AlarmIcon />
 					<StyledComponent.ProfileIcon />
 				</StyledComponent.HeaderMenuContainer>

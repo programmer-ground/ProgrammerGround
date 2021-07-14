@@ -1,0 +1,6 @@
+@import '@src/assets/sprite.scss';
+
+.projection_icon{
+  @include sprite($project-icon);
+}
+

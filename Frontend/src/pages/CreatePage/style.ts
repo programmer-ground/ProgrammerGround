@@ -4,6 +4,11 @@ import colorType from '@src/utils/color';
 
 export const CreateContainer = styled.div`
 	padding: 30px 20px;
+	max-width: 768px;
+	background-color: #fff;
+	@media (min-width: 768px) {
+		margin: 0 auto;
+	}
 `;
 
 export const CreateSubTitle = styled.div`

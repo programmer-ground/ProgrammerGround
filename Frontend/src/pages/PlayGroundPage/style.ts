@@ -24,9 +24,11 @@ export const ModeContainer = styled.div`
 `;
 
 export const PlayGroundContainer = styled.div`
-	display: flex;
-	justify-content: space-between;
-	margin: 50px auto;
+	&:not(:nth-child(3n-1)){
+		margin:left:20px;
+	}
+  display: flex;
+	margin: 30px auto;
 	width: 80%;
 	height: 100%;
 	flex-wrap: wrap;
