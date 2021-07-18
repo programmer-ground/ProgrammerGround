@@ -28,24 +28,8 @@ export const PlayGroundContainer = styled.div`
 		margin:left:20px;
 	}
   display: flex;
-	margin: 30px auto;
+	margin: 100px auto;
 	width: 80%;
 	height: 100%;
 	flex-wrap: wrap;
-`;
-
-export const CreateLink = styled.a.attrs((props) => ({
-	href: 'http://localhost:3000/playground',
-}))`
-	box-sizing: border-box;
-	display: inline-block;
-	font-size: 12px;
-	padding: 9px 11px;
-	width: 55px;
-	margin-top: 62px;
-	margin-left: 12px;
-	height: 32px;
-	text-decoration: none;
-	background-color: #04c584;
-	color: #fff;
 `;

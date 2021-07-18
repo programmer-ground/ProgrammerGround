@@ -5,7 +5,6 @@ import logo from '../../assets/programmerground.png';
 import projectIcon from '../../assets/projectIcon.png';
 import alarm from '../../assets/alarm.png';
 import user from '../../assets/user.png';
-import '@src/assets/sprite.scss';
 
 export const GlobalStyle = createGlobalStyle`
   body{
@@ -28,11 +27,16 @@ export const HeaderImg = styled.img.attrs({
 `;
 
 export const HeaderContainer = styled.header`
+	position: fixed;
+	right: 0;
+	left: 0;
+	top: 0;
 	display: flex;
 	justify-content: space-around;
-	border-bottom: 1px solid #a2b8e1;
-	height: 80px;
+	height: 100px;
 	padding: 0px 8px;
+	background-color: #fff;
+	z-index: 100;
 `;
 
 export const HeaderMenuContainer = styled.div`
@@ -41,20 +45,14 @@ export const HeaderMenuContainer = styled.div`
 	width: 200px;
 	height: 50px;
 	padding-top: 20px;
-	& img {
-		padding-left: 5px;
-		margin-left: 10px;
-		width: 30px;
-		height: 30px;
-		margin-top: 5px;
-		cursor: pointer;
+
+	& > div {
 		border: 1px solid #e9e9e9;
-		border-radius: 50px;
-		padding-right: 5px;
-		background-color: #fff;
-	}
-	& img:hover {
-		background-color: #06c471;
+		border-radius: 50%;
+		cursor: pointer;
+		&:not(:first-child) {
+			margin-left: 10px;
+		}
 	}
 
 	@media screen and (max-width: 330px) {
@@ -73,3 +71,21 @@ export const AlarmIcon = styled.img.attrs({
 export const ProfileIcon = styled.img.attrs({
 	src: user,
 })``;
+
+export const CreateLink = styled.a.attrs((props) => ({
+	href: 'http://localhost:3000/playground',
+}))`
+	box-sizing: border-box;
+	display: inline-block;
+	font-size: 12px;
+	padding: 9px 11px;
+	margin-top: 20px;
+	height: 32px;
+	text-decoration: none;
+	background-color: #04c584;
+	color: #fff;
+`;
+
+export const PlaygroundSearchSection = styled.div`
+	margin-top: 15px;
+`;
