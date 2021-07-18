@@ -148,6 +148,7 @@ const CreatePage = () => {
 						type="text"
 						onChange={titleFunc}
 						placeholder="최소 3자이상 입력하세요"
+						required
 					/>
 				</StyledComponent.CreateNameDiv>
 				<StyledComponent.CreateNameDiv>
@@ -231,6 +232,7 @@ const CreatePage = () => {
 								onChange={(e) => changeValue(i, e)}
 								placeholder={v.position_max_num}
 								className="project_text_name"
+								required
 							/>
 							<select
 								name="position_level"
@@ -252,6 +254,7 @@ const CreatePage = () => {
 								className="project_text_name"
 								onChange={(e) => changeLanguageFunc(i, e)}
 								placeholder="REACT"
+								required
 							/>
 						</StyledComponent.PersonContainer>
 					);
