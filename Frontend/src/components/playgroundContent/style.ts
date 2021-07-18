@@ -1,13 +1,13 @@
 /* eslint-disable import/prefer-default-export */
 import styled from 'styled-components';
 
-export const PlaygroundContent = styled.div`
+export const PlaygroundContent = styled.a`
 	display: flex;
 	flex-direction: column;
 	width: 30%;
 	height: 100%;
 	background-color: #fff;
-	margin: 50px 0 0 20px;
+	margin: 50px 0 0 0px;
 	box-shadow: 0px 4px 10px 0 rgb(0 0 0 / 10%);
 	cursor: pointer;
 	transition: 1s all;

@@ -7,7 +7,6 @@
 // @ts-nocheck
 import React, { useState, useEffect, useRef } from 'react';
 import Header from '@src/components/header';
-import SearchBar from '@src/components/searchBar';
 import { useDispatch, useSelector } from 'react-redux';
 import PlaygroundContent from '@src/components/playgroundContent';
 import { getAllPlaygrounds, getOnePlayground } from '@src/lib/axios/playground';
@@ -73,7 +72,6 @@ const PlayGroundPage = () => {
 			<Header />
 
 			<StyledComponent.mainContainer>
-				<StyledComponent.SearchContainer />
 				<StyledComponent.PlayGroundContainer>
 					{result.map((v) => {
 						return (

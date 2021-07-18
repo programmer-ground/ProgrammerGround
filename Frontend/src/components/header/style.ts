@@ -33,6 +33,7 @@ export const HeaderContainer = styled.header`
 	top: 0;
 	display: flex;
 	justify-content: space-around;
+	min-width: 1100px;
 	height: 100px;
 	padding: 0px 8px;
 	background-color: #fff;
