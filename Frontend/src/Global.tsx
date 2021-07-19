@@ -7,11 +7,19 @@ export const GlobalStyle = createGlobalStyle`
     margin:0;
     padding:0;
     font-family: 'Do Hyeon', sans-serif;
+    @media (min-width:768px){
+      background-color:#e6e7e8;
+    }
   }
-
+ 
+  h1{
+    margin:0;
+    padding:0;
+  }
   em{
     font-style:normal;
   }
+  
   :root[color-theme='light'] {
     --background: #fff;
     --color: #000;

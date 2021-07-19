@@ -66,6 +66,21 @@ const CreatePage = () => {
 			...obj,
 			position,
 		};
+		if (!leaderPosition) {
+			alert('리더의 포지션이 체크되지 않았습니다.');
+			return;
+		}
+
+		for (let index = 0; index < result.position.length; index++) {
+			if (!result.position[index].position_level) {
+				alert('경력이 체크되지 않았습니다.');
+				return;
+			}
+			if (result.position[index].position_name === '포지션 선택') {
+				alert('포지션이 체크되지 않았습니다.');
+				return;
+			}
+		}
 		const create = async () => {
 			try {
 				setLoading(true);
@@ -129,10 +144,12 @@ const CreatePage = () => {
 	return (
 		<StyledComponent.CreateContainer>
 			<StyledComponent.CreateSubTitle>
-				<h1 className="create_project_title">* 프로젝트 생성</h1>
-				<em className="create_comment_title">
-					- 아래의 필수 입력사항을 모두 입력해주세요
-				</em>
+				<h1 className="create_project_title">
+					* 프로젝트 생성
+					<span className="create_comment_title">
+						- 아래의 필수 입력사항을 모두 입력해주세요
+					</span>
+				</h1>
 			</StyledComponent.CreateSubTitle>
 
 			<form onSubmit={onSubmitHandler}>
@@ -146,6 +163,7 @@ const CreatePage = () => {
 						type="text"
 						onChange={titleFunc}
 						placeholder="최소 3자이상 입력하세요"
+						required
 					/>
 				</StyledComponent.CreateNameDiv>
 				<StyledComponent.CreateNameDiv>
@@ -210,6 +228,7 @@ const CreatePage = () => {
 						<StyledComponent.PersonContainer>
 							<select
 								name="position_name"
+								className="person_position"
 								id="position_id"
 								onChange={(e) => severalPosition(i, e)}
 							>
@@ -223,15 +242,18 @@ const CreatePage = () => {
 
 							<input
 								id="position_num"
+								className="project_text_name"
 								name="position_max_num"
 								onChange={(e) => changeValue(i, e)}
 								placeholder={v.position_max_num}
+								className="project_text_name"
+								required
 							/>
 							<select
 								name="position_level"
 								id="position_level"
 								onChange={(e) => changeFunc(i, e)}
-								value="JUNIOR"
+								className="person_position"
 							>
 								<option value="경력 선택">경력 선택</option>
 								<option value="JUNIOR">JUNIOR</option>
@@ -244,13 +266,15 @@ const CreatePage = () => {
 								type="text"
 								id="position_language"
 								name="position_language"
+								className="project_text_name"
 								onChange={(e) => changeLanguageFunc(i, e)}
 								placeholder="REACT"
+								required
 							/>
 						</StyledComponent.PersonContainer>
 					);
 				})}
-				<button type="submit">제출</button>
+				<StyledComponent.SubmitButton>생성</StyledComponent.SubmitButton>
 			</form>
 			{loading ? <LoadingSpinner /> : ''}
 		</StyledComponent.CreateContainer>

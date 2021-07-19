@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import useShow from '@src/hooks/useShow';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@src/store/modules';
-
+import { useHistory } from 'react-router-dom';
 import { playgroundModalMode } from '@src/store/modules/modal';
 import { getOnePlayground } from '@src/lib/axios/playground';
 import { getOnePlaygroundItem } from '@src/store/modules/Playground';
@@ -32,16 +32,24 @@ const PlaygroundContent = ({
 	language,
 }: Playground) => {
 	const [show, dispatch] = useShow();
+	const history = useHistory();
 
-	const createModalFunc = async (playgroundId: number, event: any) => {
-		dispatch(playgroundModalMode());
+	const createModalFunc = async (
+		playgroundId: number,
+		event: any,
+		playgroundTitle: string,
+	) => {
 		const data = await getOnePlayground(playgroundId);
 		dispatch(getOnePlaygroundItem(data));
+		history.push({
+			pathname: `/playground/${playgroundId}`,
+			state: { playgroundTitle },
+		});
 	};
 	return (
 		<>
 			<StyledComponent.PlaygroundContent
-				onClick={(e) => createModalFunc(id, e)}
+				onClick={(e) => createModalFunc(id, e, title)}
 			>
 				<StyledComponent.PlaygroundHeader>
 					<StyledComponent.PlaygroundTitle>

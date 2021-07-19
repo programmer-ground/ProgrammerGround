@@ -7,7 +7,6 @@ export const SearchBarContainer = styled.div`
 	display: flex;
 	max-width: 600px;
 	width: 100%;
-	margin-top: 50px;
 	@media screen and (max-width: 735px) and (min-width: 0px) {
 		margin-left: 50px;
 	}
