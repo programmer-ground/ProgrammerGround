@@ -66,6 +66,21 @@ const CreatePage = () => {
 			...obj,
 			position,
 		};
+		if (!leaderPosition) {
+			alert('리더의 포지션이 체크되지 않았습니다.');
+			return;
+		}
+
+		for (let index = 0; index < result.position.length; index++) {
+			if (!result.position[index].position_level) {
+				alert('경력이 체크되지 않았습니다.');
+				return;
+			}
+			if (result.position[index].position_name === '포지션 선택') {
+				alert('포지션이 체크되지 않았습니다.');
+				return;
+			}
+		}
 		const create = async () => {
 			try {
 				setLoading(true);

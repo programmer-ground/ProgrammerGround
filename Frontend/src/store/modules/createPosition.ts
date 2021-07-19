@@ -47,9 +47,9 @@ const initialState = {
 	position: [
 		{
 			id: 0,
-			position_name: 'BACKEND',
+			position_name: '',
 			position_max_num: 0,
-			position_level: 'JUNIOR',
+			position_level: '',
 			position_language: [],
 		},
 	],
