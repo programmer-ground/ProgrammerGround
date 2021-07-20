@@ -3,6 +3,7 @@ const path = require('path');
 const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
+const { SourceMapDevToolPlugin } = require('webpack');
 
 module.exports = {
 	entry: {
@@ -44,6 +45,12 @@ module.exports = {
 				},
 				exclude: /node_modules/,
 			},
+			{
+				test: [/\.js$/, /\.ts?$/, /\.jsx?$/, /\.tsx?$/],
+				enforce: 'pre',
+				exclude: /node_modules/,
+				use: ['source-map-loader'],
+			},
 		],
 	},
 	devServer: {
@@ -77,10 +84,15 @@ module.exports = {
 		new webpack.BannerPlugin({
 			banner: '배너내용입니다.',
 		}),
+		new SourceMapDevToolPlugin({
+			filename: '[file].map',
+		}),
 	],
 	output: {
 		filename: '[name].[chunkhash].js',
 		path: path.resolve(__dirname, 'dist'),
 		publicPath: '/',
+		sourceMapFilename: '[name].js.map',
 	},
+	devtool: 'source-map',
 };
