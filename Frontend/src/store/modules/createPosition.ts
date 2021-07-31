@@ -33,15 +33,23 @@ interface Person {
 	position_language: [];
 }
 export interface PositionState {
+	title: string;
+	description: string;
+	max_user_num: number;
+	leader_position: string;
 	position: Person[];
 }
 const initialState = {
+	title: '',
+	description: '',
+	max_user_num: 0,
+	leader_position: '',
 	position: [
 		{
 			id: 0,
-			position_name: 'BACKEND',
+			position_name: '',
 			position_max_num: 0,
-			position_level: 'JUNIOR',
+			position_level: '',
 			position_language: [],
 		},
 	],

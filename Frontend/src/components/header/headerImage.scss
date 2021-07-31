@@ -1,0 +1,9 @@
+@import '@src/assets/sprite.scss';
+
+.user_icon {
+  @include sprite($icon-user);
+}
+
+.alarm_icon {
+  @include sprite($icon-alarm);
+}

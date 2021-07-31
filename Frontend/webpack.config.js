@@ -18,8 +18,8 @@ module.exports = {
 	module: {
 		rules: [
 			{
-				test: /\.(css|scss)$/i,
-				use: ['style-loader', 'css-loader'],
+				test: /\.s[ac]ss$/i,
+				use: ['style-loader', 'css-loader', 'sass-loader'],
 				exclude: /node_modules/,
 			},
 			{
@@ -34,7 +34,14 @@ module.exports = {
 			},
 			{
 				test: /\.(png|jpg|svg)$/,
-				use: ['file-loader'],
+				use: {
+					loader: 'file-loader',
+					options: {
+						name: '[name].[ext]',
+						outputPath: 'assets',
+						publicPath: '../assets/',
+					},
+				},
 				exclude: /node_modules/,
 			},
 		],

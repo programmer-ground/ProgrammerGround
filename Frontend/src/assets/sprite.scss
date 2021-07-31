@@ -1,0 +1,84 @@
+$icon-alarm-name: "icon_alarm";
+$icon-alarm-x: 0px;
+$icon-alarm-y: 107px;
+$icon-alarm-offset-x: 0px;
+$icon-alarm-offset-y: -107px;
+$icon-alarm-width: 32px;
+$icon-alarm-height: 32px;
+$icon-alarm-total-width: 598px;
+$icon-alarm-total-height: 139px;
+$icon-alarm-image: "sprite.png";
+$icon-alarm: (0px, 107px, 0px, -107px, 32px, 32px, 598px, 139px, "/src/assets/sprite.png", "icon_alarm", );
+$icon-search-name: "icon_search";
+$icon-search-x: 37px;
+$icon-search-y: 107px;
+$icon-search-offset-x: -37px;
+$icon-search-offset-y: -107px;
+$icon-search-width: 32px;
+$icon-search-height: 32px;
+$icon-search-total-width: 598px;
+$icon-search-total-height: 139px;
+$icon-search-image: "sprite.png";
+$icon-search: (37px, 107px, -37px, -107px, 32px, 32px, 598px, 139px, "/src/assets/sprite.png", "icon_search", );
+$icon-user-name: "icon_user";
+$icon-user-x: 74px;
+$icon-user-y: 107px;
+$icon-user-offset-x: -74px;
+$icon-user-offset-y: -107px;
+$icon-user-width: 32px;
+$icon-user-height: 32px;
+$icon-user-total-width: 598px;
+$icon-user-total-height: 139px;
+$icon-user-image: "sprite.png";
+$icon-user: (74px, 107px, -74px, -107px, 32px, 32px, 598px, 139px, "/src/assets/sprite.png", "icon_user", );
+$programmerground-name: "programmerground";
+$programmerground-x: 0px;
+$programmerground-y: 0px;
+$programmerground-offset-x: 0px;
+$programmerground-offset-y: 0px;
+$programmerground-width: 598px;
+$programmerground-height: 102px;
+$programmerground-total-width: 598px;
+$programmerground-total-height: 139px;
+$programmerground-image: "sprite.png";
+$programmerground: (0px, 0px, 0px, 0px, 598px, 102px, 598px, 139px, "/src/assets/sprite.png", "programmerground", );
+$spritesheet-width: 598px;
+$spritesheet-height: 139px;
+$spritesheet-image: "/src/assets/sprite.png";
+$spritesheet-sprites: ($icon-alarm, $icon-search, $icon-user, $programmerground, );
+$spritesheet: (598px, 139px, "/src/assets/sprite.png", $spritesheet-sprites, );
+
+@mixin sprite-width($sprite) {
+  width: nth($sprite, 5);
+}
+
+@mixin sprite-height($sprite) {
+  height: nth($sprite, 6);
+}
+
+@mixin sprite-position($sprite) {
+  $sprite-offset-x: nth($sprite, 3);
+  $sprite-offset-y: nth($sprite, 4);
+  background-position: $sprite-offset-x  $sprite-offset-y;
+}
+
+@mixin sprite-image($sprite) {
+  $sprite-image: nth($sprite, 9);
+  background-image: url(#{$sprite-image});
+}
+
+@mixin sprite($sprite) {
+  @include sprite-image($sprite);
+  @include sprite-position($sprite);
+  @include sprite-width($sprite);
+  @include sprite-height($sprite);
+}
+
+@mixin sprites($sprites) {
+  @each $sprite in $sprites {
+    $sprite-name: nth($sprite, 10);
+    .#{$sprite-name} {
+      @include sprite($sprite);
+    }
+  }
+}

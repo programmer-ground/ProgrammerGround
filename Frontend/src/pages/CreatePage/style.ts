@@ -3,56 +3,82 @@ import styled from 'styled-components';
 import colorType from '@src/utils/color';
 
 export const CreateContainer = styled.div`
-	display: flex;
-	box-sizing: border-box;
-	width: 50%;
-	flex-direction: column;
-	border: 3px solid ${colorType.gray};
-	border-radius: 10px;
-	align-items: center;
-	margin: 90px auto;
+	padding: 30px 20px;
+	max-width: 768px;
+	background-color: #fff;
+	@media (min-width: 768px) {
+		margin: 0 auto;
+	}
 `;
 
-export const CreateSubTitle = styled.h1`
-	font-size: 30px;
-	line-height: 38px;
-	text-align: center;
+export const CreateSubTitle = styled.div`
+	.create_project_title {
+		display: inline-block;
+		font-size: 30px;
+		font-weight: normal;
+		line-height: 38px;
+	}
+	.create_comment_title {
+		display: inline-block;
+		vertical-align: middle;
+		margin-left: 10px;
+		font-size: 15px;
+		line-height: 22px;
+		letter-spacing: -0.3px;
+		color: #ccc;
+	}
 `;
 
 export const CreateNameDiv = styled.div`
-	width: 100%;
 	display: flex;
-	justify-content: center;
-	& > label {
+	margin-top: 20px;
+	.project_text_name {
 		font-size: 20px;
 		line-height: 24px;
+		width: 100%;
+		border: none;
+		border-bottom: 1px solid #707070;
+		&:focus {
+			outline: none;
+			border-bottom: 1px solid #4382f7;
+		}
+		&::placeholder {
+			color: #f00;
+			font-size: 15px;
+			font-weight: bold;
+			line-height: 22px;
+		}
 	}
-	& input {
-		margin-left: 10px;
+	&:first-child .project_label_name {
+		margin-top: 5px;
+	}
+	.project_label_name {
+		width: 120px;
+		flex: 1 0 auto;
+		display: block;
 		font-size: 20px;
 		line-height: 24px;
-		width: 34%;
-		border: 3px solid ${colorType.gray};
+		color: #666;
 	}
-	& input:focus {
-		outline: none;
+
+	.project_editor_text {
+		flex: 1 1 auto;
+		margin: 0;
+		padding: 0;
+		width: 100%;
+		height: 300px;
+		border: 1px solid #707070;
+		color: #f00;
+		overflow-y: auto;
 	}
-`;
 
-export const ProjectLabel = styled.label.attrs((props) => {})`
-	display: block;
-	text-align: center;
-	margin-top: 5px;
-	font-size: 20px;
-	line-height: 24px;
-`;
-
-export const CreateContent = styled.div`
-	width: 54%;
-	margin: 0 auto;
-	height: 300px;
-	border: 3px solid ${colorType.gray};
-	overflow-y: auto;
+	.project_position {
+		width: 100%;
+		border: none;
+		font-weight: bold;
+		border-bottom: 1px solid #707070;
+		color: #f00;
+	}
 `;
 
 export const CreateContentContainer = styled.div`
@@ -79,8 +105,29 @@ export const CreateImageButton = styled.button`
 `;
 
 export const PersonNumberLength = styled.span`
-	display: block;
-	text-align: center;
+	display: flex;
+	margin-top: 20px;
+	font-size: 20px;
+	line-height: 24px;
+
+	.person_max_text {
+		display: inline-block;
+		width: 120px;
+		color: #666;
+	}
+
+	.person_number {
+		margin-left: 59px;
+		color: #dbdbdb;
+	}
+
+	.person_unit {
+		display: inline-block;
+	}
+
+	.person_number_info {
+		flex: 1 1 auto;
+	}
 `;
 
 export const CreateLeaderPosition = styled.div`
@@ -106,41 +153,40 @@ export const PersonNumber = styled.div`
 export const addButton = styled.button.attrs((props) => ({
 	type: 'button',
 }))`
-	margin-left: 10px;
-	width: 70px;
-	height: 30px;
-	background-color: #0f0;
-	color: ${colorType.dark};
+	width: 100%;
+	padding: 10px 20px;
+	background-color: #4182fa;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 28px;
+	color: #fff;
 	outline: none;
-	&:hover {
-		background-color: ${colorType.gray};
-		color: ${colorType.white};
-		cursor: pointer;
-	}
+	cursor: pointer;
 `;
 
 export const removeButton = styled.button.attrs((props) => ({
 	type: 'button',
 }))`
-	margin-left: 10px;
-	width: 70px;
-	height: 30px;
-	background-color: #0f0;
-	color: ${colorType.dark};
+	width: 100%;
+	padding: 10px 20px;
+	background-color: #edeff2;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 28px;
+	color: #999;
 	outline: none;
-	&:hover {
-		background-color: ${colorType.gray};
-		color: ${colorType.white};
-		cursor: pointer;
-	}
+	cursor: pointer;
+	border-left: 0;
 `;
 
 export const AttributeLabel = styled.div`
+	&:not(:first-child) {
+		margin-top: 20px;
+	}
+	padding-top: 10px;
 	width: 100%;
 	display: flex;
 	justify-content: space-around;
-	margin-top: 20px;
-	padding-top: 10px;
 	border-top: 1px solid ${colorType.gray};
 	& > label {
 		font-size: 20px;
@@ -149,5 +195,43 @@ export const AttributeLabel = styled.div`
 
 export const PersonContainer = styled.div`
 	display: flex;
-	justify-content: center;
+	justify-content: space-between;
+	.person_position {
+		width: 100%;
+		border: none;
+		font-weight: bold;
+		border-bottom: 1px solid #707070;
+		color: #f00;
+	}
+	.project_text_name {
+		font-size: 20px;
+		line-height: 24px;
+		width: 100%;
+		border: none;
+		border-bottom: 1px solid #707070;
+		&:focus {
+			outline: none;
+			border-bottom: 1px solid #4382f7;
+		}
+		&::placeholder {
+			color: #f00;
+			font-size: 15px;
+			font-weight: bold;
+			line-height: 22px;
+		}
+	}
+`;
+
+export const SubmitButton = styled.button.attrs((props) => ({
+	type: 'submit',
+}))`
+	width: 100%;
+	margin-top: 30px;
+	padding: 10px 20px;
+	font-size: 20px;
+	font-weight: bold;
+	line-height: 28px;
+	color: #ccc;
+	background-color: #000;
+	cursor: pointer;
 `;
