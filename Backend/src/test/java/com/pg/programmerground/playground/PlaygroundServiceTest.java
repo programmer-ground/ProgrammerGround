@@ -5,6 +5,7 @@ import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.domain.Playground;
 import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
+import com.pg.programmerground.exception.FileExtractException;
 import com.pg.programmerground.exception.WrongRequestException;
 import com.pg.programmerground.model.PlaygroundRepository;
 import com.pg.programmerground.service.OAuthUserService;
@@ -13,12 +14,17 @@ import org.junit.jupiter.api.*;
 import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.core.io.ClassPathResource;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.transaction.Transactional;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.NoSuchElementException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -38,6 +44,7 @@ public class PlaygroundServiceTest {
     //private MockMvc mvc;
     @Autowired
     TestUserManagement management;
+
 
     @BeforeEach
     void authenticationSetUp() {
@@ -64,7 +71,7 @@ public class PlaygroundServiceTest {
         //given
         PlaygroundApi playgroundApi = dtoList.createPlayground;
         //when
-        Long playgroundId = playgroundService.createPlayground(playgroundApi);
+        Long playgroundId = playgroundService.createPlayground(null, playgroundApi);
         Playground playground = playgroundRepository.findById(playgroundId).orElseThrow();
         //then
         assertEquals(playgroundApi.getMaxUserNum(), playground.getMaxMemberCount(), "최대 인원이 다름");
@@ -77,7 +84,7 @@ public class PlaygroundServiceTest {
         PlaygroundApi playgroundApi = dtoList.positionSum;
         //when then
         assertThrows(WrongRequestException.class, () -> {
-            Long playgroundId = playgroundService.createPlayground(playgroundApi);
+            Long playgroundId = playgroundService.createPlayground(null, playgroundApi);
         });
     }
 
@@ -85,7 +92,7 @@ public class PlaygroundServiceTest {
     void Playground_Position_Enum_예외() {
         PlaygroundApi playgroundApi = dtoList.positionEnum;
         assertThrows(IllegalArgumentException.class, () -> {
-            Long playgroundId = playgroundService.createPlayground(playgroundApi);
+            Long playgroundId = playgroundService.createPlayground(null, playgroundApi);
         });
     }
 
@@ -93,7 +100,7 @@ public class PlaygroundServiceTest {
     void Playground_Leader_Position_존재안함_예외() {
         PlaygroundApi playgroundApi = dtoList.leaderPosition;
         assertThrows(NoSuchElementException.class, () -> {
-            Long playgroundId = playgroundService.createPlayground(playgroundApi);
+            Long playgroundId = playgroundService.createPlayground(null, playgroundApi);
         });
     }
 
@@ -102,7 +109,7 @@ public class PlaygroundServiceTest {
     void Playground_Member_신청() throws Exception {
         //playground 생성
         PlaygroundApi playgroundApi = dtoList.applyPosition;
-        Long playgroundId = playgroundService.createPlayground(playgroundApi);
+        Long playgroundId = playgroundService.createPlayground(null, playgroundApi);
 
         //playground position 가져오기
         Playground playground = playgroundRepository.findById(playgroundId).orElseThrow();
@@ -124,7 +131,7 @@ public class PlaygroundServiceTest {
     void Playground_Member_같은_유저_신청_예외() throws Exception {
         //playground 생성
         PlaygroundApi playgroundApi = dtoList.applyPosition;
-        Long playgroundId = playgroundService.createPlayground(playgroundApi);
+        Long playgroundId = playgroundService.createPlayground(null, playgroundApi);
 
         //playground position 가져오기
         Playground playground = playgroundRepository.findById(playgroundId).orElseThrow();
@@ -138,4 +145,14 @@ public class PlaygroundServiceTest {
         });
     }
 
+    @Test
+    void Playground_Img_Upload() throws Exception {
+        ClassPathResource resource = new ClassPathResource("test-file/testpdf.pdf");
+        File files = new File(resource.getURI());
+        InputStream input = new FileInputStream(files);
+        MockMultipartFile file = new MockMultipartFile("test", "testpdf.pdf", "application/pdf", input);
+        PlaygroundApi playgroundApi = dtoList.createPlayground;
+
+        assertThrows(FileExtractException.class, () -> playgroundService.createPlayground(file,playgroundApi));
+    }
 }
