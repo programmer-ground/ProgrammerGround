@@ -52,6 +52,10 @@ public class PlaygroundApply extends BaseTimeEntity {
         this.applyStatus = applyStatus;
     }
 
+    public void cancelApply() {
+        this.applyStatus = ApplyStatus.CANCEL;
+    }
+
     /**
      * Playground 참여 요청 수락
      * 생각해봐야 할 것 : 여러 요청이 온 상황에 하나의 요청을 수락해서 인원이 가득찰 경우 나머지 요청 처리 여부
@@ -89,7 +93,7 @@ public class PlaygroundApply extends BaseTimeEntity {
     /**
      * User가 Playground 신청
      */
-    public static void createUserApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition) {
+    public static PlaygroundApply createUserApply(OAuthUser user, Playground playground, PlaygroundPosition playgroundPosition) {
         /**
          * 포지션의 현재 인원이 꽉차있다면 예외처리
          * 이미 신청했거나, 수락됐거나, 거절당했을 시
@@ -112,6 +116,8 @@ public class PlaygroundApply extends BaseTimeEntity {
         user.getApplyPlaygrounds().add(playgroundApply);
         playground.getApplyPlaygrounds().add(playgroundApply);
         playgroundPosition.addPlaygroundApply(playgroundApply);
+
+        return playgroundApply;
     }
 
     /**

@@ -1,5 +1,6 @@
 package com.pg.programmerground.model;
 
+import com.pg.programmerground.domain.OAuthUser;
 import com.pg.programmerground.domain.PlaygroundApply;
 import com.pg.programmerground.domain.enumerated.ApplyStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -7,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface PlaygroundApplyRepository extends JpaRepository<PlaygroundApply, Long> {
 
@@ -33,4 +35,6 @@ public interface PlaygroundApplyRepository extends JpaRepository<PlaygroundApply
                 "AND p.leader.id <> :userId " +
                 "AND pa.user.id = :userId")
     List<PlaygroundApply> findPlaygroundApplyByOAuthUserAndStatus(@Param("userId")Long userId, @Param("status")List<ApplyStatus> status);
+
+    Optional<PlaygroundApply> findPlaygroundApplyByIdAndUserAndApplyStatus(Long id, OAuthUser user, ApplyStatus wait);
 }

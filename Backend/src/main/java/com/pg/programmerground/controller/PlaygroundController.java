@@ -41,8 +41,14 @@ public class PlaygroundController {
 
     @ApiOperation(value = "Playground 참가 신청", notes = "Playground 참가 신청 요청")
     @PostMapping("/{playgroundId}/apply")
-    public ResponseEntity<ApiResponse<PlaygroundResultResponse>> applyPlayground(@PathVariable Long playgroundId, @RequestBody ApplyPlaygroundApi applyPlayground) throws Exception {
-        return ResponseEntity.ok().body(new ApiResponse<>(new PlaygroundResultResponse(playgroundService.applyPlayground(playgroundId, applyPlayground))));
+    public ResponseEntity<ApiResponse<Long>> applyPlayground(@PathVariable Long playgroundId, @RequestBody ApplyPlaygroundApi applyPlayground) throws Exception {
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.applyPlayground(playgroundId, applyPlayground)));
+    }
+
+    @ApiOperation(value = "Playground 참가 신청", notes = "Playground 참가 신청 요청")
+    @PutMapping("/{playgroundApplyId}/cancel")
+    public ResponseEntity<ApiResponse<PlaygroundResultResponse>> cancelPlayground(@PathVariable Long playgroundApplyId) {
+        return ResponseEntity.ok().body(new ApiResponse<>(new PlaygroundResultResponse(playgroundService.cancelPlayground(playgroundApplyId))));
     }
 
     @ApiOperation(value = "Playground 참기 신청 수락", notes = "Playground Leader가 참가 신청 수락 요청")

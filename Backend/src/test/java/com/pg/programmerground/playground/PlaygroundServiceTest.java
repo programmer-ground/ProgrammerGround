@@ -3,10 +3,13 @@ package com.pg.programmerground.playground;
 import com.pg.programmerground.TestUserManagement;
 import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.domain.Playground;
+import com.pg.programmerground.domain.PlaygroundApply;
+import com.pg.programmerground.domain.enumerated.ApplyStatus;
 import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
 import com.pg.programmerground.exception.FileExtractException;
 import com.pg.programmerground.exception.WrongRequestException;
+import com.pg.programmerground.model.PlaygroundApplyRepository;
 import com.pg.programmerground.model.PlaygroundRepository;
 import com.pg.programmerground.service.OAuthUserService;
 import com.pg.programmerground.service.PlaygroundService;
@@ -27,7 +30,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.NoSuchElementException;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
@@ -41,6 +45,8 @@ public class PlaygroundServiceTest {
     private PlaygroundService playgroundService;
     @Autowired
     private PlaygroundRepository playgroundRepository;
+    @Autowired
+    private PlaygroundApplyRepository playgroundApplyRepository;
     //private MockMvc mvc;
     @Autowired
     TestUserManagement management;
@@ -121,9 +127,71 @@ public class PlaygroundServiceTest {
         UserDetails userDetails = oAuthUserService.loadUserByOAuthId(GITHUB_ID2);
         SecurityContextHolder.getContext().setAuthentication(new JwtAuthenticationToken(userDetails, "토큰 값 필요없음", userDetails.getAuthorities()));
         //when
-        boolean rst = playgroundService.applyPlayground(playgroundId, applyPlaygroundApi);
+        Long applyId = playgroundService.applyPlayground(playgroundId, applyPlaygroundApi);
+        PlaygroundApply playgroundApply = playgroundApplyRepository.findById(applyId).orElseThrow();
+
         //then
-        assertTrue(rst);
+        assertEquals(playground.getId(), playgroundApply.getPlayground().getId());
+    }
+
+    @Test
+    @Transactional
+    void Playground_Member_신청_취소() throws Exception {
+        //given
+        //playground 생성
+        PlaygroundApi playgroundApi = dtoList.applyPosition;
+        Long playgroundId = playgroundService.createPlayground(null, playgroundApi);
+
+        //playground position 가져오기
+        Playground playground = playgroundRepository.findById(playgroundId).orElseThrow();
+        Long positionId = playground.getPlaygroundPositionList().get(0).getId();
+        ApplyPlaygroundApi applyPlaygroundApi = new ApplyPlaygroundApi();
+        Whitebox.setInternalState(applyPlaygroundApi, "positionId", positionId);
+
+        //유저 전환
+        UserDetails userDetails = oAuthUserService.loadUserByOAuthId(GITHUB_ID2);
+        SecurityContextHolder.getContext().setAuthentication(new JwtAuthenticationToken(userDetails, "토큰 값 필요없음", userDetails.getAuthorities()));
+        Long applyId = playgroundService.applyPlayground(playgroundId, applyPlaygroundApi);
+
+        //신청 내역 가져오기
+        PlaygroundApply playgroundApply = playgroundApplyRepository.findById(applyId).orElseThrow();
+
+        //when
+        playgroundService.cancelPlayground(playgroundApply.getId());
+
+        //then
+        assertEquals(playgroundApply.getApplyStatus(), ApplyStatus.CANCEL);
+
+    }
+
+    @Test
+    @Transactional
+    void Playground_Member_신청_취소된_신청_재취소_예외() throws Exception {
+        //given
+        //playground 생성
+        PlaygroundApi playgroundApi = dtoList.applyPosition;
+        Long playgroundId = playgroundService.createPlayground(null, playgroundApi);
+
+        //playground position 가져오기
+        Playground playground = playgroundRepository.findById(playgroundId).orElseThrow();
+        Long positionId = playground.getPlaygroundPositionList().get(0).getId();
+        ApplyPlaygroundApi applyPlaygroundApi = new ApplyPlaygroundApi();
+        Whitebox.setInternalState(applyPlaygroundApi, "positionId", positionId);
+
+        //유저 전환
+        UserDetails userDetails = oAuthUserService.loadUserByOAuthId(GITHUB_ID2);
+        SecurityContextHolder.getContext().setAuthentication(new JwtAuthenticationToken(userDetails, "토큰 값 필요없음", userDetails.getAuthorities()));
+        Long applyId = playgroundService.applyPlayground(playgroundId, applyPlaygroundApi);
+
+        //신청 내역 가져오기
+        PlaygroundApply playgroundApply = playgroundApplyRepository.findById(applyId).orElseThrow();
+        playgroundService.cancelPlayground(playgroundApply.getId());
+
+        //then
+        assertThrows(NoSuchElementException.class, () -> {
+            //when
+            playgroundService.cancelPlayground(playgroundApply.getId());
+        });
     }
 
     @Test
@@ -141,12 +209,16 @@ public class PlaygroundServiceTest {
 
         //리더가 자기 playground에 참가 신청
         assertThrows(WrongRequestException.class, () -> {
-            boolean rst = playgroundService.applyPlayground(playgroundId, applyPlaygroundApi);
+            Long id = playgroundService.applyPlayground(playgroundId, applyPlaygroundApi);
         });
     }
 
+    /**
+     * 이미지 확장자 예외처리 테스트
+     * PNG, JPG만 업로드 가능
+     */
     @Test
-    void Playground_Img_Upload() throws Exception {
+    void Playground_Img_Upload_확장자_예외() throws Exception {
         ClassPathResource resource = new ClassPathResource("test-file/testpdf.pdf");
         File files = new File(resource.getURI());
         InputStream input = new FileInputStream(files);

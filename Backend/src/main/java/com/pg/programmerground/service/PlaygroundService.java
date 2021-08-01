@@ -5,6 +5,7 @@ import com.pg.programmerground.domain.OAuthUser;
 import com.pg.programmerground.domain.Playground;
 import com.pg.programmerground.domain.PlaygroundApply;
 import com.pg.programmerground.domain.PlaygroundPosition;
+import com.pg.programmerground.domain.enumerated.ApplyStatus;
 import com.pg.programmerground.dto.UploadImg;
 import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
@@ -65,19 +66,31 @@ public class PlaygroundService {
         return playgroundRepository.save(playground).getId();
     }
 
-
     /**
      * User가 Playground Member신청
      */
     @Transactional
-    public Boolean applyPlayground(Long playgroundId, ApplyPlaygroundApi applyPlayground) {
+    public Long applyPlayground(Long playgroundId, ApplyPlaygroundApi applyPlayground) {
         //유저 정보
         OAuthUser user = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
         //Playground 정보
         Playground playground = playgroundRepository.findById(playgroundId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 Playground"));
         //유저가 신청한 Position 탐색
         PlaygroundPosition userPosition = playground.searchPosition(applyPlayground.getPositionId());
-        PlaygroundApply.createUserApply(user, playground, userPosition);
+        PlaygroundApply playgroundApply = PlaygroundApply.createUserApply(user, playground, userPosition);
+
+        playgroundApplyRepository.save(playgroundApply);
+
+        return playgroundApply.getId();
+    }
+
+    @Transactional
+    public boolean cancelPlayground(Long playgroundApplyId) {
+        //유저 정보
+        OAuthUser user = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
+        //applyId, userId, applyStatus를 통해 신청 내역 엔티티 가져옴
+        PlaygroundApply playgroundApply = playgroundApplyRepository.findPlaygroundApplyByIdAndUserAndApplyStatus(playgroundApplyId, user, ApplyStatus.WAIT).orElseThrow(() -> new NoSuchElementException("잘못된 playground 취소 요청입니다."));
+        playgroundApply.cancelApply();
         return true;
     }
 
