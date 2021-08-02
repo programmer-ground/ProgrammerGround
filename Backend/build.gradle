@@ -28,29 +28,29 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
     implementation 'org.springframework.boot:spring-boot-starter-web'
     implementation 'org.springframework.boot:spring-boot-starter-security'
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.hibernate.validator:hibernate-validator:6.1.2.Final'
+    implementation 'io.jsonwebtoken:jjwt:0.7.0'
     implementation 'com.h2database:h2'
-    compileOnly 'org.projectlombok:lombok'
-    compile 'org.springframework.boot:spring-boot-starter-webflux'
-    compile 'io.projectreactor:reactor-test'
+    implementation 'io.projectreactor:reactor-test'
     implementation 'org.apache.httpcomponents:httpclient:4.5'
     implementation 'com.google.code.gson:gson:2.8.5'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
-    runtimeOnly 'mysql:mysql-connector-java'
-    implementation 'org.hibernate.validator:hibernate-validator:6.1.2.Final'
-    annotationProcessor 'org.projectlombok:lombok'
-    implementation 'io.jsonwebtoken:jjwt:0.7.0'
     implementation 'org.modelmapper:modelmapper:2.3.0'
     implementation 'org.springframework.boot:spring-boot-starter'
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    implementation group: 'io.swagger', name: 'swagger-annotations', version: '1.5.21'
+    implementation group: 'io.swagger', name: 'swagger-models', version: '1.5.21'
+    annotationProcessor 'org.projectlombok:lombok'
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
     }
-    testCompile('org.springframework.security:spring-security-test')
-    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
-    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
-    compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.21'
-    compile group: 'io.swagger', name: 'swagger-models', version: '1.5.21'
-    testCompile "org.powermock:powermock-module-junit4:2.0.0-beta.5"
-    testCompile "org.powermock:powermock-api-mockito2:2.0.0-beta.5"
+    testImplementation('org.springframework.security:spring-security-test')
+    testImplementation "org.powermock:powermock-module-junit4:2.0.0-beta.5"
+    testImplementation "org.powermock:powermock-api-mockito2:2.0.0-beta.5"
+    runtimeOnly 'mysql:mysql-connector-java'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 dependencyManagement {
