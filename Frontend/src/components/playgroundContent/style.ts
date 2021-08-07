@@ -4,15 +4,16 @@ import styled from 'styled-components';
 export const PlaygroundContent = styled.a`
 	display: flex;
 	flex-direction: column;
-	width: 30%;
-	height: 100%;
+	width: 300px;
 	background-color: #fff;
-	margin: 50px 0 0 0px;
-	box-shadow: 0px 4px 10px 0 rgb(0 0 0 / 10%);
 	cursor: pointer;
-	transition: 1s all;
-	&:hover {
-		box-shadow: 5px 5px 10px 10px rgb(0 0 0 / 10%);
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	border-radius: 4px;
+	&:not(:nth-child(3n + 1)) {
+		margin-left: 16px;
+	}
+	&:not(:nth-child(-n + 3)) {
+		margin-top: 60px;
 	}
 `;
 export const PlaygroundHeader = styled.header`
@@ -22,9 +23,18 @@ export const PlaygroundHeader = styled.header`
 	justify-content: space-between;
 `;
 export const PlaygroundTitle = styled.div`
-	font-size: 20px;
-	font-weight: bold;
+	&:not(:first-child) {
+		margin-top: 10px;
+	}
+	display: -webkit-box;
+	font-size: 30px;
+	line-height: 36px;
+	font-weight: 400;
 	color: #000;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	-webkit-line-clamp: 2;
+	-webkit-box-orient: vertical;
 `;
 
 export const PlaygroundDate = styled.div`
@@ -41,15 +51,7 @@ export const PlaygroundImg = styled.img.attrs((props) => ({
 `;
 
 export const PlaygroundPersonInfo = styled.div`
-	display: flex;
-	justify-content: space-between;
-	& span {
-		margin-left: 10px;
-		font-weight: bold;
-		font-size: 20px;
-		margin-top: 10px;
-		color: #000;
-	}
+	padding: 16px;
 `;
 export const PlaygroundTechListContainer = styled.div`
 	display: flex;
@@ -64,4 +66,28 @@ export const PlaygroundTechList = styled.div`
 	background-color: #4572c4;
 	font-weight: bold;
 	color: #fff;
+`;
+
+export const PlaygroundStatus = styled.span`
+	padding: 0 12px;
+	background-color: #00bcd4;
+	border-radius: 15px;
+`;
+
+export const PlaygroundUserContainer = styled.div`
+	display: flex;
+	justify-content: space-between;
+`;
+
+export const PlaygroundUserName = styled.span`
+	font-size: 19px;
+	line-height: 26px;
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+`;
+
+export const PlaygroundCreateDate = styled.span`
+	font-size: 19px;
+	line-height: 26px;
 `;

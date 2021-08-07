@@ -22,7 +22,11 @@ export const SearchBarInput = styled.input`
 	padding-left: 15px;
 	box-shadow: 0px 4px 10px 0 rgb(0 0 0 / 10%);
 	&:focus {
+		&::placeholder {
+			color: #000;
+		}
 		background-color: #fff;
+		color: #000;
 		transition: all 0.2s ease;
 		box-shadow: 0px 10px 10px 0 rgb(0 0 0 / 10%);
 		outline: none;
@@ -33,6 +37,9 @@ export const SearchBarInput = styled.input`
 		font-size: 15px;
 		pading-left: 30px;
 		margin-left: 30px;
+	}
+	&::placeholder {
+		color: #fff;
 	}
 `;
 
