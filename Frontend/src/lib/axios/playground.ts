@@ -6,6 +6,7 @@ const url = {
 	GET_ALL_PLAYGROUND: 'http://localhost:9000/playground',
 	CREATE_PLAYGROUND: 'http://localhost:9000/playground',
 	GET_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
+	CREATE_IMAGE_PLAYGROUND: 'http://localhost:9000/images/pgmainimg/',
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -14,8 +15,12 @@ export const getAllPlaygrounds = async () => {
 	return playgrounds;
 };
 
-export const createPlayground = async (playgroundData: any) => {
-	const playground = await postData(url.CREATE_PLAYGROUND, playgroundData);
+export const createPlayground = async (playgroundData: any, type: string) => {
+	const playground = await postData(
+		url.CREATE_PLAYGROUND,
+		playgroundData,
+		type,
+	);
 	return playground;
 };
 

@@ -8,7 +8,7 @@ export const SearchContainer = styled.div`
 
 export const mainContainer = styled.div`
 	display: flex;
-	height: 320px;
+	margin-top: 100px;
 	flex-direction: column;
 `;
 
@@ -24,12 +24,19 @@ export const ModeContainer = styled.div`
 `;
 
 export const PlayGroundContainer = styled.div`
-	&:not(:nth-child(3n-1)){
-		margin:left:20px;
-	}
-  display: flex;
-	margin: 100px auto;
-	width: 80%;
-	height: 100%;
+	display: flex;
+	width: 960px;
+	margin: 0 auto;
 	flex-wrap: wrap;
+`;
+
+export const PlaygroundTitle = styled.h2`
+	max-width: 960px;
+	margin: 0 auto 30px;
+	text-align: left;
+	font-family: Roboto, sans-serif;
+	font-size: 30px;
+	line-height: 36px;
+	letter-spacing: -0.3px;
+	color: #333;
 `;
