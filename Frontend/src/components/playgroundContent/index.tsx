@@ -33,7 +33,7 @@ const PlaygroundContent = ({
 }: Playground) => {
 	const [show, dispatch] = useShow();
 	const history = useHistory();
-
+	const [image, setImage] = useState(null);
 	const createModalFunc = async (
 		playgroundId: number,
 		event: any,
@@ -59,7 +59,9 @@ const PlaygroundContent = ({
 						{date}
 					</StyledComponent.PlaygroundDate>
 				</StyledComponent.PlaygroundHeader>
-				<StyledComponent.PlaygroundImg src={src} />
+				<StyledComponent.PlaygroundImg
+					src={`http://localhost:9000/images/pgmainimg/${src}`}
+				/>
 				<StyledComponent.PlaygroundPersonInfo>
 					<span>{position}</span>
 					<span>{personnel}</span>

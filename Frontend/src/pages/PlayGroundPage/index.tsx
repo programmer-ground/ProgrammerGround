@@ -80,6 +80,7 @@ const PlayGroundPage = () => {
 								title={v.title}
 								position={v.position_list[0].position_name}
 								language={v.position_list[0].language}
+								src={v.logo_img_name}
 								id={v.playground_id}
 							/>
 						);
