@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,15 +32,21 @@ public class PlaygroundCardResponse {
     private String leaderUserName;
     @JsonProperty("position_list")
     private List<PlaygroundCardPositionResponse> positionList;
+    @JsonProperty("logo_img_name")
+    private String logoImgName;
+    @JsonProperty("created_date")
+    private LocalDateTime createdDate;
 
     @Builder
-    public PlaygroundCardResponse(Long id, String title, int maxMemberNum, int currentMemberNum, String leaderUserName, List<PlaygroundCardPositionResponse> positionList) {
+    public PlaygroundCardResponse(Long id, String title, int maxMemberNum, int currentMemberNum, String leaderUserName, List<PlaygroundCardPositionResponse> positionList, String logoImgName, LocalDateTime createdDate) {
         this.id = id;
         this.title = title;
         this.maxMemberNum = maxMemberNum;
         this.currentMemberNum = currentMemberNum;
         this.leaderUserName = leaderUserName;
         this.positionList = positionList;
+        this.logoImgName = logoImgName;
+        this.createdDate = createdDate;
     }
 
     /**
@@ -52,6 +59,9 @@ public class PlaygroundCardResponse {
                 .maxMemberNum(playground.getMaxMemberCount())
                 .currentMemberNum(playground.getCurrentMemberCount())
                 .positionList(PlaygroundCardPositionResponse.ofList(playground.getPlaygroundPositionList()))
-                .leaderUserName(playground.getLeader().getUserName()).build()).collect(Collectors.toList());
+                .leaderUserName(playground.getLeader().getUserName())
+                .logoImgName(playground.getMainImgUploadName())
+                .createdDate(playground.getCreatedAt())
+                .build()).collect(Collectors.toList());
     }
 }
