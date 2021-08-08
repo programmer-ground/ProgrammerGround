@@ -30,7 +30,7 @@ spring:
 spring:
   profiles:
     group:
-      "jeawoo-local": "jeawoo-localdb,common"
+      "jaewoo-local": "jaewoo-localdb,common"
 
 ---
 
