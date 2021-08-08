@@ -1,34 +1,8 @@
----
-# Suung Profile YAML
+# 공통 프로파일
 spring:
-  profiles: seansin-local
-    # 자신의 환경에 맞게 active 하면됌.
-
-  datasource:
-    url: jdbc:h2:tcp://localhost/~/workspace/db/programmer-ground
-    username: sa
-    password:
-    hikari:
-      driver-class-name: org.h2.Driver
-  h2:
-    console:
-      enabled: true
-
-  jpa:
-    hibernate:
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: create
-
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-
-  devtools:
-    restart:
-      enabled: true
-
+  config:
+    activate:
+      on-profile: "common"
   security:
     jwt-token:
       secret-key: awdsd
@@ -38,30 +12,69 @@ github:
   org-url : "https://api.github.com/orgs/programmer-ground"
   org-repo-url : "https://api.github.com/repos/programmer-ground"
 
+server:
+  port: 9000
+  tomcat:
+    uri-encoding: UTF-8
   servlet:
     multipart:
       max-file-size: 1MB
       max-request-size: 10MB
-  #logging:
-  #  level
-  #    org.hibernate.SQL: debug
-  #    org.hibernate.type: trace
-
-server:
-  port: 8080
-
-#이미지 파일 저장 경로 설정 각자 컴퓨터에 맞게 설정
-file:
-  dir: /Users/jaewoochoi/Desktop/image
-  playground-main-img: /pgmainimg/ #image/pgmainimg 만들 것
-  playground-description-img: /pgdesimg/  #image/pgdesimg 만들 것
----
 
 ---
-# Jeawoo Profile YAML
+
 spring:
   profiles:
-    active: jeawoo-local
+    group:
+      "seansin-local": "seansin-localdb,common"
+
+---
+
+spring:
+  profiles:
+    group:
+      "jeawoo-local": "jeawoo-localdb,common"
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "seansin-localdb"
+  datasource:
+    url: jdbc:mariadb://localhost:3306/pg?serverTimezone=UTC&characterEncoding=UTF-8
+    username: seansin
+    password: zxcv123
+    hikari:
+      driver-class-name: org.mariadb.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    properties.hibernate.dialect: org.hibernate.dialect.MariaDB103Dialect
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+
+  devtools:
+    restart:
+      enabled: true
+
+# TODO : CDN이나 S3로 변경할 예정
+# TODO : addResourceHandlers 통해서 해결하게 바꿔야함
+file:
+  dir: /Users/seansin/images
+  playground-main-img: /pgmainimg/
+  playground-description-img: /pgdesimg/
+
+---
+
+spring:
+  config:
+    activate:
+      on-profile: "jeawoo-localdb"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/auth?serverTimezone=UTC&characterEncoding=UTF-8
@@ -69,25 +82,13 @@ spring:
     password:
   jpa:
     hibernate:
-      #옵션 create, update, none, create-drop, validate 있음
       ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:
       hibernate:
         format_sql: true
-    show-sql: true
-  servlet:
-    multipart:
-      max-file-size: 1MB
-      max-request-size: 10MB
-
-  security:
-    jwt-token:
-      secret-key: awdsd
-
-server:
-  port: 9000
+        show-sql: true
 
 file:
   dir: /Users/jaewoochoi/Desktop/image
