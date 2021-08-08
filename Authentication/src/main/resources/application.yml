@@ -7,16 +7,13 @@ spring:
   security:
     jwt-token:
       secret-key: awdsd
-  oauth2:
-    client:
-      registration:
-        github:
-          client-id: 5f8150b5b4b06259a3aa
-          client-secret: 1fa30fbeceef904db5b2a1323b32dbcdd200379b
-          scope: public_repo, read:user
-  devtools:
-    restart:
-      enabled: true
+    oauth2:
+      client:
+        registration:
+          github:
+            client-id: 5f8150b5b4b06259a3aa
+            client-secret: 1fa30fbeceef904db5b2a1323b32dbcdd200379b
+            scope: public_repo, read:user
 
 server:
   port: 8080
