@@ -13,7 +13,7 @@ const informError = (error: Error) => {
 		: '오류가 발생하여 요청에 실패하였습니다';
 };
 
-const getOptions = async () => {
+export const getOptions = async (type: undefined) => {
 	const refreshToken = useCookie('refresh_token');
 	if (refreshToken[0] === '') {
 		document.cookie = 'access_token=; Max-Age=0';
@@ -27,17 +27,27 @@ const getOptions = async () => {
 		await getReissued();
 		cookie = useCookie('access_token');
 	}
-	const options = setOptions(cookie[0]);
+	const options = setOptions(cookie[0], type);
 	return options;
 };
 
-const setOptions = (token: string): any => {
-	const headers = {
-		'Content-Type': 'application/json;charset=UTF-8',
-		'Access-Control-Allow-Origin': '*',
-		Accept: 'application/json',
-		Authorization: `Bearer ${token}`,
-	};
+const setOptions = (token: string, type: string): any => {
+	const headers = {};
+	if (type !== 'image') {
+		headers = {
+			'Content-Type': 'application/json;charset=UTF-8',
+			'Access-Control-Allow-Origin': '*',
+			Accept: 'application/json',
+			Authorization: `Bearer ${token}`,
+		};
+	} else {
+		headers = {
+			'Content-Type': 'multipart/form-data',
+			'Access-Control-Allow-Origin': '*',
+			Accept: 'application/json',
+			Authorization: `Bearer ${token}`,
+		};
+	}
 	const options = {
 		mode: 'cors',
 		credentials: 'include',
@@ -72,8 +82,8 @@ export const getData = async (url: string) => {
 	}
 };
 
-export const postData = async (url: string, body: string) => {
-	const options = await getOptions();
+export const postData = async (url: string, body: any, type: string) => {
+	const options = await getOptions(type);
 	try {
 		const response = await axios.post(url, body, options);
 		return response.data;

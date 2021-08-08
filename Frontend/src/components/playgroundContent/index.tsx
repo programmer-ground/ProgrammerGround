@@ -15,25 +15,21 @@ import * as StyledComponent from './style';
 interface Playground {
 	id: number;
 	title: string;
-	date: string;
+	createDate: string;
 	src?: string;
-	position: string;
-	personnel: string;
-	language: string[];
+	user: string;
 }
 
 const PlaygroundContent = ({
 	id,
 	title,
-	date,
+	createDate,
 	src,
-	position,
-	personnel,
-	language,
+	user,
 }: Playground) => {
 	const [show, dispatch] = useShow();
 	const history = useHistory();
-
+	const [image, setImage] = useState(null);
 	const createModalFunc = async (
 		playgroundId: number,
 		event: any,
@@ -51,28 +47,25 @@ const PlaygroundContent = ({
 			<StyledComponent.PlaygroundContent
 				onClick={(e) => createModalFunc(id, e, title)}
 			>
-				<StyledComponent.PlaygroundHeader>
+				<StyledComponent.PlaygroundImg
+					src={`http://localhost:9000/images/pgmainimg/${src}`}
+				/>
+				<StyledComponent.PlaygroundPersonInfo>
+					<StyledComponent.PlaygroundStatus>
+						모집중
+					</StyledComponent.PlaygroundStatus>
 					<StyledComponent.PlaygroundTitle>
 						{title}
 					</StyledComponent.PlaygroundTitle>
-					<StyledComponent.PlaygroundDate>
-						{date}
-					</StyledComponent.PlaygroundDate>
-				</StyledComponent.PlaygroundHeader>
-				<StyledComponent.PlaygroundImg src={src} />
-				<StyledComponent.PlaygroundPersonInfo>
-					<span>{position}</span>
-					<span>{personnel}</span>
+					<StyledComponent.PlaygroundUserContainer>
+						<StyledComponent.PlaygroundUserName>
+							{user}
+						</StyledComponent.PlaygroundUserName>
+						<StyledComponent.PlaygroundCreateDate>
+							{createDate}
+						</StyledComponent.PlaygroundCreateDate>
+					</StyledComponent.PlaygroundUserContainer>
 				</StyledComponent.PlaygroundPersonInfo>
-				<StyledComponent.PlaygroundTechListContainer>
-					{language.map((v, i) => {
-						return (
-							<StyledComponent.PlaygroundTechList key={i}>
-								{v}
-							</StyledComponent.PlaygroundTechList>
-						);
-					})}
-				</StyledComponent.PlaygroundTechListContainer>
 			</StyledComponent.PlaygroundContent>
 		</>
 	);

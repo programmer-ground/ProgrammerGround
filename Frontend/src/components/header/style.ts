@@ -27,16 +27,12 @@ export const HeaderImg = styled.img.attrs({
 `;
 
 export const HeaderContainer = styled.header`
-	position: fixed;
-	right: 0;
-	left: 0;
-	top: 0;
 	display: flex;
 	justify-content: space-around;
 	min-width: 1100px;
 	height: 100px;
 	padding: 0px 8px;
-	background-color: #fff;
+	background-color: #747474;
 	z-index: 100;
 `;
 

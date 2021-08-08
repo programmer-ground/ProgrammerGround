@@ -43,7 +43,10 @@ const PlayGroundPage = () => {
 	const fetchData = async () => {
 		try {
 			const data = await getAllPlaygrounds();
-			let response = data.playground_card;
+			const response = data.playground_card;
+			for (const card of response) {
+				card.created_date = card.created_date.toString().slice(0, 10);
+			}
 			setResult(response.slice(0, 15));
 			response = response.slice(15);
 			setItem(response);
@@ -72,6 +75,9 @@ const PlayGroundPage = () => {
 			<Header />
 
 			<StyledComponent.mainContainer>
+				<StyledComponent.PlaygroundTitle>
+					플레이 그라운드 정보
+				</StyledComponent.PlaygroundTitle>
 				<StyledComponent.PlayGroundContainer>
 					{result.map((v) => {
 						return (
@@ -80,7 +86,10 @@ const PlayGroundPage = () => {
 								title={v.title}
 								position={v.position_list[0].position_name}
 								language={v.position_list[0].language}
+								src={v.logo_img_name}
 								id={v.playground_id}
+								user={v.leader_user_name}
+								createDate={v.created_date}
 							/>
 						);
 					})}

@@ -29,6 +29,7 @@ const CreatePage = () => {
 	const history = useHistory();
 	const { position } = useSelector((state: RootState) => state.positionReducer);
 	const [loading, setLoading] = useState(false);
+	const [img, setImage] = useState(null);
 	// 프로젝트 이름
 	const [title, setTitle] = useState('');
 	// 프로젝트 설명
@@ -52,8 +53,15 @@ const CreatePage = () => {
 		dispatch(changePosition(obj));
 	};
 
+	const fileChangedHandler = (e: any) => {
+		setImage(e.target.files[0]);
+	};
+
 	const onSubmitHandler = (e) => {
 		e.preventDefault();
+
+		const formData = new FormData();
+
 		const obj = {
 			title,
 			description,
@@ -62,10 +70,18 @@ const CreatePage = () => {
 			}, 0),
 			leader_position: leaderPosition,
 		};
+
 		const result = {
 			...obj,
 			position,
 		};
+
+		formData.append(
+			'info',
+			new Blob([JSON.stringify(result)], { type: 'application/json' }),
+		);
+		formData.append('mainImg', img);
+
 		if (!leaderPosition) {
 			alert('리더의 포지션이 체크되지 않았습니다.');
 			return;
@@ -81,10 +97,11 @@ const CreatePage = () => {
 				return;
 			}
 		}
+
 		const create = async () => {
 			try {
 				setLoading(true);
-				await createPlayground(result);
+				await createPlayground(formData, 'image');
 				setLoading(false);
 				history.push('/');
 			} catch (error) {
@@ -152,7 +169,7 @@ const CreatePage = () => {
 				</h1>
 			</StyledComponent.CreateSubTitle>
 
-			<form onSubmit={onSubmitHandler}>
+			<form onSubmit={onSubmitHandler} encType="multipart/form-data">
 				<StyledComponent.CreateNameDiv>
 					<label htmlFor="projectNameId" className="project_label_name">
 						프로젝트 이름
@@ -178,6 +195,7 @@ const CreatePage = () => {
 						/>
 					</div>
 				</StyledComponent.CreateNameDiv>
+				<input id="image" type="file" onChange={fileChangedHandler} />
 				<StyledComponent.CreateNameDiv>
 					<label htmlFor="positionId" className="project_label_name">
 						리더포지션
