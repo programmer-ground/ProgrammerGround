@@ -3,11 +3,15 @@
 import React, { useState } from 'react';
 import * as StyledComponent from './style';
 import './headerImage.scss';
+import useCookie from '@src/hooks/useCookie';
 import SearchBar from '@src/components/searchBar/index';
+import { useHistory } from 'react-router-dom';
 
 const Header = () => {
 	const [isAlarm, setAlarm] = useState(false);
 	const [isUser, setUser] = useState(false);
+	const history = useHistory();
+
 	const userClickHandler = (e: any) => {
 		setUser(!isUser);
 	};
@@ -15,6 +19,11 @@ const Header = () => {
 		console.log('alarm');
 	};
 
+	const onLogout = (e) => {
+		document.cookie = `access_token=; Max-Age=0`;
+		document.cookie = `refresh_token=; Max-Age=0`;
+		history.push('/login');
+	};
 	return (
 		<>
 			<StyledComponent.GlobalStyle />
@@ -46,7 +55,7 @@ const Header = () => {
 								</a>
 							</StyledComponent.UserItem>
 							<StyledComponent.UserItem>
-								<a href="#">
+								<a onClick={onLogout}>
 									<i className="user_logout" />
 									<span>로그아웃</span>
 								</a>
