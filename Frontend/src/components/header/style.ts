@@ -38,36 +38,15 @@ export const HeaderContainer = styled.header`
 
 export const HeaderMenuContainer = styled.div`
 	display: flex;
+	position: relative;
 	justify-content: center;
-	width: 200px;
 	height: 50px;
 	padding-top: 20px;
-
-	& > div {
-		border: 1px solid #e9e9e9;
-		border-radius: 50%;
-		cursor: pointer;
-		&:not(:first-child) {
-			margin-left: 10px;
-		}
-	}
 
 	@media screen and (max-width: 330px) {
 		display: none;
 	}
 `;
-
-export const ProjectIcon = styled.div`
-	@include sprite($projectIcon);
-`;
-
-export const AlarmIcon = styled.img.attrs({
-	src: alarm,
-})``;
-
-export const ProfileIcon = styled.img.attrs({
-	src: user,
-})``;
 
 export const CreateLink = styled.a.attrs((props) => ({
 	href: 'http://localhost:3000/playground',
@@ -86,3 +65,40 @@ export const CreateLink = styled.a.attrs((props) => ({
 export const PlaygroundSearchSection = styled.div`
 	margin-top: 15px;
 `;
+
+export const UserMenu = styled.div`
+	position: absolute;
+	top: 80px;
+	left: 0;
+	z-index: 200;
+	background-color: #fff;
+	border-radius: 4px;
+	border: 1px solid rgba(0, 0, 0, 0.1);
+	box-shadow: 0 4px 6px 0 rgba(0, 7, 120, 0.1);
+`;
+
+export const UserItem = styled.div`
+	display: flex;
+	align-items: center;
+	&:not(:first-child) {
+		border-top: 1px solid rgba(0, 0, 0, 0.1);
+	}
+	padding: 16px 10px;
+	font-size: 18px;
+	font-family: Roboto, sans-serif;
+	text-align: center;
+	min-width: 120px;
+	min-height: 48px;
+	cursor: pointer;
+	& > a {
+		display: block;
+		color: #000;
+		text-decoration: none;
+	}
+
+	&:hover {
+		background-color: rgba(0, 0, 0, 0.1);
+	}
+`;
+
+export const UserProfileLink = styled.a``;

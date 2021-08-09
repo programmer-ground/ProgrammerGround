@@ -1,9 +1,29 @@
-import React from 'react';
+// eslint-disable-next-line @typescript-eslint/ban-ts-comment
+// @ts-nocheck
+import React, { useState } from 'react';
 import * as StyledComponent from './style';
 import './headerImage.scss';
+import useCookie from '@src/hooks/useCookie';
 import SearchBar from '@src/components/searchBar/index';
+import { useHistory } from 'react-router-dom';
 
 const Header = () => {
+	const [isAlarm, setAlarm] = useState(false);
+	const [isUser, setUser] = useState(false);
+	const history = useHistory();
+
+	const userClickHandler = (e: any) => {
+		setUser(!isUser);
+	};
+	const alarmClickHandler = (e: any) => {
+		console.log('alarm');
+	};
+
+	const onLogout = (e) => {
+		document.cookie = `access_token=; Max-Age=0`;
+		document.cookie = `refresh_token=; Max-Age=0`;
+		history.push('/login');
+	};
 	return (
 		<>
 			<StyledComponent.GlobalStyle />
@@ -14,10 +34,39 @@ const Header = () => {
 				<StyledComponent.PlaygroundSearchSection>
 					<SearchBar />
 				</StyledComponent.PlaygroundSearchSection>
-				<StyledComponent.CreateLink>방 생성</StyledComponent.CreateLink>
 				<StyledComponent.HeaderMenuContainer>
-					<div className="user_icon" />
-					<div className="alarm_icon" />
+					<button
+						type="button"
+						className="user_icon"
+						onClick={userClickHandler}
+					/>
+					{isUser && (
+						<StyledComponent.UserMenu>
+							<StyledComponent.UserItem>
+								<a href="#">
+									<i className="user_profile" />
+									<span>나의 프로필</span>
+								</a>
+							</StyledComponent.UserItem>
+							<StyledComponent.UserItem>
+								<a href="http://localhost:3000/playground">
+									<i className="user_room" />
+									<span>방 생성</span>
+								</a>
+							</StyledComponent.UserItem>
+							<StyledComponent.UserItem>
+								<a onClick={onLogout}>
+									<i className="user_logout" />
+									<span>로그아웃</span>
+								</a>
+							</StyledComponent.UserItem>
+						</StyledComponent.UserMenu>
+					)}
+					<button
+						type="button"
+						className="alarm_icon"
+						onClick={alarmClickHandler}
+					/>
 				</StyledComponent.HeaderMenuContainer>
 			</StyledComponent.HeaderContainer>
 		</>
