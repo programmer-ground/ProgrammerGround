@@ -1,9 +1,64 @@
 @import '@src/assets/sprite.scss';
 
 .user_icon {
-  @include sprite($icon-user);
+  border: 1px solid #000;
+  border-radius: 50%;
+  cursor: pointer;
+  &::after {
+    display: inline-block;
+    content: '';
+    @include sprite($icon-user);
+  }
 }
 
 .alarm_icon {
-  @include sprite($icon-alarm);
+  border: 1px solid #000;
+  border-radius: 50%;
+  cursor: pointer;
+  &:not(:first-child) {
+    margin-left: 20px;
+  }
+  &::after {
+
+    display: inline-block;
+    content: '';
+    @include sprite($icon-alarm);
+  }
+}
+
+.user_profile {
+  flex: 1 1 0;
+  &::before {
+    margin:-1px 10px 0 0;
+    vertical-align: bottom;
+    display: inline-block;
+    content: '';
+    @include sprite($profile);
+  }
+}
+
+.user_room {
+  flex: 1 1 0;
+  &::before {
+    margin:-1px 10px 0 0;
+    vertical-align: bottom;
+    display: inline-block;
+    content: '';
+    @include sprite($open-door);
+  }
+}
+
+.user_logout {
+  flex: 1 1 0;
+  &::before {
+    margin:-1px 10px 0 0;
+    vertical-align: bottom;
+    display: inline-block;
+    content: '';
+    @include sprite($logout);
+  }
+  & + button {
+    padding: 0;
+
+  }
 }
