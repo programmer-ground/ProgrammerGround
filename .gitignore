@@ -41,6 +41,7 @@ out/
 .DS_Store
 node_modules
 dist
+package-lock.json
 
 
 # Log files
