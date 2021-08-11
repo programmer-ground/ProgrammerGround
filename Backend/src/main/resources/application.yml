@@ -1,5 +1,7 @@
 # 공통 프로파일
 spring:
+  application:
+    name: pg-api-service
   config:
     activate:
       on-profile: "common"
@@ -21,6 +23,10 @@ server:
       max-file-size: 1MB
       max-request-size: 10MB
 
+eureka:
+  client:
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
 ---
 
 spring:
