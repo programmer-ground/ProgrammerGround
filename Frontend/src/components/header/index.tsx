@@ -5,6 +5,7 @@ import * as StyledComponent from './style';
 import './headerImage.scss';
 import useCookie from '@src/hooks/useCookie';
 import { useHistory } from 'react-router-dom';
+import { getOneUser } from '@src/lib/axios/playground';
 
 const Header = () => {
 	const [isAlarm, setAlarm] = useState(false);
@@ -23,6 +24,13 @@ const Header = () => {
 		document.cookie = `refresh_token=; Max-Age=0`;
 		history.push('/login');
 	};
+	const goProfilePage = async (e) => {
+		const userData = await getOneUser();
+		history.push({
+			pathname: '/profile',
+			state: { userData },
+		});
+	};
 	return (
 		<>
 			<StyledComponent.GlobalStyle />
@@ -40,7 +48,7 @@ const Header = () => {
 					{isUser && (
 						<StyledComponent.UserMenu>
 							<StyledComponent.UserItem>
-								<a href="http://localhost:3000/profile">
+								<a onClick={(e) => goProfilePage()}>
 									<i className="user_profile" />
 									<span>나의 프로필</span>
 								</a>

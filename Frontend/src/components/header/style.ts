@@ -32,7 +32,7 @@ export const HeaderContainer = styled.header`
 	min-width: 1100px;
 	height: 100px;
 	padding: 0px 8px;
-	background-color: #747474;
+	background-color: #333;
 	z-index: 100;
 	position: fixed;
 	top: 0;
