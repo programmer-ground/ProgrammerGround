@@ -32,7 +32,7 @@ export const PlayGroundContainer = styled.div`
 
 export const PlaygroundTitle = styled.h2`
 	max-width: 960px;
-	margin: 0 auto 30px;
+	margin: 30px auto;
 	text-align: left;
 	font-family: Roboto, sans-serif;
 	font-size: 30px;

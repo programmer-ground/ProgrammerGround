@@ -5,6 +5,7 @@ import PlayGroundPage from '@src/pages/PlayGroundPage';
 import CreatePage from '@src/pages/CreatePage';
 import PlaygroundIdPage from '@src/pages/PlaygroundIdPage';
 import ModalWrapper from '@src/components/Common/modal';
+import ProfilePage from '@src/pages/ProfilePage';
 import { GlobalStyle } from './Global';
 
 const App = () => {
@@ -17,6 +18,7 @@ const App = () => {
 					<Route exact path="/" component={PlayGroundPage} />
 					<Route exact path="/playground" component={CreatePage} />
 					<Route exact path="/playground/:id" component={PlaygroundIdPage} />
+					<Route exact path="/profile" component={ProfilePage} />
 				</Switch>
 			</Router>
 			<ModalWrapper />
