@@ -4,7 +4,6 @@ import React, { useState } from 'react';
 import * as StyledComponent from './style';
 import './headerImage.scss';
 import useCookie from '@src/hooks/useCookie';
-import SearchBar from '@src/components/searchBar/index';
 import { useHistory } from 'react-router-dom';
 
 const Header = () => {
@@ -31,9 +30,7 @@ const Header = () => {
 				<a href="http://localhost:3000/">
 					<StyledComponent.HeaderImg />
 				</a>
-				<StyledComponent.PlaygroundSearchSection>
-					<SearchBar />
-				</StyledComponent.PlaygroundSearchSection>
+				<StyledComponent.PlaygroundSearchSection />
 				<StyledComponent.HeaderMenuContainer>
 					<button
 						type="button"
@@ -43,7 +40,7 @@ const Header = () => {
 					{isUser && (
 						<StyledComponent.UserMenu>
 							<StyledComponent.UserItem>
-								<a href="#">
+								<a href="http://localhost:3000/profile">
 									<i className="user_profile" />
 									<span>나의 프로필</span>
 								</a>

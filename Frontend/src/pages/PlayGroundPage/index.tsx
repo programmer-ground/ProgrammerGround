@@ -9,7 +9,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Header from '@src/components/header';
 import { useDispatch, useSelector } from 'react-redux';
 import PlaygroundContent from '@src/components/playgroundContent';
-import { getAllPlaygrounds, getOnePlayground } from '@src/lib/axios/playground';
+import { getAllPlaygrounds, getOneUser } from '@src/lib/axios/playground';
 import OnePlaygroundModal from '@src/components/Common/modal/onePlaygroundModal';
 import { RootState } from '@src/store/modules';
 import { throttling } from '@src/utils/throttle';
