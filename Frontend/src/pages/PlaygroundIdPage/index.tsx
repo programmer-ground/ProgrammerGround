@@ -3,14 +3,16 @@ import { useLocation } from 'react-router-dom';
 
 const PlaygroundIdPage = () => {
 	const location = useLocation();
-	const [title, setTitle] = useState('');
-	console.log((location.state as any).playgroundTitle);
-	useEffect(() => {
-		setTitle((location.state as any).playgroundTitle);
-	}, []);
+	const { playgroundTitle, data, loginUserName } = location.state as any;
+
 	return (
 		<>
-			<div>{title}</div>
+			{loginUserName.oauth_name === data.userInfoList[0].oauthName ? (
+				<div>ee</div>
+			) : (
+				<div>실패</div>
+			)}
+			<div>{playgroundTitle}</div>
 			<div>ddd</div>
 		</>
 	);

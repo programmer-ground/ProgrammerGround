@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '@src/store/modules';
 import { useHistory } from 'react-router-dom';
 import { playgroundModalMode } from '@src/store/modules/modal';
-import { getOnePlayground } from '@src/lib/axios/playground';
+import { getOnePlayground, getOneUser } from '@src/lib/axios/playground';
 import { getOnePlaygroundItem } from '@src/store/modules/Playground';
 import * as StyledComponent from './style';
 
@@ -36,10 +36,11 @@ const PlaygroundContent = ({
 		playgroundTitle: string,
 	) => {
 		const data = await getOnePlayground(playgroundId);
+		const loginUserName = await getOneUser();
 		dispatch(getOnePlaygroundItem(data));
 		history.push({
 			pathname: `/playground/${playgroundId}`,
-			state: { playgroundTitle },
+			state: { playgroundTitle, data, loginUserName },
 		});
 	};
 	return (
