@@ -2,7 +2,9 @@
 import styled from 'styled-components';
 
 export const SameMainContainer = styled.div`
-	padding: 150px 400px 0;
+	padding-top: 150px;
+	width: 960px;
+	margin: 0 auto;
 `;
 
 export const SameContainer = styled.div`
@@ -90,8 +92,49 @@ export const SameContent = styled.div`
 	border: 1px solid rgba(0, 0, 0, 0.12);
 `;
 
+export const SameSeveralContent = styled.div`
+	border: 1px solid #e7e7e7;
+	padding: 10px;
+`;
+
 export const SameContentText = styled.div`
 	text-align: center;
 	display: inline-block;
 	padding: 0 20px;
+`;
+
+export const SameContentTextInner = styled.div`
+	&:not(:first-child) {
+		margin-top: 15px;
+	}
+	text-align: left;
+`;
+export const SameContentTextContainer = styled.div``;
+
+export const SameContentTextLabel = styled.span`
+	font-size: 20px;
+	line-height: 28px;
+`;
+
+export const SameContentValue = styled.span`
+	&:not(:first-child) {
+		margin-left: 10px;
+	}
+	font-size: 14px;
+
+	background-color: red;
+	border-radius: 20px;
+	padding: 5px;
+	color: #fff;
+`;
+
+export const SameContentLanguageLabel = styled.span`
+	&:not(:first-child) {
+		margin-left: 10px;
+	}
+	background: ${(props) => props.color};
+	font-size: 14px;
+	border-radius: 20px;
+	padding: 5px;
+	color: #fff;
 `;

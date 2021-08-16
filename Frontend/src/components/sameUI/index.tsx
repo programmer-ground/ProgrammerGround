@@ -15,6 +15,7 @@ const SameUI = ({
 	data,
 	positionList,
 }: playground) => {
+	const colors = ['red', 'yellow', 'blue', 'green', 'purple', 'pink'];
 	console.log(positionList);
 	return (
 		<StyledComponent.SameMainContainer>
@@ -43,7 +44,46 @@ const SameUI = ({
 				</StyledComponent.SameHightlightTitle>
 			</StyledComponent.SameTitle>
 			<StyledComponent.SameContent>
-				<StyledComponent.SameContentText />
+				<StyledComponent.SameSeveralContent>
+					{positionList.map((v: any) => {
+						return (
+							<>
+								<StyledComponent.SameContentTextContainer>
+									<StyledComponent.SameContentTextInner>
+										<StyledComponent.SameContentTextLabel>
+											포지션:
+										</StyledComponent.SameContentTextLabel>
+										<StyledComponent.SameContentValue>
+											{v.position_name}
+										</StyledComponent.SameContentValue>
+									</StyledComponent.SameContentTextInner>
+									<StyledComponent.SameContentTextInner>
+										<StyledComponent.SameContentTextLabel>
+											인원:
+										</StyledComponent.SameContentTextLabel>
+										<StyledComponent.SameContentValue>
+											{v.current_position_num} 명
+										</StyledComponent.SameContentValue>
+									</StyledComponent.SameContentTextInner>
+									<StyledComponent.SameContentTextInner>
+										<StyledComponent.SameContentTextLabel>
+											언어:
+										</StyledComponent.SameContentTextLabel>
+										{v.language.map((x: any, i: number) => {
+											return (
+												<StyledComponent.SameContentLanguageLabel
+													color={colors[i]}
+												>
+													{x}
+												</StyledComponent.SameContentLanguageLabel>
+											);
+										})}
+									</StyledComponent.SameContentTextInner>
+								</StyledComponent.SameContentTextContainer>
+							</>
+						);
+					})}
+				</StyledComponent.SameSeveralContent>
 			</StyledComponent.SameContent>
 			<StyledComponent.SameContainer>
 				<StyledComponent.SameModifyButton>
