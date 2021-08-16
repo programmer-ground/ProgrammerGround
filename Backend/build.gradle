@@ -21,7 +21,7 @@ repositories {
 }
 
 ext {
-    set('springCloudVersion', "Hoxton.BUILD-SNAPSHOT")
+    set('springCloudVersion', "2020.0.3")
 }
 
 dependencies {
@@ -30,6 +30,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-security'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    //implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
     implementation 'org.hibernate.validator:hibernate-validator:6.1.2.Final'
     implementation 'io.jsonwebtoken:jjwt:0.7.0'
     implementation 'com.h2database:h2'
