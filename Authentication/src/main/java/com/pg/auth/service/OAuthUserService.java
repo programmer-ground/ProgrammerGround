@@ -33,9 +33,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OAuthUserService {
     private static final int VALID_CODE = 0;
-    private static final String GITHUB_API_GET_AUTHOR_INFO = "https://api.github.com/search/commits?q=author:";
-    private static final String GITHUB_API_GET_ISSUE_INFO = "https://api.github.com/search/issues?q=";
+    private static final String GITHUB_API_GET_USER_COMMIT_INFO = "https://api.github.com/search/commits?q=author:";
+    private static final String GITHUB_API_GET_USER_ISSUE_INFO = "https://api.github.com/search/issues?q=";
     private static final String GITHUB_API_GET_USER_REPOSITORY_INFO = "https://api.github.com/search/repositories?q=user:";
+    private static final String GITHUB_API_GET_AUTHENTICATED_USER_INFO = "https://api.github.com/user";
 
     private final OAuthUserRepository oAuthUserRepository;
     private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
@@ -163,7 +164,7 @@ public class OAuthUserService {
         HttpHeaders header = new HttpHeaders();
         header.set("Authorization", "bearer " + oauthUser.getAccessTokenValue());
         GithubOAuthInfoDto oauthInfo = restService.rest(
-            "https://api.github.com/user", HttpMethod.GET, header, GithubOAuthInfoDto.class);
+                GITHUB_API_GET_USER, HttpMethod.GET, header, GithubOAuthInfoDto.class);
 
         CompletableFuture<GithubRepoDto> repoFuture = CompletableFuture.supplyAsync(
             () -> getOAuthUserRepository(oauthInfo.getLogin(), header));
