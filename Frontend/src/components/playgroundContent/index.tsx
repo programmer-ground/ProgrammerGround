@@ -49,6 +49,7 @@ const PlaygroundContent = ({
 				src,
 				createDate,
 				positionList,
+				id,
 			},
 		});
 	};

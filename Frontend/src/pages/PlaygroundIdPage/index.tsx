@@ -13,6 +13,7 @@ const PlaygroundIdPage = () => {
 		src,
 		createDate,
 		positionList,
+		id,
 	} = location.state as any;
 	return (
 		<>
@@ -24,6 +25,7 @@ const PlaygroundIdPage = () => {
 					createDate={createDate}
 					data={data}
 					positionList={positionList}
+					id={id}
 				/>
 			) : (
 				<OtherUI />

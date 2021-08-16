@@ -71,6 +71,8 @@ export const PlaygroundSearchSection = styled.div`
 `;
 
 export const UserMenu = styled.div`
+	display: flex;
+	flex-direction: column;
 	position: absolute;
 	top: 80px;
 	left: 0;
@@ -79,29 +81,18 @@ export const UserMenu = styled.div`
 	border-radius: 4px;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	box-shadow: 0 4px 6px 0 rgba(0, 7, 120, 0.1);
-`;
-
-export const UserItem = styled.div`
-	display: flex;
-	align-items: center;
-	&:not(:first-child) {
-		border-top: 1px solid rgba(0, 0, 0, 0.1);
-	}
-	padding: 16px 10px;
-	font-size: 18px;
-	font-family: Roboto, sans-serif;
-	text-align: center;
-	min-width: 120px;
-	min-height: 48px;
-	cursor: pointer;
 	& > a {
-		display: block;
+		&:not(:first-child) {
+			border-top: 1px solid rgba(0, 0, 0, 0.1);
+		}
+		padding: 16px 10px;
+		font-size: 18px;
+		font-family: Roboto, sans-serif;
+		min-width: 120px;
+		min-height: 28px;
+		cursor: pointer;
 		color: #000;
 		text-decoration: none;
-	}
-
-	&:hover {
-		background-color: rgba(0, 0, 0, 0.1);
 	}
 `;
 

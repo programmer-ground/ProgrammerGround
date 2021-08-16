@@ -47,24 +47,18 @@ const Header = () => {
 					/>
 					{isUser && (
 						<StyledComponent.UserMenu>
-							<StyledComponent.UserItem>
-								<a onClick={(e) => goProfilePage()}>
-									<i className="user_profile" />
-									<span>나의 프로필</span>
-								</a>
-							</StyledComponent.UserItem>
-							<StyledComponent.UserItem>
-								<a href="http://localhost:3000/playground">
-									<i className="user_room" />
-									<span>방 생성</span>
-								</a>
-							</StyledComponent.UserItem>
-							<StyledComponent.UserItem>
-								<a onClick={onLogout}>
-									<i className="user_logout" />
-									<span>로그아웃</span>
-								</a>
-							</StyledComponent.UserItem>
+							<a onClick={(e) => goProfilePage()}>
+								<i className="user_profile" />
+								<span>나의 프로필</span>
+							</a>
+							<a href="http://localhost:3000/playground">
+								<i className="user_room" />
+								<span>방 생성</span>
+							</a>
+							<a onClick={onLogout}>
+								<i className="user_logout" />
+								<span>로그아웃</span>
+							</a>
 						</StyledComponent.UserMenu>
 					)}
 					<button

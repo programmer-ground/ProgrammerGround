@@ -1,4 +1,6 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
+import { deleteOnePlayground } from '@src/lib/axios/playground';
 import * as StyledComponent from './style';
 
 interface playground {
@@ -7,6 +9,7 @@ interface playground {
 	createDate: string;
 	data: any;
 	positionList: any;
+	id: number;
 }
 const SameUI = ({
 	playgroundTitle,
@@ -14,9 +17,17 @@ const SameUI = ({
 	createDate,
 	data,
 	positionList,
+	id,
 }: playground) => {
 	const colors = ['red', 'yellow', 'blue', 'green', 'purple', 'pink'];
-	console.log(positionList);
+	const history = useHistory();
+	const onDelete = (e: any) => {
+		const selectModal = confirm('정말로 삭제하시겠습니까?');
+		if (selectModal) {
+			deleteOnePlayground(id);
+			history.push('/');
+		}
+	};
 	return (
 		<StyledComponent.SameMainContainer>
 			<StyledComponent.SameTitle>
@@ -89,7 +100,7 @@ const SameUI = ({
 				<StyledComponent.SameModifyButton>
 					수정하기
 				</StyledComponent.SameModifyButton>
-				<StyledComponent.SameDeleteButton>
+				<StyledComponent.SameDeleteButton onClick={onDelete}>
 					삭제하기
 				</StyledComponent.SameDeleteButton>
 			</StyledComponent.SameContainer>

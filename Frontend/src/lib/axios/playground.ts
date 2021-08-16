@@ -8,6 +8,7 @@ const url = {
 	GET_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
 	CREATE_IMAGE_PLAYGROUND: 'http://localhost:9000/images/pgmainimg/',
 	GET_ONE_USER: 'http://localhost:9000/user',
+	DELETE_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -33,4 +34,11 @@ export const getOnePlayground = async (playgroundId: number) => {
 export const getOneUser = async () => {
 	const user = await getData(`${url.GET_ONE_USER}`);
 	return user;
+};
+
+export const deleteOnePlayground = async (playgroundId: number) => {
+	const playground = await deleteData(
+		`${url.DELETE_ONE_PLAYGROUND}${playgroundId}`,
+	);
+	return playground;
 };
