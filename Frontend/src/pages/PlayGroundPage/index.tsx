@@ -49,7 +49,6 @@ const PlayGroundPage = () => {
 				card.created_date = card.created_date.toString().slice(0, 10);
 			}
 			setResult(response.slice(0, 15));
-			console.log(response);
 			response = response.slice(15);
 			setItem(response);
 		} catch (e) {
@@ -91,7 +90,7 @@ const PlayGroundPage = () => {
 								positionList={v.position_list}
 								src={v.logo_img_name}
 								id={v.playground_id}
-								user={v.leader_user_name}
+								user={v.leader_oauth_name}
 								createDate={v.created_date}
 							/>
 						);
