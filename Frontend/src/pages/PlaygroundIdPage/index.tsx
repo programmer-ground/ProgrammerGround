@@ -6,13 +6,25 @@ import SameUI from '@src/components/sameUI';
 
 const PlaygroundIdPage = () => {
 	const location = useLocation();
-	const { playgroundTitle, data, loginUserName } = location.state as any;
-
+	const {
+		playgroundTitle,
+		data,
+		loginUserName,
+		src,
+		createDate,
+		positionList,
+	} = location.state as any;
 	return (
 		<>
 			<Header />
 			{loginUserName.oauth_name === data.userInfoList[0].oauthName ? (
-				<SameUI />
+				<SameUI
+					playgroundTitle={playgroundTitle}
+					src={src}
+					createDate={createDate}
+					data={data}
+					positionList={positionList}
+				/>
 			) : (
 				<OtherUI />
 			)}

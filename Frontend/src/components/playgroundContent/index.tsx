@@ -18,6 +18,7 @@ interface Playground {
 	createDate: string;
 	src?: string;
 	user: string;
+	positionList: any;
 }
 
 const PlaygroundContent = ({
@@ -26,6 +27,7 @@ const PlaygroundContent = ({
 	createDate,
 	src,
 	user,
+	positionList,
 }: Playground) => {
 	const [show, dispatch] = useShow();
 	const history = useHistory();
@@ -40,7 +42,14 @@ const PlaygroundContent = ({
 		dispatch(getOnePlaygroundItem(data));
 		history.push({
 			pathname: `/playground/${playgroundId}`,
-			state: { playgroundTitle, data, loginUserName },
+			state: {
+				playgroundTitle,
+				data,
+				loginUserName,
+				src,
+				createDate,
+				positionList,
+			},
 		});
 	};
 	return (
