@@ -43,11 +43,13 @@ const PlayGroundPage = () => {
 	const fetchData = async () => {
 		try {
 			const data = await getAllPlaygrounds();
+
 			const response = data.playground_card;
 			for (const card of response) {
 				card.created_date = card.created_date.toString().slice(0, 10);
 			}
 			setResult(response.slice(0, 15));
+			console.log(response);
 			response = response.slice(15);
 			setItem(response);
 		} catch (e) {
@@ -86,6 +88,7 @@ const PlayGroundPage = () => {
 								title={v.title}
 								position={v.position_list[0].position_name}
 								language={v.position_list[0].language}
+								positionList={v.position_list}
 								src={v.logo_img_name}
 								id={v.playground_id}
 								user={v.leader_user_name}

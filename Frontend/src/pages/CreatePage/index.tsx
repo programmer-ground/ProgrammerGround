@@ -191,7 +191,7 @@ const CreatePage = () => {
 						<Editor
 							id="projectContentId"
 							onChange={descriptionFunc}
-							defaultValue="Hello world!"
+							defaultValue=""
 						/>
 					</div>
 				</StyledComponent.CreateNameDiv>
