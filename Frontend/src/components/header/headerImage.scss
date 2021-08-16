@@ -57,8 +57,4 @@
     content: '';
     @include sprite($logout);
   }
-  & + button {
-    padding: 0;
-
-  }
 }

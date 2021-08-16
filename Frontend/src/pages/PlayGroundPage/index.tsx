@@ -43,6 +43,7 @@ const PlayGroundPage = () => {
 	const fetchData = async () => {
 		try {
 			const data = await getAllPlaygrounds();
+
 			const response = data.playground_card;
 			for (const card of response) {
 				card.created_date = card.created_date.toString().slice(0, 10);
@@ -86,9 +87,10 @@ const PlayGroundPage = () => {
 								title={v.title}
 								position={v.position_list[0].position_name}
 								language={v.position_list[0].language}
+								positionList={v.position_list}
 								src={v.logo_img_name}
 								id={v.playground_id}
-								user={v.leader_user_name}
+								user={v.leader_oauth_name}
 								createDate={v.created_date}
 							/>
 						);

@@ -127,7 +127,7 @@ spring:
         show-sql: true
 
 file:
-  dir: /Users/jaewoochoi/Desktop/image
+  dir: /Users/thdwlsgus0/Desktop/image
   playground-main-img: /pgmainimg/
   playground-description-img: /pgdesimg/
 
