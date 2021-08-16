@@ -33,6 +33,10 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OAuthUserService {
     private static final int VALID_CODE = 0;
+    private static final String GITHUB_API_GET_AUTHOR_INFO = "https://api.github.com/search/commits?q=author:";
+    private static final String GITHUB_API_GET_ISSUE_INFO = "https://api.github.com/search/issues?q=";
+    private static final String GITHUB_API_GET_USER_REPOSITORY_INFO = "https://api.github.com/search/repositories?q=user:";
+
     private final OAuthUserRepository oAuthUserRepository;
     private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
     private final JwtTokenProvider jwtTokenProvider;
@@ -206,7 +210,7 @@ public class OAuthUserService {
     private Integer getOAuthCommitCount(String owner, HttpHeaders header) {
         header.set("Accept", "application/vnd.github.cloak-preview");
         return (Integer) restService.rest(
-            "https://api.github.com/search/commits?q=author:" + owner, HttpMethod.GET, header, Map.class)
+            GITHUB_API_GET_AUTHOR_INFO + owner, HttpMethod.GET, header, Map.class)
             .get("total_count");
     }
 
@@ -224,7 +228,7 @@ public class OAuthUserService {
     private Integer getOAuthPullRequestCount(String owner, HttpHeaders header) {
         header.set("Accept", "application/vnd.github.v3+json");
         return (Integer) restService.rest(
-            "https://api.github.com/search/issues?q=" + owner, HttpMethod.GET, header, Map.class)
+            GITHUB_API_GET_ISSUE_INFO + owner, HttpMethod.GET, header, Map.class)
             .get("total_count");
     }
 
@@ -234,7 +238,7 @@ public class OAuthUserService {
      */
     private GithubRepoDto getOAuthUserRepository(String owner, HttpHeaders header) {
         UriComponents uri = UriComponentsBuilder
-            .fromHttpUrl("https://api.github.com/search/repositories?q=user:" + owner + " fork:true").build();
+            .fromHttpUrl(GITHUB_API_GET_USER_REPOSITORY_INFO + owner + " fork:true").build();
         return restService.rest(uri.toString(), HttpMethod.GET, header, GithubRepoDto.class);
     }
 
