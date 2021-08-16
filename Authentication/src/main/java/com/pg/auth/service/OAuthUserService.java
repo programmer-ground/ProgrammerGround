@@ -121,7 +121,6 @@ public class OAuthUserService {
      */
     private JwtToken createJwtToken(OAuthUser oAuthUser) {
         return jwtTokenProvider.createTokens(
-            oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
             oAuthUser.getOauth2AuthorizedClient().getId(),
             oAuthUser.getId(),
             Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));
@@ -133,7 +132,6 @@ public class OAuthUserService {
     public String reissuedAccessToken(String bearerToken) {
         OAuthUser oAuthUser = oauth2AuthorizedClientRepository.findById(jwtTokenProvider.getOAuthIdByRefreshToken(bearerToken)).orElseThrow().getUser();
         return jwtTokenProvider.createAccessToken(
-                oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
                 oAuthUser.getOauth2AuthorizedClient().getId(),
                 oAuthUser.getId(),
                 Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));

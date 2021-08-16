@@ -47,7 +47,7 @@ public class PlaygroundController {
         return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.applyPlayground(playgroundId, applyPlayground)));
     }
 
-    @ApiOperation(value = "Playground 참가 신청", notes = "Playground 참가 신청 요청")
+    @ApiOperation(value = "Playground 참가 취소", notes = "Playground 참가 취소")
     @PutMapping("/{playgroundApplyId}/cancel")
     public ResponseEntity<ApiResponse<PlaygroundResultResponse>> cancelPlayground(@PathVariable Long playgroundApplyId) {
         return ResponseEntity.ok().body(new ApiResponse<>(new PlaygroundResultResponse(playgroundService.cancelPlayground(playgroundApplyId))));
