@@ -1,0 +1,21 @@
+server:
+  port: 8000
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
+
+spring:
+  application:
+    name: gateway-service
+  cloud:
+    gateway:
+      routes:
+        - id: programmerground-service
+          uri: http://127.0.0.1:9000/
+          predicates:
+            - Path=/programmerground/
+
