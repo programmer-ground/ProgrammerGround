@@ -16,6 +16,7 @@ import com.pg.programmerground.model.PlaygroundApplyRepository;
 import com.pg.programmerground.model.PlaygroundRepository;
 import com.pg.programmerground.service.upload.PlaygroundMainImgStore;
 import com.pg.programmerground.util.GithubHttpUtil;
+import com.pg.programmerground.vo.GithubRepoVo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.*;
@@ -119,7 +120,7 @@ public class PlaygroundService {
     }
 
     // TODO : Playground 도메인 단에서 githubRepo 이름을 업데이트하게끔 처리할 예정
-    public ResponseEntity<String> createPlaygroundGithubRepo(Long playgroundId, String repoTitle) {
+    public ResponseEntity<String> createPlaygroundGithubRepo(Long playgroundId, GithubRepoVo githubRepoVo) {
         RestTemplate restTemplate = new RestTemplate();
 
         Playground playground = playgroundRepository.findById(playgroundId)
@@ -129,7 +130,7 @@ public class PlaygroundService {
         HttpHeaders headers = GithubHttpUtil.generateGithubApiHeader(botConfig.getToken());
 
         Map<String, String> requestBody = new HashMap<>();
-        requestBody.put("name", repoTitle);
+        requestBody.put("name", githubRepoVo.getTitle());
 
         HttpEntity<Map<String, String>> request = new HttpEntity<>(requestBody, headers);
 

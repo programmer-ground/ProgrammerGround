@@ -8,6 +8,7 @@ import com.pg.programmerground.dto.playground.response.PlaygroundCardListRespons
 import com.pg.programmerground.dto.playground.response.PlaygroundResponse;
 import com.pg.programmerground.dto.playground.response.PlaygroundResultResponse;
 import com.pg.programmerground.service.PlaygroundService;
+import com.pg.programmerground.vo.GithubRepoVo;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -90,11 +91,9 @@ public class PlaygroundController {
     @PostMapping("/{playgroundId}/repo")
     public ResponseEntity<?> createPlaygroundGithubRepo(
         @PathVariable Long playgroundId,
-        @Valid @RequestBody String repoTitle) {
-
-//        return ResponseEntity.ok()
-//            .body(new ApiResponse<>(playgroundService.createPlaygroundGithubRepo(playgroundId, repoTitle)));
-        return ResponseEntity.ok().body(playgroundService.createPlaygroundGithubRepo(playgroundId, repoTitle));
+        @Valid @RequestBody GithubRepoVo githubRepoVo) {
+        return ResponseEntity.ok()
+                .body(playgroundService.createPlaygroundGithubRepo(playgroundId, githubRepoVo));
     }
 
     /**
