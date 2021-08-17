@@ -8,7 +8,7 @@ spring:
       secret-key: awdsd
 
 github:
-  token: "bearer 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"
+  token: "bearer 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"
   org-url : "https://api.github.com/orgs/programmer-ground"
   org-repo-url : "https://api.github.com/repos/programmer-ground"
 
