@@ -36,7 +36,9 @@ const PlayGroundPage = () => {
 
 		if (scrollTop + clientHeight >= scrollHeight) {
 			const throttler = throttling();
-			throttler.throttle(fetchMoreData, 500);
+			if (item.length !== 0) {
+				throttler.throttle(fetchMoreData, 500);
+			}
 		}
 	};
 
@@ -48,8 +50,8 @@ const PlayGroundPage = () => {
 			for (const card of response) {
 				card.created_date = card.created_date.toString().slice(0, 10);
 			}
-			setResult(response.slice(0, 15));
-			response = response.slice(15);
+			setResult(response.slice(0, 6));
+			response = response.slice(6);
 			setItem(response);
 		} catch (e) {
 			console.log(e);
@@ -57,8 +59,8 @@ const PlayGroundPage = () => {
 	};
 
 	const fetchMoreData = async () => {
-		setResult(result.concat(item.slice(0, 15)));
-		setItem(item.slice(15));
+		setResult(result.concat(item.slice(0, 6)));
+		setItem(item.slice(6));
 	};
 
 	useEffect(() => {
