@@ -28,7 +28,14 @@ const PlaygroundIdPage = () => {
 					id={id}
 				/>
 			) : (
-				<OtherUI />
+				<OtherUI
+					playgroundTitle={playgroundTitle}
+					src={src}
+					createDate={createDate}
+					data={data}
+					positionList={positionList}
+					id={id}
+				/>
 			)}
 		</>
 	);
