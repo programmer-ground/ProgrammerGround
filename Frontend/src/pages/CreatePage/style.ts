@@ -3,6 +3,9 @@ import styled from 'styled-components';
 import colorType from '@src/utils/color';
 
 export const CreateContainer = styled.div`
+	&:not(:first-child) {
+		margin-top: 150px;
+	}
 	padding: 30px 20px;
 	max-width: 768px;
 	background-color: #fff;
