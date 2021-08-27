@@ -94,6 +94,22 @@ export const UserMenu = styled.div`
 		color: #000;
 		text-decoration: none;
 	}
+
+	& > button {
+		&:not(:first-child) {
+			border-top: 1px solid rgba(0, 0, 0, 0.1);
+		}
+		padding: 16px 10px;
+		font-size: 18px;
+		font-family: Roboto, sans-serif;
+		min-width: 120px;
+		min-height: 28px;
+		cursor: pointer;
+		color: #000;
+		background-color: #fff;
+		text-decoration: none;
+		border: 0;
+	}
 `;
 
 export const UserProfileLink = styled.a``;
