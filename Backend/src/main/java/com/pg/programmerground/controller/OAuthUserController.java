@@ -1,5 +1,6 @@
 package com.pg.programmerground.controller;
 
+import com.pg.programmerground.constant.PgConstant;
 import com.pg.programmerground.controller.response.ApiResponse;
 import com.pg.programmerground.dto.user.api_req.ReviseUserApi;
 import com.pg.programmerground.dto.user.response.UserApplyNoticeListResponse;
@@ -50,6 +51,7 @@ public class OAuthUserController {
         return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserNoticeList(UserAuthenticationService.getUserId())));
     }
 
+    @ApiOperation(value = "유저 정보 수정", notes = "유저 정보를 수정")
     @PutMapping("")
     public ResponseEntity<ApiResponse<Boolean>> updateUserInfo(@ModelAttribute ReviseUserApi userApi) {
         return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.updateUserInfo(UserAuthenticationService.getUserId(), userApi)));
@@ -58,12 +60,12 @@ public class OAuthUserController {
     @ApiOperation(value = "유저 신청 Playground 대기 리스트",  notes = "유저가 신청한 Playground 리스트 중 대기중인 Playground")
     @GetMapping("/notices/waitings")
     public ResponseEntity<ApiResponse<UserApplyNoticeListResponse>> getUserWaitingNotice() {
-        return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserStatusNoticeList(UserAuthenticationService.getUserId(), "wait")));
+        return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserStatusNoticeList(UserAuthenticationService.getUserId(), PgConstant.NOTICE_WAIT)));
     }
 
     @ApiOperation(value = "유저 신청 Playground 결과 리스트", notes = "유저가 신청한 Playground중 결과(수락, 거절)가 나온 리스트")
     @GetMapping("/notices/results")
     public ResponseEntity<ApiResponse<UserApplyNoticeListResponse>> getUserResultNotice() {
-        return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserStatusNoticeList(UserAuthenticationService.getUserId(), "result")));
+        return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserStatusNoticeList(UserAuthenticationService.getUserId(), PgConstant.NOTICE_RESULT)));
     }
 }
