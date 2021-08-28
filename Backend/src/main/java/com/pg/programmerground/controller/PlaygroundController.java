@@ -44,7 +44,7 @@ public class PlaygroundController {
 
     @ApiOperation(value = "Playground 참가 신청", notes = "Playground 참가 신청 요청")
     @PostMapping("/{playgroundId}/apply")
-    public ResponseEntity<ApiResponse<Long>> applyPlayground(@PathVariable Long playgroundId, @RequestBody @Validated ApplyPlaygroundApi applyPlayground) throws Exception {
+    public ResponseEntity<ApiResponse<Long>> applyPlayground(@PathVariable Long playgroundId, @RequestBody @Validated ApplyPlaygroundApi applyPlayground) {
         return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.applyPlayground(playgroundId, applyPlayground)));
     }
 
@@ -80,8 +80,8 @@ public class PlaygroundController {
 
     @ApiOperation(value = "Playground 삭제", notes = "Playground 삭제 요청")
     @DeleteMapping("/{playgroundId}")
-    public ResponseEntity<ApiResponse<Integer>> deletePlayground(@PathVariable Long playgroundId) {
-        return ResponseEntity.ok().body(new ApiResponse<>(null));
+    public ResponseEntity<ApiResponse<Boolean>> deletePlayground(@PathVariable Long playgroundId) {
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.removePlayground(playgroundId)));
     }
 
     /**

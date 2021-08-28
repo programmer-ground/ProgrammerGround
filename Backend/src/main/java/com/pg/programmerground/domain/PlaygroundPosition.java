@@ -100,9 +100,8 @@ public class PlaygroundPosition extends BaseTimeEntity {
     public static PlaygroundPosition searchLeaderPosition(List<PlaygroundPosition> playgroundPositions, String positionName) {
         //입력받은 Position중에 Leader가 신청한 Position탐색
         return playgroundPositions.stream()
-                .filter(playgroundPosition -> {
-                    return playgroundPosition.getPosition().name().equals(positionName);
-                }).findFirst()
+                .filter(playgroundPosition -> playgroundPosition.getPosition().name().equals(positionName))
+                .findFirst()
                 .orElseThrow(() -> new NoSuchElementException("입력되지 않은 포지션입니다"));
     }
 

@@ -85,6 +85,9 @@ public class PlaygroundService {
         return playgroundApply.getId();
     }
 
+    /**
+     * Playground 신청 취소
+     */
     @Transactional
     public boolean cancelPlayground(Long playgroundApplyId) {
         //유저 정보
@@ -106,11 +109,26 @@ public class PlaygroundService {
         return true;
     }
 
+    /**
+     * Leader가 Playground 신청 거절
+     */
     @Transactional
     public Boolean rejectPlayground(Long playgroundApplyId) {
         PlaygroundApply playgroundApply = playgroundApplyRepository.findById(playgroundApplyId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 Playground 요청입니다"));
         OAuthUser user = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
         playgroundApply.rejectApply(user);
+        return true;
+    }
+
+    /**
+     * Playground 삭제 처리
+     */
+    @Transactional
+    public Boolean removePlayground(Long playgroundId) {
+        //유저 정보
+        OAuthUser leader = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow(() -> new NoSuchElementException("존재하지않는 유저"));
+        Playground playground = playgroundRepository.findPlaygroundByIdAndLeader(playgroundId, leader).orElseThrow(() -> new NoSuchElementException("해당 작업에대한 권한 없음"));
+        playground.removePlayground();
         return true;
     }
 
@@ -153,7 +171,7 @@ public class PlaygroundService {
             }
         }
 
-        HttpEntity entity = new HttpEntity<>(GithubHttpUtil.generateGithubApiHeader(botConfig.getToken()));
+        HttpEntity<Object> entity = new HttpEntity<>(GithubHttpUtil.generateGithubApiHeader(botConfig.getToken()));
 
         for(PlaygroundApply user : temp) {
             String collaboratorUrl = GithubHttpUtil
