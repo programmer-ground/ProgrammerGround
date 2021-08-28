@@ -1,6 +1,7 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.controller.response.ApiResponse;
+import com.pg.programmerground.dto.user.api_req.ReviseUserApi;
 import com.pg.programmerground.dto.user.response.UserApplyNoticeListResponse;
 import com.pg.programmerground.dto.user.response.UserLeaderNoticeListResponse;
 import com.pg.programmerground.dto.user.response.UserResponse;
@@ -10,9 +11,7 @@ import com.pg.programmerground.service.UserAuthenticationService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequiredArgsConstructor
@@ -51,8 +50,11 @@ public class OAuthUserController {
         return ResponseEntity.ok().body(new ApiResponse<>(noticeService.getUserNoticeList(UserAuthenticationService.getUserId())));
     }
 
-    //취소 기능도 넣어야겠네
-    //취소일 경우 status cancel??
+    @PutMapping("")
+    public ResponseEntity<ApiResponse<Boolean>> updateUserInfo(@ModelAttribute ReviseUserApi userApi) {
+        return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.updateUserInfo(UserAuthenticationService.getUserId(), userApi)));
+    }
+
     @ApiOperation(value = "유저 신청 Playground 대기 리스트",  notes = "유저가 신청한 Playground 리스트 중 대기중인 Playground")
     @GetMapping("/notices/waitings")
     public ResponseEntity<ApiResponse<UserApplyNoticeListResponse>> getUserWaitingNotice() {
