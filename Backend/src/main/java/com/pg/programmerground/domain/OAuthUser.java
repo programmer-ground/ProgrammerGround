@@ -3,6 +3,7 @@ package com.pg.programmerground.domain;
 import com.pg.programmerground.domain.common.BaseTimeEntity;
 import com.pg.programmerground.domain.github.Oauth2AuthorizedClient;
 import com.pg.programmerground.domain.github.UserGithubInfo;
+import com.pg.programmerground.dto.user.api_req.ReviseUserApi;
 import lombok.*;
 import org.springframework.util.Assert;
 
@@ -66,5 +67,12 @@ public class OAuthUser extends BaseTimeEntity {
         this.Role = Role;
         this.code = code;
         this.oauth2AuthorizedClient = oauth2AuthorizedClient;
+    }
+
+    /**
+     * 유저 정보 수정
+     */
+    public void updateUser(ReviseUserApi userApi) {
+        this.userName = userApi.getUserName();
     }
 }

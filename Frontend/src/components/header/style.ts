@@ -32,8 +32,12 @@ export const HeaderContainer = styled.header`
 	min-width: 1100px;
 	height: 100px;
 	padding: 0px 8px;
-	background-color: #747474;
+	background-color: #333;
 	z-index: 100;
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
 `;
 
 export const HeaderMenuContainer = styled.div`
@@ -67,6 +71,8 @@ export const PlaygroundSearchSection = styled.div`
 `;
 
 export const UserMenu = styled.div`
+	display: flex;
+	flex-direction: column;
 	position: absolute;
 	top: 80px;
 	left: 0;
@@ -75,29 +81,18 @@ export const UserMenu = styled.div`
 	border-radius: 4px;
 	border: 1px solid rgba(0, 0, 0, 0.1);
 	box-shadow: 0 4px 6px 0 rgba(0, 7, 120, 0.1);
-`;
-
-export const UserItem = styled.div`
-	display: flex;
-	align-items: center;
-	&:not(:first-child) {
-		border-top: 1px solid rgba(0, 0, 0, 0.1);
-	}
-	padding: 16px 10px;
-	font-size: 18px;
-	font-family: Roboto, sans-serif;
-	text-align: center;
-	min-width: 120px;
-	min-height: 48px;
-	cursor: pointer;
 	& > a {
-		display: block;
+		&:not(:first-child) {
+			border-top: 1px solid rgba(0, 0, 0, 0.1);
+		}
+		padding: 16px 10px;
+		font-size: 18px;
+		font-family: Roboto, sans-serif;
+		min-width: 120px;
+		min-height: 28px;
+		cursor: pointer;
 		color: #000;
 		text-decoration: none;
-	}
-
-	&:hover {
-		background-color: rgba(0, 0, 0, 0.1);
 	}
 `;
 

@@ -16,6 +16,7 @@ import com.pg.programmerground.model.PlaygroundApplyRepository;
 import com.pg.programmerground.model.PlaygroundRepository;
 import com.pg.programmerground.service.upload.PlaygroundMainImgStore;
 import com.pg.programmerground.util.GithubHttpUtil;
+import com.pg.programmerground.vo.GithubRepoVo;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
 import org.springframework.http.*;
@@ -84,6 +85,9 @@ public class PlaygroundService {
         return playgroundApply.getId();
     }
 
+    /**
+     * Playground 신청 취소
+     */
     @Transactional
     public boolean cancelPlayground(Long playgroundApplyId) {
         //유저 정보
@@ -105,11 +109,26 @@ public class PlaygroundService {
         return true;
     }
 
+    /**
+     * Leader가 Playground 신청 거절
+     */
     @Transactional
     public Boolean rejectPlayground(Long playgroundApplyId) {
         PlaygroundApply playgroundApply = playgroundApplyRepository.findById(playgroundApplyId).orElseThrow(() -> new NoSuchElementException("존재하지 않는 Playground 요청입니다"));
         OAuthUser user = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow();
         playgroundApply.rejectApply(user);
+        return true;
+    }
+
+    /**
+     * Playground 삭제 처리
+     */
+    @Transactional
+    public Boolean removePlayground(Long playgroundId) {
+        //유저 정보
+        OAuthUser leader = oAuthUserRepository.findById(UserAuthenticationService.getUserId()).orElseThrow(() -> new NoSuchElementException("존재하지않는 유저"));
+        Playground playground = playgroundRepository.findPlaygroundByIdAndLeader(playgroundId, leader).orElseThrow(() -> new NoSuchElementException("해당 작업에대한 권한 없음"));
+        playground.removePlayground();
         return true;
     }
 
@@ -119,7 +138,7 @@ public class PlaygroundService {
     }
 
     // TODO : Playground 도메인 단에서 githubRepo 이름을 업데이트하게끔 처리할 예정
-    public ResponseEntity<String> createPlaygroundGithubRepo(Long playgroundId, String repoTitle) {
+    public ResponseEntity<String> createPlaygroundGithubRepo(Long playgroundId, GithubRepoVo githubRepoVo) {
         RestTemplate restTemplate = new RestTemplate();
 
         Playground playground = playgroundRepository.findById(playgroundId)
@@ -129,7 +148,7 @@ public class PlaygroundService {
         HttpHeaders headers = GithubHttpUtil.generateGithubApiHeader(botConfig.getToken());
 
         Map<String, String> requestBody = new HashMap<>();
-        requestBody.put("name", repoTitle);
+        requestBody.put("name", githubRepoVo.getTitle());
 
         HttpEntity<Map<String, String>> request = new HttpEntity<>(requestBody, headers);
 
@@ -152,7 +171,7 @@ public class PlaygroundService {
             }
         }
 
-        HttpEntity entity = new HttpEntity<>(GithubHttpUtil.generateGithubApiHeader(botConfig.getToken()));
+        HttpEntity<Object> entity = new HttpEntity<>(GithubHttpUtil.generateGithubApiHeader(botConfig.getToken()));
 
         for(PlaygroundApply user : temp) {
             String collaboratorUrl = GithubHttpUtil

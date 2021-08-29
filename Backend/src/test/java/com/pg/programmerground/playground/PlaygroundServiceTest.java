@@ -5,6 +5,7 @@ import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
 import com.pg.programmerground.domain.Playground;
 import com.pg.programmerground.domain.PlaygroundApply;
 import com.pg.programmerground.domain.enumerated.ApplyStatus;
+import com.pg.programmerground.domain.enumerated.PlaygroundStatus;
 import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
 import com.pg.programmerground.exception.FileExtractException;
@@ -22,6 +23,7 @@ import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.test.context.ActiveProfiles;
 
 import javax.transaction.Transactional;
 import java.io.File;
@@ -35,6 +37,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
+@ActiveProfiles("jeawoo-local")     //테스트시 profile을 자기껄로 설정
 public class PlaygroundServiceTest {
     private static final Long GITHUB_ID = 1234L;
     private static final Long GITHUB_ID2 = 12345L;
@@ -192,6 +195,22 @@ public class PlaygroundServiceTest {
             //when
             playgroundService.cancelPlayground(playgroundApply.getId());
         });
+    }
+
+    @Test
+    @Transactional
+    void Playground_삭제() throws Exception {
+        //playground 생성
+        PlaygroundApi playgroundApi = dtoList.applyPosition;
+        Long playgroundId = playgroundService.createPlayground(null, playgroundApi);
+
+        //when
+        //playground 삭제
+        playgroundService.removePlayground(playgroundId);
+        Playground playground = playgroundRepository.findById(playgroundId).orElseThrow();
+
+        //then
+        assertEquals(PlaygroundStatus.REMOVE, playground.getStatusFlag());
     }
 
     @Test

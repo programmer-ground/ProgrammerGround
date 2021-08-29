@@ -51,19 +51,21 @@ spring:
     activate:
       on-profile: "seansin-localdb"
   datasource:
-    url: jdbc:mariadb://localhost:3306/pg?serverTimezone=UTC&characterEncoding=UTF-8
-    username: seansin
-    password: zxcv123
     hikari:
-      driver-class-name: org.mariadb.jdbc.Driver
+      driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/pg?serverTimezone=UTC&characterEncoding=UTF-8
+    username: root
+    password: zxcv1234
   jpa:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-      ddl-auto: update
-    properties.hibernate.dialect: org.hibernate.dialect.MariaDB103Dialect
+      ddl-auto: none
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
     properties:
       hibernate:
+        dialect:
+          storage_engine: innodb
         show_sql: true
         format_sql: true
 

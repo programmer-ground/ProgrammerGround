@@ -16,6 +16,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.oauth2.client.authentication.OAuth2AuthenticationToken;
 import org.springframework.security.oauth2.core.user.OAuth2User;
@@ -33,6 +34,11 @@ import java.util.stream.Collectors;
 @Slf4j
 public class OAuthUserService {
     private static final int VALID_CODE = 0;
+    private static final String GITHUB_API_GET_USER_COMMIT_INFO = "https://api.github.com/search/commits?q=author:";
+    private static final String GITHUB_API_GET_USER_ISSUE_INFO = "https://api.github.com/search/issues?q=";
+    private static final String GITHUB_API_GET_USER_REPOSITORY_INFO = "https://api.github.com/search/repositories?q=user:";
+    private static final String GITHUB_API_GET_AUTHENTICATED_USER_INFO = "https://api.github.com/user";
+
     private final OAuthUserRepository oAuthUserRepository;
     private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
     private final JwtTokenProvider jwtTokenProvider;
@@ -122,7 +128,6 @@ public class OAuthUserService {
      */
     private JwtToken createJwtToken(OAuthUser oAuthUser) {
         return jwtTokenProvider.createTokens(
-            oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
             oAuthUser.getOauth2AuthorizedClient().getId(),
             oAuthUser.getId(),
             Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));
@@ -134,7 +139,6 @@ public class OAuthUserService {
     public String reissuedAccessToken(String bearerToken) {
         OAuthUser oAuthUser = oauth2AuthorizedClientRepository.findById(jwtTokenProvider.getOAuthIdByRefreshToken(bearerToken)).orElseThrow().getUser();
         return jwtTokenProvider.createAccessToken(
-                oAuthUser.getOauth2AuthorizedClient().getAccessTokenValue(),
                 oAuthUser.getOauth2AuthorizedClient().getId(),
                 oAuthUser.getId(),
                 Arrays.stream(oAuthUser.getRole().split(",")).map(String::new).collect(Collectors.toList()));
@@ -156,22 +160,22 @@ public class OAuthUserService {
      */
     private UserGithubInfo getGithubInfo(OAuthUser oAuthUser) {
         //Spring Seucrity UserDetails 객체 가져오기
-
         Oauth2AuthorizedClient oauthUser = oAuthUser.getOauth2AuthorizedClient();
+        HttpHeaders authorizationHeader = generateAuthorizationHeader(oauthUser);
 
-        HttpHeaders header = new HttpHeaders();
-        header.set("Authorization", "bearer " + oauthUser.getAccessTokenValue());
-        GithubOAuthInfoDto oauthInfo = restService.rest(
-            "https://api.github.com/user", HttpMethod.GET, header, GithubOAuthInfoDto.class);
+        GithubOAuthInfoDto oauthInfo = getUserInfo(oAuthUser, authorizationHeader);
+        updateGithubHeader(authorizationHeader);
 
         CompletableFuture<GithubRepoDto> repoFuture = CompletableFuture.supplyAsync(
-            () -> getOAuthUserRepository(oauthInfo.getLogin(), header));
+            () -> getOAuthUserRepository(oauthInfo.getLogin(), authorizationHeader));
         CompletableFuture<Integer> pullRequestFuture = CompletableFuture.supplyAsync(
-            () -> getOAuthPullRequestCount(oauthInfo.getLogin(), header));
+            () -> getOAuthPullRequestCount(oauthInfo.getLogin(), authorizationHeader));
         CompletableFuture<Integer> commitFuture = CompletableFuture.supplyAsync(
-            () -> getOAuthCommitCount(oauthInfo.getLogin(), header));
+            () -> getOAuthCommitCount(oauthInfo.getLogin(), authorizationHeader));
+
         CompletableFuture<Void> voidCompletableFuture = CompletableFuture.allOf(repoFuture, pullRequestFuture,
             commitFuture);
+
         try {
             voidCompletableFuture.get();
         } catch (Exception e) {
@@ -203,13 +207,26 @@ public class OAuthUserService {
             .build();
     }
 
+    private void updateGithubHeader(HttpHeaders authorizationHeader) {
+        authorizationHeader.set("Accept", "application/vnd.github.v3+json");
+        authorizationHeader.add("Accept", "application/vnd.github.cloak-preview+json");
+    }
+
+    /**
+     * github Login 아이디 정보 가져오기
+     */
+    private GithubOAuthInfoDto getUserInfo(OAuthUser oAuthUser, HttpHeaders header) {
+        return restService.rest(GITHUB_API_GET_AUTHENTICATED_USER_INFO, HttpMethod.GET, header, GithubOAuthInfoDto.class);
+    }
+
     /**
      * Github Commit 개수 가져오기
      */
     private Integer getOAuthCommitCount(String owner, HttpHeaders header) {
-        header.set("Accept", "application/vnd.github.cloak-preview");
+        header.setContentType(MediaType.APPLICATION_JSON);
+
         return (Integer) restService.rest(
-            "https://api.github.com/search/commits?q=author:" + owner, HttpMethod.GET, header, Map.class)
+            GITHUB_API_GET_USER_COMMIT_INFO + owner, HttpMethod.GET, header, Map.class)
             .get("total_count");
     }
 
@@ -225,9 +242,10 @@ public class OAuthUserService {
      * Github PR, Issue 개수 가져오기
      */
     private Integer getOAuthPullRequestCount(String owner, HttpHeaders header) {
-        header.set("Accept", "application/vnd.github.v3+json");
+        header.setContentType(MediaType.APPLICATION_JSON);
+
         return (Integer) restService.rest(
-            "https://api.github.com/search/issues?q=" + owner, HttpMethod.GET, header, Map.class)
+            GITHUB_API_GET_USER_ISSUE_INFO + owner, HttpMethod.GET, header, Map.class)
             .get("total_count");
     }
 
@@ -237,7 +255,7 @@ public class OAuthUserService {
      */
     private GithubRepoDto getOAuthUserRepository(String owner, HttpHeaders header) {
         UriComponents uri = UriComponentsBuilder
-            .fromHttpUrl("https://api.github.com/search/repositories?q=user:" + owner + " fork:true").build();
+            .fromHttpUrl(GITHUB_API_GET_USER_REPOSITORY_INFO + owner + " fork:true").build();
         return restService.rest(uri.toString(), HttpMethod.GET, header, GithubRepoDto.class);
     }
 
@@ -288,5 +306,11 @@ public class OAuthUserService {
      */
     private void updateLoginCode(OAuthUser oAuthUser, String loginCode) {
         oAuthUser.updateLoginCode(loginCode);
+    }
+
+    private HttpHeaders generateAuthorizationHeader(Oauth2AuthorizedClient oAuthUser) {
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Authorization", "bearer " + oAuthUser.getAccessTokenValue());
+        return headers;
     }
 }

@@ -8,6 +8,7 @@ import com.pg.programmerground.dto.playground.response.PlaygroundCardListRespons
 import com.pg.programmerground.dto.playground.response.PlaygroundResponse;
 import com.pg.programmerground.dto.playground.response.PlaygroundResultResponse;
 import com.pg.programmerground.service.PlaygroundService;
+import com.pg.programmerground.vo.GithubRepoVo;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,11 +44,11 @@ public class PlaygroundController {
 
     @ApiOperation(value = "Playground 참가 신청", notes = "Playground 참가 신청 요청")
     @PostMapping("/{playgroundId}/apply")
-    public ResponseEntity<ApiResponse<Long>> applyPlayground(@PathVariable Long playgroundId, @RequestBody @Validated ApplyPlaygroundApi applyPlayground) throws Exception {
+    public ResponseEntity<ApiResponse<Long>> applyPlayground(@PathVariable Long playgroundId, @RequestBody @Validated ApplyPlaygroundApi applyPlayground) {
         return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.applyPlayground(playgroundId, applyPlayground)));
     }
 
-    @ApiOperation(value = "Playground 참가 신청", notes = "Playground 참가 신청 요청")
+    @ApiOperation(value = "Playground 참가 취소", notes = "Playground 참가 취소")
     @PutMapping("/{playgroundApplyId}/cancel")
     public ResponseEntity<ApiResponse<PlaygroundResultResponse>> cancelPlayground(@PathVariable Long playgroundApplyId) {
         return ResponseEntity.ok().body(new ApiResponse<>(new PlaygroundResultResponse(playgroundService.cancelPlayground(playgroundApplyId))));
@@ -79,8 +80,8 @@ public class PlaygroundController {
 
     @ApiOperation(value = "Playground 삭제", notes = "Playground 삭제 요청")
     @DeleteMapping("/{playgroundId}")
-    public ResponseEntity<ApiResponse<Integer>> deletePlayground(@PathVariable Long playgroundId) {
-        return ResponseEntity.ok().body(new ApiResponse<>(null));
+    public ResponseEntity<ApiResponse<Boolean>> deletePlayground(@PathVariable Long playgroundId) {
+        return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.removePlayground(playgroundId)));
     }
 
     /**
@@ -90,11 +91,9 @@ public class PlaygroundController {
     @PostMapping("/{playgroundId}/repo")
     public ResponseEntity<?> createPlaygroundGithubRepo(
         @PathVariable Long playgroundId,
-        @Valid @RequestBody String repoTitle) {
-
-//        return ResponseEntity.ok()
-//            .body(new ApiResponse<>(playgroundService.createPlaygroundGithubRepo(playgroundId, repoTitle)));
-        return ResponseEntity.ok().body(playgroundService.createPlaygroundGithubRepo(playgroundId, repoTitle));
+        @Valid @RequestBody GithubRepoVo githubRepoVo) {
+        return ResponseEntity.ok()
+                .body(playgroundService.createPlaygroundGithubRepo(playgroundId, githubRepoVo));
     }
 
     /**

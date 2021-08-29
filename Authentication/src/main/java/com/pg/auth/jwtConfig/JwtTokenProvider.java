@@ -27,27 +27,26 @@ public class JwtTokenProvider {
     /**
      * 로그인시 AccessToken, RefreshToken 토큰 생성
      */
-    public JwtToken createTokens(String oAuthToken, Long OAuthId, Long userId, List<String> roles) {
+    public JwtToken createTokens(Long OAuthId, Long userId, List<String> roles) {
         return new JwtToken(
-                makeAccessToken(oAuthToken, OAuthId, userId, roles),
-                makeRefreshToken(oAuthToken,OAuthId, userId, roles));
+                makeAccessToken(OAuthId, userId, roles),
+                makeRefreshToken(OAuthId, userId, roles));
     }
 
     /**
      * AccessToken 생성
      */
-    public String createAccessToken(String oAuthToken, Long OAuthId, Long userId, List<String> roles) {
-        return makeAccessToken(oAuthToken, OAuthId, userId, roles);
+    public String createAccessToken(Long OAuthId, Long userId, List<String> roles) {
+        return makeAccessToken(OAuthId, userId, roles);
     }
 
     /**
      * accessToken 생성
      */
-    private String makeAccessToken(String oAuthToken, Long OAuthId, Long userId, List<String> roles) {
+    private String makeAccessToken(Long OAuthId, Long userId, List<String> roles) {
         Claims claims = Jwts.claims();
         claims.put("userId", userId);
         claims.put("oauthId", OAuthId);
-        claims.put("accessToken", oAuthToken);
         claims.put("roles", roles);
         Date now = new Date();
         return Jwts.builder()
@@ -81,11 +80,10 @@ public class JwtTokenProvider {
     /**
      * refreshToken 생성
      */
-    private String makeRefreshToken(String oAuthToken, Long OAuthId, Long userId, List<String> roles) {
+    private String makeRefreshToken(Long OAuthId, Long userId, List<String> roles) {
         Claims claims = Jwts.claims();
         claims.put("userId", userId);
         claims.put("oauthId", OAuthId);
-        claims.put("accessToken", oAuthToken);
         claims.put("roles", roles);
         Date now = new Date();
         return Jwts.builder()

@@ -30,6 +30,8 @@ public class PlaygroundCardResponse {
     private int currentMemberNum;
     @JsonProperty("leader_user_name")
     private String leaderUserName;
+    @JsonProperty("leader_oauth_name")
+    private String leaderOAuthName;
     @JsonProperty("position_list")
     private List<PlaygroundCardPositionResponse> positionList;
     @JsonProperty("logo_img_name")
@@ -38,11 +40,12 @@ public class PlaygroundCardResponse {
     private LocalDateTime createdDate;
 
     @Builder
-    public PlaygroundCardResponse(Long id, String title, int maxMemberNum, int currentMemberNum, String leaderUserName, List<PlaygroundCardPositionResponse> positionList, String logoImgName, LocalDateTime createdDate) {
+    public PlaygroundCardResponse(Long id, String title, int maxMemberNum, int currentMemberNum, String leaderOAuthName, String leaderUserName, List<PlaygroundCardPositionResponse> positionList, String logoImgName, LocalDateTime createdDate) {
         this.id = id;
         this.title = title;
         this.maxMemberNum = maxMemberNum;
         this.currentMemberNum = currentMemberNum;
+        this.leaderOAuthName = leaderOAuthName;
         this.leaderUserName = leaderUserName;
         this.positionList = positionList;
         this.logoImgName = logoImgName;
@@ -59,6 +62,7 @@ public class PlaygroundCardResponse {
                 .maxMemberNum(playground.getMaxMemberCount())
                 .currentMemberNum(playground.getCurrentMemberCount())
                 .positionList(PlaygroundCardPositionResponse.ofList(playground.getPlaygroundPositionList()))
+                .leaderOAuthName(playground.getLeader().getOAuthName())
                 .leaderUserName(playground.getLeader().getUserName())
                 .logoImgName(playground.getMainImgUploadName())
                 .createdDate(playground.getCreatedAt())

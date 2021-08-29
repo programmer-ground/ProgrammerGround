@@ -9,7 +9,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import Header from '@src/components/header';
 import { useDispatch, useSelector } from 'react-redux';
 import PlaygroundContent from '@src/components/playgroundContent';
-import { getAllPlaygrounds, getOnePlayground } from '@src/lib/axios/playground';
+import { getAllPlaygrounds, getOneUser } from '@src/lib/axios/playground';
 import OnePlaygroundModal from '@src/components/Common/modal/onePlaygroundModal';
 import { RootState } from '@src/store/modules';
 import { throttling } from '@src/utils/throttle';
@@ -36,19 +36,22 @@ const PlayGroundPage = () => {
 
 		if (scrollTop + clientHeight >= scrollHeight) {
 			const throttler = throttling();
-			throttler.throttle(fetchMoreData, 500);
+			if (item.length !== 0) {
+				throttler.throttle(fetchMoreData, 500);
+			}
 		}
 	};
 
 	const fetchData = async () => {
 		try {
 			const data = await getAllPlaygrounds();
+
 			const response = data.playground_card;
 			for (const card of response) {
 				card.created_date = card.created_date.toString().slice(0, 10);
 			}
-			setResult(response.slice(0, 15));
-			response = response.slice(15);
+			setResult(response.slice(0, 6));
+			response = response.slice(6);
 			setItem(response);
 		} catch (e) {
 			console.log(e);
@@ -56,8 +59,8 @@ const PlayGroundPage = () => {
 	};
 
 	const fetchMoreData = async () => {
-		setResult(result.concat(item.slice(0, 15)));
-		setItem(item.slice(15));
+		setResult(result.concat(item.slice(0, 6)));
+		setItem(item.slice(6));
 	};
 
 	useEffect(() => {
@@ -86,9 +89,10 @@ const PlayGroundPage = () => {
 								title={v.title}
 								position={v.position_list[0].position_name}
 								language={v.position_list[0].language}
+								positionList={v.position_list}
 								src={v.logo_img_name}
 								id={v.playground_id}
-								user={v.leader_user_name}
+								user={v.leader_oauth_name}
 								createDate={v.created_date}
 							/>
 						);
