@@ -3,8 +3,8 @@ server:
 
 eureka:
   client:
-    register-with-eureka: false
-    fetch-registry: false
+    register-with-eureka: true
+    fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
 
@@ -14,8 +14,16 @@ spring:
   cloud:
     gateway:
       routes:
-        - id: programmerground-service
-          uri: http://127.0.0.1:9000/
+        - id: auth-service
+          uri: lb://AUTH-SERVICE
           predicates:
-            - Path=/programmerground/
+            - Path=/auth/**
+          filters:
+            - RewritePath=/auth/(?<segment>.*), /$\{segment}
+        - id: programmerground-service
+          uri: lb://PROGRAMMERGROUND-SERVICE
+          predicates:
+            - Path=/pg/**
+          filters:
+            - RewritePath=/pg/(?<segment>.*), /$\{segment}
 
