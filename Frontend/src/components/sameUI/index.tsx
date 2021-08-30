@@ -26,6 +26,7 @@ const SameUI = ({
 		if (selectModal) {
 			deleteOnePlayground(id);
 			history.push('/');
+			location.reload();
 		}
 	};
 	return (

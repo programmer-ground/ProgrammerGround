@@ -37,8 +37,6 @@ export const getOneUser = async () => {
 };
 
 export const deleteOnePlayground = async (playgroundId: number) => {
-	const playground = await deleteData(
-		`${url.DELETE_ONE_PLAYGROUND}${playgroundId}`,
-	);
+	const playground = await deleteData(`${url.DELETE_ONE_PLAYGROUND}${playgroundId}`, 'delete');
 	return playground;
 };
