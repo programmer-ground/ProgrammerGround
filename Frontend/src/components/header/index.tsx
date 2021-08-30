@@ -10,13 +10,24 @@ import { getOneUser } from '@src/lib/axios/playground';
 const Header = () => {
 	const [isAlarm, setAlarm] = useState(false);
 	const [isUser, setUser] = useState(false);
+	const [info, setInfo] = useState(false);
 	const history = useHistory();
 
 	const userClickHandler = (e: any) => {
 		setUser(!isUser);
+		if (isAlarm) setAlarm(!isAlarm);
 	};
 	const alarmClickHandler = (e: any) => {
-		console.log('alarm');
+		setAlarm(!isAlarm);
+		if (isUser) setUser(!isUser);
+	};
+
+	const onClickInfoHandler = (e: any) => {
+		setInfo(!info);
+	};
+
+	const onClickCloseHandler = (e: any) => {
+		setInfo(!info);
 	};
 
 	const onLogout = (e) => {
@@ -66,8 +77,32 @@ const Header = () => {
 						className="alarm_icon"
 						onClick={alarmClickHandler}
 					/>
+					{isAlarm && (
+						<StyledComponent.UserMenu>
+							<a href="#">
+								<i className="repo_icon" />
+								<span>레포 생성</span>
+							</a>
+							<button onClick={onClickInfoHandler}>
+								<i className="my_alarm_icon" />
+								<span>내 알림</span>
+							</button>
+						</StyledComponent.UserMenu>
+					)}
 				</StyledComponent.HeaderMenuContainer>
 			</StyledComponent.HeaderContainer>
+			{info && (
+				<StyledComponent.InfoMenu>
+					<StyledComponent.InfoTitleContainer>
+						<StyledComponent.InfoTitleName>
+							My Alarm Info
+						</StyledComponent.InfoTitleName>
+						<StyledComponent.InfoTitleCloseButton onClick={onClickCloseHandler}>
+							닫기
+						</StyledComponent.InfoTitleCloseButton>
+					</StyledComponent.InfoTitleContainer>
+				</StyledComponent.InfoMenu>
+			)}
 		</>
 	);
 };
