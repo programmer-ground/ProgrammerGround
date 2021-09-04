@@ -8,7 +8,6 @@ import com.pg.programmerground.exception.FullMemberException;
 import com.pg.programmerground.exception.IncorrectUserException;
 import com.pg.programmerground.exception.WrongRequestException;
 import lombok.*;
-import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -19,7 +18,6 @@ import java.util.NoSuchElementException;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Where(clause = "STATUS_FLAG='ACTIVE'")
 public class Playground extends BaseTimeEntity {
 
     @Id
@@ -122,6 +120,10 @@ public class Playground extends BaseTimeEntity {
         if(user != this.leader) {
             throw new IncorrectUserException("해당 playground 리더가 아님");
         }
+    }
+
+    public boolean isRemovePlayground() {
+        return this.statusFlag == PlaygroundStatus.REMOVE;
     }
 
     /**

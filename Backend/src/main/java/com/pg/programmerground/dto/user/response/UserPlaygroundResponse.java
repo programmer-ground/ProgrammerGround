@@ -27,7 +27,7 @@ public class UserPlaygroundResponse {
 
     public static List<UserPlaygroundResponse> ofList(List<PlaygroundApply> playgroundApplies) {
         return playgroundApplies.stream()
-                .filter(PlaygroundApply::isAcceptApply)
+                .filter(playgroundApply -> playgroundApply.getPlayground().isRemovePlayground())
                 .map(playgroundApply -> UserPlaygroundResponse.builder()
                         .playgroundId(playgroundApply.getPlayground().getId())
                         .title(playgroundApply.getPlayground().getTitle())
