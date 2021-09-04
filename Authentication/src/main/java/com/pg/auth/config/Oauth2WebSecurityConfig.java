@@ -35,7 +35,7 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .mvcMatchers(HttpMethod.POST, "/jwtLogin", "/reissued").permitAll()
-                .mvcMatchers("/oauth2/**", "/err", "/loginCode", "/test-token").permitAll()
+                .mvcMatchers("/oauth2/**", "/err", "/loginCode", "/test-token", "/test").permitAll()
                 .anyRequest().authenticated();
         http.httpBasic().disable();
         //OAuthLogin 설정
@@ -65,9 +65,6 @@ public class Oauth2WebSecurityConfig extends WebSecurityConfigurerAdapter {
      * OAUTH 인증 성공 후 처리
      * 유저 정보가 존재하지 않으면(최초 로그인) DB에 유저 정보 저장
      * /getToken으로 보내 JWT 토큰을 생성해 보냄
-     *
-     * @return
-     * @throws OAuthLoginException
      */
     private AuthenticationSuccessHandler successHandler() {
         return (request, response, authentication) -> {
