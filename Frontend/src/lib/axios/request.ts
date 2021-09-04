@@ -13,7 +13,7 @@ const informError = (error: Error) => {
 		: '오류가 발생하여 요청에 실패하였습니다';
 };
 
-export const getOptions = async (type: undefined) => {
+export const getOptions = async (type?: string) => {
 	const refreshToken = useCookie('refresh_token');
 	if (refreshToken[0] === '') {
 		document.cookie = 'access_token=; Max-Age=0';
@@ -26,6 +26,9 @@ export const getOptions = async (type: undefined) => {
 	if (cookie[0] === '') {
 		await getReissued();
 		cookie = useCookie('access_token');
+	}
+	if(type === 'delete') {
+		return cookie[0];
 	}
 	const options = setOptions(cookie[0], type);
 	return options;
@@ -74,6 +77,7 @@ const getReissued = async () => {
 
 export const getData = async (url: string) => {
 	const options = await getOptions();
+	console.log(options);
 	try {
 		const response = await axios.get(url, options);
 		return response.data.data;
@@ -93,7 +97,7 @@ export const postData = async (url: string, body: any, type: string) => {
 };
 
 export const patchData = async (url: string, body: string) => {
-	const options = getOptions();
+	const options = await getOptions();
 
 	try {
 		const response = await axios.patch(url, body, options);
@@ -104,7 +108,7 @@ export const patchData = async (url: string, body: string) => {
 };
 
 export const putData = async (url: string, body: string) => {
-	const options = getOptions();
+	const options = await getOptions();
 
 	try {
 		const response = await axios.put(url, body, options);
@@ -114,9 +118,8 @@ export const putData = async (url: string, body: string) => {
 	}
 };
 
-export const deleteData = async (url: string) => {
-	const options = getOptions();
-
+export const deleteData = async (url: string, type: string) => {
+	const options = await getOptions();
 	try {
 		const response = await axios.delete(url, options);
 		return response.data;

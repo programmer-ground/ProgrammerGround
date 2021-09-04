@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Header from '@src/components/header';
 import { useLocation } from 'react-router-dom';
 import * as StyledComponent from './style';
@@ -6,7 +6,15 @@ import * as StyledComponent from './style';
 const ProfilePage = () => {
 	const location = useLocation();
 	const user = (location.state as any).userData;
-	console.log(user);
+	const [edit, setEdit] = useState(false);
+  const ProfileEditHandler = () => {
+	   setEdit(true);
+	}
+
+	const ProfileSaveHandler = () => {
+		console.log('save');
+	}
+
 	return (
 		<StyledComponent.ProfileContainer>
 			<Header />
@@ -28,6 +36,16 @@ const ProfilePage = () => {
 						<StyledComponent.ProfileGeneralTitle>
 							General Info
 						</StyledComponent.ProfileGeneralTitle>
+						{edit?<StyledComponent.ProfileGeneralAttribute>
+
+							<StyledComponent.ProfileGeneralName>
+								Name
+							</StyledComponent.ProfileGeneralName>
+							<StyledComponent.ProfileInput>
+							</StyledComponent.ProfileInput>
+							<StyledComponent.ProfileButton onClick={ProfileSaveHandler}>Save</StyledComponent.ProfileButton>
+						</StyledComponent.ProfileGeneralAttribute> :
+						
 						<StyledComponent.ProfileGeneralAttribute>
 							<StyledComponent.ProfileGeneralName>
 								Name
@@ -35,7 +53,9 @@ const ProfilePage = () => {
 							<StyledComponent.ProfileGeneralValue>
 								{user.oauth_name}
 							</StyledComponent.ProfileGeneralValue>
-						</StyledComponent.ProfileGeneralAttribute>
+							<StyledComponent.ProfileButton onClick={ProfileEditHandler}>Edit</StyledComponent.ProfileButton>
+						</StyledComponent.ProfileGeneralAttribute> 
+            }	
 						<StyledComponent.ProfileGeneralAttribute>
 							<StyledComponent.ProfileGeneralName>
 								GitHub
