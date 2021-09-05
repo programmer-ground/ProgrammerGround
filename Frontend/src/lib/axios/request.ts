@@ -36,16 +36,17 @@ export const getOptions = async (type?: string) => {
 
 const setOptions = (token: string, type: string): any => {
 	const headers = {};
-	if (type !== 'image') {
+	console.log(type);
+	if (type === 'image' || type === 'profile') {
 		headers = {
-			'Content-Type': 'application/json;charset=UTF-8',
+			'Content-Type': 'multipart/form-data',
 			'Access-Control-Allow-Origin': '*',
 			Accept: 'application/json',
 			Authorization: `Bearer ${token}`,
 		};
 	} else {
 		headers = {
-			'Content-Type': 'multipart/form-data',
+			'Content-Type': 'application/json;charset=UTF-8',
 			'Access-Control-Allow-Origin': '*',
 			Accept: 'application/json',
 			Authorization: `Bearer ${token}`,
@@ -77,8 +78,7 @@ const getReissued = async () => {
 
 export const getData = async (url: string) => {
 	const options = await getOptions();
-	console.log(options);
-	try {
+ 	try {
 		const response = await axios.get(url, options);
 		return response.data.data;
 	} catch (error) {
@@ -107,8 +107,8 @@ export const patchData = async (url: string, body: string) => {
 	}
 };
 
-export const putData = async (url: string, body: string) => {
-	const options = await getOptions();
+export const putData = async (url: string, body: string, type: string) => {
+	const options = await getOptions(type);
 
 	try {
 		const response = await axios.put(url, body, options);

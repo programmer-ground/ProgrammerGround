@@ -85,7 +85,7 @@ export const ProfileGeneralValue = styled.span`
 export const ProfileInput = styled.input.attrs((props) => ({
 	type:'text',
 	maxlength:'30',
-	placeholder:'수정할 아이디'
+	placeholder:'수정할 이름'
 }))`
   flex: 0 0 auto;
 	border: 1px solid #e9e9e9;

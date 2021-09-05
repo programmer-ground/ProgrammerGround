@@ -2,19 +2,29 @@ import React, {useState} from 'react';
 import Header from '@src/components/header';
 import { useLocation } from 'react-router-dom';
 import * as StyledComponent from './style';
+import {PutOneUser} from '@src/lib/axios/playground';
 
 const ProfilePage = () => {
 	const location = useLocation();
 	const user = (location.state as any).userData;
+	const [userName, setUserName] = useState('');
 	const [edit, setEdit] = useState(false);
   const ProfileEditHandler = () => {
 	   setEdit(true);
 	}
 
-	const ProfileSaveHandler = () => {
-		console.log('save');
+	const ProfileSaveHandler = async () => {
+		 if(userName.length >= 1 && userName.length <= 5) {
+			 alert('글자 수가 너무 짧습니다. 다시 입력해주세요');
+			 return;
+		 }
+		 const response = await PutOneUser(userName, 'profile');
+		 setEdit(false);
 	}
 
+	const ProfileInput = (e: any) => {
+		setUserName(e.target.value);
+	}
 	return (
 		<StyledComponent.ProfileContainer>
 			<Header />
@@ -41,7 +51,7 @@ const ProfilePage = () => {
 							<StyledComponent.ProfileGeneralName>
 								Name
 							</StyledComponent.ProfileGeneralName>
-							<StyledComponent.ProfileInput>
+							<StyledComponent.ProfileInput onChange={ProfileInput}>
 							</StyledComponent.ProfileInput>
 							<StyledComponent.ProfileButton onClick={ProfileSaveHandler}>Save</StyledComponent.ProfileButton>
 						</StyledComponent.ProfileGeneralAttribute> :

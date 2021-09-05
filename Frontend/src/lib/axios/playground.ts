@@ -8,6 +8,7 @@ const url = {
 	GET_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
 	CREATE_IMAGE_PLAYGROUND: 'http://localhost:9000/images/pgmainimg/',
 	GET_ONE_USER: 'http://localhost:9000/user',
+	PUT_ONE_USER: 'http://localhost:9000/user',
 	DELETE_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
 };
 
@@ -40,3 +41,9 @@ export const deleteOnePlayground = async (playgroundId: number) => {
 	const playground = await deleteData(`${url.DELETE_ONE_PLAYGROUND}${playgroundId}`, 'delete');
 	return playground;
 };
+
+export const PutOneUser = async(userName: string, type:string) => {
+	const user = await putData(`${url.PUT_ONE_USER}`, userName, type);
+	console.log(user);
+	return user;
+}
