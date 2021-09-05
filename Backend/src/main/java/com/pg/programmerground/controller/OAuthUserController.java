@@ -12,6 +12,7 @@ import com.pg.programmerground.service.UserAuthenticationService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -52,8 +53,8 @@ public class OAuthUserController {
     }
 
     @ApiOperation(value = "유저 정보 수정", notes = "유저 정보를 수정")
-    @PutMapping("")
-    public ResponseEntity<ApiResponse<Boolean>> updateUserInfo(@ModelAttribute ReviseUserApi userApi) {
+    @PatchMapping("")
+    public ResponseEntity<ApiResponse<Boolean>> updateUserInfo(@ModelAttribute @Validated ReviseUserApi userApi) {
         return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.updateUserInfo(UserAuthenticationService.getUserId(), userApi)));
     }
 
