@@ -21,6 +21,9 @@ public class UserResponse {
     @JsonProperty(value = "oauth_name")
     private final String oauthName;
 
+    @JsonProperty(value = "user_name")
+    private final String userName;
+
     @JsonProperty(value = "commit_cnt")
     private final int commitCnt;
 
@@ -46,6 +49,7 @@ public class UserResponse {
         return UserResponse.builder()
                 .oauthId(user.getOauth2AuthorizedClient().getId())
                 .userId(user.getId())
+                .userName(user.getUserName())
                 .oauthName(user.getOAuthName())
                 .commitCnt(user.getUserGithubInfo().getCommitCnt())
                 .pullRequestCnt(user.getUserGithubInfo().getPullRequestCnt())

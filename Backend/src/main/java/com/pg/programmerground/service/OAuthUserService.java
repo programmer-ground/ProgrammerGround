@@ -38,7 +38,8 @@ public class OAuthUserService {
 	 * 유저 정보
 	 */
 	public UserResponse getUserInfo(Long userId) {
-		return UserResponse.of(oAuthUserRepository.findById(userId).orElseThrow());
+		return UserResponse.of(oAuthUserRepository.findById(userId)
+				.orElseThrow(() -> new EntityNotFoundException("사용자가 존재하지 않습니다.")));
 	}
 
 	/**
@@ -46,8 +47,9 @@ public class OAuthUserService {
 	 */
 	@Transactional
 	public Boolean updateUserInfo(Long oauthUserId, ReviseUserApi userApi) {
-		OAuthUser user = oAuthUserRepository.findById(oauthUserId).orElseThrow((() -> new NoSuchElementException("잘못된 유저 요청")));
-		user.updateUser(userApi);
+		oAuthUserRepository.findById(oauthUserId)
+				.orElseThrow((() -> new NoSuchElementException("잘못된 유저 요청")))
+				.updateUser(userApi);
 		return true;
 	}
 }
