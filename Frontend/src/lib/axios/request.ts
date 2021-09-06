@@ -97,9 +97,11 @@ export const postData = async (url: string, body: any, type: string) => {
 
 export const patchData = async (url: string, body: string, type: string) => {
 	const options = await getOptions(type);
-
+	const data = {
+		'userName': body
+	}
 	try {
-		const response = await axios.patch(url, body, options);
+		const response = await axios.patch(url, data, options);
 		return response.data;
 	} catch (error) {
 		informError(error);

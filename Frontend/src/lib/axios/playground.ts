@@ -8,7 +8,7 @@ const url = {
 	GET_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
 	CREATE_IMAGE_PLAYGROUND: 'http://localhost:9000/images/pgmainimg/',
 	GET_ONE_USER: 'http://localhost:9000/user',
-	PUT_ONE_USER: 'http://localhost:9000/user',
+	PATCH_ONE_USER: 'http://localhost:9000/user',
 	DELETE_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
 };
 
@@ -43,6 +43,6 @@ export const deleteOnePlayground = async (playgroundId: number) => {
 };
 
 export const patchOneUser = async(userName: string, type:string) => {
-	const user = await patchData(`${url.PUT_ONE_USER}`, userName, type);
+	const user = await patchData(`${url.PATCH_ONE_USER}`, userName, type);
 	return user;
 }

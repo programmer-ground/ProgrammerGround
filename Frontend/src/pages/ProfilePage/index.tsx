@@ -1,12 +1,13 @@
 import React, {useState} from 'react';
 import Header from '@src/components/header';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import * as StyledComponent from './style';
-import {patchOneUser} from '@src/lib/axios/playground';
+import {patchOneUser, getOneUser} from '@src/lib/axios/playground';
 
 const ProfilePage = () => {
 	const location = useLocation();
 	const user = (location.state as any).userData;
+	const history = useHistory();
 	const [userName, setUserName] = useState('');
 	const [edit, setEdit] = useState(false);
   const ProfileEditHandler = () => {
@@ -14,12 +15,17 @@ const ProfilePage = () => {
 	}
 
 	const ProfileSaveHandler = async () => {
-		 if(userName.length >= 1 && userName.length <= 5) {
-			 alert('글자 수가 너무 짧습니다. 다시 입력해주세요');
+		 if(userName.length > 5) {
+			 alert('글자 수가 너무 깁니다. 다시 입력해주세요');
 			 return;
 		 }
 		 const response = await patchOneUser(userName, 'profile');
 		 setEdit(false);
+		 const userData = await getOneUser();
+		 history.push({
+			pathname: '/profile',
+			state: { userData },
+		});
 	}
 
 	const ProfileInput = (e: any) => {
