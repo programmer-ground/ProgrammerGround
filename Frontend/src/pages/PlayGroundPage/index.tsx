@@ -92,7 +92,7 @@ const PlayGroundPage = () => {
 								positionList={v.position_list}
 								src={v.logo_img_name}
 								id={v.playground_id}
-								user={v.leader_oauth_name}
+								user={v.leader_user_name}
 								createDate={v.created_date}
 							/>
 						);

@@ -36,15 +36,14 @@ export const getOptions = async (type?: string) => {
 
 const setOptions = (token: string, type: string): any => {
 	const headers = {};
-	console.log(type);
-	if (type === 'image' || type === 'profile') {
+	if (type === 'image') {
 		headers = {
 			'Content-Type': 'multipart/form-data',
 			'Access-Control-Allow-Origin': '*',
 			Accept: 'application/json',
 			Authorization: `Bearer ${token}`,
 		};
-	} else {
+	}  else{
 		headers = {
 			'Content-Type': 'application/json;charset=UTF-8',
 			'Access-Control-Allow-Origin': '*',
@@ -96,8 +95,8 @@ export const postData = async (url: string, body: any, type: string) => {
 	}
 };
 
-export const patchData = async (url: string, body: string) => {
-	const options = await getOptions();
+export const patchData = async (url: string, body: string, type: string) => {
+	const options = await getOptions(type);
 
 	try {
 		const response = await axios.patch(url, body, options);
@@ -107,8 +106,8 @@ export const patchData = async (url: string, body: string) => {
 	}
 };
 
-export const putData = async (url: string, body: string, type: string) => {
-	const options = await getOptions(type);
+export const putData = async (url: string, body: string) => {
+	const options = await getOptions();
 
 	try {
 		const response = await axios.put(url, body, options);

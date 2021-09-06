@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Header from '@src/components/header';
 import { useLocation } from 'react-router-dom';
 import * as StyledComponent from './style';
-import {PutOneUser} from '@src/lib/axios/playground';
+import {patchOneUser} from '@src/lib/axios/playground';
 
 const ProfilePage = () => {
 	const location = useLocation();
@@ -18,7 +18,7 @@ const ProfilePage = () => {
 			 alert('글자 수가 너무 짧습니다. 다시 입력해주세요');
 			 return;
 		 }
-		 const response = await PutOneUser(userName, 'profile');
+		 const response = await patchOneUser(userName, 'profile');
 		 setEdit(false);
 	}
 
@@ -39,7 +39,7 @@ const ProfilePage = () => {
 								width="117px"
 								height="117px"
 							/>
-							<h3>{user.oauth_name}</h3>
+							<h3>{user.user_name}</h3>
 						</StyledComponent.ProfileLeftInfoData>
 					</StyledComponent.ProfileLeftInfo>
 					<StyledComponent.ProfileGeneralInfo>
@@ -61,7 +61,7 @@ const ProfilePage = () => {
 								Name
 							</StyledComponent.ProfileGeneralName>
 							<StyledComponent.ProfileGeneralValue>
-								{user.oauth_name}
+								{user.user_name}
 							</StyledComponent.ProfileGeneralValue>
 							<StyledComponent.ProfileButton onClick={ProfileEditHandler}>Edit</StyledComponent.ProfileButton>
 						</StyledComponent.ProfileGeneralAttribute> 

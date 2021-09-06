@@ -42,8 +42,7 @@ export const deleteOnePlayground = async (playgroundId: number) => {
 	return playground;
 };
 
-export const PutOneUser = async(userName: string, type:string) => {
-	const user = await putData(`${url.PUT_ONE_USER}`, userName, type);
-	console.log(user);
+export const patchOneUser = async(userName: string, type:string) => {
+	const user = await patchData(`${url.PUT_ONE_USER}`, userName, type);
 	return user;
 }
