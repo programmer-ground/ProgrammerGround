@@ -69,14 +69,34 @@ export const ProfileGeneralAttribute = styled.div`
 		border-top: 1px solid #e6ecf5;
 	}
 	display: flex;
+	position: relative;
 	padding: 30px 20px;
 `;
 
 export const ProfileGeneralName = styled.span`
 	font-weight: bold;
-	flex: 1 1 25%;
+	flex: 0 0 25%;
 `;
 
 export const ProfileGeneralValue = styled.span`
 	flex: 1 1 75%;
+`;
+
+export const ProfileInput = styled.input.attrs((props) => ({
+	type:'text',
+	maxlength:'30',
+	placeholder:'수정할 아이디'
+}))`
+  flex: 0 0 auto;
+	border: 1px solid #e9e9e9;
+	outline: none;
+`;
+
+export const ProfileButton = styled.button`
+  position: absolute;
+	top: 23px;
+	right: 20px;
+	padding: 5px;
+  background-color: #fff;
+	border: 1px solid #e9e9e9;
 `;

@@ -15,6 +15,7 @@ const PlaygroundIdPage = () => {
 		positionList,
 		id,
 	} = location.state as any;
+	console.log(id, loginUserName, data, playgroundTitle);
 	return (
 		<>
 			<Header />

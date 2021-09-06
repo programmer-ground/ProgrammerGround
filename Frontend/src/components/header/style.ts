@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import styled, { createGlobalStyle } from 'styled-components';
+import styled, { createGlobalStyle, keyframes } from 'styled-components';
 import { lightTheme, darkTheme } from '@src/utils/theme';
 import logo from '../../assets/programmerground.png';
 import projectIcon from '../../assets/projectIcon.png';
@@ -94,6 +94,60 @@ export const UserMenu = styled.div`
 		color: #000;
 		text-decoration: none;
 	}
+
+	& > button {
+		&:not(:first-child) {
+			border-top: 1px solid rgba(0, 0, 0, 0.1);
+		}
+		padding: 16px 10px;
+		font-size: 18px;
+		font-family: Roboto, sans-serif;
+		min-width: 120px;
+		min-height: 28px;
+		cursor: pointer;
+		color: #000;
+		background-color: #fff;
+		text-decoration: none;
+		border: 0;
+	}
 `;
 
+const infoKeyframes = keyframes`
+	0% {
+		transform: translateX(390px);
+	}
+
+	100% {
+		transform: translateX(0);
+	}
+`;
+
+export const InfoMenu = styled.div`
+	z-index: 1000;
+	background-color: #f6f8fa;
+	border: 1px solid #e9e9e9;
+	position: absolute;
+	right: 0;
+	width: 360px;
+	top: 80px;
+	animation: ${infoKeyframes} 1s forwards;
+`;
+
+export const InfoTitleContainer = styled.div`
+	display: flex;
+	padding: 8px 16px;
+`;
+
+export const InfoTitleCloseButton = styled.button`
+	padding: 5px;
+	background-color: #fff;
+	border: 1px solid #e9e9e9;
+`;
+
+export const InfoTitleName = styled.span`
+	flex: 1 1 auto;
+	&:not(:last-child) {
+		margin-top: 4px;
+	}
+`;
 export const UserProfileLink = styled.a``;

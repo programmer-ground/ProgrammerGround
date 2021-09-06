@@ -44,7 +44,7 @@ public class PlaygroundService {
      * 메인 페이지 playground card 목록 가져오기
      */
     public List<PlaygroundCardResponse> getPlaygroundCardList() {
-        return PlaygroundCardResponse.ofList(playgroundRepository.findAll());
+        return PlaygroundCardResponse.ofList(playgroundRepository.findPlaygroundsByStatsActive());
     }
 
     /**

@@ -58,3 +58,31 @@
     @include sprite($logout);
   }
 }
+
+.repo_icon {
+  flex: 1 1 0;
+  &::before {
+    margin:-1px 10px 0 0;
+    vertical-align: bottom;
+    display: inline-block;
+    content: '';
+    @include sprite($folder);
+  }
+}
+
+.my_alarm_icon {
+  flex: 1 1 0;
+  position: relative;
+
+
+  &::before {
+    position:absolute;
+    top: -2px;
+    left: -34px;
+    margin:-1px 10px 0 0;
+    vertical-align: bottom;
+    display: inline-block;
+    content: '';
+    @include sprite($alarm-clock);
+  }
+}

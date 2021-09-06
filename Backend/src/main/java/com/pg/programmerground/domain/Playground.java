@@ -19,7 +19,6 @@ import java.util.NoSuchElementException;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Where(clause = "STATUS_FLAG='ACTIVE'")     //기본적으로 ACTIVE만 불러옴
 public class Playground extends BaseTimeEntity {
 
     @Id
@@ -122,6 +121,10 @@ public class Playground extends BaseTimeEntity {
         if(user != this.leader) {
             throw new IncorrectUserException("해당 playground 리더가 아님");
         }
+    }
+
+    public boolean isRemovePlayground() {
+        return this.statusFlag == PlaygroundStatus.REMOVE;
     }
 
     /**
