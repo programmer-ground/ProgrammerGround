@@ -5,14 +5,20 @@ spring:
   config:
     activate:
       on-profile: "common"
-  security:
-    jwt-token:
-      secret-key: awdsd
+#  security:
+#    jwt-token:
+#      secret-key: awdsd
 
-github:
-  token: "bearer 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"
-  org-url : "https://api.github.com/orgs/programmer-ground"
-  org-repo-url : "https://api.github.com/repos/programmer-ground"
+#github:
+#  token: "bearer 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"
+#  org-url : "https://api.github.com/orgs/programmer-ground"
+#  org-repo-url : "https://api.github.com/repos/programmer-ground"
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: refresh, health, beans
 
 server:
   port: 9000

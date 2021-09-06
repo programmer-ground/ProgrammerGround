@@ -6,16 +6,22 @@ spring:
   config:
     activate:
       on-profile: "common"
-  security:
-    jwt-token:
-      secret-key: awdsd
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: 5f8150b5b4b06259a3aa
-            client-secret: 1fa30fbeceef904db5b2a1323b32dbcdd200379b
-            scope: public_repo, read:user
+#  security:
+#    jwt-token:
+#      secret-key: awdsd
+#    oauth2:
+#      client:
+#        registration:
+#          github:
+#            client-id: 5f8150b5b4b06259a3aa
+#            client-secret: 1fa30fbeceef904db5b2a1323b32dbcdd200379b
+#            scope: public_repo, read:user
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: refresh, health, beans
 
 server:
   port: 8080
