@@ -2,17 +2,14 @@ package com.pg.programmerground.dto.user.api_req;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.validator.constraints.Length;
 
-import javax.validation.constraints.Max;
-import javax.validation.constraints.Min;
-import javax.validation.constraints.NotNull;
+import javax.validation.constraints.NotBlank;
 
 @Setter
 @Getter
 public class ReviseUserApi {
-    @NotNull
-    @Min(value = 1, message = "최소 1글자")
-    @Max(value = 5, message = "최대 5글자")
+    @Length(max = 5)
+    @NotBlank
     private String userName;
-
 }

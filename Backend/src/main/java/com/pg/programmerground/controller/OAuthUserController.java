@@ -54,7 +54,7 @@ public class OAuthUserController {
 
     @ApiOperation(value = "유저 정보 수정", notes = "유저 정보를 수정")
     @PatchMapping("")
-    public ResponseEntity<ApiResponse<Boolean>> updateUserInfo(@ModelAttribute @Validated ReviseUserApi userApi) {
+    public ResponseEntity<ApiResponse<Boolean>> updateUserInfo(@RequestBody @Validated ReviseUserApi userApi) {
         return ResponseEntity.ok().body(new ApiResponse<>(oAuthUserService.updateUserInfo(UserAuthenticationService.getUserId(), userApi)));
     }
 
