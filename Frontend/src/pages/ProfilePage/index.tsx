@@ -80,6 +80,14 @@ const ProfilePage = () => {
 								{user.github_page}
 							</StyledComponent.ProfileGeneralValue>
 						</StyledComponent.ProfileGeneralAttribute>
+						<StyledComponent.ProfileGeneralAttribute>
+							<StyledComponent.ProfileGeneralName>
+							  Language
+							</StyledComponent.ProfileGeneralName>
+							<StyledComponent.ProfileGeneralValue>
+								{user.most_language}
+							</StyledComponent.ProfileGeneralValue>
+						</StyledComponent.ProfileGeneralAttribute>
 					</StyledComponent.ProfileGeneralInfo>
 				</StyledComponent.ProfileInfo>
 			</StyledComponent.ProfileHeader>
