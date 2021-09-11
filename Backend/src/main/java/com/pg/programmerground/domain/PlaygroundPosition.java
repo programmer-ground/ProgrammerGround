@@ -40,12 +40,12 @@ public class PlaygroundPosition extends BaseTimeEntity {
     @Column(name = "POSITION_LEVEL")
     private PositionLevel positionLevel;
 
-    @OneToMany(mappedBy = "playgroundPosition", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<PlaygroundApply> playgroundApply = new ArrayList<>();
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "PLAYGROUND_ID")
     private Playground playground;
+
+    @OneToMany(mappedBy = "playgroundPosition", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<PlaygroundApply> playgroundApply = new ArrayList<>();
 
     @OneToMany(mappedBy = "playgroundPosition", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<PositionLanguage> positionLanguageList = new ArrayList<>();

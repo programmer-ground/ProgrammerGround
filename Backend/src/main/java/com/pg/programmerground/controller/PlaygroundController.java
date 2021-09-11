@@ -1,6 +1,8 @@
 package com.pg.programmerground.controller;
 
 import com.pg.programmerground.controller.response.ApiResponse;
+import com.pg.programmerground.domain.enumerated.Position;
+import com.pg.programmerground.dto.playground.PlaygroundPositionsDto;
 import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.RevisePlaygroundApi;
@@ -40,6 +42,13 @@ public class PlaygroundController {
     @PostMapping("")
     public ResponseEntity<ApiResponse<Long>> createPlayground(@RequestPart(required = false) MultipartFile mainImg, @RequestPart @Validated PlaygroundApi info) throws Exception {
         return ResponseEntity.ok().body(new ApiResponse<>(playgroundService.createPlayground(mainImg, info)));
+    }
+
+    @ApiOperation(value = "PlaygroundPosition 리스트 정보", notes = "PlaygroundPosition 리스트 정보 요청")
+    @GetMapping("/{playgroundId}/slots")
+    public ResponseEntity<ApiResponse<PlaygroundPositionsDto>> playgroundPositions(@PathVariable Long playgroundId) {
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>(playgroundService.getPlaygroundPositions(playgroundId)));
     }
 
     @ApiOperation(value = "Playground 참가 신청", notes = "Playground 참가 신청 요청")
@@ -105,5 +114,11 @@ public class PlaygroundController {
         @PathVariable Long playgroundId,
         @Valid @RequestBody String repoTitle) {
         return ResponseEntity.ok().body(playgroundService.applyCollaboratorPlaygroundGithubRepo(playgroundId, repoTitle));
+    }
+
+    @ApiOperation(value = "참여 신청할 Position 리스트 정보", notes = "PlaygroundPostion 리스트 정보 요청")
+    @GetMapping("/positions")
+    public ResponseEntity<?> positions() {
+        return ResponseEntity.ok().body(Position.toEntity());
     }
 }
