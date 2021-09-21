@@ -19,6 +19,7 @@ export const ApplyButton = styled.button.attrs((_props) => ({
 `;
 
 export const ApplyMainContainer = styled.div`
+  position: relative;
 	padding-top: 150px;
 	width: 960px;
 	margin: 0 auto;
@@ -127,4 +128,75 @@ export const ApplyContentLanguageLabel = styled.span`
 	border-radius: 20px;
 	padding: 5px;
 	color: #fff;
+`;
+
+export const ApplyModalContainer = styled.div`
+	position: fixed;
+	top: 0; 
+	right: 0;
+	bottom: 0;
+	left: 0;
+  background-color: rgba(0, 0, 0, 0.7);
+`;
+
+export const ApplyModalContent = styled.div`
+	position: absolute;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	background-color: #fff;
+	border-radius: 1px;
+`;
+
+export const ApplyModalHead = styled.div`
+	display: flex;
+	padding: 15px;
+`;
+
+export const ApplyModalTitle = styled.strong`
+    flex: 1 1 auto;
+		font-size: 20px;
+		line-height: 35px;
+	  font-weight: normal;
+
+		&:not(:last-child) {
+			margin-right: 10px;
+		}
+`;
+
+export const ApplyModalButton = styled.button.attrs((props) => {
+  type: 'button'
+})`
+  flex: 1 1 auto;
+  padding: 10px;
+	border: none;
+	background-color: transparent;
+	cursor: pointer;
+`;
+
+export const ApplyModalBody = styled.div`
+	 &:not(:first-child) {
+		 margin-top: 20px;
+	 }
+	 padding: 0 15px;
+`;
+
+export const ApplyModalInput = styled.input.attrs((props) => {
+	type: 'checkbox'
+})`
+ clip: rect(0 0 0 0);
+ position: absolute;
+ width: 1px;
+ height: 1px;
+ margin: -1px;
+ overflow: hidden;
+ 
+`;
+
+export const ApplyModalLabel = styled.label.attrs((props) => {
+
+})`
+  width: 100%;
+	height: 40px;
+	background-color: ${props=> props.checkState? '#4c90dd' : '#fff'}
 `;
