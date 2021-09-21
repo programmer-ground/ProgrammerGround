@@ -10,6 +10,7 @@ const url = {
 	GET_ONE_USER: 'http://localhost:9000/user',
 	PATCH_ONE_USER: 'http://localhost:9000/user',
 	DELETE_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
+	GET_POSITION_LIST:'http://localhost:9000/playground/'
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -45,4 +46,9 @@ export const deleteOnePlayground = async (playgroundId: number) => {
 export const patchOneUser = async(userName: string, type:string) => {
 	const user = await patchData(`${url.PATCH_ONE_USER}`, userName, type);
 	return user;
+}
+
+export const getPositionList = async (playgroundId: number) => {
+	const positionList = await getData(`${url.GET_POSITION_LIST}${playgroundId}/slots`);
+	return positionList;
 }
