@@ -178,7 +178,7 @@ export const ApplyModalBody = styled.div`
 	 &:not(:first-child) {
 		 margin-top: 20px;
 	 }
-	 padding: 0 15px;
+	 padding: 0 15px 15px;
 `;
 
 export const ApplyModalInput = styled.input.attrs((props) => {
@@ -196,7 +196,14 @@ export const ApplyModalInput = styled.input.attrs((props) => {
 export const ApplyModalLabel = styled.label.attrs((props) => {
 
 })`
-  width: 100%;
+  display: inline-block;
+  width: 33.3%;
 	height: 40px;
+	line-height: 40px;
+	padding: 0 2px;
+	box-sizing: border-box;
+	text-align: center;
+	border: 1px solid #d9d9d9;
+	color: ${props=> props.checkState? '#fff': '#515254'};
 	background-color: ${props=> props.checkState? '#4c90dd' : '#fff'}
 `;
