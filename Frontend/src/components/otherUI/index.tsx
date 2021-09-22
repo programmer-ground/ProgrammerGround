@@ -2,7 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import * as StyledComponent from './style';
-import {getPositionList} from '@src/lib/axios/playground';
+import {getPositionList, createApplyRequest} from '@src/lib/axios/playground';
 
 interface playground {
 	playgroundTitle: string;
@@ -24,7 +24,6 @@ const OtherUI = ({
 	const history = useHistory();
 	const [isShow, setIsShow] = useState(false);
 	const [list, setPositionList] = useState([]);
-	const [issue, setIssueList] = useState([]);
 
 	const applyHandler = async () => {
 		setIsShow(true);
@@ -41,6 +40,14 @@ const OtherUI = ({
 			checkedList: newItem
 		});
 	} 
+
+	const handleApply = (e: any) => {
+		const positionItemIndex = list.checkedList.indexOf(true);
+		const applyPlayground = {
+			position_id : positionItemIndex
+		}
+		 createApplyRequest(applyPlayground, id);
+	}
 
 	useEffect(()=> {
     const getData = async () => {
@@ -140,6 +147,7 @@ const OtherUI = ({
 									) 
 							 })}
 						</StyledComponent.ApplyModalBody>
+						<StyledComponent.ApplyModalSubmitButton onClick={(e) => handleApply(e)}>적용</StyledComponent.ApplyModalSubmitButton>
 				</StyledComponent.ApplyModalContent>
 			</StyledComponent.ApplyModalContainer>}
 		</StyledComponent.ApplyMainContainer>
