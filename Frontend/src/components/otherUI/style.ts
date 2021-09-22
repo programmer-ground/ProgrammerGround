@@ -178,7 +178,7 @@ export const ApplyModalBody = styled.div`
 	 &:not(:first-child) {
 		 margin-top: 20px;
 	 }
-	 padding: 0 15px 15px;
+	 padding: 0 15px 30px;
 `;
 
 export const ApplyModalInput = styled.input.attrs((props) => {
@@ -204,6 +204,19 @@ export const ApplyModalLabel = styled.label.attrs((props) => {
 	box-sizing: border-box;
 	text-align: center;
 	border: 1px solid #d9d9d9;
+	cursor: pointer;
 	color: ${props=> props.checkState? '#fff': '#515254'};
 	background-color: ${props=> props.checkState? '#4c90dd' : '#fff'}
+`;
+
+export const ApplyModalSubmitButton = styled.button`
+	background-color: #4c94e8;
+	width: 100%;
+	text-align: center;
+	color: #fff;
+	font-weight: 700;
+	height: 45px;
+	line-height: 45px;
+	border: 0;
+	cursor: pointer;
 `;
