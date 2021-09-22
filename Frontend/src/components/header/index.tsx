@@ -1,16 +1,17 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as StyledComponent from './style';
 import './headerImage.scss';
 import useCookie from '@src/hooks/useCookie';
 import { useHistory } from 'react-router-dom';
-import { getOneUser } from '@src/lib/axios/playground';
+import { getOneUser, getNoticeLeaderList } from '@src/lib/axios/playground';
 
 const Header = () => {
 	const [isAlarm, setAlarm] = useState(false);
 	const [isUser, setUser] = useState(false);
 	const [info, setInfo] = useState(false);
+	const [noticeItem, setNoticeItem] = useState([]);
 	const history = useHistory();
 
 	const userClickHandler = (e: any) => {
@@ -42,6 +43,14 @@ const Header = () => {
 			state: { userData },
 		});
 	};
+
+	useEffect(() => {
+		const getData = async () => {
+			const noticeData = await getNoticeLeaderList();
+			setNoticeItem(noticeData.user_notice);
+		}
+		getData();
+	}, []);
 	return (
 		<>
 			<StyledComponent.GlobalStyle />
@@ -101,6 +110,22 @@ const Header = () => {
 							닫기
 						</StyledComponent.InfoTitleCloseButton>
 					</StyledComponent.InfoTitleContainer>
+					<StyledComponent.InfoBodyContainer>
+					{noticeItem.map((v,i)=> {
+							return (
+								<StyledComponent.InfoBodyContent key={i}>
+									<StyledComponent.InfoBodyTitle>{v.playground_title}</StyledComponent.InfoBodyTitle>
+									<StyledComponent.InfoBodyAuthor>
+										 <StyledComponent.InfoAuthorName>
+											  <StyledComponent.InfoNameEmphasis>{v.user_name}</StyledComponent.InfoNameEmphasis>
+											님</StyledComponent.InfoAuthorName>
+										 <StyledComponent.InfoAuthorPosition>{v.position}</StyledComponent.InfoAuthorPosition>
+									</StyledComponent.InfoBodyAuthor>
+							  </StyledComponent.InfoBodyContent>
+							)
+					})}
+					</StyledComponent.InfoBodyContainer>
+
 				</StyledComponent.InfoMenu>
 			)}
 		</>

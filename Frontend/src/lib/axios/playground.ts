@@ -12,6 +12,7 @@ const url = {
 	DELETE_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
 	GET_POSITION_LIST:'http://localhost:9000/playground/',
 	APPLY_PLAYGROUND: 'http://localhost:9000/playground/'
+	GET_NOTICE_LEADER: 'http://localhost:9000/user/notices/leader'
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -57,4 +58,9 @@ export const getPositionList = async (playgroundId: number) => {
 export const createApplyRequest = async (applyPlayground: any, playgroundId: number) => {
 	const createApply = await postData(`${url.APPLY_PLAYGROUND}${playgroundId}/apply`, applyPlayground, 'apply');
 	return createApply;
+}
+
+export const getNoticeLeaderList = async () => {
+	const noticeList = await getData(`${url.GET_NOTICE_LEADER}`);
+	return noticeList;
 }
