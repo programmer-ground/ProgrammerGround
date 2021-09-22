@@ -151,3 +151,52 @@ export const InfoTitleName = styled.span`
 	}
 `;
 export const UserProfileLink = styled.a``;
+
+export const InfoBodyContainer = styled.div`
+	  &:not(:first-child) {
+			border-top: 1px solid #e9e9e9;
+		}
+`; 
+
+export const InfoBodyContent = styled.div`
+		padding: 4px 16px;
+		&:not(:first-child) {
+			border-top: 1px solid #e9e9e9;
+		}
+`;
+
+export const InfoBodyTitle = styled.strong`
+		font-weight: normal;
+
+`;
+
+export const InfoBodyAuthor = styled.div`
+		&:not(:first-child) {
+			margin-top: 4px;
+		}
+`;
+
+export const InfoAuthorName = styled.span`
+		font-size: 5px;
+		&:not(:last-child) {
+			margin-right: 5px;
+		}
+`;
+
+export const InfoNameEmphasis = styled.em`
+		font-weight: normal;
+		color: #0abe16;
+`;
+
+
+export const InfoAuthorPosition = styled.span`
+		&::before {
+			content: '';
+			margin: 0 5px 2px 0;
+			display: inline-block;
+			width: 2px;
+			height: 2px;
+			background-color: #000;
+		}
+		font-size: 5px;
+`;
