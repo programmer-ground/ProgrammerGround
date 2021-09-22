@@ -44,9 +44,10 @@ const OtherUI = ({
 	const handleApply = (e: any) => {
 		const positionItemIndex = list.checkedList.indexOf(true);
 		const applyPlayground = {
-			position_id : positionItemIndex
+			position_id : list.positionList[positionItemIndex].id
 		}
 		 createApplyRequest(applyPlayground, id);
+		 history.push('/');
 	}
 
 	useEffect(()=> {
