@@ -12,6 +12,7 @@ const Header = () => {
 	const [isUser, setUser] = useState(false);
 	const [info, setInfo] = useState(false);
 	const [noticeItem, setNoticeItem] = useState([]);
+	const [menu, setMenu] = useState(1);
 	const history = useHistory();
 
 	const userClickHandler = (e: any) => {
@@ -43,6 +44,9 @@ const Header = () => {
 			state: { userData },
 		});
 	};
+
+	const changeScreen = (e:any) => {
+	}
 
 	useEffect(() => {
 		const getData = async () => {
@@ -102,6 +106,11 @@ const Header = () => {
 			</StyledComponent.HeaderContainer>
 			{info && (
 				<StyledComponent.InfoMenu>
+					<StyledComponent.InfoMenuList>
+						<StyledComponent.InfoMenuLink value="신청목록" onClick={(e) => changeScreen(e)}>신청목록</StyledComponent.InfoMenuLink>
+						<StyledComponent.InfoMenuLink value="결과목록" onClick={(e) => changeScreen(e)}>결과목록</StyledComponent.InfoMenuLink>
+						<StyledComponent.InfoMenuLink value="대기목록" onClick={(e) => changeScreen(e)}>대기목록</StyledComponent.InfoMenuLink>
+					</StyledComponent.InfoMenuList>
 					<StyledComponent.InfoTitleContainer>
 						<StyledComponent.InfoTitleName>
 							My Alarm Info
@@ -111,7 +120,7 @@ const Header = () => {
 						</StyledComponent.InfoTitleCloseButton>
 					</StyledComponent.InfoTitleContainer>
 					<StyledComponent.InfoBodyContainer>
-					{noticeItem.map((v,i)=> {
+				  {noticeItem.map((v,i)=> {
 							return (
 								<StyledComponent.InfoBodyContent key={i}>
 									<StyledComponent.InfoAuthorContainer>

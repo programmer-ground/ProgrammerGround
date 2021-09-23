@@ -133,6 +133,16 @@ export const InfoMenu = styled.div`
 	animation: ${infoKeyframes} 1s forwards;
 `;
 
+export const InfoMenuList = styled.div`
+	padding: 8px 15px;
+`;
+
+export const InfoMenuLink = styled.a`
+   display: inline-block;
+	 padding: 5px 15px;
+	 cursor: pointer;
+`;
+
 export const InfoTitleContainer = styled.div`
 	display: flex;
 	padding: 8px 16px;
