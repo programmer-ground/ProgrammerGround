@@ -114,13 +114,21 @@ const Header = () => {
 					{noticeItem.map((v,i)=> {
 							return (
 								<StyledComponent.InfoBodyContent key={i}>
-									<StyledComponent.InfoBodyTitle>{v.playground_title}</StyledComponent.InfoBodyTitle>
-									<StyledComponent.InfoBodyAuthor>
-										 <StyledComponent.InfoAuthorName>
-											  <StyledComponent.InfoNameEmphasis>{v.user_name}</StyledComponent.InfoNameEmphasis>
-											님</StyledComponent.InfoAuthorName>
-										 <StyledComponent.InfoAuthorPosition>{v.position}</StyledComponent.InfoAuthorPosition>
-									</StyledComponent.InfoBodyAuthor>
+									<StyledComponent.InfoAuthorContainer>
+										<StyledComponent.InfoContainerItem>
+											<StyledComponent.InfoBodyTitle>{v.playground_title}</StyledComponent.InfoBodyTitle>
+											<StyledComponent.InfoBodyAuthor>
+												<StyledComponent.InfoAuthorName>
+														<StyledComponent.InfoNameEmphasis>{v.user_name}</StyledComponent.InfoNameEmphasis>
+													님</StyledComponent.InfoAuthorName>
+												<StyledComponent.InfoAuthorPosition>{v.position}</StyledComponent.InfoAuthorPosition>
+											</StyledComponent.InfoBodyAuthor>
+										</StyledComponent.InfoContainerItem>
+										<StyledComponent.InfoContainerItem>
+											<StyledComponent.InfoAcceptButton>수락</StyledComponent.InfoAcceptButton>
+											<StyledComponent.InfoRejectButton>거절</StyledComponent.InfoRejectButton>
+										</StyledComponent.InfoContainerItem>
+									</StyledComponent.InfoAuthorContainer>
 							  </StyledComponent.InfoBodyContent>
 							)
 					})}

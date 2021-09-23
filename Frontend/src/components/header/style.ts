@@ -200,3 +200,43 @@ export const InfoAuthorPosition = styled.span`
 		}
 		font-size: 5px;
 `;
+
+export const InfoAuthorContainer = styled.div`
+		display: flex;
+`;
+
+export const InfoContainerItem = styled.div`
+		flex: 1 1 auto;
+		&:not(:last-child) {
+			margin-right: 10px;
+		}
+		&:not(:first-child) {
+			line-height: 40px;
+		}
+`;
+
+export const InfoAcceptButton = styled.button`
+		border: 1px solid #e9e9e9;
+		background-color: #fff;
+		border-radius: 10px;
+		cursor: pointer;
+
+		&:hover {
+			color: #fff;
+			background-color: #00bcd4;
+		}
+`;
+
+export const InfoRejectButton = styled.button`
+	  &:not(:first-child) {
+			margin-left: 5px;
+		}
+		border: 1px solid #e9e9e9;
+		background-color: #fff;
+		border-radius: 10px;
+		cursor: pointer;
+		&:hover {
+			color: #fff;
+			background-color: #00bcd4;
+		}
+`;
