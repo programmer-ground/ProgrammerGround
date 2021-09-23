@@ -11,8 +11,10 @@ const url = {
 	PATCH_ONE_USER: 'http://localhost:9000/user',
 	DELETE_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
 	GET_POSITION_LIST:'http://localhost:9000/playground/',
-	APPLY_PLAYGROUND: 'http://localhost:9000/playground/'
-	GET_NOTICE_LEADER: 'http://localhost:9000/user/notices/leader'
+	APPLY_PLAYGROUND: 'http://localhost:9000/playground/',
+	GET_NOTICE_LEADER: 'http://localhost:9000/user/notices/leader',
+	PUT_APPLY_ACCEPT: 'http://localhost:9000/playground/applicants/',
+	PUT_APPLY_REJECT: 'http://localhost:9000/playground/applicants/'
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -63,4 +65,12 @@ export const createApplyRequest = async (applyPlayground: any, playgroundId: num
 export const getNoticeLeaderList = async () => {
 	const noticeList = await getData(`${url.GET_NOTICE_LEADER}`);
 	return noticeList;
+export const applyAcceptPlayground = async (playgroundApplyId: number) => {
+	const acceptPlayground = await putData(`${url.PUT_APPLY_ACCEPT}/${playgroundApplyId}/accept`);
+	return acceptPlayground;
+}
+
+export const applyRejectPlayground = async (playgroundApplyId: number) => {
+	const rejectPlayground = await putData(`${url.PUT_APPLY_REJECT}/${playgroundApplyId}/reject`);
+	return rejectPlayground;
 }
