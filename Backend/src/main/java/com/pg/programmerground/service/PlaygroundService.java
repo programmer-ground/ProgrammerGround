@@ -7,6 +7,7 @@ import com.pg.programmerground.domain.PlaygroundApply;
 import com.pg.programmerground.domain.PlaygroundPosition;
 import com.pg.programmerground.domain.enumerated.ApplyStatus;
 import com.pg.programmerground.dto.UploadImg;
+import com.pg.programmerground.dto.playground.PlaygroundPositionsDto;
 import com.pg.programmerground.dto.playground.api_req.ApplyPlaygroundApi;
 import com.pg.programmerground.dto.playground.api_req.PlaygroundApi;
 import com.pg.programmerground.dto.playground.response.PlaygroundCardResponse;
@@ -83,6 +84,16 @@ public class PlaygroundService {
         playgroundApplyRepository.save(playgroundApply);
 
         return playgroundApply.getId();
+    }
+
+    /**
+     * Playground에 등록되어있는 PlaygroundPosition
+     */
+    public PlaygroundPositionsDto getPlaygroundPositions(Long playgroundId) {
+        List<PlaygroundPosition> playgroundPositions = playgroundRepository.findById(playgroundId)
+                .orElseThrow(() -> new NoSuchElementException("존재하지 않는 Playground 입니다."))
+                .getPlaygroundPositionList();
+        return new PlaygroundPositionsDto(playgroundPositions);
     }
 
     /**

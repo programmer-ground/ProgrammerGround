@@ -1,6 +1,8 @@
-import React from 'react';
+// @ts-nocheck
+import React, {useState, useEffect} from 'react';
 import { useHistory } from 'react-router-dom';
 import * as StyledComponent from './style';
+import {getPositionList, createApplyRequest} from '@src/lib/axios/playground';
 
 interface playground {
 	playgroundTitle: string;
@@ -20,7 +22,44 @@ const OtherUI = ({
 }: playground) => {
 	const colors = ['red', 'yellow', 'blue', 'green', 'purple', 'pink'];
 	const history = useHistory();
+	const [isShow, setIsShow] = useState(false);
+	const [list, setPositionList] = useState([]);
 
+	const applyHandler = async () => {
+		setIsShow(true);
+	}
+
+	const onClose = () => {
+		setIsShow(false);
+	}
+
+	const handleCheckboxChange = ( positionList:any, list: any) => {
+	  const newItem = list.map((v:boolean) => !v);
+		setPositionList({
+			positionList,
+			checkedList: newItem
+		});
+	} 
+
+	const handleApply = (e: any) => {
+		const positionItemIndex = list.checkedList.indexOf(true);
+		const applyPlayground = {
+			position_id : list.positionList[positionItemIndex].id
+		}
+		 createApplyRequest(applyPlayground, id);
+		 history.push('/');
+	}
+
+	useEffect(()=> {
+    const getData = async () => {
+			const data = await getPositionList(id);
+			setPositionList({
+				positionList: data.playground_positions,
+				checkedList: new Array(data.playground_positions.length).fill(false)
+			})
+		}
+		getData();
+	},[]);
 	return (
 		<StyledComponent.ApplyMainContainer>
 			<StyledComponent.ApplyTitle>
@@ -90,8 +129,28 @@ const OtherUI = ({
 				</StyledComponent.ApplySeveralContent>
 			</StyledComponent.ApplyContent>
 			<StyledComponent.SameContainer>
-				<StyledComponent.ApplyButton>참가 요청하기</StyledComponent.ApplyButton>
+				<StyledComponent.ApplyButton onClick={applyHandler}>참가 요청하기</StyledComponent.ApplyButton>
 			</StyledComponent.SameContainer>
+			{isShow && 
+			<StyledComponent.ApplyModalContainer>
+				<StyledComponent.ApplyModalContent>
+					  <StyledComponent.ApplyModalHead>
+								<StyledComponent.ApplyModalTitle>포지션 리스트 - 원하는 포지션을 체크해주세요!</StyledComponent.ApplyModalTitle>
+							  <StyledComponent.ApplyModalButton onClick={onClose}>X</StyledComponent.ApplyModalButton>
+						</StyledComponent.ApplyModalHead>
+						<StyledComponent.ApplyModalBody>
+						   {list.positionList.map((v,i)=> {
+								 return (
+									 <>
+									 	 <StyledComponent.ApplyModalInput id="position"></StyledComponent.ApplyModalInput>
+									   <StyledComponent.ApplyModalLabel htmlFor="position"  checkState={list.checkedList[i]} onClick={(e) => handleCheckboxChange(list.positionList, list.checkedList)}>{v.position}</StyledComponent.ApplyModalLabel>
+									 </>
+									) 
+							 })}
+						</StyledComponent.ApplyModalBody>
+						<StyledComponent.ApplyModalSubmitButton onClick={(e) => handleApply(e)}>적용</StyledComponent.ApplyModalSubmitButton>
+				</StyledComponent.ApplyModalContent>
+			</StyledComponent.ApplyModalContainer>}
 		</StyledComponent.ApplyMainContainer>
 	);
 };

@@ -8,7 +8,11 @@ const url = {
 	GET_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
 	CREATE_IMAGE_PLAYGROUND: 'http://localhost:9000/images/pgmainimg/',
 	GET_ONE_USER: 'http://localhost:9000/user',
+	PATCH_ONE_USER: 'http://localhost:9000/user',
 	DELETE_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
+	GET_POSITION_LIST:'http://localhost:9000/playground/',
+	APPLY_PLAYGROUND: 'http://localhost:9000/playground/'
+	GET_NOTICE_LEADER: 'http://localhost:9000/user/notices/leader'
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -40,3 +44,23 @@ export const deleteOnePlayground = async (playgroundId: number) => {
 	const playground = await deleteData(`${url.DELETE_ONE_PLAYGROUND}${playgroundId}`, 'delete');
 	return playground;
 };
+
+export const patchOneUser = async(userName: string, type:string) => {
+	const user = await patchData(`${url.PATCH_ONE_USER}`, userName, type);
+	return user;
+}
+
+export const getPositionList = async (playgroundId: number) => {
+	const positionList = await getData(`${url.GET_POSITION_LIST}${playgroundId}/slots`);
+	return positionList;
+}
+
+export const createApplyRequest = async (applyPlayground: any, playgroundId: number) => {
+	const createApply = await postData(`${url.APPLY_PLAYGROUND}${playgroundId}/apply`, applyPlayground, 'apply');
+	return createApply;
+}
+
+export const getNoticeLeaderList = async () => {
+	const noticeList = await getData(`${url.GET_NOTICE_LEADER}`);
+	return noticeList;
+}
