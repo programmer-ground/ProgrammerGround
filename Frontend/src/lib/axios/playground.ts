@@ -1,5 +1,3 @@
-import { AxiosResponse } from 'axios';
-import { getOptions } from '@src/lib/api';
 import { getData, patchData, postData, putData, deleteData } from './request';
 
 const url = {
@@ -13,8 +11,11 @@ const url = {
 	GET_POSITION_LIST:'http://localhost:9000/playground/',
 	APPLY_PLAYGROUND: 'http://localhost:9000/playground/',
 	GET_NOTICE_LEADER: 'http://localhost:9000/user/notices/leader',
+	GET_NOTICE_WAITING: 'http://localhost:9000/user/notices/waitings',
+	GET_NOTICE_RESULT: 'http://localhost:9000/user/notices/results',
 	PUT_APPLY_ACCEPT: 'http://localhost:9000/playground/applicants/',
 	PUT_APPLY_REJECT: 'http://localhost:9000/playground/applicants/'
+
 };
 
 // eslint-disable-next-line import/prefer-default-export
@@ -65,6 +66,18 @@ export const createApplyRequest = async (applyPlayground: any, playgroundId: num
 export const getNoticeLeaderList = async () => {
 	const noticeList = await getData(`${url.GET_NOTICE_LEADER}`);
 	return noticeList;
+}
+
+export const getNoticeWaitingList = async () => {
+	const waitList = await getData(`${url.GET_NOTICE_WAITING}`);
+	return waitList;
+}
+
+export const getNoticeResult = async () => {
+	const resultList = await getData(`${url.GET_NOTICE_RESULT}`);
+	return resultList;
+}
+
 export const applyAcceptPlayground = async (playgroundApplyId: number) => {
 	const acceptPlayground = await putData(`${url.PUT_APPLY_ACCEPT}/${playgroundApplyId}/accept`);
 	return acceptPlayground;
