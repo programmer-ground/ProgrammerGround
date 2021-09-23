@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,7 @@ public class UserApplyNoticeResponse {
     private final Long playgroundApplyId;
     private final String position;
     private final ApplyStatus status;
+    private final LocalDateTime date;
 
     public static List<UserApplyNoticeResponse> ofList(List<PlaygroundApply> playgroundApplyList) {
         return playgroundApplyList.stream()
@@ -27,7 +29,8 @@ public class UserApplyNoticeResponse {
                         .playgroundTitle(playgroundApply.getPlayground().getTitle())
                         .playgroundApplyId(playgroundApply.getId())
                         .status(playgroundApply.getApplyStatus())
-                        .position(playgroundApply.getPlaygroundPosition().getPosition().name()).build())
+                        .position(playgroundApply.getPlaygroundPosition().getPosition().name())
+                        .date(playgroundApply.getCreatedAt()).build())
                 .collect(Collectors.toList());
     }
 }
