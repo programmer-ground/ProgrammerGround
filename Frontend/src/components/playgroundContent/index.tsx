@@ -2,12 +2,9 @@
 /* eslint-disable react/jsx-key */
 /* eslint-disable react/require-default-props */
 /* eslint-disable react/prop-types */
-import React, { useState } from 'react';
+import React from 'react';
 import useShow from '@src/hooks/useShow';
-import { useDispatch, useSelector } from 'react-redux';
-import { RootState } from '@src/store/modules';
 import { useHistory } from 'react-router-dom';
-import { playgroundModalMode } from '@src/store/modules/modal';
 import { getOnePlayground, getOneUser } from '@src/lib/axios/playground';
 import { getOnePlaygroundItem } from '@src/store/modules/Playground';
 import * as StyledComponent from './style';
@@ -31,7 +28,6 @@ const PlaygroundContent = ({
 }: Playground) => {
 	const [show, dispatch] = useShow();
 	const history = useHistory();
-	const [image, setImage] = useState(null);
 	const createModalFunc = async (
 		playgroundId: number,
 		event: any,

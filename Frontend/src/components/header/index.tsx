@@ -3,7 +3,6 @@
 import React, { useState, useEffect } from 'react';
 import * as StyledComponent from './style';
 import './headerImage.scss';
-import useCookie from '@src/hooks/useCookie';
 import { useHistory } from 'react-router-dom';
 import { getOneUser, getNoticeLeaderList } from '@src/lib/axios/playground';
 

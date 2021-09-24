@@ -5,11 +5,11 @@
 /* eslint-disable react/jsx-pascal-case */
 /* eslint-disable array-callback-return */
 // @ts-nocheck
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect} from 'react';
 import Header from '@src/components/header';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import PlaygroundContent from '@src/components/playgroundContent';
-import { getAllPlaygrounds, getOneUser } from '@src/lib/axios/playground';
+import { getAllPlaygrounds} from '@src/lib/axios/playground';
 import OnePlaygroundModal from '@src/components/Common/modal/onePlaygroundModal';
 import { RootState } from '@src/store/modules';
 import { throttling } from '@src/utils/throttle';
