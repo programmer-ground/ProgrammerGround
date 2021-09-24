@@ -125,7 +125,10 @@ const Header = () => {
 								<StyledComponent.InfoBodyContent key={i}>
 									<StyledComponent.InfoAuthorContainer>
 										<StyledComponent.InfoContainerItem>
-											<StyledComponent.InfoBodyTitle>{v.playground_title}</StyledComponent.InfoBodyTitle>
+											<StyledComponent.InfoTitleBody>
+													<StyledComponent.InfoBodyTitle>{v.playground_title}</StyledComponent.InfoBodyTitle>
+													<StyledComponent.InfoBodyDate>{v.date.toString().slice(0, 10)}</StyledComponent.InfoBodyDate>
+											</StyledComponent.InfoTitleBody>
 											<StyledComponent.InfoBodyAuthor>
 												<StyledComponent.InfoAuthorName>
 														<StyledComponent.InfoNameEmphasis>{v.user_name}</StyledComponent.InfoNameEmphasis>

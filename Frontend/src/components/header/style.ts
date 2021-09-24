@@ -177,7 +177,19 @@ export const InfoBodyContent = styled.div`
 
 export const InfoBodyTitle = styled.strong`
 		font-weight: normal;
+		position: relative; 
 
+		&::after {
+			position: absolute;
+			bottom: 1px;
+			left: 0;
+			width: 100%;
+			height: 7px;
+			background-color: #78ffe0;
+			opacity: 0.5;
+			content: '';
+
+		}
 `;
 
 export const InfoBodyAuthor = styled.div`
@@ -250,3 +262,18 @@ export const InfoRejectButton = styled.button`
 			background-color: #00bcd4;
 		}
 `;
+
+export const InfoTitleBody = styled.div`
+		display: flex;
+`;
+
+export const InfoBodyDate = styled.span`
+		&:not(:first-child) {
+			margin-left: auto;
+			padding-top: 3px;
+		}
+
+		font-size: 10px;
+		line-height: 15px;
+`;
+
