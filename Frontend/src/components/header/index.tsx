@@ -4,15 +4,18 @@ import React, { useState, useEffect } from 'react';
 import * as StyledComponent from './style';
 import './headerImage.scss';
 import { useHistory } from 'react-router-dom';
-import { getOneUser, getNoticeLeaderList } from '@src/lib/axios/playground';
+import { getOneUser } from '@src/lib/axios/playground';
+import ApplyList from '@src/components/applyList';
+import ResultList from '@src/components/resultList';
+import WaitingList from '@src/components/waitingList';
 
 const Header = () => {
 	const [isAlarm, setAlarm] = useState(false);
 	const [isUser, setUser] = useState(false);
 	const [info, setInfo] = useState(false);
-	const [noticeItem, setNoticeItem] = useState([]);
 	const [menu, setMenu] = useState(1);
 	const history = useHistory();
+  const textArray = ["신청목록", "결과목록", "대기목록"];
 
 	const userClickHandler = (e: any) => {
 		setUser(!isUser);
@@ -44,16 +47,10 @@ const Header = () => {
 		});
 	};
 
-	const changeScreen = (e:any) => {
+	const changeScreen = (e:any, menuNumber: number) => {
+		  setMenu(menuNumber);
 	}
 
-	useEffect(() => {
-		const getData = async () => {
-			const noticeData = await getNoticeLeaderList();
-			setNoticeItem(noticeData.user_notice);
-		}
-		getData();
-	}, []);
 	return (
 		<>
 			<StyledComponent.GlobalStyle />
@@ -106,9 +103,11 @@ const Header = () => {
 			{info && (
 				<StyledComponent.InfoMenu>
 					<StyledComponent.InfoMenuList>
-						<StyledComponent.InfoMenuLink value="신청목록" onClick={(e) => changeScreen(e)}>신청목록</StyledComponent.InfoMenuLink>
-						<StyledComponent.InfoMenuLink value="결과목록" onClick={(e) => changeScreen(e)}>결과목록</StyledComponent.InfoMenuLink>
-						<StyledComponent.InfoMenuLink value="대기목록" onClick={(e) => changeScreen(e)}>대기목록</StyledComponent.InfoMenuLink>
+						{textArray.map((v, i) => {
+							return (
+								<StyledComponent.InfoMenuLink key={i} selected={menu===i+1? true: ''} onClick={(e) => changeScreen(e, i+1)}>{v}</StyledComponent.InfoMenuLink>
+							)
+						})}
 					</StyledComponent.InfoMenuList>
 					<StyledComponent.InfoTitleContainer>
 						<StyledComponent.InfoTitleName>
@@ -119,30 +118,9 @@ const Header = () => {
 						</StyledComponent.InfoTitleCloseButton>
 					</StyledComponent.InfoTitleContainer>
 					<StyledComponent.InfoBodyContainer>
-				  {noticeItem.map((v,i)=> {
-							return (
-								<StyledComponent.InfoBodyContent key={i}>
-									<StyledComponent.InfoAuthorContainer>
-										<StyledComponent.InfoContainerItem>
-											<StyledComponent.InfoTitleBody>
-													<StyledComponent.InfoBodyTitle>{v.playground_title}</StyledComponent.InfoBodyTitle>
-													<StyledComponent.InfoBodyDate>{v.date.toString().slice(0, 10)}</StyledComponent.InfoBodyDate>
-											</StyledComponent.InfoTitleBody>
-											<StyledComponent.InfoBodyAuthor>
-												<StyledComponent.InfoAuthorName>
-														<StyledComponent.InfoNameEmphasis>{v.user_name}</StyledComponent.InfoNameEmphasis>
-													님</StyledComponent.InfoAuthorName>
-												<StyledComponent.InfoAuthorPosition>{v.position}</StyledComponent.InfoAuthorPosition>
-											</StyledComponent.InfoBodyAuthor>
-										</StyledComponent.InfoContainerItem>
-										<StyledComponent.InfoContainerItem>
-											<StyledComponent.InfoAcceptButton>수락</StyledComponent.InfoAcceptButton>
-											<StyledComponent.InfoRejectButton>거절</StyledComponent.InfoRejectButton>
-										</StyledComponent.InfoContainerItem>
-									</StyledComponent.InfoAuthorContainer>
-							  </StyledComponent.InfoBodyContent>
-							)
-					})}
+					{menu === 1 && <ApplyList/>}
+				  {menu === 2 && <ResultList/>}
+					{menu === 3 && <WaitingList/>}
 					</StyledComponent.InfoBodyContainer>
 
 				</StyledComponent.InfoMenu>

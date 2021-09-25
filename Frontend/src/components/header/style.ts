@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import styled, { createGlobalStyle, keyframes } from 'styled-components';
+import styled, { createGlobalStyle, keyframes , css} from 'styled-components';
 import logo from '../../assets/programmerground.png';
 
 export const GlobalStyle = createGlobalStyle`
@@ -131,12 +131,28 @@ export const InfoMenu = styled.div`
 
 export const InfoMenuList = styled.div`
 	padding: 8px 15px;
+	text-align: center;
 `;
 
-export const InfoMenuLink = styled.a`
+interface selectedProps {
+	selected: boolean;
+}
+
+export const InfoMenuLink = styled.a<selectedProps>`
    display: inline-block;
 	 padding: 5px 15px;
+	 max-width: 120px;
 	 cursor: pointer;
+	 white-space: nowrap;
+	 overflow: hidden;
+	 text-overflow: ellipsis;
+	 ${props=> 
+		props.selected && css`
+		  color: #fff;
+			font-weight: bold;
+			background-color: #3b7cf5;
+		`
+	}
 `;
 
 export const InfoTitleContainer = styled.div`
