@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import { getNoticeLeaderList } from '@src/lib/axios/playground';
+import { getNoticeLeaderList, applyAcceptPlayground, applyRejectPlayground } from '@src/lib/axios/playground';
 import * as StyledComponent from './style';
 
 const ApplyList = () => {
@@ -14,6 +14,24 @@ const ApplyList = () => {
 		getData();
 	}, []);
   
+  const acceptHandler = async (playgroundApplyId: number) => {
+    //  const applyMessage = confirm('수락하시겠습니까?');
+     await applyAcceptPlayground(playgroundApplyId);
+
+    //  if (applyMessage) {
+    //   location.href="/";
+    //  }
+  }
+
+  const rejectHandler = async (playgroundApplyId: number) => {
+     const rejectMessage = confirm('거절하시겠습니까?');
+     
+     if (rejectMessage) {
+      await applyRejectPlayground(playgroundApplyId);
+      location.href="/";
+     }
+  }
+
   return (
     <>
     {noticeItem.map((v,i)=> {
@@ -33,8 +51,8 @@ const ApplyList = () => {
                 </StyledComponent.InfoBodyAuthor>
               </StyledComponent.InfoContainerItem>
               <StyledComponent.InfoContainerItem>
-                <StyledComponent.InfoAcceptButton>수락</StyledComponent.InfoAcceptButton>
-                <StyledComponent.InfoRejectButton>거절</StyledComponent.InfoRejectButton>
+                <StyledComponent.InfoAcceptButton onClick={(e) => acceptHandler(v.playground_apply_id)}>수락</StyledComponent.InfoAcceptButton>
+                <StyledComponent.InfoRejectButton onClick={(e) => rejectHandler(v.playground_apply_id)}>거절</StyledComponent.InfoRejectButton>
               </StyledComponent.InfoContainerItem>
             </StyledComponent.InfoAuthorContainer>
           </StyledComponent.InfoBodyContent>
