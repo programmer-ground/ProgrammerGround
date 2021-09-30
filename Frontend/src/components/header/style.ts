@@ -95,7 +95,7 @@ export const UserMenu = styled.div`
 		&:not(:first-child) {
 			border-top: 1px solid rgba(0, 0, 0, 0.1);
 		}
-		padding: 16px 10px;
+		padding: 16px 6px;
 		font-size: 18px;
 		font-family: Roboto, sans-serif;
 		min-width: 120px;

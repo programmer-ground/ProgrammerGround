@@ -4,35 +4,47 @@ import React, { useState, useEffect } from 'react';
 import * as StyledComponent from './style';
 import './headerImage.scss';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { getOneUser } from '@src/lib/axios/playground';
 import ApplyList from '@src/components/applyList';
 import ResultList from '@src/components/resultList';
 import WaitingList from '@src/components/waitingList';
+import { RootState } from '@src/store/modules/index';
+import useShow from '@src/hooks/useShow';
+import { repositoryModalMode } from '@src/store/modules/modal';
 
 const Header = () => {
 	const [isAlarm, setAlarm] = useState(false);
 	const [isUser, setUser] = useState(false);
 	const [info, setInfo] = useState(false);
 	const [menu, setMenu] = useState(1);
+	const [show, dispatch] = useShow();
+
 	const history = useHistory();
+	const { repositoryShow } = useSelector((state: RootState) => state.modalReducer);
+
   const textArray = ["신청목록", "결과목록", "대기목록"];
 
-	const userClickHandler = (e: any) => {
+	const userClickHandler = (e: React<MouseEvent>) => {
 		setUser(!isUser);
 		if (isAlarm) setAlarm(!isAlarm);
 	};
-	const alarmClickHandler = (e: any) => {
+	const alarmClickHandler = (e: React<MouseEvent>) => {
 		setAlarm(!isAlarm);
 		if (isUser) setUser(!isUser);
 	};
 
-	const onClickInfoHandler = (e: any) => {
+	const onClickInfoHandler = (e:React<MouseEvent>) => {
 		setInfo(!info);
 	};
 
-	const onClickCloseHandler = (e: any) => {
+	const onClickCloseHandler = (e:React<MouseEvent>) => {
 		setInfo(!info);
 	};
+
+	const onClickMakeRepoHandler = (e:React<MouseEvent>) => {
+		dispatch(repositoryModalMode(!repositoryShow));
+	}
 
 	const onLogout = (e) => {
 		document.cookie = `access_token=; Max-Age=0`;
@@ -88,10 +100,10 @@ const Header = () => {
 					/>
 					{isAlarm && (
 						<StyledComponent.UserMenu>
-							<a href="#">
+							<button onClick={onClickMakeRepoHandler}>
 								<i className="repo_icon" />
 								<span>레포 생성</span>
-							</a>
+							</button>
 							<button onClick={onClickInfoHandler}>
 								<i className="my_alarm_icon" />
 								<span>내 알림</span>
