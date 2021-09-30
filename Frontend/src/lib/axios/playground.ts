@@ -79,11 +79,11 @@ export const getNoticeResult = async () => {
 }
 
 export const applyAcceptPlayground = async (playgroundApplyId: number) => {
-	const acceptPlayground = await putData(`${url.PUT_APPLY_ACCEPT}/${playgroundApplyId}/accept`);
+	const acceptPlayground = await putData(`${url.PUT_APPLY_ACCEPT}${playgroundApplyId}/accept`);
 	return acceptPlayground;
 }
 
 export const applyRejectPlayground = async (playgroundApplyId: number) => {
-	const rejectPlayground = await putData(`${url.PUT_APPLY_REJECT}/${playgroundApplyId}/reject`);
+	const rejectPlayground = await putData(`${url.PUT_APPLY_REJECT}${playgroundApplyId}/reject`);
 	return rejectPlayground;
 }

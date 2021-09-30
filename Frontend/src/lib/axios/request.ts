@@ -11,6 +11,7 @@ const informError = (error: Error) => {
 	const message = error.message
 		? error.message
 		: '오류가 발생하여 요청에 실패하였습니다';
+	console.info(message);
 };
 
 export const getOptions = async (type?: string) => {
@@ -108,11 +109,10 @@ export const patchData = async (url: string, body: string, type: string) => {
 	}
 };
 
-export const putData = async (url: string, body: string) => {
+export const putData = async (url: string) => {
 	const options = await getOptions();
-
 	try {
-		const response = await axios.put(url, body, options);
+		const response = await axios.put(url, options);
 		return response.data;
 	} catch (error) {
 		informError(error);
