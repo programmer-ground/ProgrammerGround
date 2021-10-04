@@ -112,7 +112,7 @@ export const patchData = async (url: string, body: string, type: string) => {
 export const putData = async (url: string) => {
 	const options = await getOptions();
 	try {
-		const response = await axios.put(url, options);
+		const response = await axios.put(url, url, options);
 		return response.data;
 	} catch (error) {
 		informError(error);

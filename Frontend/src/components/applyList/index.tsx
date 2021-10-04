@@ -15,20 +15,18 @@ const ApplyList = () => {
 	}, []);
   
   const acceptHandler = async (playgroundApplyId: number) => {
-    //  const applyMessage = confirm('수락하시겠습니까?');
-     await applyAcceptPlayground(playgroundApplyId);
+     const applyMessage = confirm('수락하시겠습니까?');
 
-    //  if (applyMessage) {
-    //   location.href="/";
-    //  }
+     if (applyMessage) {
+      await applyAcceptPlayground(playgroundApplyId);
+     }
   }
 
   const rejectHandler = async (playgroundApplyId: number) => {
      const rejectMessage = confirm('거절하시겠습니까?');
      
      if (rejectMessage) {
-      await applyRejectPlayground(playgroundApplyId);
-      location.href="/";
+       await applyRejectPlayground(playgroundApplyId);
      }
   }
 
