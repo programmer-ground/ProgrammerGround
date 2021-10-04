@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const ModalContainer = styled.div`
   position: fixed;
+  z-index: 1000;
   top: 0; 
   right: 0;
   bottom: 0;
@@ -38,7 +39,6 @@ export const ModalBody = styled.div`
     &:not(:first-child) {
       margin-top: 20px;
     }
-    padding-bottom: 30px;
 `;
 
 export const ModalButton = styled.button.attrs((props) => {
@@ -65,7 +65,10 @@ export const ModalSubmitButton = styled.button`
 
 export const ModalBodyContainer = styled.div`
     border-top: 1px solid #e9e9e9;
-`;
+    height: 400px;
+    overflow-y: scroll;
+    overflow-x: hidden;
+  `;
 
 export const ModalContainerContent = styled.div`
   display: flex;
