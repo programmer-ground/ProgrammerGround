@@ -122,7 +122,7 @@ export const InfoMenu = styled.div`
 	z-index: 1000;
 	background-color: #f6f8fa;
 	border: 1px solid #e9e9e9;
-	position: absolute;
+	position: fixed;
 	right: 0;
 	width: 360px;
 	top: 80px;
