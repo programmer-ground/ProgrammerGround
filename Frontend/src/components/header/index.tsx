@@ -131,8 +131,8 @@ const Header = () => {
 					</StyledComponent.InfoTitleContainer>
 					<StyledComponent.InfoBodyContainer>
 					{menu === 1 && <ApplyList/>}
-				  {menu === 2 && <ResultList/>}
-					{menu === 3 && <WaitingList/>}
+				  {menu === 2 && <ResultList menu={menu}/>}
+					{menu === 3 && <WaitingList menu={menu}/>}
 					</StyledComponent.InfoBodyContainer>
 
 				</StyledComponent.InfoMenu>
