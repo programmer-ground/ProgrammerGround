@@ -178,6 +178,9 @@ export const InfoBodyContainer = styled.div`
 	  &:not(:first-child) {
 			border-top: 1px solid #e9e9e9;
 		}
+		height: 300px;
+    	overflow-y: scroll;
+    	overflow-x: auto;
 `; 
 
 export const InfoBodyContent = styled.div`
