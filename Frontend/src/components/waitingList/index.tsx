@@ -1,6 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import {getNoticeWaitingList} from '@src/lib/axios/playground';
 import * as StyledComponent from './style';
+import { getTimeInfo } from '@src/utils/time';
 
 const ResultList = (menu: number) => {
   const [resultItem, setResultItem] = useState([]);
@@ -21,7 +22,7 @@ const ResultList = (menu: number) => {
            <StyledComponent.InfoContainerItem>
              <StyledComponent.InfoTitleBody>
                  <StyledComponent.InfoBodyTitle>{v.playground_title}</StyledComponent.InfoBodyTitle>
-                 <StyledComponent.InfoBodyDate>{v.date.toString().slice(0, 10)}</StyledComponent.InfoBodyDate>
+                 <StyledComponent.InfoBodyDate>{getTimeInfo(v.date.toString().slice(0, 10))}</StyledComponent.InfoBodyDate>
              </StyledComponent.InfoTitleBody>
              <StyledComponent.InfoBodyAuthor>
                <StyledComponent.InfoAuthorName>
