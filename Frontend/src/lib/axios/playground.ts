@@ -1,6 +1,9 @@
 import { getData, patchData, postData, putData, deleteData } from './request';
 
 const url = {
+export const url = {
+	GET_JWT_TOKEN: 'http://localhost:8080/jwtLogin',
+	GET_OAUTH_TOKEN: 'http://localhost:8080/oauth2/authorization/github',
 	GET_ALL_PLAYGROUND: 'http://localhost:9000/playground',
 	CREATE_PLAYGROUND: 'http://localhost:9000/playground',
 	GET_ONE_PLAYGROUND: 'http://localhost:9000/playground/',
