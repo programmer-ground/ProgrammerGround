@@ -1,20 +1,36 @@
 import React, {useState} from 'react';
 import Header from '@src/components/header';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import * as StyledComponent from './style';
+import {patchOneUser, getOneUser} from '@src/lib/axios/playground';
 
 const ProfilePage = () => {
 	const location = useLocation();
 	const user = (location.state as any).userData;
+	const history = useHistory();
+	const [userName, setUserName] = useState('');
 	const [edit, setEdit] = useState(false);
   const ProfileEditHandler = () => {
 	   setEdit(true);
 	}
 
-	const ProfileSaveHandler = () => {
-		console.log('save');
+	const ProfileSaveHandler = async () => {
+		 if(userName.length > 5) {
+			 alert('글자 수가 너무 깁니다. 다시 입력해주세요');
+			 return;
+		 }
+		 const response = await patchOneUser(userName, 'profile');
+		 setEdit(false);
+		 const userData = await getOneUser();
+		 history.push({
+			pathname: '/profile',
+			state: { userData },
+		});
 	}
 
+	const ProfileInput = (e: any) => {
+		setUserName(e.target.value);
+	}
 	return (
 		<StyledComponent.ProfileContainer>
 			<Header />
@@ -29,7 +45,7 @@ const ProfilePage = () => {
 								width="117px"
 								height="117px"
 							/>
-							<h3>{user.oauth_name}</h3>
+							<h3>{user.user_name}</h3>
 						</StyledComponent.ProfileLeftInfoData>
 					</StyledComponent.ProfileLeftInfo>
 					<StyledComponent.ProfileGeneralInfo>
@@ -41,7 +57,7 @@ const ProfilePage = () => {
 							<StyledComponent.ProfileGeneralName>
 								Name
 							</StyledComponent.ProfileGeneralName>
-							<StyledComponent.ProfileInput>
+							<StyledComponent.ProfileInput onChange={ProfileInput}>
 							</StyledComponent.ProfileInput>
 							<StyledComponent.ProfileButton onClick={ProfileSaveHandler}>Save</StyledComponent.ProfileButton>
 						</StyledComponent.ProfileGeneralAttribute> :
@@ -51,7 +67,7 @@ const ProfilePage = () => {
 								Name
 							</StyledComponent.ProfileGeneralName>
 							<StyledComponent.ProfileGeneralValue>
-								{user.oauth_name}
+								{user.user_name}
 							</StyledComponent.ProfileGeneralValue>
 							<StyledComponent.ProfileButton onClick={ProfileEditHandler}>Edit</StyledComponent.ProfileButton>
 						</StyledComponent.ProfileGeneralAttribute> 
@@ -62,6 +78,14 @@ const ProfilePage = () => {
 							</StyledComponent.ProfileGeneralName>
 							<StyledComponent.ProfileGeneralValue>
 								{user.github_page}
+							</StyledComponent.ProfileGeneralValue>
+						</StyledComponent.ProfileGeneralAttribute>
+						<StyledComponent.ProfileGeneralAttribute>
+							<StyledComponent.ProfileGeneralName>
+							  Language
+							</StyledComponent.ProfileGeneralName>
+							<StyledComponent.ProfileGeneralValue>
+								{user.most_language}
 							</StyledComponent.ProfileGeneralValue>
 						</StyledComponent.ProfileGeneralAttribute>
 					</StyledComponent.ProfileGeneralInfo>

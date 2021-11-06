@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,6 +21,8 @@ public class UserLeaderNoticeResponse {
     private final String position;
     @JsonProperty(value = "user_name")
     private final String userName;
+    private final LocalDateTime date;
+
 
     public static List<UserLeaderNoticeResponse> ofList(List<PlaygroundApply> playgroundApplyList) {
         return playgroundApplyList.stream()
@@ -28,6 +31,7 @@ public class UserLeaderNoticeResponse {
                         .playgroundTitle(playgroundApply.getPlayground().getTitle())
                         .userName(playgroundApply.getUser().getUserName())
                         .position(playgroundApply.getPlaygroundPosition().getPosition().name())
+                        .date(playgroundApply.getCreatedAt())
                         .build())
                 .collect(Collectors.toList());
     }

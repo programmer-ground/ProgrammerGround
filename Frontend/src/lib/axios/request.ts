@@ -11,6 +11,7 @@ const informError = (error: Error) => {
 	const message = error.message
 		? error.message
 		: '오류가 발생하여 요청에 실패하였습니다';
+	console.info(message);
 };
 
 export const getOptions = async (type?: string) => {
@@ -36,16 +37,16 @@ export const getOptions = async (type?: string) => {
 
 const setOptions = (token: string, type: string): any => {
 	const headers = {};
-	if (type !== 'image') {
+	if (type === 'image') {
 		headers = {
-			'Content-Type': 'application/json;charset=UTF-8',
+			'Content-Type': 'multipart/form-data',
 			'Access-Control-Allow-Origin': '*',
 			Accept: 'application/json',
 			Authorization: `Bearer ${token}`,
 		};
-	} else {
+	}  else{
 		headers = {
-			'Content-Type': 'multipart/form-data',
+			'Content-Type': 'application/json;charset=UTF-8',
 			'Access-Control-Allow-Origin': '*',
 			Accept: 'application/json',
 			Authorization: `Bearer ${token}`,
@@ -77,8 +78,7 @@ const getReissued = async () => {
 
 export const getData = async (url: string) => {
 	const options = await getOptions();
-	console.log(options);
-	try {
+ 	try {
 		const response = await axios.get(url, options);
 		return response.data.data;
 	} catch (error) {
@@ -96,22 +96,23 @@ export const postData = async (url: string, body: any, type: string) => {
 	}
 };
 
-export const patchData = async (url: string, body: string) => {
-	const options = await getOptions();
-
+export const patchData = async (url: string, body: string, type: string) => {
+	const options = await getOptions(type);
+	const data = {
+		'userName': body
+	}
 	try {
-		const response = await axios.patch(url, body, options);
+		const response = await axios.patch(url, data, options);
 		return response.data;
 	} catch (error) {
 		informError(error);
 	}
 };
 
-export const putData = async (url: string, body: string) => {
+export const putData = async (url: string) => {
 	const options = await getOptions();
-
 	try {
-		const response = await axios.put(url, body, options);
+		const response = await axios.put(url, url, options);
 		return response.data;
 	} catch (error) {
 		informError(error);

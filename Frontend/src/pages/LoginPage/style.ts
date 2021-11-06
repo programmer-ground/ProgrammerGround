@@ -4,51 +4,6 @@ import styled, { createGlobalStyle } from 'styled-components';
 import logo from '@src/assets/logo.svg';
 import githublogo from '@src/assets/github.svg';
 
-export const GlobalStyle = createGlobalStyle`
-  body, h1, h2, h3, h4, h5, h6,
-	ul, ol, dl, dd, p, fieldset, legend{
-		margin:0;
-		padding:0;
-	}
-	html, body{
-		height:100%;
-    background-color:#e9e9e9;
-  }
-
-	#root{
-		height:100%;
-	}
-	body, input, textarea, select, button{
-		font-size:14px;
-		font-family: Dotum, '돋움', Helvetica, "Apple SD Gothic Neo", sans-serif;
-	}
-
-	ul, ol{
-		list-style:none;
-	}
-	
-	table{
-		border-collapse: collapse;
-	}
-
-	em{
-		font-style:normal;
-	}
-
-	a{
-		color:inherit;
-		text-decoration:none;
-	}
-
-	img{
-		vertical-align:top;
-	}
-
-	fieldset{
-		border:0;
-	}
-`;
-
 export const LoginAllContainer = styled.div`
 	display: flex;
 	height: 100%;
@@ -82,7 +37,6 @@ export const LoginLogo = styled.img.attrs({
 	}
 `;
 export const LoginButtonContainer = styled.div`
-	width: 100%;
 	display: flex;
 	justify-content: center;
 `;
@@ -119,7 +73,6 @@ export const GithubLogo = styled.img.attrs({
 `;
 
 export const DetailComment = styled.p`
-	display: inline-block;
 	text-align: center;
 	font-size: 20px;
 	line-height: 25px;

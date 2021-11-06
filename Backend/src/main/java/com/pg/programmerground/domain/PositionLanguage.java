@@ -2,7 +2,10 @@ package com.pg.programmerground.domain;
 
 import com.pg.programmerground.domain.enumerated.Language;
 import com.pg.programmerground.dto.playground.api_req.PositionLanguageApi;
-import lombok.*;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.List;
