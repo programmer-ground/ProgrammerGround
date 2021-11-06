@@ -4,12 +4,17 @@ const HtmlWebPackPlugin = require('html-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const { SourceMapDevToolPlugin } = require('webpack');
+const Dotenv = require('dotenv-webpack');
+
+const prod = process.env.NODE_DEV === 'production';
 
 module.exports = {
+
+	mode: prod? 'production' : 'development',
+
 	entry: {
 		app: ['@babel/polyfill', './src/index'],
 	},
-	mode: 'development',
 	resolve: {
 		extensions: ['.js', '.jsx', '.ts', '.tsx'],
 		alias: {
@@ -87,6 +92,9 @@ module.exports = {
 		new SourceMapDevToolPlugin({
 			filename: '[file].map',
 		}),
+		new Dotenv({
+			path: './.env.development'
+		})
 	],
 	output: {
 		filename: '[name].[chunkhash].js',

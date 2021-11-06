@@ -68,7 +68,7 @@ const OtherUI = ({
 				</StyledComponent.ApplyHightlightTitle>
 			</StyledComponent.ApplyTitle>
 			<StyledComponent.ApplyTitleImage
-				src={`http://localhost:9000/images/pgmainimg/${src}`}
+				src={`${process.env.REACT_APP_API_ADDRESS}/images/pgmainimg/${src}`}
 				alt="대표 이미지"
 			/>
 			<StyledComponent.ApplyTitle>
