@@ -55,7 +55,7 @@ const PlaygroundContent = ({
 				onClick={(e) => createModalFunc(id, e, title)}
 			>
 				<StyledComponent.PlaygroundImg
-					src={`http://localhost:9000/images/pgmainimg/${src}`}
+					src={`${process.env.REACT_APP_API_ADDRESS}/images/pgmainimg/${src}`}
 				/>
 				<StyledComponent.PlaygroundPersonInfo>
 					<StyledComponent.PlaygroundStatus>

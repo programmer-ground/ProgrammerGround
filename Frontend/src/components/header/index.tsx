@@ -67,7 +67,7 @@ const Header = () => {
 		<>
 			<StyledComponent.GlobalStyle />
 			<StyledComponent.HeaderContainer>
-				<a href="http://localhost:3000/">
+				<a href={`${process.env.REACT_APP_FRONT_ADDRESS}`}>
 					<StyledComponent.HeaderImg />
 				</a>
 				<StyledComponent.PlaygroundSearchSection />
