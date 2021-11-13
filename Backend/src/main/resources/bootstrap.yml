@@ -14,3 +14,5 @@ spring:
       database:
         enabled: true
         role: pg-main-role
+      reactive:
+        enabled: false
