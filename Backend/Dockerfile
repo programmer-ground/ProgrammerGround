@@ -1,28 +1,24 @@
 # Build Stage
-FROM gradle:6.8.0-jdk11 AS builder
-ENV APP_HOME=/usr/app/
-WORKDIR $APP_HOME
+FROM azul/zulu-openjdk-alpine:11.0.12 as build
+WORKDIR /workspace/app
 
 # Only copy dependency-related files
-COPY build.gradle settings.gradle ./
+COPY gradle gradle
+COPY build.gradle settings.gradle gradlew ./
 
 # Copy Sourcefile
 COPY src src
 
 # build soruce file with dependnecies
-#RUN gradle cleanQuerydslSourcesDir
-RUN gradle clean build --console=plain -x test
+RUN ./gradlew build -x test
+RUN mkdir -p build/libs/dependency && (cd build/libs/dependency; jar xf ../*.jar)
 
 # Runtime Stage
-FROM openjdk:11-jre-slim
+FROM azul/zulu-openjdk-alpine:11.0.12
+VOLUME /tmp
+ARG DEPENDENCY=/workspace/app/build/libs/dependency
+COPY --from=build ${DEPENDENCY}/BOOT-INF/lib /app/lib
+COPY --from=build ${DEPENDENCY}/META-INF /app/META-INF
+COPY --from=build ${DEPENDENCY}/BOOT-INF/classes /app
 
-ENV APP_HOME=/usr/app/
-WORKDIR $APP_HOME
-ARG buildDir=$APP_HOME/build/unpack
-
-COPY --from=builder ${buildDir}/lib BOOT-INF/lib
-COPY --from=builder ${buildDir}/app .
-
-EXPOSE 9000
-
-CMD ["java", "-Xms400M", "-Xmx400M", "org.springframework.boot.loader.JarLauncher"]
+ENTRYPOINT ["java","-cp","app:app/lib/*","com.pg.programmerground.ProgrammergroundApplication"]
