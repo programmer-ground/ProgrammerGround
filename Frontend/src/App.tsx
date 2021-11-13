@@ -4,11 +4,15 @@ import LoginPage from '@src/pages/LoginPage';
 import PlayGroundPage from '@src/pages/PlayGroundPage';
 import CreatePage from '@src/pages/CreatePage';
 import PlaygroundIdPage from '@src/pages/PlaygroundIdPage';
-import ModalWrapper from '@src/components/Common/modal';
 import ProfilePage from '@src/pages/ProfilePage';
 import { GlobalStyle } from './Global';
+import ModalComponent from '@src/components/Common/modalComponent';
+import { useSelector } from 'react-redux';
+import { RootState } from '@src/store/modules/index';
 
 const App = () => {
+	const { repositoryShow } = useSelector((state: RootState) => state.modalReducer);
+
 	return (
 		<>
 			<GlobalStyle />
@@ -21,7 +25,8 @@ const App = () => {
 					<Route exact path="/profile" component={ProfilePage} />
 				</Switch>
 			</Router>
-			<ModalWrapper />
+			{repositoryShow && 	<ModalComponent title="레포지토리 생성"></ModalComponent> }
+		
 		</>
 	);
 };

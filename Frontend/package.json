@@ -17,7 +17,9 @@
     "axios": "^0.21.1",
     "babel-loader": "^8.2.2",
     "css-loader": "^5.1.1",
+    "cypress": "^8.6.0",
     "dotenv": "^8.2.0",
+    "dotenv-webpack": "^7.0.3",
     "eslint": "^7.17.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.1.0",
@@ -57,8 +59,10 @@
     "styled-components": "^5.2.1"
   },
   "scripts": {
-    "start": "webpack-dev-server --progress",
+    "start": "webpack-dev-server --mode development --progress",
+    "production": "NODE_ENV=production webpack --env=build",
     "test": "jest",
-    "build": "webpack"
+    "build": "webpack",
+    "cypress": "cypress open"
   }
 }

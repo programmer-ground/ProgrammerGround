@@ -4,11 +4,10 @@
 // @ts-nocheck
 /* eslint-disable jsx-a11y/label-has-associated-control */
 
-import HashTag from '@src/components/hashTag';
 import React, { useState } from 'react';
 import Editor from 'rich-markdown-editor';
 import useShow from '@src/hooks/useShow';
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import LoadingSpinner from '@src/components/loading';
 import { useHistory } from 'react-router-dom';
 import {
@@ -31,11 +30,8 @@ const CreatePage = () => {
 	const { position } = useSelector((state: RootState) => state.positionReducer);
 	const [loading, setLoading] = useState(false);
 	const [img, setImage] = useState(null);
-	// 프로젝트 이름
 	const [title, setTitle] = useState('');
-	// 프로젝트 설명
 	const [description, setDescription] = useState('');
-	// 리더 포지션
 	const [leaderPosition, setLeaderPosition] = useState('');
 
 	const plusPosition = () => {
