@@ -63,6 +63,7 @@ public class OAuthUserService {
         Oauth2AuthorizedClient authorizedClient = oauth2AuthorizedClientRepository
             .findById(Long.valueOf(authentication.getName()))
             .orElseThrow(() -> new OAuthLoginException("OAuth 로그인 에러"));
+
         OAuthUser oAuthUser = oAuthUserRepository.findByOauth2AuthorizedClient(authorizedClient);
         //로그인 코드 생성
         String loginCode = makeUUID();

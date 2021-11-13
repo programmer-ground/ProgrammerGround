@@ -1,16 +1,24 @@
 # 공통 프로파일
 spring:
+  application:
+    name: programmerground-service
   config:
     activate:
       on-profile: "common"
-  security:
-    jwt-token:
-      secret-key: awdsd
+#  security:
+#    jwt-token:
+#      secret-key: awdsd
 
-github:
-  token: "bearer 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"
-  org-url : "https://api.github.com/orgs/programmer-ground"
-  org-repo-url : "https://api.github.com/repos/programmer-ground"
+#github:
+#  token: "bearer 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"
+#  org-url : "https://api.github.com/orgs/programmer-ground"
+#  org-repo-url : "https://api.github.com/repos/programmer-ground"
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: refresh, health, beans
 
 server:
   port: 9000
@@ -21,6 +29,12 @@ server:
       max-file-size: 1MB
       max-request-size: 10MB
 
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
 ---
 
 spring:
@@ -98,6 +112,7 @@ spring:
       hibernate:
         format_sql: true
         show-sql: true
+    generate-ddl: true
 
 file:
   dir: /Users/jaewoochoi/Desktop/image
@@ -118,7 +133,7 @@ spring:
     password:
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: create
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:

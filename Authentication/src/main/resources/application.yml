@@ -1,23 +1,36 @@
 ---
 
 spring:
+  application:
+    name: auth-service
   config:
     activate:
       on-profile: "common"
-  security:
-    jwt-token:
-      secret-key: awdsd
-    oauth2:
-      client:
-        registration:
-          github:
-            client-id: 5f8150b5b4b06259a3aa
-            client-secret: 1fa30fbeceef904db5b2a1323b32dbcdd200379b
-            scope: public_repo, read:user
+#  security:
+#    jwt-token:
+#      secret-key: awdsd
+#    oauth2:
+#      client:
+#        registration:
+#          github:
+#            client-id: 5f8150b5b4b06259a3aa
+#            client-secret: 1fa30fbeceef904db5b2a1323b32dbcdd200379b
+#            scope: public_repo, read:user
+
+management:
+  endpoint:
+    web:
+      exposure:
+        include: refresh, health, beans
 
 server:
   port: 8080
-
+eureka:
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://127.0.0.1:8761/eureka
 ---
 
 spring:
@@ -79,6 +92,7 @@ spring:
     hibernate:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+      ddl-auto: update
     properties:
       hibernate:
         format_sql: true

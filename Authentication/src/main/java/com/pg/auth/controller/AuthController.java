@@ -7,6 +7,7 @@ import com.pg.auth.jwtConfig.JwtTokenProvider;
 import com.pg.auth.service.OAuthUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,7 @@ public class AuthController {
     private static final String COOKIE_DOMAIN = ".localhost";
     private final OAuthUserService oAuthUserService;
     private final JwtTokenProvider jwtTokenProvider;
+    private final Environment env;
     //http://localhost:8080/oauth2/authorization/github
     /**
      * 프론트용 테스트
@@ -64,6 +66,11 @@ public class AuthController {
     @GetMapping("/info")
     public ResponseEntity<Object> info(Authentication authentication) {
         return ResponseEntity.ok().body(authentication.getPrincipal());
+    }
+
+    @GetMapping("/test")
+    public String test() {
+        return env.getProperty("test.name");
     }
 
     /**

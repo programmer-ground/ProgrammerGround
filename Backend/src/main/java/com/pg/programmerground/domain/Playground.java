@@ -8,6 +8,7 @@ import com.pg.programmerground.exception.FullMemberException;
 import com.pg.programmerground.exception.IncorrectUserException;
 import com.pg.programmerground.exception.WrongRequestException;
 import lombok.*;
+import org.hibernate.annotations.Where;
 
 import javax.persistence.*;
 import java.util.ArrayList;
