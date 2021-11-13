@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useLocation } from 'react-router-dom';
 import OtherUI from '@src/components/otherUI/';
 import Header from '@src/components/header';
@@ -15,7 +15,6 @@ const PlaygroundIdPage = () => {
 		positionList,
 		id,
 	} = location.state as any;
-	console.log(id, loginUserName, data, playgroundTitle);
 	return (
 		<>
 			<Header />

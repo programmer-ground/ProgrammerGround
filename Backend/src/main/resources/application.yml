@@ -20,7 +20,7 @@ spring:
     properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
   datasource:
     url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/pg?characterEncoding=UTF-8&serverTimezone=UTC
-
+    
 management:
   endpoint:
     web:

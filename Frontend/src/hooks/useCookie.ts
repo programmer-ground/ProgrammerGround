@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import { getItem } from '@src/utils/getCookie';
 
 const useCookie = (key: string) => {

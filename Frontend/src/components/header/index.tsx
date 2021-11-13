@@ -1,34 +1,50 @@
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-nocheck
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import * as StyledComponent from './style';
 import './headerImage.scss';
-import useCookie from '@src/hooks/useCookie';
 import { useHistory } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import { getOneUser } from '@src/lib/axios/playground';
+import ApplyList from '@src/components/applyList';
+import ResultList from '@src/components/resultList';
+import WaitingList from '@src/components/waitingList';
+import { RootState } from '@src/store/modules/index';
+import useShow from '@src/hooks/useShow';
+import { repositoryModalMode } from '@src/store/modules/modal';
 
 const Header = () => {
 	const [isAlarm, setAlarm] = useState(false);
 	const [isUser, setUser] = useState(false);
 	const [info, setInfo] = useState(false);
-	const history = useHistory();
+	const [menu, setMenu] = useState(1);
+	const [show, dispatch] = useShow();
 
-	const userClickHandler = (e: any) => {
+	const history = useHistory();
+	const { repositoryShow } = useSelector((state: RootState) => state.modalReducer);
+
+  const textArray = ["신청목록", "결과목록", "대기목록"];
+
+	const userClickHandler = (e: React<MouseEvent>) => {
 		setUser(!isUser);
 		if (isAlarm) setAlarm(!isAlarm);
 	};
-	const alarmClickHandler = (e: any) => {
+	const alarmClickHandler = (e: React<MouseEvent>) => {
 		setAlarm(!isAlarm);
 		if (isUser) setUser(!isUser);
 	};
 
-	const onClickInfoHandler = (e: any) => {
+	const onClickInfoHandler = (e:React<MouseEvent>) => {
 		setInfo(!info);
 	};
 
-	const onClickCloseHandler = (e: any) => {
+	const onClickCloseHandler = (e:React<MouseEvent>) => {
 		setInfo(!info);
 	};
+
+	const onClickMakeRepoHandler = (e:React<MouseEvent>) => {
+		dispatch(repositoryModalMode(!repositoryShow));
+	}
 
 	const onLogout = (e) => {
 		document.cookie = `access_token=; Max-Age=0`;
@@ -42,11 +58,16 @@ const Header = () => {
 			state: { userData },
 		});
 	};
+
+	const changeScreen = (e:any, menuNumber: number) => {
+		  setMenu(menuNumber);
+	}
+
 	return (
 		<>
 			<StyledComponent.GlobalStyle />
 			<StyledComponent.HeaderContainer>
-				<a href="http://localhost:3000/">
+				<a href={`${process.env.REACT_APP_FRONT_ADDRESS}`}>
 					<StyledComponent.HeaderImg />
 				</a>
 				<StyledComponent.PlaygroundSearchSection />
@@ -79,10 +100,10 @@ const Header = () => {
 					/>
 					{isAlarm && (
 						<StyledComponent.UserMenu>
-							<a href="#">
+							<button onClick={onClickMakeRepoHandler}>
 								<i className="repo_icon" />
 								<span>레포 생성</span>
-							</a>
+							</button>
 							<button onClick={onClickInfoHandler}>
 								<i className="my_alarm_icon" />
 								<span>내 알림</span>
@@ -93,6 +114,13 @@ const Header = () => {
 			</StyledComponent.HeaderContainer>
 			{info && (
 				<StyledComponent.InfoMenu>
+					<StyledComponent.InfoMenuList>
+						{textArray.map((v, i) => {
+							return (
+								<StyledComponent.InfoMenuLink key={i} selected={menu===i+1? true: ''} onClick={(e) => changeScreen(e, i+1)}>{v}</StyledComponent.InfoMenuLink>
+							)
+						})}
+					</StyledComponent.InfoMenuList>
 					<StyledComponent.InfoTitleContainer>
 						<StyledComponent.InfoTitleName>
 							My Alarm Info
@@ -101,6 +129,12 @@ const Header = () => {
 							닫기
 						</StyledComponent.InfoTitleCloseButton>
 					</StyledComponent.InfoTitleContainer>
+					<StyledComponent.InfoBodyContainer>
+					{menu === 1 && <ApplyList/>}
+				  {menu === 2 && <ResultList menu={menu}/>}
+					{menu === 3 && <WaitingList menu={menu}/>}
+					</StyledComponent.InfoBodyContainer>
+
 				</StyledComponent.InfoMenu>
 			)}
 		</>
