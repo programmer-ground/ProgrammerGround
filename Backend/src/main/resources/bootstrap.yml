@@ -1,6 +1,18 @@
 spring:
+  application:
+    name: pg-main-service
   cloud:
-    config:
-      uri: http://127.0.0.1:8888
-      name: pg
-      profile: dev
+    vault:
+      authentication: APPROLE
+      app-role:
+        role-id: pg-main-service-role-id
+      scheme: http
+      host: ${VAULT_HOST:localhost}
+      port: ${VAULT_PORT:8200}
+      generic:
+        enabled: true
+      database:
+        enabled: true
+        role: pg-main-role
+      reactive:
+        enabled: false

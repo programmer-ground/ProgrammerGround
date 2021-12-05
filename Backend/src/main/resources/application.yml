@@ -1,25 +1,3 @@
-# 공통 프로파일
-spring:
-  application:
-    name: programmerground-service
-  config:
-    activate:
-      on-profile: "common"
-#  security:
-#    jwt-token:
-#      secret-key: awdsd
-
-#github:
-#  token: "bearer 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"
-#  org-url : "https://api.github.com/orgs/programmer-ground"
-#  org-repo-url : "https://api.github.com/repos/programmer-ground"
-
-management:
-  endpoint:
-    web:
-      exposure:
-        include: refresh, health, beans
-
 server:
   port: 9000
   tomcat:
@@ -29,121 +7,34 @@ server:
       max-file-size: 1MB
       max-request-size: 10MB
 
+spring:
+  application:
+    name: pg-main-service
+
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    show-sql: true
+    properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
+  datasource:
+    url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/pg?characterEncoding=UTF-8&serverTimezone=UTC
+    
+management:
+  endpoint:
+    web:
+      exposure:
+        include: refresh, health, beans
+
 eureka:
   client:
     register-with-eureka: true
     fetch-registry: true
     service-url:
       defaultZone: http://127.0.0.1:8761/eureka
----
-
-spring:
-  profiles:
-    group:
-      "seansin-local": "seansin-localdb,common"
-
----
-
-spring:
-  profiles:
-    group:
-      "jeawoo-local": "jeawoo-localdb,common"
-
----
-
-spring:
-  profiles:
-    group:
-      "jinhyun-local": "jinhyun-localdb,common"
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: "seansin-localdb"
-  datasource:
-    hikari:
-      driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/pg?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: zxcv1234
-  jpa:
-    hibernate:
-      ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    properties.hibernate.dialect: org.hibernate.dialect.MySQL8Dialect
-    properties:
-      hibernate:
-        dialect:
-          storage_engine: innodb
-        show_sql: true
-        format_sql: true
-
-  devtools:
-    restart:
-      enabled: true
-
-# TODO : CDN이나 S3로 변경할 예정
-# TODO : addResourceHandlers 통해서 해결하게 바꿔야함
-file:
-  dir: /Users/seansin/images
-  playground-main-img: /pgmainimg/
-  playground-description-img: /pgdesimg/
-
----
-
-spring:
-  config:
-    activate:
-      on-profile: "jeawoo-localdb"
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/auth?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password: awdsd123
-  jpa:
-    hibernate:
-      ddl-auto: update
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    properties:
-      hibernate:
-        format_sql: true
-        show-sql: true
-    generate-ddl: true
 
 file:
-  dir: /Users/jaewoochoi/Desktop/image
+  dir: src/main/resource/images/
   playground-main-img: /pgmainimg/
   playground-description-img: /pgdesimg/
-
----
-
-
-spring:
-  config:
-    activate:
-      on-profile: "jinhyun-localdb"
-  datasource:
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/auth?serverTimezone=UTC&characterEncoding=UTF-8
-    username: root
-    password:
-  jpa:
-    hibernate:
-      ddl-auto: create
-      naming:
-        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-    properties:
-      hibernate:
-        format_sql: true
-        show-sql: true
-
-file:
-  dir: /Users/thdwlsgus0/Desktop/image
-  playground-main-img: /pgmainimg/
-  playground-description-img: /pgdesimg/
-
----
