@@ -5,15 +5,14 @@ import com.pg.pgp.domain.github.Oauth2AuthorizedClient;
 import com.pg.pgp.domain.github.UserGithubInfo;
 import com.pg.pgp.dto.github.GithubOAuthInfoDto;
 import com.pg.pgp.dto.github.GithubRepoDto;
-import com.pg.pgp.dto.login.JwtToken;
 import com.pg.pgp.dto.github.RepositoryItem;
+import com.pg.pgp.dto.login.JwtToken;
 import com.pg.pgp.exceptions.InvalidCodeException;
 import com.pg.pgp.exceptions.OAuthLoginException;
 import com.pg.pgp.jwtConfig.JwtTokenProvider;
 import com.pg.pgp.model.OAuthUserRepository;
 import com.pg.pgp.model.Oauth2AuthorizedClientRepository;
 import lombok.extern.slf4j.Slf4j;
-
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
