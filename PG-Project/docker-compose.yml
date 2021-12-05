@@ -1,0 +1,83 @@
+version: "3.6"
+
+
+services:
+  pg-service-discorvery:
+    restart: on-failure
+    build:
+      context: ./pg-euraka
+      dockerfile: Dockerfile
+    container_name: pg-service-discovery
+    image: programmer-ground/service-discovery
+    ports:
+      - 8761:8761
+    networks:
+      - backend
+
+  pg-api-gateway:
+    restart: on-failure
+    depends_on:
+      - pg-service-discorvery
+    build:
+      context: ./pg-gateway
+      dockerfile: Dockerfile
+    container_name: pg-api-gateway
+    image: programmer-ground/gateway
+    ports:
+      - 8000:8000
+    networks:
+      - backend
+    environment:
+      - EUREKA_SERVICE_URL=http://pg-service-discorvery:8761
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+
+  pg-auth-server:
+    depends_on:
+      - pg-service-discorvery
+      - pg-api-gateway
+    build:
+      context: ./pg-auth
+      dockerfile: Dockerfile
+    container_name: pg-auth-server
+    image: programmer-ground/auth-server
+    ports:
+      - 8080:8080
+    networks:
+      - backend
+    environment:
+      - EUREKA_SERVICE_URL=http://pg-service-discorvery:8761
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+
+  pg-backend-server:
+    depends_on:
+      - pg-service-discorvery
+      - pg-api-gateway
+    build:
+      context: ./pg-api
+      dockerfile: Dockerfile
+    container_name: pg-backend-server
+    image: programmer-ground/backend-server
+    ports:
+      - 9000:9000
+    networks:
+      - backend
+    environment:
+      - EUREKA_SERVICE_URL=http://pg-service-discorvery:8761
+      - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
+
+networks:
+  backend:
+    driver: bridge
+
+#  pg-front:
+#   network_mode: host
+#   build:
+#    context: ./Frontend/
+#    dockerfile: Dockerfile
+#   container_name: pg-front
+#   image: programmer-ground/front
+#   ports:
+#     - 3000:80
+#   depends_on:
+#     - pg-auth-server
+#     - pg-backend-server
