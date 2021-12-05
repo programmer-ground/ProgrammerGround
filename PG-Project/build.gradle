@@ -1,0 +1,60 @@
+buildscript {
+    ext {
+        springBootVersion = '2.4.3'
+        set('springCloudVersion', "2020.0.3")
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+        classpath "io.spring.gradle:dependency-management-plugin:1.0.3.RELEASE"
+    }
+}
+
+allprojects {
+}
+
+subprojects {
+    apply plugin: 'java'
+    apply plugin: 'org.springframework.boot'
+    apply plugin: 'io.spring.dependency-management'
+    sourceCompatibility = '11'
+    group = 'com.pg.pgp'
+    repositories {
+        mavenCentral()
+    }
+
+    dependencies {
+        compileOnly 'org.projectlombok:lombok:1.18.16'
+        annotationProcessor 'org.projectlombok:lombok:1.18.16'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+        testImplementation('org.springframework.boot:spring-boot-starter-test') {
+            exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+        }
+    }
+
+    dependencyManagement {
+        imports {
+            mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+        }
+    }
+}
+
+project(':pg-api') {
+    dependencies {
+        implementation project(':domain')
+        implementation project(':core')
+    }
+}
+project(':pg-auth') {
+    dependencies {
+        implementation project(':domain')
+        implementation project(':core')
+    }
+}
+project(':domain') {
+    dependencies {
+        implementation project(':core')
+    }
+}

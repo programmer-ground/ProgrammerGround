@@ -1,0 +1,5 @@
+rootProject.name = 'PG-Project'
+include'domain'
+include'core'
+include'pg-api'
+include'pg-auth'

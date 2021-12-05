@@ -1,0 +1,59 @@
+plugins {
+    id 'java'
+}
+
+group 'com.pg'
+version '0.0.1-SNAPSHOT'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    compile 'org.springframework.boot:spring-boot-starter-actuator'
+    compile 'org.springframework.cloud:spring-cloud-starter-bootstrap'
+    compile 'org.springframework.cloud:spring-cloud-starter-config'
+    compile 'org.springframework.cloud:spring-cloud-starter-vault-config'
+    compile 'org.springframework.cloud:spring-cloud-vault-config-databases'
+    compile 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
+    compile 'org.springframework.boot:spring-boot-starter-validation'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
+    compile 'org.hibernate.validator:hibernate-validator:6.1.2.Final'
+    compile 'io.jsonwebtoken:jjwt:0.7.0'
+    compile 'io.projectreactor:reactor-test'
+    compile 'org.apache.httpcomponents:httpclient:4.5'
+    compile 'com.google.code.gson:gson:2.8.5'
+    compile 'org.modelmapper:modelmapper:2.3.0'
+    compile 'org.springframework.boot:spring-boot-starter:2.5.6'
+    compile group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+    compile group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    compile group: 'io.swagger', name: 'swagger-annotations', version: '1.5.21'
+    compile group: 'io.swagger', name: 'swagger-models', version: '1.5.21'
+    annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
+    annotationProcessor 'org.projectlombok:lombok'
+    compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.2'
+    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+        exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+    }
+    testImplementation('org.springframework.security:spring-security-test')
+    testImplementation "org.powermock:powermock-module-junit4:2.0.0-beta.5"
+    testImplementation "org.powermock:powermock-api-mockito2:2.0.0-beta.5"
+    compileOnly 'org.projectlombok:lombok'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+//없으면 not exist package 발생
+bootJar {
+    enabled = false
+}
+//없으면 not exist package 발생
+jar {
+    enabled = true
+}
