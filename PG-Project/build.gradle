@@ -41,6 +41,8 @@ subprojects {
     }
 }
 
+project(':pg-euraka');
+project(':pg-gateway');
 project(':pg-api') {
     dependencies {
         implementation project(':domain')
