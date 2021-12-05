@@ -1,4 +1,4 @@
-package com.pg.programmerground.service;
+package com.pg.pgp.service;
 
 import com.pg.pgp.domain.enumerated.ApplyStatus;
 import com.pg.pgp.dto.user.response.UserApplyNoticeListResponse;

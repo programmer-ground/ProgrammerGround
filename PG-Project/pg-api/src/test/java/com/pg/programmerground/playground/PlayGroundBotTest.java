@@ -1,14 +1,14 @@
 package com.pg.programmerground.playground;
 
 import com.pg.programmerground.TestUserManagement;
-import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
-import com.pg.programmerground.config.GithubBotConfig;
+import com.pg.pgp.auth.jwt.JwtAuthenticationToken;
+import com.pg.pgp.config.GithubBotConfig;
 import com.pg.pgp.domain.Playground;
 import com.pg.pgp.dto.playground.api_req.PlaygroundApi;
 import com.pg.pgp.model.PlaygroundRepository;
-import com.pg.programmerground.service.GithubRestService;
-import com.pg.programmerground.service.OAuthUserService;
-import com.pg.programmerground.service.PlaygroundService;
+import com.pg.pgp.service.GithubRestService;
+import com.pg.pgp.service.OAuthUserService;
+import com.pg.pgp.service.PlaygroundService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

@@ -1,4 +1,4 @@
-package com.pg.programmerground.config;
+package com.pg.pgp.config;
 
 import com.zaxxer.hikari.HikariConfigMXBean;
 import com.zaxxer.hikari.HikariDataSource;
@@ -7,7 +7,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.vault.core.lease.SecretLeaseContainer;
 import org.springframework.vault.core.lease.domain.RequestedSecret;
 import org.springframework.vault.core.lease.event.SecretLeaseCreatedEvent;

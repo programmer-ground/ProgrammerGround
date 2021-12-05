@@ -1,11 +1,11 @@
 package com.pg.programmerground;
 
-import com.pg.programmerground.auth.MyUserDetails;
-import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
+import com.pg.pgp.auth.MyUserDetails;
+import com.pg.pgp.auth.jwt.JwtAuthenticationToken;
 import com.pg.pgp.domain.OAuthUser;
 import com.pg.pgp.domain.github.Oauth2AuthorizedClient;
 import com.pg.pgp.domain.github.UserGithubInfo;
-import com.pg.programmerground.service.OAuthUserService;
+import com.pg.pgp.service.OAuthUserService;
 import org.json.JSONException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

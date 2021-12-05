@@ -1,4 +1,4 @@
-package com.pg.programmerground.auth;
+package com.pg.pgp.auth;
 
 import com.pg.pgp.domain.OAuthUser;
 import org.springframework.security.core.GrantedAuthority;

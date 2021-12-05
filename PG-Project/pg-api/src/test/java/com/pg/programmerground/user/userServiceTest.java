@@ -1,13 +1,13 @@
 package com.pg.programmerground.user;
 
 import com.pg.programmerground.TestUserManagement;
-import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
+import com.pg.pgp.auth.jwt.JwtAuthenticationToken;
 import com.pg.pgp.domain.OAuthUser;
 import com.pg.pgp.dto.user.api_req.ReviseUserApi;
 import com.pg.pgp.model.OAuthUserRepository;
 import com.pg.programmerground.playground.TestJsonPackage;
-import com.pg.programmerground.service.OAuthUserService;
-import com.pg.programmerground.service.UserAuthenticationService;
+import com.pg.pgp.service.OAuthUserService;
+import com.pg.pgp.service.UserAuthenticationService;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

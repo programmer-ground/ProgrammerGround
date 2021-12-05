@@ -1,4 +1,4 @@
-package com.pg.programmerground.auth.jwt;
+package com.pg.pgp.auth.jwt;
 
 import com.pg.pgp.exceptions.JwtNotFoundException;
 import io.jsonwebtoken.Claims;

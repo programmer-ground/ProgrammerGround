@@ -1,6 +1,6 @@
 package com.pg.programmerground;
 
-import com.pg.programmerground.config.GithubBotConfig;
+import com.pg.pgp.config.GithubBotConfig;
 import com.pg.pgp.domain.OAuthUser;
 import com.pg.pgp.domain.github.Oauth2AuthorizedClient;
 import com.pg.pgp.domain.github.UserGithubInfo;

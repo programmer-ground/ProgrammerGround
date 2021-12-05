@@ -1,4 +1,4 @@
-package com.pg.programmerground.auth.jwt;
+package com.pg.pgp.auth.jwt;
 
 import org.springframework.security.authentication.AbstractAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

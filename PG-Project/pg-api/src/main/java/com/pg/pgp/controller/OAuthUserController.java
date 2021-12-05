@@ -1,14 +1,14 @@
-package com.pg.programmerground.controller;
+package com.pg.pgp.controller;
 
 import com.pg.pgp.constant.PgConstant;
-import com.pg.programmerground.controller.response.ApiResponse;
+import com.pg.pgp.controller.response.ApiResponse;
 import com.pg.pgp.dto.user.api_req.ReviseUserApi;
 import com.pg.pgp.dto.user.response.UserApplyNoticeListResponse;
 import com.pg.pgp.dto.user.response.UserLeaderNoticeListResponse;
 import com.pg.pgp.dto.user.response.UserResponse;
-import com.pg.programmerground.service.NoticeService;
-import com.pg.programmerground.service.OAuthUserService;
-import com.pg.programmerground.service.UserAuthenticationService;
+import com.pg.pgp.service.NoticeService;
+import com.pg.pgp.service.OAuthUserService;
+import com.pg.pgp.service.UserAuthenticationService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

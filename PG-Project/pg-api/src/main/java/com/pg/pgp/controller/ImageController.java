@@ -1,4 +1,4 @@
-package com.pg.programmerground.controller;
+package com.pg.pgp.controller;
 
 import com.pg.pgp.file.upload.PlaygroundMainImgStore;
 import io.swagger.annotations.ApiOperation;

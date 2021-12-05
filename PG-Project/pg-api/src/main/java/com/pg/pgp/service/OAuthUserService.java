@@ -1,12 +1,12 @@
-package com.pg.programmerground.service;
+package com.pg.pgp.service;
 
+import com.pg.pgp.auth.MyUserDetails;
 import com.pg.pgp.domain.OAuthUser;
 import com.pg.pgp.domain.github.Oauth2AuthorizedClient;
 import com.pg.pgp.dto.user.api_req.ReviseUserApi;
 import com.pg.pgp.dto.user.response.UserResponse;
 import com.pg.pgp.model.OAuthUserRepository;
 import com.pg.pgp.model.Oauth2AuthorizedClientRepository;
-import com.pg.programmerground.auth.MyUserDetails;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,8 @@ import java.util.NoSuchElementException;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class OAuthUserService {
+public
+class OAuthUserService {
 	private final OAuthUserRepository oAuthUserRepository;
 	private final Oauth2AuthorizedClientRepository oauth2AuthorizedClientRepository;
 

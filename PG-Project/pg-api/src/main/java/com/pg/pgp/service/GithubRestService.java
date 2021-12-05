@@ -1,4 +1,4 @@
-package com.pg.programmerground.service;
+package com.pg.pgp.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;

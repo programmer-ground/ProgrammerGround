@@ -1,7 +1,7 @@
-package com.pg.programmerground.service;
+package com.pg.pgp.service;
 
-import com.pg.programmerground.auth.MyUserDetails;
-import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
+import com.pg.pgp.auth.MyUserDetails;
+import com.pg.pgp.auth.jwt.JwtAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 /**

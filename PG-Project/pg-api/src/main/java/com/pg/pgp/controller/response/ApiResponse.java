@@ -1,4 +1,4 @@
-package com.pg.programmerground.controller.response;
+package com.pg.pgp.controller.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

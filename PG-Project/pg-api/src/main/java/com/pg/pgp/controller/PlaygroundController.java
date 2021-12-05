@@ -1,6 +1,7 @@
-package com.pg.programmerground.controller;
+package com.pg.pgp.controller;
 
-import com.pg.programmerground.controller.response.ApiResponse;
+import com.pg.pgp.controller.response.ApiResponse;
+import com.pg.pgp.service.PlaygroundService;
 import com.pg.pgp.domain.enumerated.Position;
 import com.pg.pgp.dto.playground.PlaygroundPositionsDto;
 import com.pg.pgp.dto.playground.api_req.ApplyPlaygroundApi;
@@ -9,7 +10,6 @@ import com.pg.pgp.dto.playground.api_req.RevisePlaygroundApi;
 import com.pg.pgp.dto.playground.response.PlaygroundCardListResponse;
 import com.pg.pgp.dto.playground.response.PlaygroundResponse;
 import com.pg.pgp.dto.playground.response.PlaygroundResultResponse;
-import com.pg.programmerground.service.PlaygroundService;
 import com.pg.pgp.vo.GithubRepoVo;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;

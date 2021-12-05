@@ -1,4 +1,4 @@
-package com.pg.programmerground.config;
+package com.pg.pgp.config;
 
 import lombok.Getter;
 import lombok.Setter;

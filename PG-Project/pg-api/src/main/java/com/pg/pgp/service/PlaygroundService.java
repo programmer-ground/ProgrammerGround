@@ -1,6 +1,6 @@
-package com.pg.programmerground.service;
+package com.pg.pgp.service;
 
-import com.pg.programmerground.config.GithubBotConfig;
+import com.pg.pgp.config.GithubBotConfig;
 import com.pg.pgp.domain.OAuthUser;
 import com.pg.pgp.domain.Playground;
 import com.pg.pgp.domain.PlaygroundApply;

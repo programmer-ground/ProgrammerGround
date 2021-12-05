@@ -1,8 +1,7 @@
-package com.pg.programmerground.auth.jwt;
+package com.pg.pgp.auth.jwt;
 
 import com.pg.pgp.exceptions.JwtExpiredException;
 import com.pg.pgp.exceptions.OAuthUserNotFoundException;
-import com.pg.programmerground.service.OAuthUserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -19,7 +18,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final JwtTokenProvider jwtTokenProvider;
-    private final OAuthUserService OAuthUserService;
+    private final com.pg.pgp.service.OAuthUserService OAuthUserService;
 
     /**
      * 실질적인 인증 로직 처리

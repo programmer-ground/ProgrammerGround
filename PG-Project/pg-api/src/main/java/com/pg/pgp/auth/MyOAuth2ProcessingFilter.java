@@ -1,10 +1,10 @@
-package com.pg.programmerground.auth;
+package com.pg.pgp.auth;
 
+import com.pg.pgp.auth.jwt.JwtAuthenticationToken;
+import com.pg.pgp.auth.jwt.JwtTokenProvider;
 import com.pg.pgp.exceptions.JwtExpiredException;
 import com.pg.pgp.exceptions.JwtNotFoundException;
 import com.pg.pgp.exceptions.OAuthUserNotFoundException;
-import com.pg.programmerground.auth.jwt.JwtAuthenticationToken;
-import com.pg.programmerground.auth.jwt.JwtTokenProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.BadCredentialsException;
