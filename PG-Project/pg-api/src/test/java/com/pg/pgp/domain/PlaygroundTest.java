@@ -1,8 +1,6 @@
-package com.pg.programmerground.domain;
+package com.pg.pgp.domain;
 
 
-import com.pg.pgp.domain.OAuthUser;
-import com.pg.pgp.domain.Playground;
 import com.pg.pgp.domain.github.Oauth2AuthorizedClient;
 import com.pg.pgp.model.OAuthUserRepository;
 import com.pg.pgp.model.PlaygroundRepository;

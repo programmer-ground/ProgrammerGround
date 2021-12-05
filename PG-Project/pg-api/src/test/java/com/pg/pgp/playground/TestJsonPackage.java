@@ -1,4 +1,4 @@
-package com.pg.programmerground.playground;
+package com.pg.pgp.playground;
 
 
 import com.fasterxml.jackson.annotation.JsonProperty;

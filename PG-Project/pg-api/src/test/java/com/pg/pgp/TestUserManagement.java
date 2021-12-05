@@ -1,4 +1,4 @@
-package com.pg.programmerground;
+package com.pg.pgp;
 
 import com.pg.pgp.config.GithubBotConfig;
 import com.pg.pgp.domain.OAuthUser;

@@ -1,6 +1,6 @@
-package com.pg.programmerground.playground;
+package com.pg.pgp.playground;
 
-import com.pg.programmerground.TestUserManagement;
+import com.pg.pgp.TestUserManagement;
 import com.pg.pgp.auth.jwt.JwtAuthenticationToken;
 import com.pg.pgp.domain.Playground;
 import com.pg.pgp.domain.PlaygroundApply;

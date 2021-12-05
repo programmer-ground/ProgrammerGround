@@ -1,6 +1,5 @@
-package com.pg.programmerground.config;
+package com.pg.pgp.config;
 
-import com.pg.pgp.config.GithubBotConfig;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

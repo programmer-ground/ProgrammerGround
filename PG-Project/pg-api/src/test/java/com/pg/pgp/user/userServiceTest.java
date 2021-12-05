@@ -1,11 +1,11 @@
-package com.pg.programmerground.user;
+package com.pg.pgp.user;
 
-import com.pg.programmerground.TestUserManagement;
+import com.pg.pgp.TestUserManagement;
 import com.pg.pgp.auth.jwt.JwtAuthenticationToken;
 import com.pg.pgp.domain.OAuthUser;
 import com.pg.pgp.dto.user.api_req.ReviseUserApi;
 import com.pg.pgp.model.OAuthUserRepository;
-import com.pg.programmerground.playground.TestJsonPackage;
+import com.pg.pgp.playground.TestJsonPackage;
 import com.pg.pgp.service.OAuthUserService;
 import com.pg.pgp.service.UserAuthenticationService;
 import org.junit.jupiter.api.*;

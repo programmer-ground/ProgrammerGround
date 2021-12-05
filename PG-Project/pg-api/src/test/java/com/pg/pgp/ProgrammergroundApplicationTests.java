@@ -1,4 +1,4 @@
-package com.pg.programmerground;
+package com.pg.pgp;
 
 import com.pg.pgp.auth.MyUserDetails;
 import com.pg.pgp.auth.jwt.JwtAuthenticationToken;
