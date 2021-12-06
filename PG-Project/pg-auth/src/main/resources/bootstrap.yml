@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: pg-auth-service
+  cloud:
+    vault:
+      authentication: APPROLE
+      app-role:
+        role-id: pg-auth-service-role-id
+      scheme: http
+      host: vault
+      port: 8200
+      generic:
+        enabled: true
+      database:
+        enabled: true
+        role: pg-auth-role
+      reactive:
+        enabled: false

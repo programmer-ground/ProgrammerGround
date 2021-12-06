@@ -1,0 +1,18 @@
+plugins {
+    id 'java'
+}
+
+group 'com.pg'
+version 'unspecified'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-server'
+}
+
+test {
+    useJUnitPlatform()
+}

@@ -1,0 +1,51 @@
+plugins {
+    id 'java'
+}
+
+group = 'com.pg.auth'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = '11'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+}
+
+test {
+    useJUnitPlatform()
+}
+
+// separate jar into app and library layers
+task moveLib {
+    doLast {
+        def unpackDir = "$buildDir/unpack"
+        ant.move(file: "${unpackDir}/app/BOOT-INF/lib", toFile: "${unpackDir}/lib")
+    }
+}
+
+task unpackJar(type: Copy) {
+    def unpackDir = "$buildDir/unpack"
+
+    delete unpackDir
+    from zipTree(jar.getArchiveFile())
+    into "$unpackDir/app"
+
+    finalizedBy moveLib
+}
+
+build {
+    finalizedBy unpackJar
+}
+
+bootJar {
+    enabled = true
+}
+
+bootBuildImage{
+    imageName='programmer-ground/'+project.name
+}
