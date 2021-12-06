@@ -21,7 +21,7 @@ spring:
     show-sql: true
 
   datasource:
-      url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/pg?characterEncoding=UTF-8&serverTimezone=UTC
+      url: jdbc:mysql://${MYSQL_HOST:mysql}:${MYSQL_PORT:3306}/pg?characterEncoding=UTF-8&serverTimezone=UTC
 
 management:
   endpoints:
@@ -40,4 +40,4 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://pg-service-discovery:8761/eureka

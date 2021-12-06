@@ -4,10 +4,11 @@ version: "3.6"
 services:
   pg-service-discorvery:
     image: programmer-ground/pg-euraka
+    container_name: pg-service-discovery
     ports:
       - 8761:8761
     networks:
-      - backend
+      - pg-infra_backend-proxy-net
 
   pg-api-gateway:
     restart: on-failure
@@ -18,7 +19,7 @@ services:
     ports:
       - 8000:8000
     networks:
-      - backend
+      - pg-infra_backend-proxy-net
     environment:
       - EUREKA_SERVICE_URL=http://pg-service-discorvery:8761
       - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
@@ -32,7 +33,7 @@ services:
     ports:
       - 8080:8080
     networks:
-      - backend
+      - pg-infra_backend-proxy-net
     environment:
       - EUREKA_SERVICE_URL=http://pg-service-discorvery:8761
       - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
@@ -46,14 +47,14 @@ services:
     ports:
       - 9000:9000
     networks:
-      - backend
+      - pg-infra_backend-proxy-net
     environment:
       - EUREKA_SERVICE_URL=http://pg-service-discorvery:8761
       - EUREKA_INSTANCE_PREFER_IP_ADDRESS=true
 
 networks:
-  backend:
-    driver: bridge
+  pg-infra_backend-proxy-net:
+    external: true
 
 #  pg-front:
 #   network_mode: host
