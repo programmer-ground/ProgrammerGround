@@ -20,3 +20,7 @@ dependencies {
 test {
     useJUnitPlatform()
 }
+
+bootBuildImage{
+    imageName='programmer-ground/'+project.name
+}

@@ -13,6 +13,7 @@ configurations {
 }
 dependencies {
     implementation group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.11.2'
+    testImplementation 'org.powermock:powermock-mockito-release-full:1.5.4'
     implementation project(':core')
     implementation project(':domain')
 }
@@ -41,4 +42,8 @@ task unpackJar(type: Copy) {
 
 build {
     finalizedBy unpackJar
+}
+
+bootBuildImage{
+    imageName='programmer-ground/'+project.name
 }

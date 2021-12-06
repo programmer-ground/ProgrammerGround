@@ -41,3 +41,11 @@ task unpackJar(type: Copy) {
 build {
     finalizedBy unpackJar
 }
+
+bootJar {
+    enabled = true
+}
+
+bootBuildImage{
+    imageName='programmer-ground/'+project.name
+}

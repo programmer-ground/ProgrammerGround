@@ -3,12 +3,7 @@ version: "3.6"
 
 services:
   pg-service-discorvery:
-    restart: on-failure
-    build:
-      context: ./pg-euraka
-      dockerfile: Dockerfile
-    container_name: pg-service-discovery
-    image: programmer-ground/service-discovery
+    image: programmer-ground/pg-euraka
     ports:
       - 8761:8761
     networks:
@@ -18,11 +13,8 @@ services:
     restart: on-failure
     depends_on:
       - pg-service-discorvery
-    build:
-      context: ./pg-gateway
-      dockerfile: Dockerfile
     container_name: pg-api-gateway
-    image: programmer-ground/gateway
+    image: programmer-ground/pg-gateway
     ports:
       - 8000:8000
     networks:
@@ -35,11 +27,8 @@ services:
     depends_on:
       - pg-service-discorvery
       - pg-api-gateway
-    build:
-      context: ./pg-auth
-      dockerfile: Dockerfile
     container_name: pg-auth-server
-    image: programmer-ground/auth-server
+    image: programmer-ground/pg-auth
     ports:
       - 8080:8080
     networks:
@@ -52,11 +41,8 @@ services:
     depends_on:
       - pg-service-discorvery
       - pg-api-gateway
-    build:
-      context: ./pg-api
-      dockerfile: Dockerfile
     container_name: pg-backend-server
-    image: programmer-ground/backend-server
+    image: programmer-ground/pg-api
     ports:
       - 9000:9000
     networks:
