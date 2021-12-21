@@ -27,12 +27,12 @@ management:
       exposure:
         include: refresh, health, beans
 
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://pg-service-discovery:8761/eureka
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://pg-service-discovery:8761/eureka
 
 file:
   dir: src/main/resource/images/
