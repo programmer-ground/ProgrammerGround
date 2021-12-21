@@ -1,0 +1,83 @@
+@import '@src/assets/sprite.scss';
+
+.user_icon {
+  border: 1px solid #000;
+  border-radius: 50%;
+  cursor: pointer;
+  &::after {
+    display: inline-block;
+    content: '';
+    @include sprite($icon-user);
+  }
+}
+
+.alarm_icon {
+  border: 1px solid #000;
+  border-radius: 50%;
+  cursor: pointer;
+  &:not(:first-child) {
+    margin-left: 20px;
+  }
+  &::after {
+
+    display: inline-block;
+    content: '';
+    @include sprite($icon-alarm);
+  }
+}
+
+.user_profile {
+  flex: 1 1 0;
+  &::before {
+    margin:-1px 10px 0 0;
+    vertical-align: bottom;
+    display: inline-block;
+    content: '';
+    @include sprite($profile);
+  }
+}
+
+.user_room {
+  flex: 1 1 0;
+  &::before {
+    margin:-1px 10px 0 0;
+    vertical-align: bottom;
+    display: inline-block;
+    content: '';
+    @include sprite($open-door);
+  }
+}
+
+.user_logout {
+  flex: 1 1 0;
+  &::before {
+    margin:-1px 10px 0 0;
+    vertical-align: bottom;
+    display: inline-block;
+    content: '';
+    @include sprite($logout);
+  }
+}
+
+.repo_icon {
+  flex: 1 1 0;
+  &::before {
+    margin:-1px 10px 0 0;
+    vertical-align: bottom;
+    display: inline-block;
+    content: '';
+    @include sprite($folder);
+  }
+}
+
+.my_alarm_icon {
+  flex: 1 1 0;
+
+  &::before {
+    margin:-1px 10px 0 -13px;
+    vertical-align: bottom;
+    display: inline-block;
+    content: '';
+    @include sprite($alarm-clock);
+  }
+}
