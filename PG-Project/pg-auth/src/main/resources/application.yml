@@ -17,11 +17,11 @@ spring:
             scope: ${GITHUB_APP_SCOPE}
   jpa:
     hibernate:
-      ddl-auto: update
+      ddl-auto: none
     show-sql: true
 
   datasource:
-      url: jdbc:mysql://${MYSQL_HOST:mysql}:${MYSQL_PORT:3306}/pg?characterEncoding=UTF-8&serverTimezone=UTC
+      url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/pg?characterEncoding=UTF-8&serverTimezone=UTC
 
 management:
   endpoints:
@@ -35,9 +35,9 @@ logging:
   level:
     org.springframework.vault: DEBUG
 
-eureka:
-  client:
-    register-with-eureka: true
-    fetch-registry: true
-    service-url:
-      defaultZone: http://pg-service-discovery:8761/eureka
+#eureka:
+#  client:
+#    register-with-eureka: true
+#    fetch-registry: true
+#    service-url:
+#      defaultZone: http://pg-service-discovery:8761/eureka

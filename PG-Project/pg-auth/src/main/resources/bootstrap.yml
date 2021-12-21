@@ -7,7 +7,7 @@ spring:
       app-role:
         role-id: pg-auth-service-role-id
       scheme: http
-      host: vault
+      host: localhost
       port: 8200
       generic:
         enabled: true
