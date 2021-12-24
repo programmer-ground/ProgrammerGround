@@ -65,6 +65,7 @@
   docker-compose down
 ```
 
+## 백엔드 환경 구성
 ### 초기 개발 환경 세팅
 
 + 오른쪽 상단의 application -> edit configuration을 클릭한다.
@@ -85,7 +86,7 @@
 + AuthApplication
 
 ```.sh
-MYSQL_USER=root;MYSQL_USER_PASS=test;GITHUB_APP_CLIENT_ID=test;GITHUB_APP_CLIENT_SECRET=test;JWT_SECRET_KEY=test
+MYSQL_USER=root;MYSQL_USER_PASS=test;GITHUB_APP_CLIENT_ID=test;GITHUB_APP_CLIENT_SECRET=test;JWT_SECRET_KEY=test;GITHUB_APP_SCOPE=public_repo,read:user
 ```
 
 + ProgrammerGroundApplication
