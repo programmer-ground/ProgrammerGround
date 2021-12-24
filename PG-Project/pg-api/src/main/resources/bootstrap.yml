@@ -2,17 +2,7 @@ spring:
   application:
     name: pg-main-service
   cloud:
+    config:
+      enabled: false
     vault:
-      authentication: APPROLE
-      app-role:
-        role-id: pg-main-service-role-id
-      scheme: http
-      host: vault
-      port: 8200
-      generic:
-        enabled: true
-      database:
-        enabled: true
-        role: pg-main-role
-      reactive:
-        enabled: false
+      enabled: false

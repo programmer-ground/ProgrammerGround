@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @EnableSwagger2
-//@EnableDiscoveryClient
 @SpringBootApplication
 public class ProgrammergroundApplication {
 
