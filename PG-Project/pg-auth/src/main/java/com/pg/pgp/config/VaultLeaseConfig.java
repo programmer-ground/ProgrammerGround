@@ -8,6 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.vault.core.lease.SecretLeaseContainer;
 import org.springframework.vault.core.lease.domain.RequestedSecret;
 import org.springframework.vault.core.lease.event.SecretLeaseCreatedEvent;
@@ -15,6 +16,7 @@ import org.springframework.vault.core.lease.event.SecretLeaseExpiredEvent;
 
 import javax.annotation.PostConstruct;
 
+@Profile("prod")
 @Configuration
 public class VaultLeaseConfig {
     private static final Logger LOGGER = LogManager.getLogger(VaultLeaseConfig.class);

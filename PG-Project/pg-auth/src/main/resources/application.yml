@@ -1,10 +1,8 @@
 server:
   port: 8080
-
 spring:
   application:
     name: pg-auth-service
-
   security:
     jwt-token:
       secret-key: ${JWT_SECRET_KEY}
@@ -15,14 +13,6 @@ spring:
             client-id: ${GITHUB_APP_CLIENT_ID}
             client-secret: ${GITHUB_APP_CLIENT_SECRET}
             scope: ${GITHUB_APP_SCOPE}
-  jpa:
-    hibernate:
-      ddl-auto: none
-    show-sql: true
-
-  datasource:
-      url: jdbc:mysql://${MYSQL_HOST:localhost}:${MYSQL_PORT:3306}/pg?characterEncoding=UTF-8&serverTimezone=UTC
-
 management:
   endpoints:
     web:
@@ -30,14 +20,6 @@ management:
   endpoint:
     health:
       show-details: always
-
 logging:
   level:
     org.springframework.vault: DEBUG
-
-#eureka:
-#  client:
-#    register-with-eureka: true
-#    fetch-registry: true
-#    service-url:
-#      defaultZone: http://pg-service-discovery:8761/eureka
