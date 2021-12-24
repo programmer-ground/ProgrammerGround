@@ -64,3 +64,32 @@
 ```
   docker-compose down
 ```
+
+### 초기 개발 환경 세팅
+
++ 오른쪽 상단의 application -> edit configuration을 클릭한다.
+
+<img width="384" alt="Screen Shot 2021-12-25 at 0 54 52" src="https://user-images.githubusercontent.com/22961251/147363309-561b362d-3344-4a54-8379-a35533a345c8.png">
+
++ 설정할 어플리케이션을 왼쪽 탭에서 클릭하여 수정한다.
+
+<img width="1037" alt="Screen Shot 2021-12-25 at 0 57 40" src="https://user-images.githubusercontent.com/22961251/147363383-edf5ba4a-7cff-4fae-a52b-650efc0a4c5f.png">
+
++ 수정할 내용은 Active Profile, Environment variables 탭이다.
++ 없을 경우에는 아래의 이미지처럼 Modify options을 통해서 찾을 수 있다.
+
+<img width="532" alt="Screen Shot 2021-12-25 at 0 59 07" src="https://user-images.githubusercontent.com/22961251/147363454-f99b925b-1d5d-4738-b8f1-f52e8c1a12e1.png">
+
+
+해당 환경 설정 샘플은 다음과 같다.
++ AuthApplication
+
+```.sh
+MYSQL_USER=root;MYSQL_USER_PASS=test;GITHUB_APP_CLIENT_ID=test;GITHUB_APP_CLIENT_SECRET=test;JWT_SECRET_KEY=test
+```
+
++ ProgrammerGroundApplication
+
+```.sh
+MYSQL_USER=root;MYSQL_USER_PASS=test
+```
