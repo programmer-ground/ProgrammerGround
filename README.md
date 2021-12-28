@@ -5,7 +5,7 @@
 
 디렉토리 구조
   ```
-  📁client  
+  📁Frontend 
   ├── 📁public
   │   ├── 📁images    
   │   └── index.html
@@ -32,7 +32,18 @@
 ```
    cd Frontend
    npm install
+   npm run start
 ```
+
+## How to Settings 
+- .env.development : Frontend 디렉토리 바로  밑에  추가
+```
+REACT_APP_GET_OAUTH_TOKEN=
+REACT_APP_GET_JWT_TOKEN=
+REACT_APP_API_ADDRESS=
+REACT_APP_FRONT_ADDRESS=
+```
+
 ### Pre Requirement
 - docker
 - docker-compose
