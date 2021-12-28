@@ -25,7 +25,11 @@ const LoginPage = () => {
 			const getToken = async () => {
 				try {
 					setLoading(true);
-					await axios.post(`${process.env.REACT_APP_GET_JWT_TOKEN}`, params, getOptions);
+					await axios.post(
+						`${process.env.REACT_APP_GET_JWT_TOKEN}`,
+						params,
+						getOptions,
+					);
 					setLoading(false);
 					history.push('/');
 				} catch (e) {
@@ -43,7 +47,9 @@ const LoginPage = () => {
 				<StyledComponent.LoginContainer>
 					<StyledComponent.LoginLogo />
 					<StyledComponent.LoginButtonContainer>
-						<StyledComponent.LoginLink href={`${process.env.REACT_APP_GET_OAUTH_TOKEN}`}>
+						<StyledComponent.LoginLink
+							href={`${process.env.REACT_APP_GET_OAUTH_TOKEN}`}
+						>
 							Sign In With GitHub
 							<StyledComponent.GithubLogo />
 						</StyledComponent.LoginLink>

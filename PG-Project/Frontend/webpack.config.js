@@ -9,8 +9,7 @@ const Dotenv = require('dotenv-webpack');
 const prod = process.env.NODE_DEV === 'production';
 
 module.exports = {
-
-	mode: prod? 'production' : 'development',
+	mode: prod ? 'production' : 'development',
 
 	entry: {
 		app: ['@babel/polyfill', './src/index'],
@@ -93,8 +92,8 @@ module.exports = {
 			filename: '[file].map',
 		}),
 		new Dotenv({
-			path: './.env.development'
-		})
+			path: '.env.development',
+		}),
 	],
 	output: {
 		filename: '[name].[chunkhash].js',
