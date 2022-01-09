@@ -2,9 +2,9 @@ package com.pg.pgp.controller;
 
 import com.pg.pgp.domain.Playground;
 import com.pg.pgp.dto.login.JwtLoginDTO;
-import com.pg.pgp.dto.login.JwtToken;
+import com.pg.pgp.authentication.JwtToken;
 import com.pg.pgp.exceptions.InvalidCodeException;
-import com.pg.pgp.jwtConfig.JwtTokenProvider;
+import com.pg.pgp.authentication.JwtTokenProvider;
 import com.pg.pgp.model.PlaygroundRepository;
 import com.pg.pgp.service.OAuthUserService;
 import lombok.RequiredArgsConstructor;

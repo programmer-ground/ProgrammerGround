@@ -1,6 +1,5 @@
-package com.pg.pgp.jwtConfig;
+package com.pg.pgp.authentication;
 
-import com.pg.pgp.dto.login.JwtToken;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -125,5 +124,19 @@ public class JwtTokenProvider {
      */
     private Jws<Claims> validateToken(String jwtToken) {
         return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(jwtToken);
+    }
+
+    /**
+     * OAuth AccessToken 추출
+     */
+    public String getOAuthAccessToken(String jwtToken) {
+        return (String) getBody(jwtToken).get("accessToken");
+    }
+
+    /**
+     * OAuthId 추출
+     */
+    public Long getOAuthIdByToken(String jwtToken) {
+        return Long.valueOf((Integer) getBody(jwtToken).get("oauthId"));
     }
 }

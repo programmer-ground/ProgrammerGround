@@ -6,7 +6,6 @@ spring:
     password: ${MYSQL_USER_PASS}
   jpa:
     hibernate:
-      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     properties:

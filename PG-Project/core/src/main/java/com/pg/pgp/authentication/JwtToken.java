@@ -1,4 +1,4 @@
-package com.pg.pgp.dto.login;
+package com.pg.pgp.authentication;
 
 import lombok.Getter;
 

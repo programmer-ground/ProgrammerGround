@@ -1,8 +1,8 @@
 package com.pg.pgp.auth.config;
 
-import com.pg.pgp.auth.jwt.JwtAuthenticationProvider;
-import com.pg.pgp.auth.jwt.JwtTokenProvider;
 import com.pg.pgp.auth.MyOAuth2ProcessingFilter;
+import com.pg.pgp.auth.jwt.JwtAuthenticationProvider;
+import com.pg.pgp.authentication.JwtTokenProvider;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

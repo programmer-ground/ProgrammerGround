@@ -16,7 +16,7 @@ import org.springframework.security.oauth2.client.authentication.OAuth2Authentic
 import org.springframework.transaction.annotation.Transactional;
 
 import com.pg.pgp.exceptions.OAuthLoginException;
-import com.pg.pgp.jwtConfig.JwtTokenProvider;
+import com.pg.pgp.authentication.JwtTokenProvider;
 import com.pg.pgp.service.RestService;
 import com.pg.pgp.service.OAuthUserService;
 

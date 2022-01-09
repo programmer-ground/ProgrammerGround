@@ -1,5 +1,6 @@
 package com.pg.pgp.auth.jwt;
 
+import com.pg.pgp.authentication.JwtTokenProvider;
 import com.pg.pgp.exceptions.JwtExpiredException;
 import com.pg.pgp.exceptions.OAuthUserNotFoundException;
 import io.jsonwebtoken.ExpiredJwtException;

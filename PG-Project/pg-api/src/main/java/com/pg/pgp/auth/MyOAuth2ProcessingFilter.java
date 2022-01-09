@@ -1,7 +1,7 @@
 package com.pg.pgp.auth;
 
 import com.pg.pgp.auth.jwt.JwtAuthenticationToken;
-import com.pg.pgp.auth.jwt.JwtTokenProvider;
+import com.pg.pgp.authentication.JwtTokenProvider;
 import com.pg.pgp.exceptions.JwtExpiredException;
 import com.pg.pgp.exceptions.JwtNotFoundException;
 import com.pg.pgp.exceptions.OAuthUserNotFoundException;
@@ -41,7 +41,7 @@ public class MyOAuth2ProcessingFilter extends AbstractAuthenticationProcessingFi
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         //토큰을 인증되지 않은 Authentication 객체로 만들고 AuthenticationManager.authenticate()실행.
-        return getAuthenticationManager().authenticate(new JwtAuthenticationToken(jwtTokenProvider.resolveToken(request)));
+        return getAuthenticationManager().authenticate(new JwtAuthenticationToken(jwtTokenProvider.resolveToken(request.getHeader("Authorization"))));
     }
 
     /**
