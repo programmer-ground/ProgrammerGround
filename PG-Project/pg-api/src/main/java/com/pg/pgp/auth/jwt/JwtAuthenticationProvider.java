@@ -3,6 +3,7 @@ package com.pg.pgp.auth.jwt;
 import com.pg.pgp.authentication.JwtTokenProvider;
 import com.pg.pgp.exceptions.JwtExpiredException;
 import com.pg.pgp.exceptions.OAuthUserNotFoundException;
+import com.pg.pgp.service.OAuthUserService;
 import io.jsonwebtoken.ExpiredJwtException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationProvider;
@@ -19,7 +20,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 public class JwtAuthenticationProvider implements AuthenticationProvider {
     private final JwtTokenProvider jwtTokenProvider;
-    private final com.pg.pgp.service.OAuthUserService OAuthUserService;
+    private final OAuthUserService oAuthUserService;
 
     /**
      * 실질적인 인증 로직 처리
@@ -29,7 +30,7 @@ public class JwtAuthenticationProvider implements AuthenticationProvider {
         try {
             String jwtToken = (String) authentication.getCredentials();
             Long OAuthId = jwtTokenProvider.getOAuthIdByToken(jwtToken);
-            UserDetails userDetails = OAuthUserService.loadUserByOAuthId(OAuthId);
+            UserDetails userDetails = oAuthUserService.loadUserByOAuthId(OAuthId);
             return new JwtAuthenticationToken(userDetails, jwtToken, userDetails.getAuthorities());
         } catch (ExpiredJwtException e) {
             throw new JwtExpiredException("토큰 만료");
