@@ -5,12 +5,12 @@ const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const webpack = require('webpack');
 const { SourceMapDevToolPlugin } = require('webpack');
 const Dotenv = require('dotenv-webpack');
+const { BundleAnalyzerPlugin } = require("webpack-bundle-analyzer");
+const isAnalyze = process.argv.includes("--analyze");
 
-const prod = process.env.NODE_DEV === 'production';
+const prod = process.env.NODE_DEV || 'production';
 
 module.exports = {
-	mode: prod ? 'production' : 'development',
-
 	entry: {
 		app: ['@babel/polyfill', './src/index'],
 	},
@@ -20,6 +20,7 @@ module.exports = {
 			'@src': path.resolve(__dirname, 'src'),
 		},
 	},
+	devtool: prod ? "cheap-source-map" : "eval-cheap-source-map",
 	module: {
 		rules: [
 			{
@@ -94,6 +95,7 @@ module.exports = {
 		new Dotenv({
 			path: '.env.development',
 		}),
+		...(isAnalyze ? [ new BundleAnalyzerPlugin() ] : []),
 	],
 	output: {
 		filename: '[name].[chunkhash].js',
@@ -101,5 +103,4 @@ module.exports = {
 		publicPath: '/',
 		sourceMapFilename: '[name].js.map',
 	},
-	devtool: 'source-map',
 };
